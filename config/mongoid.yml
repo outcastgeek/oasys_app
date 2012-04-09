@@ -1,0 +1,27 @@
+logger: false
+
+development:
+  pool_size: 5
+  host: localhost
+  database: oasys_corp_development
+
+test:
+  pool_size: 5
+  host: localhost
+  database: oasys_corp_test
+
+# set these environment variables on your prod server
+production:
+  pool_size: 800
+  host: localhost
+  database: oasys_corp_production
+  #host: <%= ENV['MONGOID_HOST'] %>
+  #port: <%= ENV['MONGOID_PORT'] %>
+  #username: <%= ENV['MONGOID_USERNAME'] %>
+  #password: <%= ENV['MONGOID_PASSWORD'] %>
+  #database: <%= ENV['MONGOID_DATABASE'] %>
+  # slaves:
+  #   - host: slave1.local
+  #     port: 27018
+  #   - host: slave2.local
+  #     port: 27019

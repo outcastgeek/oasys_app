@@ -1,0 +1,7 @@
+--- 
+:orm: mongoid
+:test: cucumber
+:mock: mocha
+:script: jquery
+:renderer: slim
+:stylesheet: scss
