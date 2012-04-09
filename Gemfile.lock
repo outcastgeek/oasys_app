@@ -1,6 +1,5 @@
-GIT
-  remote: git://github.com/padrino/padrino-framework.git
-  revision: 865d67c414290aa6a596cd1f478b205996abae08
+PATH
+  remote: /cygdrive/c/workspace/padrino-framework
   specs:
     padrino (0.10.6)
       padrino-admin (= 0.10.6)
@@ -65,9 +64,9 @@ GEM
     dwolla (0.0.14)
       faraday (>= 0.7.6)
       multi_json (~> 1.0)
-    em-synchrony (0.2.0)
-      eventmachine (>= 0.12.9)
-    eventmachine (0.12.10)
+    em-synchrony (1.0.0)
+      eventmachine (>= 1.0.0.beta.1)
+    eventmachine (1.0.0.beta.4)
     faraday (0.7.6)
       addressable (~> 2.2)
       multipart-post (~> 1.1)
@@ -174,7 +173,7 @@ GEM
     treetop (1.4.10)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.32)
+    tzinfo (0.3.33)
     url_mount (0.2.1)
       rack
     xpath (0.1.4)

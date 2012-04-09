@@ -48,6 +48,7 @@ gem 'rack-test', :require => "rack/test", :group => "test"
 
 # Or Padrino Edge
 #gem 'padrino', :path => '/workspace/padrino-framework'
+#gem 'padrino', :path => '/cygdrive/c/workspace/padrino-framework'
 gem 'padrino', :git => 'git://github.com/padrino/padrino-framework.git'
 
 # Or Individual Gems

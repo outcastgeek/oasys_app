@@ -19,6 +19,7 @@ OasysCorp.controllers :index do
   # end
 
   get :index, :map => '/' do
+    @user = current_account['uid'] || "anonymous"
     render 'index/index'
   end
 
@@ -34,20 +35,24 @@ OasysCorp.controllers :index do
     "Contact"
   end
 
-  get :profile do
+  get :profile, :map => '/profile' do
     content_type :text
+    logger.info "Current Account Info: #{current_account.to_yaml}"
     current_account.to_yaml
   end
 
-  get :destroy do
+  get :destroy, :map => '/destroy' do
     set_current_account(nil)
     redirect url(:index)
   end
 
-  get :auth, :map => '/auth/:provider/callback' do
+  post :auth, :map => '/auth/:provider/callback' do
     auth    = request.env["omniauth.auth"]
     account = Account.where(:provider => auth["provider"], :uid => auth["uid"]).first || Account.create_with_omniauth(auth)
     set_current_account(account)
-    redirect "http://" + request.env["HTTP_HOST"] + url_for(:profile)
+    #logger.info "Redirecting to: #{'http://' + request.env['HTTP_HOST'] + url(:profile)}"
+    #redirect "http://" + request.env["HTTP_HOST"] + url(:profile)
+    logger.info "Redirecting to: #{'http://' + request.env['HTTP_HOST']} /profile"
+    redirect "http://" + request.env["HTTP_HOST"] + "/profile"
   end
 end
