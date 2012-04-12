@@ -28,5 +28,9 @@ case $1 in
   Repl)
     jruby --1.9 -S rake cljRepl
     ;;
+  DevSetup)
+    git clone http://github.com/clojure/clojurescript.git
+    cd clojurescript && ./script/bootstrap
+    ;;
   esac
 exit 0

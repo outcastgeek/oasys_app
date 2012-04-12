@@ -29,6 +29,33 @@ def delete_all(*wildcards)
   end
 end
 
+def compile_javascript(is_windows, optimization)
+  Dir.glob("src/main/cljs/*").select do |input|
+    if File.directory?(input)
+      puts "Compiling **/*.cljs from directory #{input}"
+      output = input.sub("src/main/cljs/", "")
+      ant do
+        delete :dir => "public/javascripts/compiled/#{output}"
+        mkdir :dir => "public/javascripts/compiled/#{output}"
+      end
+      unless is_windows
+        sh "./clojurescript/bin/cljsc #{input} #{optimization} > ./public/javascripts/compiled/#{output}/#{output}.js"
+      else
+        sh "./clojurescript/bin/cljsc.bat #{input} #{optimization} > ./public/javascripts/compiled/#{output}/#{output}.js"
+      end
+    else
+      puts "---------------------------------------------------------------------------------"
+    end
+  end
+  ant do
+    copy :todir => "public/javascripts/compiled" do
+      fileset :dir => "out"
+    end
+    #copy :file => "cljs/closure/library/closure/goog/base.js", :todir => "src/main/webapp/static/js/out"
+    #copy :file => "cljs/closure/library/closure/goog/deps.js", :todir => "src/main/webapp/static/js/out"
+  end
+end
+
 desc "Clean all but deps!!!!"
 task "clean:butdeps" do
   ant do
@@ -52,6 +79,9 @@ task "clean:workspace" => "clean:butdeps" do
     delete :dir => "classes"
     delete :dir => "bin"
     delete :dir => "vendor"
+    delete :dir => "out"
+    delete :dir => "clojurescript"
+    delete :dir => "public/javascripts/compiled"
   end
   ["**/*.jar"].each do |pattern|
     delete_all(pattern)
@@ -107,5 +137,8 @@ task "deps:all" => ["clean:butdeps", "ivy-retrieve"] do
       arg :line => "#{namespaces}"
     end
   end
+  #compile_javascript(is_windows, "{:optimizations :simple :pretty-print true}")
+  #compile_javascript(is_windows, "{:optimizations :simple}")
+  compile_javascript(is_windows, "{:optimizations :advanced}")
   puts "All Done!!!!"
 end
