@@ -2,7 +2,7 @@
 
 #export JAVA_HOME="/usr/lib/jvm/jdk1.7.0_01"
 
-export JAVA_OPTS="-Djava.awt.headless=true -XX:CompileThreshold=4 -XX:+AggressiveOpts -XX:MaxHeapFreeRatio=70 -XX:MinHeapFreeRatio=40 -XX:HeapDumpPath=./log -XX:+HeapDumpOnOutOfMemoryError -Xms128m -Xmx128M -XX:MaxPermSize=128m -XX:ReservedCodeCacheSize=128m -Xss512k -XX:+UseParallelGC -XX:ParallelGCThreads=24 -XX:+DisableExplicitGC"
+export JAVA_OPTS="-server -Djava.awt.headless=true -XX:CompileThreshold=4 -XX:+AggressiveOpts -XX:MaxHeapFreeRatio=70 -XX:MinHeapFreeRatio=40 -XX:HeapDumpPath=./log -XX:+HeapDumpOnOutOfMemoryError -Xms128m -Xmx128M -XX:MaxPermSize=128m -XX:ReservedCodeCacheSize=128m -Xss512k -XX:+UseParallelGC -XX:ParallelGCThreads=24 -XX:+DisableExplicitGC"
 
 #export JRUBY_OPTS="--1.9 -Xinvokedynamic.constants=true"
 #JRUBY_OPTS="--1.9 -J-Djruby.compile.mode=FORCE"
