@@ -1,0 +1,37 @@
+doctype html
+html
+  head
+    title #{[@title, "Oasys Technologies"].compact.join(" | ")}
+    meta http-equiv="Content-Type" content="text/html; charset=utf-8"
+    meta description="Oasys is an emerging leader in Strategic IT & Business Staffing making great strides since its inception in 2009. With its Corporate Headquaters in Eagan MN, Oasys is growing worldwide at a rapid pace."
+
+    link href="/styles/bootstrap.css"
+    link href="/styles/bootstrap-responsive.css"
+    link href="/styles/guiders-1.2.0.css"
+
+    /! This is an HTML Comment
+      Le HTML5 shim, for IE6-8 support of HTML elements
+    /[ if lt IE 9 ]
+      script src="http://html5shim.googlecode.com/svn/trunk/html5.js"
+  body style="background: #e3e3e3; padding-top: 60px;"
+    .navbar.navbar-fixed-top
+      .navbar-inner style="background-color: 2d55b7;"
+        .container
+          a.btn.btn-navbar data-toggle="collapse" data-target=".nav-collapse"
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.brand href="/"
+          .nav-collapse
+            ul.nav
+              li
+                form#searchform.navbar-search.pull-left action="/search" enctype="application/x-www-form-urlencoded" method="post"
+                  input id="location" type="text" class="search-query span16" placeholder="Search"
+            ul.nav pull-right
+              - if logged_in?
+                a href="/profile" = #{current_account['uid']}
+              - else
+                a href="/auth/developer" = "Register / Login"
+
+  == yield
+

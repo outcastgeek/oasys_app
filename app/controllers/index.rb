@@ -19,7 +19,6 @@ OasysCorp.controllers :index do
   # end
 
   get :index, :map => '/' do
-    @user = current_account['uid'] || "anonymous"
     render 'index/index'
   end
 

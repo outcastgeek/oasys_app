@@ -55,3 +55,12 @@ gem 'padrino', :path => '/workspace/padrino-framework'
 # %w(core gen helpers cache mailer admin).each do |g|
 #   gem 'padrino-' + g, '0.10.6'
 # end
+
+gem 'sprockets'
+gem 'sprockets-helpers'
+gem 'sprockets-sass'
+gem 'sass'
+gem 'compass'
+gem 'bootstrap-sass'
+gem 'coffee-script'
+gem 'closure-sprockets'

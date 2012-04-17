@@ -139,6 +139,6 @@ task "deps:all" => ["clean:butdeps", "ivy-retrieve"] do
   end
   #compile_javascript(is_windows, "{:optimizations :simple :pretty-print true}")
   #compile_javascript(is_windows, "{:optimizations :simple}")
-  compile_javascript(is_windows, "{:optimizations :advanced}")
+  #compile_javascript(is_windows, "{:optimizations :advanced}")
   puts "All Done!!!!"
 end
