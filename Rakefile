@@ -39,6 +39,7 @@ def compile_javascript(is_windows, optimization)
         mkdir :dir => "public/javascripts/compiled/#{output}"
       end
       unless is_windows
+        sh "chmod +x ./clojurescript/bin/cljsc"
         sh "./clojurescript/bin/cljsc #{input} #{optimization} > ./public/javascripts/compiled/#{output}/#{output}.js"
       else
         sh "./clojurescript/bin/cljsc.bat #{input} #{optimization} > ./public/javascripts/compiled/#{output}/#{output}.js"
@@ -66,6 +67,10 @@ task "clean:butdeps" do
     mkdir :dir => "vendor/bundle"
     mkdir :dir => "classes"
     mkdir :dir => "ivy"
+    delete :dir => "public/javascripts/compiled"
+    mkdir :dir => "public/javascripts/compiled"
+    delete :dir => "out"
+    mkdir :dir => "out"
   end
   ["/tmp/uploads", "tmp", "work", "**/*.zip",  "**/*~", "**/*.hprof", "work"].each do |pattern|
     delete_all(pattern)
@@ -81,11 +86,16 @@ task "clean:workspace" => "clean:butdeps" do
     delete :dir => "vendor"
     delete :dir => "out"
     delete :dir => "clojurescript"
-    delete :dir => "public/javascripts/compiled"
   end
   ["**/*.jar"].each do |pattern|
     delete_all(pattern)
   end
+end
+
+task "compile_js" => "clean:butdeps" do
+  #compile_javascript(is_windows, "{:optimizations :simple :pretty-print true}")
+  #compile_javascript(is_windows, "{:optimizations :simple}")
+  compile_javascript(is_windows, "{:optimizations :advanced}")
 end
 
 task "deps:all" => ["clean:butdeps", "ivy-retrieve"] do
@@ -137,8 +147,5 @@ task "deps:all" => ["clean:butdeps", "ivy-retrieve"] do
       arg :line => "#{namespaces}"
     end
   end
-  #compile_javascript(is_windows, "{:optimizations :simple :pretty-print true}")
-  #compile_javascript(is_windows, "{:optimizations :simple}")
-  #compile_javascript(is_windows, "{:optimizations :advanced}")
   puts "All Done!!!!"
 end
