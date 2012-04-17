@@ -1,0 +1,50 @@
+!!! 5
+%html
+  %head
+    %title
+      = [@title, "Oasys Technologies"].compact.join(" | ")
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    %meta{ :name => "description", :content => "Oasys is an emerging leader in Strategic IT & Business Staffing making great strides since its inception in 2009. With its Corporate Headquaters in Eagan MN, Oasys is growing worldwide at a rapid pace." }
+
+    %link{ :href => "/assets/application.css", :rel => "stylesheet", :type => "text/css" }
+
+    <!-- This is an HTML Comment -->
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    /[ if lt IE 9 ]
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+
+  %body{ :style => "background: #e3e3e3; padding-top: 60px;" }
+    .navbar.navbar-fixed-top
+      .navbar-inner{ :style => "background-color: 2d55b7;" }
+        .container
+          %a.brand{ :href =>"/" }
+            OASYS TECHNOLOGIES
+          .nav-collapse
+            %ul.nav
+              %li
+                %form#searchform.navbar-search.pull-left{ :action => "/search", :enctype => "application/x-www-form-urlencoded", :method =>"post" }
+                  %input#search{ :type => "text", :class => "search-query span16", :placeholder => "Search" }
+            %ul.nav.pull-right
+              - if logged_in?
+                %a{ :href => "/profile" }
+                  = current_account['uid']
+                %a{ :href => "/destroy"}
+                  Logout
+              - else
+                %a{ :href => "/auth/developer"}
+                  Register / Login
+
+    .container{ :style => "padding-bottom: 170px;" }
+      = yield
+    %hr
+    %footer{ :style => "text-align: right;"}
+      %p
+        &copy;
+        = Time.new.year
+        Oasys Technologies
+
+  %script{ :src => "/assets/application.js", :type => "text/javascript" }
+  %script{ :src => "/javascripts/compiled/hellocljs/hellocljs.js", :type => "text/javascript" }
+  /:javascript
+  /  alert(hello.greet("ClojureScript"));

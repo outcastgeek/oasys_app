@@ -14,11 +14,11 @@ case $1 in
     #ulimit -n 16384; ~/jruby --1.9 -J-Djruby.compile.mode=JIT -S ./bin/trinidad --threadsafe -p 3000 --config   # it uses config/trinidad.yml
     ;;
   Bundle)
-      bundle install --binstubs=bin --path=vendor/bundle
-      ;;
+    bundle install --binstubs=bin --path=vendor/bundle
+    ;;
   JBundle)
-      ~/jruby --1.9 -S bundle install --binstubs=bin --path=vendor/bundle
-      ;;
+    ~/jruby --1.9 -S bundle install --binstubs=bin --path=vendor/bundle
+    ;;
   Task)
     ~/jruby --1.9 -S rake $2 $3 $4 $5
     ;;

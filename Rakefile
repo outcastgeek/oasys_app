@@ -86,6 +86,8 @@ task "clean:workspace" => "clean:butdeps" do
     delete :dir => "vendor"
     delete :dir => "out"
     delete :dir => "clojurescript"
+    delete :dir => ".sass-cache"
+    delete :dir => ".idea"
   end
   ["**/*.jar"].each do |pattern|
     delete_all(pattern)

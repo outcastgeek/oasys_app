@@ -19,7 +19,6 @@ OasysCorp.controllers :index do
   # end
 
   get :index, :map => '/' do
-    @title = "Oasys Corp Home"
     render 'index/index'
   end
 
@@ -36,14 +35,14 @@ OasysCorp.controllers :index do
   end
 
   get :profile, :map => '/profile' do
-    content_type :text
     logger.info "Current Account Info: #{current_account.to_yaml}"
-    current_account.to_yaml
+    render 'profile/profile'
   end
 
   get :destroy, :map => '/destroy' do
     set_current_account(nil)
-    redirect url(:index)
+    #redirect url(:index)
+    redirect "http://" + request.env["HTTP_HOST"] + "/"
   end
 
   post :auth, :map => '/auth/:provider/callback' do

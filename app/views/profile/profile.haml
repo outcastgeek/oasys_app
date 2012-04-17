@@ -1,0 +1,14 @@
+- @title = "Profile"
+.row
+  %h1
+    Profile
+  %ul
+    %li
+      Email:
+      = current_account['uid']
+    %li
+      Provider:
+      = current_account['provider']
+    %li
+      Member since:
+      = current_account['created_at']

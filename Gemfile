@@ -29,7 +29,7 @@ gem 'omniauth-dropbox'
 # Component requirements
 gem 'bcrypt-ruby', :require => "bcrypt"
 gem 'sass'
-gem 'slim'
+gem 'haml'
 gem 'mongoid'
 gem 'bson_ext', :require => "mongo", :platform => 'ruby'
 gem 'hiredis', :platform => 'ruby'
