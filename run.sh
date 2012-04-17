@@ -36,9 +36,9 @@ case $1 in
     cp -r jayq/src/* ../clojurescript/src/cljs
     git clone http://github.com/ibdknox/crate.git
     cp -r crate/src/* ../clojurescript/src/cljs
-    ;;git clone http://github.com/lynaghk/cljs-d3.git
-    ;;cp -r cljs-d3/src/clj/* ../clojurescript/src/clj
-    ;;cp -r cljs-d3/src/cljs/* ../clojurescript/src/cljs
+    #git clone http://github.com/lynaghk/cljs-d3.git
+    #cp -r cljs-d3/src/clj/* ../clojurescript/src/clj
+    #cp -r cljs-d3/src/cljs/* ../clojurescript/src/cljs
     ;;
   esac
 exit 0

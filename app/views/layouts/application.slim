@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title #{[@title, "Oasys Technologies"].compact.join(" | ")}
+    title #{["@title", "Oasys Technologies"].compact.join(" | ")}
     meta http-equiv="Content-Type" content="text/html; charset=utf-8"
     meta description="Oasys is an emerging leader in Strategic IT & Business Staffing making great strides since its inception in 2009. With its Corporate Headquaters in Eagan MN, Oasys is growing worldwide at a rapid pace."
 
@@ -31,7 +31,10 @@ html
               - if logged_in?
                 a href="/profile" = #{current_account['uid']}
               - else
-                a href="/auth/developer" = "Register / Login"
+                a href="/auth/developer" = Register / Login
 
-  == yield
+    ==yield
 
+  = javascript_include_tag \
+    "jquery", \
+    "jquery-ujs"

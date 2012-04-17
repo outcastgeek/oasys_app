@@ -19,6 +19,7 @@ OasysCorp.controllers :index do
   # end
 
   get :index, :map => '/' do
+    @title = "Oasys Corp Home"
     render 'index/index'
   end
 
