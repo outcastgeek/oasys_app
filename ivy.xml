@@ -3,7 +3,7 @@
     <info organisation="outcastgeek" module="outcastgeek"/>
     <dependencies>
         <!-- Clojure -->
-        <dependency org="org.clojure" name="clojure" rev="1.3.0"/>
+        <dependency org="org.clojure" name="clojure" rev="1.4.0"/>
         <!-- Scala -->
         <dependency org="org.scala-lang" name="scala-compiler" rev="2.9.2-RC1"/>
         <dependency org="com.typesafe.akka" name="akka-zookeeper-mailbox" rev="2.0"/>

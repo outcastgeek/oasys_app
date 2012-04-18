@@ -87,7 +87,6 @@ task "clean:workspace" => "clean:butdeps" do
     delete :dir => "out"
     delete :dir => "clojurescript"
     delete :dir => ".sass-cache"
-    delete :dir => ".idea"
   end
   ["**/*.jar"].each do |pattern|
     delete_all(pattern)
@@ -101,7 +100,7 @@ task "compile_js" => "clean:butdeps" do
 end
 
 task "deps:all" => ["clean:butdeps", "ivy-retrieve"] do
-  ["lib/clojure-1.2*", "lib/jetty-6.1*.jar", "lib/spring*3.0.6*.jar"].each do |pattern|
+  ["lib/clojure-1.2*", "lib/clojure-1.3*", "lib/jetty-6.1*.jar", "lib/spring*3.0.6*.jar"].each do |pattern|
     delete_all(pattern)
   end
   ant do

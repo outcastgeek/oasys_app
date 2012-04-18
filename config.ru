@@ -17,6 +17,9 @@ require 'sprockets-sass'
 require 'bootstrap-sass'
 require 'sass'
 require 'compass'
+require 'closure-compiler'
+require 'digest/md5'
+#require 'digest/sha1'
 
 project_root = File.expand_path(File.dirname(__FILE__))
 
@@ -31,18 +34,17 @@ map '/assets' do
   # Adds Twitter Bootstrap Javascripts
   environment.append_path Compass::Frameworks['bootstrap'].templates_directory + '/../vendor/assets/javascripts'
 
+  environment.digest_class = Digest::MD5
+  #environment.digest_class = Digest::SHA1
+  #environment.css_compressor = YUI::CssCompressor.new
+  environment.js_compressor  = Closure::Compiler.new(:compilation_level => 'SIMPLE_OPTIMIZATIONS') if PADRINO_ENV == 'production'
+  #environment.js_compressor  = Closure::Compiler.new(:compilation_level => 'ADVANCED_OPTIMIZATIONS')
+
   Sprockets::Helpers.configure do |config|
     config.environment = environment
     config.prefix      = '/assets'
     config.digest      = true
     config.public_path = './public'
-
-    # Compress JavaScripts and CSS
-    #config.assets.compress = true
-
-    # Choose the compressors to use
-    #config.assets.css_compressor = :yui
-    #config.assets.js_compressor = :uglifier
   end
 
   run environment

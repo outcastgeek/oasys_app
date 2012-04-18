@@ -48,8 +48,8 @@ gem 'rack-test', :require => "rack/test", :group => "test"
 
 # Or Padrino Edge
 #gem 'padrino', :path => '/workspace/padrino-framework'
-#gem 'padrino', :path => '/cygdrive/c/workspace/padrino-framework'
-gem 'padrino', :git => 'git://github.com/padrino/padrino-framework.git'
+gem 'padrino', :path => '/cygdrive/c/workspace/padrino-framework'
+#gem 'padrino', :git => 'git://github.com/padrino/padrino-framework.git'
 
 # Or Individual Gems
 # %w(core gen helpers cache mailer admin).each do |g|
@@ -63,4 +63,5 @@ gem 'sass'
 gem 'compass'
 gem 'bootstrap-sass'
 gem 'coffee-script'
+gem 'closure-compiler'
 gem 'closure-sprockets'
