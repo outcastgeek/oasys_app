@@ -41,8 +41,8 @@ OasysCorp.controllers :index do
 
   get :destroy, :map => '/destroy' do
     set_current_account(nil)
-    #redirect url(:index)
-    redirect "http://" + request.env["HTTP_HOST"] + "/"
+    redirect url(:index, :index)
+    #redirect "http://" + request.env["HTTP_HOST"] + "/"
   end
 
   post :auth, :map => '/auth/:provider/callback' do
@@ -51,7 +51,9 @@ OasysCorp.controllers :index do
     set_current_account(account)
     #logger.info "Redirecting to: #{'http://' + request.env['HTTP_HOST'] + url(:profile)}"
     #redirect "http://" + request.env["HTTP_HOST"] + url(:profile)
-    logger.info "Redirecting to: #{'http://' + request.env['HTTP_HOST']} /profile"
-    redirect "http://" + request.env["HTTP_HOST"] + "/profile"
+    logger.info "Redirecting to: #{url(:index, :profile)}"
+    #logger.info "Redirecting to: #{'http://' + request.env['HTTP_HOST']} /profile"
+    redirect url(:index, :profile)
+    #redirect "http://" + request.env["HTTP_HOST"] + "/profile"
   end
 end

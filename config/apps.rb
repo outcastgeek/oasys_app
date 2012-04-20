@@ -32,3 +32,5 @@ end
 
 # Mounts the core application for this project
 Padrino.mount("OasysCorp").to('/')
+
+Padrino.mount("TinyUrl").to("/tinyurl")

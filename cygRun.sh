@@ -31,7 +31,7 @@ case $1 in
   DevSetup)
     git clone http://github.com/clojure/clojurescript.git
     cd clojurescript && ./script/bootstrap
-    jruby --1.9 -S bundle install --binstubs=bin --path=vendor/bundle
+    #jruby --1.9 -S bundle install --binstubs=bin --path=vendor/bundle
     cd ../vendor && git clone http://github.com/ibdknox/jayq.git
     cp -r jayq/src/* ../clojurescript/src/cljs
     git clone http://github.com/ibdknox/crate.git
