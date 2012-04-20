@@ -7,7 +7,7 @@ class OasysCorp < Padrino::Application
 
   register Padrino::Admin::AccessControl
 
-  enable :sessions
+  #enable :sessions
 
   access_control.roles_for :any do |role|
     role.protect "/profile"

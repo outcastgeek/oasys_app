@@ -1,6 +1,5 @@
-GIT
-  remote: git://github.com/padrino/padrino-framework.git
-  revision: c079e1a9f7c08bd135eb72f7132ac29733384bc0
+PATH
+  remote: /cygdrive/c/workspace/padrino-framework
   specs:
     padrino (0.10.6)
       padrino-admin (= 0.10.6)

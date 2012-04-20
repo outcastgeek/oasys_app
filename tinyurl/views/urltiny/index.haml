@@ -1,21 +1,21 @@
 - @title = "Tiny Url Clone Home"
 .row
   %h1
-    Tiny Url Clone Home
+    Url Tiny Home
   - unless @link.nil?
     .success
       %code= @link.url.original
       has been shortened to
-      %a{:href => "/#{@link.identifier}"}
-        = "http://tinyclone.saush.com/#{@link.identifier}"
+      %a{:href => "/#{@link.lidentifier}"}
+        = "http://tinyclone.saush.com/#{@link.lidentifier}"
       %br
       Go to
-      %a{:href => "/info/#{@link.identifier}"}
-        = "http://tinyclone.saush.com/info/#{@link.identifier}"
+      %a{:href => "/info/#{@link.lidentifier}"}
+        = "http://tinyclone.saush.com/info/#{@link.lidentifier}"
       to get more information about this link.
   - if env['sinatra.error']
     .error= env['sinatra.error']
-  %form{:method => 'post', :action => '/'}
+  %form{:method => 'post', :action => '/tinyurl'}
     Shorten this:
     %input{:type => 'text', :name => 'original', :size => '70'}
     %input{:type => 'submit', :value => 'now!'}
@@ -23,10 +23,3 @@
     to http://tinyclone.saush.com/
     %input{:type => 'text', :name => 'custom', :size => '20'}
     (optional)
-  %p
-  %small copyright &copy;
-  %a{:href => 'http://blog.saush.com'}
-    Chang Sau Sheong
-  %p
-    %a{:href => 'http://github.com/sausheong/tinyclone'}
-      Full source code

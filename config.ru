@@ -43,7 +43,7 @@ map '/assets' do
   Sprockets::Helpers.configure do |config|
     config.environment = environment
     config.prefix      = '/assets'
-    config.digest      = true
+    #config.digest      = true
     config.public_path = './public'
   end
 
