@@ -32,6 +32,7 @@ gem 'sass'
 gem 'haml'
 gem 'mongoid'
 gem 'bson_ext', :require => "mongo", :platform => 'ruby'
+gem 'geocoder'
 gem 'hiredis', :platform => 'ruby'
 gem 'em-synchrony', :platform => 'ruby'
 gem 'redis'
@@ -48,8 +49,8 @@ gem 'rack-test', :require => "rack/test", :group => "test"
 
 # Or Padrino Edge
 #gem 'padrino', :path => '/workspace/padrino-framework'
-gem 'padrino', :path => '/cygdrive/c/workspace/padrino-framework'
-#gem 'padrino', :git => 'git://github.com/padrino/padrino-framework.git'
+#gem 'padrino', :path => '/cygdrive/c/workspace/padrino-framework'
+gem 'padrino', :git => 'git://github.com/padrino/padrino-framework.git'
 
 # Or Individual Gems
 # %w(core gen helpers cache mailer admin).each do |g|

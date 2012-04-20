@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="CppTools.Loader" reportImplicitCastToBool="false" reportNameReferencedOnce="false" warnedAboutFileOutOfSourceRoot="true" version="3" currentProject="$PROJECT_DIR$/vendor/bundle/ruby/1.9.1/gems/hiredis-0.4.5/ext/hiredis_ext/Makefile" compilerSelect="AUTO" />
   <component name="IdProvider" IDEtalkID="365296554321A1410BEEABE08BB0D6A1" />
   <component name="ProjectResources">
     <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
