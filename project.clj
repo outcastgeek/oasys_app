@@ -1,4 +1,4 @@
-(defproject webapp "1.0.0-SNAPSHOT"
+(defproject oasys_corp "1.0.0-SNAPSHOT"
   :description "Building the Ultimate Web Framework!!!!"
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [org.clojure/tools.logging "0.2.3"]

@@ -118,7 +118,7 @@
        [:div {:class "navbar-inner"}
         [:div {:class "container"}
          [:a {:class "brand" :href "/" :style "padding-top: 2px; padding-bottom: 2px;"}
-             [:img {:src "/static/images/outcastgeeklogo-small.png" :alt "Upgrade Avenue" :height "30px"}]
+             [:img {:src "/static/images/oasys-logo9.png" :alt "Oasys Technologies" :height "30px"}]
           ]
          [:ul {:class "nav nav-pills" :style "margin-top: 3px;"}
           ;[:li (button-link-to "" (str ">>"title"<<"))]

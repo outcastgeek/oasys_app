@@ -2,11 +2,11 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>webapp</groupId>
-  <artifactId>webapp</artifactId>
+  <groupId>oasys_corp</groupId>
+  <artifactId>oasys_corp</artifactId>
   <version>1.0.0-SNAPSHOT</version>
-  <name>webapp</name>
-  <description>FIXME: write description</description>
+  <name>oasys_corp</name>
+  <description>Building the Ultimate Web Framework!!!!</description>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test</testSourceDirectory>
