@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+     version="3.0">
+
+    <!-- ==================== -->
+    <!-- Spring configuration -->
+    <!-- ==================== -->
+
+    <context-param>
+        <param-name>contextClass</param-name>
+        <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+    </context-param>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>spring.AppConfig</param-value>
+    </context-param>
+    <!-- Spring root context listener -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <!-- ===================================================================
+	 -  Servlet listeners
+	 -  =================================================================== --> 
+<!--
+        <listener>
+	  <listener-class>com.outcastgeek.web.akka.Initializer</listener-class>
+	</listener>
+-->
+ 	<listener>
+	  <listener-class>com.outcastgeek.services.web.WorkListener</listener-class>
+	</listener>
+    
+        <filter>
+	  <filter-name>TeeFilter</filter-name>
+	  <filter-class>ch.qos.logback.access.servlet.TeeFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+	  <filter-name>TeeFilter</filter-name>
+	  <url-pattern>/*</url-pattern>
+	</filter-mapping> 
+	
+	<!-- 
+	<filter>
+	  <filter-name>WebResourceOptimizer</filter-name>
+	  <filter-class>ro.isdc.wro.http.WroFilter</filter-class>
+	</filter>
+	<filter-mapping>
+	  <filter-name>WebResourceOptimizer</filter-name>
+	  <url-pattern>/static/*</url-pattern>
+	</filter-mapping>
+	 -->
+
+    <!-- ===================================================================
+	 -  Security
+	 -  =================================================================== -->
+    <context-param>
+        <param-name>gwt.xsrf.session_cookie_name</param-name>
+        <param-value>ogeeky-sessions</param-value>
+    </context-param>
+    <servlet>
+        <servlet-name>xsrf</servlet-name>
+        <servlet-class>
+            com.google.gwt.user.server.rpc.XsrfTokenServiceServlet
+        </servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>xsrf</servlet-name>
+        <url-pattern>/gwt/xsrf</url-pattern>
+    </servlet-mapping>
+	
+	 <!-- ===================================================================
+	 -  Servlets
+	 -  =================================================================== -->
+	<servlet>
+	   <servlet-name>ServicesServlet</servlet-name>
+	   <servlet-class>com.outcastgeek.services.web.Services</servlet-class>
+	   <async-supported>true</async-supported>
+	 </servlet>
+	 <servlet-mapping>
+	   <servlet-name>ServicesServlet</servlet-name>
+	   <url-pattern>/*</url-pattern>
+	 </servlet-mapping>
+	 
+	 <servlet>
+       <servlet-name>DefaultServlet</servlet-name>
+       <servlet-class>org.eclipse.jetty.servlet.DefaultServlet</servlet-class>
+       <async-supported>true</async-supported>
+     </servlet>
+     <servlet-mapping>
+       <servlet-name>DefaultServlet</servlet-name>
+       <url-pattern>/static/*</url-pattern>
+     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>greetServlet</servlet-name>
+        <!--<servlet-class>com.mycompany.mywebapp.server.GreetingServiceImpl</servlet-class>-->
+        <servlet-class>com.mycompany.mywebapp.server.GreetingServiceFuncImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>greetServlet</servlet-name>
+        <url-pattern>/mywebapp/greet</url-pattern>
+    </servlet-mapping>
+ 
+ <!-- 
+ 	<servlet>
+	   <servlet-name>ScalatraServlet</servlet-name>
+	   <servlet-class>com.outcastgeek.web.ScalatraExample</servlet-class>
+	   <async-supported>true</async-supported>
+  -->
+	   <!-- 
+	   <init-param>
+	     <param-name>asyncSupported</param-name>
+	     <param-value>true</param-value>
+	   </init-param>
+	    -->
+	 <!-- 
+	 </servlet>
+	 <servlet-mapping>
+	   <servlet-name>ScalatraServlet</servlet-name>
+	   <url-pattern>/*</url-pattern>
+	 </servlet-mapping>
+	  -->
+	  
+	 <!-- Servlet 3 Async Processing Filter -->
+	 <!--
+	 <filter>
+	     <filter-name>AsyncProcessingFilter</filter-name>
+	     <filter-class>com.outcastgeek.web.servlet.Servlet3Filter</filter-class>
+	 </filter>
+	 <filter-mapping>
+	     <filter-name>AsyncProcessingFilter</filter-name>
+	     <url-pattern>/*</url-pattern>
+	     <dispatcher>REQUEST</dispatcher>
+		 <dispatcher>FORWARD</dispatcher>
+		 <dispatcher>ASYNC</dispatcher>
+	 </filter-mapping>
+	  -->
+	  
+	 <!-- Continuation Filter, to enable jetty continuations -->
+         <!--
+	 <filter>
+	     <filter-name>ContinuationFilter</filter-name>
+	     <filter-class>org.eclipse.jetty.continuation.ContinuationFilter</filter-class>
+	 </filter>
+	 <filter-mapping>
+	     <filter-name>ContinuationFilter</filter-name>
+	     <url-pattern>/*</url-pattern>
+	 </filter-mapping>
+
+	 <filter>
+	   <filter-name>QoSFilter</filter-name>
+	   <filter-class>org.eclipse.jetty.servlets.QoSFilter</filter-class>
+	   <init-param>
+	     <param-name>maxRequests</param-name>
+	     <param-value>4</param-value>
+	   </init-param>
+	 </filter>
+	 <filter-mapping>
+	   <filter-name>QoSFilter</filter-name>
+	   <url-pattern>/*</url-pattern>
+	 </filter-mapping>
+	 
+	 <filter>
+	   <filter-name>DoSFilter</filter-name>
+	   <filter-class>org.eclipse.jetty.servlets.DoSFilter</filter-class>
+	   <init-param>
+	     <param-name>maxRequestsPerSec</param-name>
+	     <param-value>40</param-value>
+	   </init-param>
+	 </filter>
+	 <filter-mapping>
+	   <filter-name>DoSFilter</filter-name>
+	   <url-pattern>/*</url-pattern>
+	 </filter-mapping>
+	 <filter>
+	    <filter-name>MultiPartFilter</filter-name>
+	    <filter-class>org.eclipse.jetty.servlets.MultiPartFilter</filter-class>
+	    <init-param>
+	      <param-name>deleteFiles</param-name>
+	      <param-value>true</param-value>
+	    </init-param>
+	  </filter>
+	  <filter-mapping>
+	    <filter-name>MultiPartFilter</filter-name>
+	    <url-pattern>/*</url-pattern>
+	  </filter-mapping>
+	  <filter>
+	    <filter-name>GzipFilter</filter-name>
+	    <filter-class>org.eclipse.jetty.servlets.GzipFilter</filter-class>
+	    <init-param>
+	      <param-name>mimeTypes</param-name>
+	      <param-value>text/html,text/plain,text/xml,application/xhtml+xml,text/css,application/javascript,image/svg+xml</param-value>
+	    </init-param>
+	  </filter>
+	  <filter-mapping>
+	    <filter-name>GzipFilter</filter-name>
+	    <url-pattern>/*</url-pattern>
+	  </filter-mapping>
+	  
+	  <filter>
+	    <filter-name>IncludableGzipFilter</filter-name>
+	    <filter-class>org.eclipse.jetty.servlets.IncludableGzipFilter</filter-class>
+	    <init-param>
+	      <param-name>bufferSize</param-name>
+	      <param-value>8192</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>minGzipSize</param-name>
+	      <param-value>2048</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>userAgent</param-name>
+	      <param-value>(?:Mozilla[^\(]*\(compatible;\s*+([^;]*);.*)|(?:.*?([^\s]+/[^\s]+).*)</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>cacheSize</param-name>
+	      <param-value>1024</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>excludedAgents</param-name>
+	      <param-value>MSIE 6.0</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>uncheckedPrintWriter</param-name>
+	      <param-value>true</param-value>
+	    </init-param>
+	  </filter>
+	  <filter-mapping>
+	    <filter-name>IncludableGzipFilter</filter-name>
+	    <url-pattern>/*</url-pattern>
+	  </filter-mapping>
+	   -->
+	  
+	  <!-- Comment out to support PUT and DELETE
+	  <filter>
+	    <filter-name>RestFilter</filter-name>
+	    <filter-class>org.eclipse.jetty.servlets.RestFilter</filter-class>
+	    <async-support>true</async-support>
+	    <init-param>
+	      <param-name>maxPutSize</param-name><param-value>1024</param-value>
+	    </init-param>
+	  </filter>
+	  
+	  <filter-mapping>
+	    <filter-name>RestFilter</filter-name>
+	    <servlet-name>default</servlet-name>
+	    <dispatcher>REQUEST</dispatcher>
+	  </filter-mapping>
+	  -->
+	
+</web-app>

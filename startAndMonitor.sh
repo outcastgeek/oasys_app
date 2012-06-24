@@ -1,0 +1,1 @@
+supervisord -c $1

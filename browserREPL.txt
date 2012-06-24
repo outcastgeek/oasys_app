@@ -1,0 +1,10 @@
+;Insert this into the cljs clojure REPL and eval!!!!
+(do (require '[cljs.repl :as repl])
+    (require '[cljs.repl.browser :as browser])
+    (def env (browser/repl-env))
+    (repl/repl env))
+
+;Insert this into your application code!!!!
+(:require [clojure.browser.repl :as repl])
+(repl/connect "http://localhost:9000/repl")
+

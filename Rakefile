@@ -3,9 +3,8 @@ require 'rake'
 require 'ant'
 ant_import
 
-#Dir.glob('tasks/*.rake').each { |r| import r }
-#Dir.glob('tasks/*.rake').each { |r| require r }
-
+require "ftools"
+require 'net/http'
 require 'rbconfig'
 
 is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
@@ -29,105 +28,105 @@ def delete_all(*wildcards)
   end
 end
 
-def compile_javascript(is_windows, optimization)
-  Dir.glob("src/main/cljs/*").select do |input|
-    if File.directory?(input)
-      puts "Compiling **/*.cljs from directory #{input}"
-      output = input.sub("src/main/cljs/", "")
-      ant do
-        delete :dir => "public/javascripts/compiled/#{output}"
-        mkdir :dir => "public/javascripts/compiled/#{output}"
-      end
-      unless is_windows
-        sh "chmod +x ./clojurescript/bin/cljsc"
-        sh "./clojurescript/bin/cljsc #{input} #{optimization} > ./public/javascripts/compiled/#{output}/#{output}.js"
-      else
-        sh "./clojurescript/bin/cljsc.bat #{input} #{optimization} > ./public/javascripts/compiled/#{output}/#{output}.js"
-      end
-    else
-      puts "---------------------------------------------------------------------------------"
+def download_file(root_url, path_to_file, filename)
+  Net::HTTP.start(root_url) do |http|
+    resp = http.get(path_to_file)
+    open(filename, "wb") do |file|
+        file.write(resp.body)
     end
   end
-  ant do
-    copy :todir => "public/javascripts/compiled" do
-      fileset :dir => "out"
+  puts "Done downloading #{filename}."
+end
+
+def download_file_incr(file_url)
+  f = open(file_url)
+  begin
+    http.request_get(file_url) do |resp|
+        resp.read_body do |segment|
+            f.write(segment)
+        end
     end
-    #copy :file => "cljs/closure/library/closure/goog/base.js", :todir => "src/main/webapp/static/js/out"
-    #copy :file => "cljs/closure/library/closure/goog/deps.js", :todir => "src/main/webapp/static/js/out"
+  ensure
+    f.close()
   end
 end
 
 desc "Clean all but deps!!!!"
 task "clean:butdeps" do
   ant do
+    #delete :dir => "target/classes"
+    #mkdir :dir => "target/classes"
     delete :dir => "log"
     mkdir :dir => "log"
-    mkdir :dir => "bin"
-    mkdir :dir => "vendor"
-    mkdir :dir => "vendor/bundle"
-    mkdir :dir => "classes"
-    mkdir :dir => "ivy"
-    delete :dir => "public/javascripts/compiled"
-    mkdir :dir => "public/javascripts/compiled"
+    delete :dir => "logs"
+    mkdir :dir => "logs"
+    delete :dir => "src/main/webapp/static/js/outcastgeekui"
+    delete :dir => "src/main/webapp/static/js/mywebapp"
+    delete :dir => "src/main/webapp/static/js/WEB-INF"
+    delete :dir => "src/main/webapp/static/gwt-unitCache"
+    delete :dir => "src/main/webapp/static/js/out"
+    delete :dir => "target/out"
     delete :dir => "out"
-    mkdir :dir => "out"
+    delete :dir => "target/node"
   end
-  ["/tmp/uploads", "tmp", "work", "**/*.zip",  "**/*~", "**/*.hprof", "work"].each do |pattern|
+  ["/tmp/uploads", "tmp", "work", "**/*.zip",  "**/*~", "**/*.hprof"].each do |pattern|
     delete_all(pattern)
   end
 end
 
 desc "Clean Workspace!!!!"
-task "clean:workspace" => "clean:butdeps" do
+task "clean:workspace" do
   ant do
-    delete :dir => "ivy"
-    delete :dir => "classes"
-    delete :dir => "bin"
+    delete :dir => "target"
+    delete :dir => "log"
+    delete :dir => "logs"
     delete :dir => "vendor"
+    delete :dir => "src/main/webapp/static/js/outcastgeekui"
+    delete :dir => "src/main/webapp/static/js/mywebapp"
+    delete :dir => "src/main/webapp/static/js/WEB-INF"
+    delete :dir => "src/main/webapp/static/gwt-unitCache"
+    delete :dir => "src/main/webapp/static/js/out"
+    delete :dir => "target/out"
     delete :dir => "out"
-    delete :dir => "clojurescript"
-    delete :dir => ".sass-cache"
+    delete :dir => "target/node"
   end
-  ["**/*.jar"].each do |pattern|
+  ["/tmp/uploads", "tmp", "bin", "work", "**/*.zip", "**/*.class", "**/*~", "**/*.hprof"].each do |pattern|
     delete_all(pattern)
   end
 end
 
-task "compile_js" => "clean:butdeps" do
-  #compile_javascript(is_windows, "{:optimizations :simple :pretty-print true}")
-  #compile_javascript(is_windows, "{:optimizations :simple}")
-  compile_javascript(is_windows, "{:optimizations :advanced}")
+desc "Package and Add All Java dependencies"
+task "deps:all" do
+  unless is_windows
+    sh "~/jruby -S buildr upgrade.avenue:deps"
+  else
+    sh "jruby -S buildr upgrade.avenue:deps"
+  end
+=begin
+  ["target/lib/clojure-1.2*"].each do |pattern| #This is a temporary hack to remove unneeded dependencies
+    delete_all(pattern)
+  end
+=end
 end
 
-task "deps:all" => ["clean:butdeps", "ivy-retrieve"] do
-  ["lib/clojure-1.2*", "lib/clojure-1.3*", "lib/jetty-6.1*.jar", "lib/spring*3.0.6*.jar"].each do |pattern|
+desc "Downloads all Sources for the Dependencies"
+task "sources:all" do
+  unless is_windows
+    sh "~/jruby -S buildr artifacts:sources"
+  else
+    sh "jruby -S buildr artifacts:sources"
+  end
+end
+
+task "clj_comp" do
+  ["target/lib/clojure-1.2*", "target/lib/jetty-6.1*.jar", "target/lib/spring*3.0.6*.jar"].each do |pattern|
     delete_all(pattern)
   end
   ant do
-    taskdef :resource => "scala/tools/ant/antlib.xml" do
-      classpath do
-        pathelement :location => "classes"
-        pathelement :location => "lib"
-        fileset :dir => "lib" do
-          include :name => "*.jar"
-        end
-      end
-    end
-    scalac :srcdir => "src", :destdir => "classes" do
-      include :name => "**/*.scala"
-      include :name => "**/*.java"
-      classpath do
-        pathelement :location => "classes"
-        pathelement :location => "lib"
-        fileset :dir => "lib" do
-          include :name => "*.jar"
-        end
-      end
-    end
     @build_path = ["src/main/clojure"] unless @build_path
     source_files = @build_path.collect do |d|
       Dir.glob("#{d}/**/*.clj").select do |clj_file|
-        classfile = 'classes/' + clj_file.sub(".clj", ".class")
+        classfile = 'target/classes/' + clj_file.sub(".clj", ".class")
         File.exist?(classfile) ? File.stat(clj_file).mtime > File.stat(classfile).mtime : true
       end
     end.flatten
@@ -136,17 +135,208 @@ task "deps:all" => ["clean:butdeps", "ivy-retrieve"] do
       f.sub("src/main/clojure/", "").sub(".clj", "").gsub("/", ".")
     end.join ' '
     java  :classname => "clojure.lang.Compile", :fork => true, :failonerror => true do
-      sysproperty :key => "clojure.compile.path", :value => "classes"
+      sysproperty :key => "clojure.compile.path", :value => "target/classes"
       classpath do
         pathelement :location => "src/main/clojure"
         pathelement :location => "src/main/resources"
-        pathelement :location => "classes"
-        fileset :dir => "lib" do
+        pathelement :location => "target/classes"
+        fileset :dir => "target/lib" do
           include :name => "*.jar"
         end
       end
       arg :line => "#{namespaces}"
     end
   end
-  puts "All Done!!!!"
+end
+
+#task "compile" => ["clean:butdeps", "deps:all", "compileSimpleJS", "compileSimpleNodeJS"] do #This one has issues with goog!!!!
+#task "compile" => ["clean:butdeps", "deps:all", "compileOptimizedJS"] do
+#task "compile" => ["clean:butdeps", "deps:all", "compileSimpleJS"] do
+#task "compile" => ["clean:butdeps", "deps:all", "compilePrettyJS"] do
+#task "compile" => ["clean:butdeps", "deps:all", "compileDebugJS"] do
+task "compile" => ["clean:butdeps", "deps:all", "progEnhancement", "clj_comp"] do
+  puts "Done compiling!!!!"
+end
+
+task "jar" do
+  sh "~/jruby -S buildr package"
+  puts "Done Jarring!"
+end
+
+task "uberjar" => ["recompile", "jar"] do
+  sh "~/jruby -S buildr package"
+  puts "Done UberJarring!"
+end
+
+task "run" do
+  sh "ant run"
+end
+
+task "start" do
+  sh "ant start"
+end
+
+task "runServices" do
+  ant do
+    java :classname => "com.outcastgeek.services.web.Services", :fork => false, :failonerror => true do
+      classpath do
+        pathelement :location => "target/classes"
+        pathelement :location => "target/lib"
+        pathelement :location => "src/main/resources"
+        pathelement :location => "src/main/webapp"
+        fileset :dir => "target/lib" do
+          include :name => "*.jar"
+        end
+      end
+      arg :line => "Aleph 8998 web.xml 1800"
+    end
+  end
+end
+#task "runServer", [:server, :port, :webXml, :frequency] do |t, args|
+task "runServer" do
+  server, port, webXml, frequency = ENV['server'] || 'Jetty', ENV['port'] || '9998', ENV['webXml'] || 'web.xml', ENV['frequency'] || '1800'
+  ant do
+    java :classname => "com.outcastgeek.services.web.Services", :fork => false, :failonerror => true do
+      classpath do
+        pathelement :location => "target/classes"
+        pathelement :location => "target/lib"
+        pathelement :location => "src/main/resources"
+        pathelement :location => "src/main/webapp"
+        fileset :dir => "target/lib" do
+          include :name => "*.jar"
+        end
+      end
+      arg :line => "#{server} #{port} #{webXml} #{frequency}"
+      #arg :line => "#{args.server} #{args.port} #{args.webXml} #{args.frequency}"
+      #arg :line => "Jetty 9998 web.xml 1800"
+    end
+  end
+end
+
+task "cljRepl" do
+  ant do
+    java :classname => "clojure.main", :fork => false, :failonerror => true do
+    #java :jar => "target/lib/clojure-1.3.0.jar", :fork => true, :failonerror => true do
+      classpath do
+        pathelement :location => "target/classes"
+        pathelement :location => "target/lib"
+        pathelement :location => "src/main/java"
+        pathelement :location => "src/main/scala"
+        pathelement :location => "src/main/resources"
+        pathelement :location => "src/main/clojure"
+        fileset :dir => "target/lib" do
+          include :name => "*.jar"
+        end
+      end
+    end
+  end
+end
+
+task "launch" do
+  unless is_windows
+    sh "./starCLJ.sh"
+  else
+    sh "./startCLJ.bat"
+  end
+end
+
+def compile_javascript(is_windows, optimization)
+  Dir.glob("src/main/cljs/*").select do |input|
+    if File.directory?(input)
+      puts "Compiling **/*.cljs from directory #{input}"
+      output = input.sub("src/main/cljs/", "")
+      ant do
+        delete :dir => "src/main/webapp/static/js/out"
+        mkdir :dir => "src/main/webapp/static/js/out"
+        delete :dir => "src/main/webapp/static/js/out/#{output}"
+        mkdir :dir => "src/main/webapp/static/js/out/#{output}"
+      end
+      unless is_windows
+        sh "./cljs/bin/cljsc #{input} #{optimization} > ./src/main/webapp/static/js/out/#{output}/#{output}.js"
+      else
+        sh "./cljs/bin/cljsc.bat #{input} #{optimization} > ./src/main/webapp/static/js/out/#{output}/#{output}.js"
+      end
+    else
+      puts "---------------------------------------------------------------------------------"
+    end
+  end
+  ant do
+    copy :todir => "src/main/webapp/static/js/out" do
+      fileset :dir => "out"
+    end
+    #copy :file => "cljs/closure/library/closure/goog/base.js", :todir => "src/main/webapp/static/js/out"
+    #copy :file => "cljs/closure/library/closure/goog/deps.js", :todir => "src/main/webapp/static/js/out"
+  end
+end
+
+def compile_nodejs(is_windows, optimization)
+  Dir.glob("src/main/nodecljs/*").select do |input|
+    if File.directory?(input)
+      puts "Compiling **/*.cljs from directory #{input}"
+      output = input.sub("src/main/nodecljs/", "")
+      ant do
+        delete :dir => "target/out"
+        mkdir :dir => "target/out"
+        delete :dir => "target/out/#{output}"
+        mkdir :dir => "target/out/#{output}"
+        delete :dir => "target/node"
+        mkdir :dir => "target/node"
+      end
+      unless is_windows
+        sh "./cljs/bin/cljsc #{input} #{optimization} > ./target/out/#{output}/#{output}.js"
+      else
+        sh "./cljs/bin/cljsc.bat #{input} #{optimization} > ./target/out/#{output}/#{output}.js"
+      end
+    else
+      puts "---------------------------------------------------------------------------------"
+    end
+  end
+  ant do
+    copy :todir => "target/out" do
+      fileset :dir => "out"
+    end
+    copy :todir => "target/node" do
+      fileset :dir => "src/main/nodejs"
+    end
+  end
+end
+
+task "compileDebugJS" do
+  compile_javascript(is_windows, "")
+end
+
+task "compilePrettyJS" do
+  compile_javascript(is_windows, "{:optimizations :simple :pretty-print true}")
+end
+
+task "compileSimpleJS" do
+  compile_javascript(is_windows, "{:optimizations :simple}")
+end
+
+task "compileOptimizedJS" do
+  compile_javascript(is_windows, "{:optimizations :advanced}")
+end
+
+task "compileSimpleNodeJS" do
+  compile_nodejs(is_windows, "{:optimizations :simple :pretty-print true :target :nodejs}")
+end
+
+task "compileOptimizedNodeJS" do
+  compile_nodejs(is_windows, "{:optimizations :advanced}")
+end
+
+task "progEnhancement" => :build do
+  puts "Done generating client code."
+end
+
+task "debugClient" => :hosted do
+  puts "Done debugging client code."
+end
+
+task "cljsREPL" do
+  unless is_windows
+    sh "./cljs/script/repl"
+  else
+    sh "./cljs/script/repl.bat"
+  end
 end

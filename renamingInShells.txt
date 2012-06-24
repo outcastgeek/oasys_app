@@ -1,0 +1,7 @@
+Powershell:
+get-childItem *.bat.txt | rename-item -newname { $_.name -replace '\.bat.txt','.bat' }
+get-childItem *.bat | rename-item -newname { $_.name -replace '\.bat','.bat.txt' }
+get-childItem *.sh | rename-item -newname { $_.name -replace'\.sh','.sh.txt' }
+
+Unix Shell:
+for f in *.sh.txt; do mv "{f}" "{f/.sh.txt/.sh}"; done;
