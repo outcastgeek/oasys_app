@@ -1,7 +1,9 @@
+
 (defproject oasys_corp "1.0.0-SNAPSHOT"
   :description "Building the Ultimate Web Framework!!!!"
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [org.clojure/tools.logging "0.2.3"]
+                 ;[org.mongodb/mongo-java-driver "2.8.0"]
                  [congomongo/congomongo "0.1.9"]
                  [org.clojars.hozumi/mongodb-session "1.0.1"]
                  [hiccup/hiccup "1.0.0"]
@@ -44,7 +46,7 @@
                  [com.keminglabs/c2 "0.1.2"]]
   :dev-dependencies [[lein-swank "1.4.4"]
                      [lein-cljsbuild "0.2.1"]]
-  :aot :all
+  ;:aot :all
   ;:jvm-opts ["-Xmx1g" "-server"
   ;           "-Dhttp.proxyHost=webproxy.int.westgroup.com"
   ;           "-Dhttp.proxyPort=80"
@@ -53,7 +55,7 @@
   :jvm-opts ["-Xmx1g" "-server"]
   :main com.outcastgeek.services.web.Services
   :source-path "src"
-  :hooks [leiningen.cljsbuild]
+  ;:hooks [leiningen.cljsbuild]
   :cljsbuild {
     :builds [{
         ; The path to the top-level ClojureScript source directory:
@@ -101,4 +103,10 @@
                            :output-to "resources/public/static/javascript/c2/c2.js"  ; default: main.js in current directory
                            :optimizations :whitespace
                            :pretty-print true}}]}
-  :repositories {"akka.io" "http://repo.akka.io/releases"})
+  ;; You can also set the policies for how to handle :checksum
+  ;; failures to :fail, :warn, or :ignore. In :releases, :daily,
+  ;; :always, and :never are supported.
+  :checksum :warn
+  :update :daily
+  :repositories {"akka.io" "http://repo.akka.io/releases"
+                 "java.net" "http://download.java.net/maven/2"})
