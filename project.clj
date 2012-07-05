@@ -45,18 +45,18 @@
                  [monet "0.1.0-SNAPSHOT"]
                  [enfocus "0.9.1-SNAPSHOT"]
                  [com.keminglabs/c2 "0.1.2"]]
-  :plugins [[lein-swank "1.4.4"]
-            [lein-cljsbuild "0.2.2"]]
+  :dev-dependencies [[lein-swank "1.4.4"]
+                     [lein-cljsbuild "0.2.2"]]
   ;:aot :all
-  ;:jvm-opts ["-Xmx1g" "-server"
-  ;           "-Dhttp.proxyHost=webproxy.int.westgroup.com"
-  ;           "-Dhttp.proxyPort=80"
-  ;           "-Dhttps.proxyHost=webproxy.int.westgroup.com"
-  ;           "-Dhttps.proxyPort=80"]
-  :jvm-opts ["-Xmx1g" "-server"]
+  :jvm-opts ["-Xmx1g" "-server"
+             "-Dhttp.proxyHost=webproxy.int.westgroup.com"
+             "-Dhttp.proxyPort=80"
+             "-Dhttps.proxyHost=webproxy.int.westgroup.com"
+             "-Dhttps.proxyPort=80"]
+  ;:jvm-opts ["-Xmx1g" "-server"]
   :main com.outcastgeek.services.web.Services
   :source-path "src"
-  :hooks [leiningen.cljsbuild]
+  ;:hooks [leiningen.cljsbuild]
   :cljsbuild {
     :builds [{
         ; The path to the top-level ClojureScript source directory:
@@ -108,6 +108,6 @@
   ;; failures to :fail, :warn, or :ignore. In :releases, :daily,
   ;; :always, and :never are supported.
   :checksum :warn
-  :update :daily
-  :repositories {"akka.io" "http://repo.akka.io/releases"
-                 "java.net" "http://download.java.net/maven/2"})
+  :update :daily)
+:repositories {"akka.io" "http://repo.akka.io/releases"
+                  "java.net" "http://download.java.net/maven/2"}

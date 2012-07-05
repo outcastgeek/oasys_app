@@ -30,10 +30,6 @@
       <id>clojars</id>
       <url>http://clojars.org/repo/</url>
     </repository>
-    <repository>
-      <id>akka.io</id>
-      <url>http://repo.akka.io/releases</url>
-    </repository>
   </repositories>
   <dependencies>
     <dependency>
@@ -45,7 +41,7 @@
     <dependency>
       <groupId>lein-cljsbuild</groupId>
       <artifactId>lein-cljsbuild</artifactId>
-      <version>0.2.1</version>
+      <version>0.2.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -81,12 +77,17 @@
     <dependency>
       <groupId>ring</groupId>
       <artifactId>ring-core</artifactId>
-      <version>1.1.0</version>
+      <version>1.1.1</version>
     </dependency>
     <dependency>
       <groupId>ring</groupId>
       <artifactId>ring</artifactId>
-      <version>1.1.0</version>
+      <version>1.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>clj-http</groupId>
+      <artifactId>clj-http</artifactId>
+      <version>0.4.3</version>
     </dependency>
     <dependency>
       <groupId>clj-oauth2</groupId>
@@ -96,12 +97,17 @@
     <dependency>
       <groupId>compojure</groupId>
       <artifactId>compojure</artifactId>
-      <version>1.0.4</version>
+      <version>1.1.0</version>
     </dependency>
     <dependency>
       <groupId>com.cemerick</groupId>
       <artifactId>friend</artifactId>
       <version>0.0.9</version>
+    </dependency>
+    <dependency>
+      <groupId>cheshire</groupId>
+      <artifactId>cheshire</artifactId>
+      <version>4.0.0</version>
     </dependency>
     <dependency>
       <groupId>com.google.code.gson</groupId>
@@ -155,38 +161,28 @@
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>1.6.4</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>1.6.4</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>jcl-over-slf4j</artifactId>
-      <version>1.6.4</version>
+      <version>1.6.6</version>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-core</artifactId>
-      <version>1.0.2</version>
+      <version>1.0.6</version>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <version>1.0.2</version>
+      <version>1.0.6</version>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-access</artifactId>
-      <version>1.0.2</version>
+      <version>1.0.6</version>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-site</artifactId>
-      <version>1.0.2</version>
+      <version>1.0.6</version>
     </dependency>
     <dependency>
       <groupId>org.jboss.netty</groupId>

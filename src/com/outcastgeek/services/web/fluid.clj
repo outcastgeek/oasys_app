@@ -88,7 +88,8 @@
      "xmlns:foaf" "http://xmlns.com/foaf/0.1/"
      "xmlns:gr" "http://purl.org/goodrelations/v1#"
      "xmlns:xsd" "http://www.w3.org/2001/XMLSchema#"
-     "xmlns:ng" "http://angularjs.org"}
+     "xmlns:ng" "http://angularjs.org"
+     :ng-app "main"}
      [:head
       [:title (str title "Web App")]
       [:meta {:http-equiv "Content-Type"
@@ -113,7 +114,7 @@
         }
        "]
       ]
-     [:body
+     [:body {:ng-controller "MainCtrl"}
       [:div {:class "navbar" :data-dropdown "dropdown"}
        [:div {:class "navbar-inner"}
         [:div {:class "container"}
@@ -133,6 +134,15 @@
               [:li [:a {:href "http://www.twitter.com/akpanydre" :target "_blank"} "Twitter"]]
               [:li [:a {:href "http://www.linkedin.com/in/ebbybenjamin" :target "_blank"} "LinkedIn"]]
               [:li [:a {:href "http://www.outcastgeek.com/" :target "_blank"} "Blog"]]
+            ]]
+          [:li {:class "dropdown" :id "SearchBy"}
+           [:a {:class "dropdown-toggle" :data-toggle "dropdown" :href "#SearchBy"}
+            "SearchBy"
+            [:b {:class "caret"}]]
+           [:ul {:class "dropdown-menu"}
+            [:li [:a {:href "#" :ng-click "searchBy('service')"} "Service"]]
+            [:li [:a {:href "#" :ng-click "searchBy('lob')"} "LOB"]]
+            [:li [:a {:href "#" :ng-click "searchBy('source')"} "Source"]]
             ]]
           ]
          (dosync
