@@ -3,15 +3,15 @@
   :description "Building the Ultimate Web Framework!!!!"
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [org.clojure/tools.logging "0.2.3"]
-                 ;[org.mongodb/mongo-java-driver "2.8.0"]
                  [congomongo/congomongo "0.1.9"]
                  [org.clojars.hozumi/mongodb-session "1.0.1"]
                  [hiccup/hiccup "1.0.0"]
                  [clj-style/clj-style "1.0.1"]
-                 [ring/ring-core "1.1.0"]
-                 [ring/ring "1.1.0"]
+                 [ring/ring-core "1.1.1"]
+                 [ring/ring "1.1.1"]
+                 [clj-http "0.4.3"]
                  [clj-oauth2 "0.2.0"]
-                 [compojure/compojure "1.0.4"]
+                 [compojure/compojure "1.1.0"]
                  [com.cemerick/friend "0.0.9"]
                  [com.google.code.gson/gson "2.1"]
                  [com.thoughtworks.xstream/xstream "1.4.2"]
@@ -23,13 +23,13 @@
                  [org.xhtmlrenderer/core-renderer "R8"]
                  [clj-pdf "0.9.1"]
                  [org.glassfish/javax.servlet "3.1.1"]
-                 [org.slf4j/slf4j-log4j12 "1.6.4"]
-                 [org.slf4j/slf4j-api "1.6.4"]
-                 [org.slf4j/jcl-over-slf4j "1.6.4"]
-                 [ch.qos.logback/logback-core "1.0.2"]
-                 [ch.qos.logback/logback-classic "1.0.2"]
-                 [ch.qos.logback/logback-access "1.0.2"]
-                 [ch.qos.logback/logback-site "1.0.2"]
+;                 [org.slf4j/slf4j-log4j12 "1.6.6"]
+                 [org.slf4j/slf4j-api "1.6.6"]
+;                 [org.slf4j/jcl-over-slf4j "1.6.6"]
+                 [ch.qos.logback/logback-core "1.0.6"]
+                 [ch.qos.logback/logback-classic "1.0.6"]
+                 [ch.qos.logback/logback-access "1.0.6"]
+                 [ch.qos.logback/logback-site "1.0.6"]
                  [org.jboss.netty/netty "3.2.7.Final"]
                  ;;;;;;;;;;;;;; AKKA ;;;;;;;;;;;;;;;;;;;;;;;;;;
                  [com.typesafe.akka/akka-actor "2.0.2"]
@@ -44,8 +44,8 @@
                  [monet "0.1.0-SNAPSHOT"]
                  [enfocus "0.9.1-SNAPSHOT"]
                  [com.keminglabs/c2 "0.1.2"]]
-  :dev-dependencies [[lein-swank "1.4.4"]
-                     [lein-cljsbuild "0.2.1"]]
+  :plugins [[lein-swank "1.4.4"]
+            [lein-cljsbuild "0.2.2"]]
   ;:aot :all
   ;:jvm-opts ["-Xmx1g" "-server"
   ;           "-Dhttp.proxyHost=webproxy.int.westgroup.com"
@@ -55,7 +55,7 @@
   :jvm-opts ["-Xmx1g" "-server"]
   :main com.outcastgeek.services.web.Services
   :source-path "src"
-  ;:hooks [leiningen.cljsbuild]
+  :hooks [leiningen.cljsbuild]
   :cljsbuild {
     :builds [{
         ; The path to the top-level ClojureScript source directory:
