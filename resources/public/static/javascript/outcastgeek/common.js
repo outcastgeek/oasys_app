@@ -18,8 +18,11 @@ YUI({
                     fullpath: 'http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js'
                 },
                 'angular': {
-                    fullpath: 'http://code.angularjs.org/angular-1.0.0.min.js'
+                    fullpath: 'http://code.angularjs.org/angular-1.0.1.min.js'
                 },
+                'modernizr': {
+                    fullpath: 'http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.5.3/modernizr.min.js'
+                }
             }
         },
         'outcastgeek': {
@@ -33,7 +36,8 @@ YUI({
                     path: 'javascript/outcastgeek/backbone.min.js'
                 },
                 'bootstrap': {
-                    path: 'javascript/outcastgeek/bootstrap.min.js'
+                    //path: 'javascript/outcastgeek/bootstrap.min.js'
+                    fullpath: 'http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.0.4/bootstrap.min.js'
                 },
                 'outcastgeek': {
                     path: 'javascript/outcastgeek/outcastgeek.js'
@@ -41,7 +45,7 @@ YUI({
             }
         }
     }
-}).use('angular', 'jquery', 'bootstrap', function(Y) {
+}).use('modernizr', 'angular', 'jquery', 'bootstrap', function(Y) {
 
         angular.element(document).ready(function() {
             angular.bootstrap(document);

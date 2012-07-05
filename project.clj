@@ -13,6 +13,7 @@
                  [clj-oauth2 "0.2.0"]
                  [compojure/compojure "1.1.0"]
                  [com.cemerick/friend "0.0.9"]
+                 [cheshire "4.0.0"]
                  [com.google.code.gson/gson "2.1"]
                  [com.thoughtworks.xstream/xstream "1.4.2"]
                  [commons-fileupload/commons-fileupload "1.2.2"]
