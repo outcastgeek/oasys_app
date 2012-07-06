@@ -5,6 +5,32 @@
                  [org.clojure/tools.logging "0.2.3"]
                  [congomongo/congomongo "0.1.9"]
                  [org.clojars.hozumi/mongodb-session "1.0.1"]
+                 [mysql/mysql-connector-java "5.1.20"]
+                 [clj-record "1.1.1"]
+
+
+;                 (ns com.example.city
+;                   (:require clj-record.boot))
+;
+;
+;                 (def db {:classname "com.mysql.jdbc.Driver"
+;                          :subprotocol "mysql"
+;                          :user "root"
+;                          :password "MySQL2012"
+;                          :subname "//localhost/world"})
+;
+;                 (clj-record.core/init-model
+;                   :table-name "city")
+;
+;                 (def father-rec (com.example.city/create {:Name "Abidjan"
+;                                                           :CountryCode 225
+;                                                           :District "Cocody"
+;                                                           :Population 5000000}))
+
+
+
+
+
                  [hiccup/hiccup "1.0.0"]
                  [clj-style/clj-style "1.0.1"]
                  [ring/ring-core "1.1.1"]

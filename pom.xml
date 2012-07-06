@@ -65,6 +65,16 @@
       <version>1.0.1</version>
     </dependency>
     <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.20</version>
+    </dependency>
+    <dependency>
+      <groupId>clj-record</groupId>
+      <artifactId>clj-record</artifactId>
+      <version>1.1.1</version>
+    </dependency>
+    <dependency>
       <groupId>hiccup</groupId>
       <artifactId>hiccup</artifactId>
       <version>1.0.0</version>

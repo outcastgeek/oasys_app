@@ -29,6 +29,9 @@
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.1" level="project" />
     <orderEntry type="library" name="Maven: commons-fileupload:commons-fileupload:1.2.2" level="project" />
     <orderEntry type="library" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
+    <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.20" level="project" />
+    <orderEntry type="library" name="Maven: clj-record:clj-record:1.1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.clojure:java.jdbc:0.1.1" level="project" />
     <orderEntry type="library" name="Maven: hiccup:hiccup:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: clj-style:clj-style:1.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.clojars.wilkes:gaka:0.2.2" level="project" />
