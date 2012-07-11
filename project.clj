@@ -3,6 +3,8 @@
   :description "Building the Ultimate Web Framework!!!!"
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [org.clojure/tools.logging "0.2.3"]
+                 [rrss/rrss "0.2.2"]
+                 [resque-clojure "0.2.2"]
                  [congomongo/congomongo "0.1.9"]
                  [org.clojars.hozumi/mongodb-session "1.0.1"]
                  [mysql/mysql-connector-java "5.1.20"]

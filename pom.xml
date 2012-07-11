@@ -55,6 +55,16 @@
       <version>0.2.3</version>
     </dependency>
     <dependency>
+      <groupId>rrss</groupId>
+      <artifactId>rrss</artifactId>
+      <version>0.2.2</version>
+    </dependency>
+    <dependency>
+      <groupId>resque-clojure</groupId>
+      <artifactId>resque-clojure</artifactId>
+      <version>0.2.2</version>
+    </dependency>
+    <dependency>
       <groupId>congomongo</groupId>
       <artifactId>congomongo</artifactId>
       <version>0.1.9</version>

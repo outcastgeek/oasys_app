@@ -9,6 +9,7 @@
         com.outcastgeek.web.server.adapter.netty
         hiccup.core
         hiccup.page
+        rrss
         somnium.congomongo
         com.outcastgeek.services.web.fluid
         com.outcastgeek.services.web.resumebuilder
@@ -19,30 +20,36 @@
            java.util.concurrent.TimeUnit
            com.google.gson.Gson
            com.google.gson.GsonBuilder)
-  (:require
-   [ring.middleware.session :as rs]
-   [hozumi.mongodb-session :as mongoss]
-   [compojure.route :as route])
-  (:gen-class
-    :extends javax.servlet.http.HttpServlet))
+  (:require [ring.middleware.session :as rs]
+            [hozumi.mongodb-session :as mongoss]
+            [compojure.route :as route])
+  (:gen-class :extends javax.servlet.http.HttpServlet))
 
 (set-connection! mongo-connection)
 
 (def mongoSessionStore
   (mongoss/mongodb-store {:auto-key-change? true
-                        :collection-name :outcastgeek_sessions}))
+                          :collection-name :outcastgeek_sessions}))
+
+(def one-minute 60)
+(def fifteen-minutes (* 15 one-minute))
+(def redisSessionStore
+  (expiring-redis-store {:auto-key-change? true
+                         :collection-name :outcastgeek_sessions
+                         :duration fifteen-minutes
+                         :resolution one-minute}))
 
 (def glua gen-login-unless-auth)
 
 (def gson
-     (.. (GsonBuilder.) excludeFieldsWithoutExposeAnnotation create))
+  (.. (GsonBuilder.) excludeFieldsWithoutExposeAnnotation create))
 
 (defn page
   [request html sessMerge]
   {:status 200
-     :headers {"Content-Type" "text/html"}
-     :body html
-     :session (merge (request :session) sessMerge)})
+   :headers {"Content-Type" "text/html"}
+   :body html
+   :session (merge (request :session ) sessMerge)})
 
 ;(defn admin-view [session]
 ;  (page session "Admin"
@@ -50,22 +57,21 @@
 
 (defn resume [request]
   (let [csrf (str (UUID/randomUUID))
-        step ((request :params) :step)
-        session (request :session)]
-   (page
-   request
-   (html-doc
-    request
-    "Build Your Resume Like A Boss | Free, Easy & Awesome | "
-    (cond
-      (nil? step)
-      (resume-get-step 0 csrf session)
-      :else
-      (resume-get-step step csrf session)))
-   {:csrf csrf :flash "" :flashstyle ""})))
+        step ((request :params ) :step )
+        session (request :session )]
+    (page
+      request
+      (html-doc
+        request
+        "Build Your Resume Like A Boss | Free, Easy & Awesome | "
+        (cond
+          (nil? step)
+          (resume-get-step 0 csrf session)
+          :else (resume-get-step step csrf session)))
+      {:csrf csrf :flash "" :flashstyle ""})))
 
 (defn downloadResume [request]
-  (let [session (request :session)]
+  (let [session (request :session )]
     (debug "Downloading resume as PDF document...")
     (do
       {:status 200
@@ -75,29 +81,28 @@
 
 (defn login [request]
   (let [csrf (str (UUID/randomUUID))
-        session (request :session)]
+        session (request :session )]
     (page
-     request
-     (html-doc
       request
-      "Log in | "
-      (html
-        [:div {:class "row"}
-         [:div {:class "span16"}
-          [:h2 "Log in"]
-          [:br]
-          [:form {:method "post" :action "/login" :enctype "application/x-www-form-urlencoded"}
-           [:fieldset
-            [:legend "Enter your username and password"]
-            (input "User Name" "username" session)
-            (secret-input "Password" "password" session)
-            [:input {:type "hidden" :name "csrf" :value csrf}]
-            [:input {:class "btn btn-primary" :type "submit" :value "Login"}]
-            [:span " or "] (button-link-to "/register" "Register ")
-           ]]]]
-        (goog-analytics)
-       ))
-     {:csrf csrf :flash "" :flashstyle ""})))
+      (html-doc
+        request
+        "Log in | "
+        (html
+          [:div {:class "row"}
+           [:div {:class "span16"}
+            [:h2 "Log in"]
+            [:br ]
+            [:form {:method "post" :action "/login" :enctype "application/x-www-form-urlencoded"}
+             [:fieldset [:legend "Enter your username and password"]
+              (input "User Name" "username" session)
+              (secret-input "Password" "password" session)
+              [:input {:type "hidden" :name "csrf" :value csrf}]
+              [:input {:class "btn btn-primary" :type "submit" :value "Login"}]
+              [:span " or "] (button-link-to "/register" "Register ")
+              ]]]]
+          (goog-analytics)
+          ))
+      {:csrf csrf :flash "" :flashstyle ""})))
 
 ;(defn home [request]
 ;  (insert! :robots
@@ -147,8 +152,7 @@
 ;        {:flash "" :flashstyle ""}))))
 
 (defn home [request]
-  (insert! :robots
-    {:name "robby"})
+  (insert! :robots {:name "robby"})
   (page
     request
     (html-doc
@@ -158,12 +162,11 @@
         [:div {:class "row"}
          [:div {:class "span8"}
           [:h2 "Welcome"]
-          [:div "Retrieved robot: " ((fetch-one :robots) :name)]
+          [:div "Retrieved robot: " ((fetch-one :robots ) :name )]
           ]]
         [:div {:class "row"}
          [:div {:class "span8"}
-          [:fieldset
-           [:legend "{{SearchBy}}"]
+          [:fieldset [:legend "{{SearchBy}}"]
            [:div {:class "clearfix"}
             [:div {:class "input"}
              [:input {:id "search" :name "search"
@@ -175,81 +178,77 @@
 
 (defn register [request]
   (let [csrf (str (UUID/randomUUID))
-        session (request :session)]
+        session (request :session )]
     (page
-     request
+      request
       (html-doc
-       request
-       "Register | "
-       (html
-         [:div {:class "row"}
-          [:div {:class "span16"}
-           [:h2 "Register"]
-           [:br]
-           [:form {:method "post" :action "/register" :enctype "application/x-www-form-urlencoded"}
-            [:fieldset
-             [:legend "Enter your information"]
-             (input "User Name" "username" session)
-             (input "Email" "email" session)
-             (secret-input "Password" "password" session)
-             (secret-input "Confirm Password" "confirmpassword" session)
-             [:input {:type "hidden" :name "csrf" :value csrf}]
-             [:input {:class "btn btn-primary" :type "submit" :value "Register"}]
-             ]]]]
-         (goog-analytics)
-         ))
+        request
+        "Register | "
+        (html
+          [:div {:class "row"}
+           [:div {:class "span16"}
+            [:h2 "Register"]
+            [:br ]
+            [:form {:method "post" :action "/register" :enctype "application/x-www-form-urlencoded"}
+             [:fieldset [:legend "Enter your information"]
+              (input "User Name" "username" session)
+              (input "Email" "email" session)
+              (secret-input "Password" "password" session)
+              (secret-input "Confirm Password" "confirmpassword" session)
+              [:input {:type "hidden" :name "csrf" :value csrf}]
+              [:input {:class "btn btn-primary" :type "submit" :value "Register"}]
+              ]]]]
+          (goog-analytics)
+          ))
       {:csrf csrf :flash "" :flashstyle ""})))
 
 (defn about [request]
   (let [csrf (str (UUID/randomUUID))
-        session (request :session)]
-   (page
-     request
-     (html-doc
-       request
-       "About | "
-       (html
-         [:div {:class "hero-unit"}
-          [:h1 "What is this Web App?"]
-          [:p "It is an awesome piece of teachnology! It's magical."]]
-         ))
+        session (request :session )]
+    (page
+      request
+      (html-doc
+        request
+        "About | "
+        (html
+          [:div {:class "hero-unit"}
+           [:h1 "What is this Web App?"]
+           [:p "It is an awesome piece of teachnology! It's magical."]]
+          ))
       {:csrf csrf :flash "" :flashstyle ""}
       )))
 
 (defn bogus [request]
   (let [csrf (str (UUID/randomUUID))
-        session (request :session)]
-   (page
-     request
-     (html-doc
-       request
-       "Bogus | A page full of bogus"
-       (html
-         [:div {:class "row"}
-          [:div {:class "span14 hero-unit"}
+        session (request :session )]
+    (page
+      request
+      (html-doc
+        request
+        "Bogus | A page full of bogus"
+        (html
+          [:div {:class "row"}
+           [:div {:class "span14 hero-unit"}
             [:h1 "What is this BOGUS page?"]
             [:p "It's a route to try out bogus stuff!"]
-          ]]
-         [:table {:align "center"}
-          [:tr
-           [:td {:colspan "2" :style "font-weight:bold;"} "Please enter your name:"]]
-          [:tr
-           [:td {:id "nameFieldContainer"}]
-           [:td {:id "sendButtonContainer"}]]
-          [:tr
-           [:td {:colspan "2" :style "color:red;" :id "errorLabelContainer"}]]]
-         (include-js "/static/js/mywebapp/mywebapp.nocache.js")
-         ))
+            ]]
+          [:table {:align "center"}
+           [:tr [:td {:colspan "2" :style "font-weight:bold;"} "Please enter your name:"]]
+           [:tr [:td {:id "nameFieldContainer"}]
+            [:td {:id "sendButtonContainer"}]]
+           [:tr [:td {:colspan "2" :style "color:red;" :id "errorLabelContainer"}]]]
+          (include-js "/static/js/mywebapp/mywebapp.nocache.js")
+          ))
       {:csrf csrf :flash "" :flashstyle ""}
-    )))
+      )))
 
 (defn oauth-redirect [request]
   (let [provider (-> request :params :provider keyword)
-        session (request :session)]
-    (debug (-> oauth-providers provider :uri))
+        session (request :session )]
+    (debug (-> oauth-providers provider :uri ))
     (do
       {:status 302
-       :headers {"Location" (-> oauth-providers provider :uri)}
+       :headers {"Location" (-> oauth-providers provider :uri )}
        :session (merge session {:provider provider})
        })))
 
@@ -291,84 +290,82 @@
 
   ;Handle Facebook OAuth2 Callback
   (GET "/auth/login" {session :session params :params} ((login-processor
-                                                         facebook-oauth2
-                                                         fb-auth-req
-                                                         "https://graph.facebook.com/me"
-                                                         "access_token"
-                                                         #(% :name)) params session))
+                                                          facebook-oauth2
+                                                          fb-auth-req
+                                                          "https://graph.facebook.com/me"
+                                                          "access_token"
+                                                          #(% :name )) params session))
 
   ;Handle Google+ OAuth2 Callback
   (GET "/oauth2callback" {session :session params :params} ((login-processor
-                                                         google-oauth2
-                                                         goog-auth-req
-                                                         "https://www.googleapis.com/oauth2/v1/userinfo"
-                                                         "access_token"
-                                                         #(% :name)) params session))
+                                                              google-oauth2
+                                                              goog-auth-req
+                                                              "https://www.googleapis.com/oauth2/v1/userinfo"
+                                                              "access_token"
+                                                              #(% :name )) params session))
 
   ;Handle Dwolla OAuth2 Callback
   (GET "/oauth2cash" {session :session params :params} ((login-processor
-                                                         dwolla-oauth2
-                                                         dwolla-auth-req
-                                                         "https://www.dwolla.com/oauth/rest/users"
-                                                         "oauth_token"
-                                                         #(-> % :Response :Name)) params session))
+                                                          dwolla-oauth2
+                                                          dwolla-auth-req
+                                                          "https://www.dwolla.com/oauth/rest/users"
+                                                          "oauth_token"
+                                                          #(-> % :Response :Name )) params session))
 
   ;Handle Instagram OAuth2 Callback
   (GET "/instagramCallback" {session :session params :params} ((login-processor
-                                                         instagram-oauth2
-                                                         instagram-auth-req
-                                                         "https://api.instagram.com/v1/users/self"
-                                                         "access_token"
-                                                         #(-> % :data :username)) params session))
+                                                                 instagram-oauth2
+                                                                 instagram-auth-req
+                                                                 "https://api.instagram.com/v1/users/self"
+                                                                 "access_token"
+                                                                 #(-> % :data :username )) params session))
 
   ;Handle Live OAuth2 Callback
   (GET "/liveCallback" {session :session params :params} ((login-processor
-                                                         live-oauth2
-                                                         live-auth-req
-                                                         "https://apis.live.net/v5.0/me"
-                                                         "access_token"
-                                                         #(% :username)) params session))
+                                                            live-oauth2
+                                                            live-auth-req
+                                                            "https://apis.live.net/v5.0/me"
+                                                            "access_token"
+                                                            #(% :username )) params session))
 
   ;Handle Foursquare OAuth2 Callback
   (GET "/foursquareCallback" {session :session params :params} ((login-processor
-                                                         foursquare-oauth2
-                                                         foursquare-auth-req
-                                                         "https://api.foursquare.com/v2/users/self"
-                                                         "oauth_token"
-                                                         #(-> % :response :user :firstName)) params session))
+                                                                  foursquare-oauth2
+                                                                  foursquare-auth-req
+                                                                  "https://api.foursquare.com/v2/users/self"
+                                                                  "oauth_token"
+                                                                  #(-> % :response :user :firstName )) params session))
 
   ;Handle Github OAuth2 Callback
   (GET "/gitCallback" {session :session params :params} ((login-processor
-                                                         git-oauth2
-                                                         git-auth-req
-                                                         "https://api.github.com/user"
-                                                         "access_token"
-                                                         #(% :login)) params session))
+                                                           git-oauth2
+                                                           git-auth-req
+                                                           "https://api.github.com/user"
+                                                           "access_token"
+                                                           #(% :login )) params session))
 
   (route/resources "/")
 
   (ANY "*" request
-   (pprint request)
-   (html-doc
-     request
-     "Page Not Found | "
-     [:div {:class "row"}
-      [:div {:class "span16"}
-       [:h1 "Aw snap! You broke the internet."]
-       [:small "Page Not Found"]
-       ]]))
-  
-  ;(route/not-found "<h1>Page not found</h1>")
+    (pprint request)
+    (html-doc
+      request
+      "Page Not Found | "
+      [:div {:class "row"}
+       [:div {:class "span16"}
+        [:h1 "Aw snap! You broke the internet."]
+        [:small "Page Not Found"]
+        ]]))
   )
 
 (def website (-> main-routes
-                                        ;     (wrap-resource "/workspace/upgrade.avenue/src/main/webapp/static")
-                                        ;     (wrap-file-info)
-                   (wrap-reload-modified ["src"])
-                   (wrap-session-expiry 900) ;; 15 mn
-                   (rs/wrap-session {:cookie-name "ogeeky-sessions"
-                                     :store mongoSessionStore})
-                   (site)))
+               (wrap-reload-modified ["src"])
+               (wrap-session-expiry 900) ;; 15 mn
+               (rs/wrap-session {:cookie-name "ogeeky-sessions"
+                                 :store mongoSessionStore})
+               ;                   (rs/wrap-session {:cookie-name "ogeeky-sessions"
+               ;                                     :store redisSessionStore})
+               (site)))
 
 (defservice website)
 
@@ -383,8 +380,8 @@
 (defn -main [server portNumber]
   (cond
     (= server "Jetty")
-      (runJetty portNumber)
+    (runJetty portNumber)
     (= server "Netty")
-      (runNetty portNumber)
+    (runNetty portNumber)
+    )
   )
-)
