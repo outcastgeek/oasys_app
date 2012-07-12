@@ -10,6 +10,25 @@
                  [mysql/mysql-connector-java "5.1.20"]
                  [clj-record "1.1.1"]
 
+(require '[clojure.java.jdbc :as sql])
+
+(def db {:classname "com.mysql.jdbc.Driver"
+                          :subprotocol "mysql"
+                          :user "root"
+                          :password "MySQL2012"
+                          :subname "//localhost/world"})
+
+;(defn create-database [name]
+;  (sql/with-connection db
+;    (with-open [s (.createStatement (sql/connection))]
+;      (.addBatch s (str "create database " name))
+;      (seq (.executeBatch s)))))
+;
+;(defn drop-database [name]
+;  (sql/with-connection db
+;    (with-open [s (.createStatement (sql/connection))]
+;      (.addBatch s (str "drop database " name))
+;      (seq (.executeBatch s)))))
 
 ;                 (ns com.example.city
 ;                   (:require clj-record.boot))
