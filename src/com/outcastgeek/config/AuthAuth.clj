@@ -179,6 +179,20 @@
 (def git-auth-req
   (oauth2/make-auth-request git-oauth2))
 
+(def paypal-oauth2
+  {:authorization-uri "https://identity.x.com/xidentity/resources/authorize"
+   :access-token-uri "https://identity.x.com/xidentity/resources/access_token"
+   :redirect-uri (str appUrl "/paypalCallback")
+   :client-id (appProperties :git-client)
+   :client-secret (appProperties :git-secret)
+   :access-query-param :access_token
+   :scope ["user" "repo" "public_repo" "delete_repo" "gist"]
+   :grant-type "authorization_code"})
+
+;; redirect user to (:uri auth-req) afterwards
+(def paypal-auth-req
+  (oauth2/make-auth-request paypal-oauth2))
+
 (def oauth-providers
   {:fb fb-auth-req
    :goog goog-auth-req
@@ -186,7 +200,8 @@
    :instagram instagram-auth-req
    :live live-auth-req
    :foursquare foursquare-auth-req
-   :git git-auth-req})
+   :git git-auth-req
+   :paypal paypal-auth-req})
 
 (defmacro login-processor [provider-info-map provider-endpoint-info user-info-uri access-token-handle username-function]
   `(fn [params# session#]

@@ -312,6 +312,14 @@
                                                           "oauth_token"
                                                           #(-> % :Response :Name )) params session))
 
+  ;Handle Paypal OAuth2 Callback
+  (GET "/paypalCallback" {session :session params :params} ((login-processor
+                                                          paypal-oauth2
+                                                          paypal-auth-req
+                                                          "https://identity.x.com/xidentity/resources/profile/me"
+                                                          "oauth_token"
+                                                          #(-> % :name )) params session))
+
   ;Handle Instagram OAuth2 Callback
   (GET "/instagramCallback" {session :session params :params} ((login-processor
                                                                  instagram-oauth2

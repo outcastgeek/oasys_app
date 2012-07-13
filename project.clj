@@ -8,16 +8,80 @@
                  [congomongo/congomongo "0.1.9"]
                  [org.clojars.hozumi/mongodb-session "1.0.1"]
                  [mysql/mysql-connector-java "5.1.20"]
+                 [postgresql/postgresql "9.1-901.jdbc4"]
                  [clj-record "1.1.1"]
 
-(require '[clojure.java.jdbc :as sql])
+;Check this out: https://www.x.com/developers/x.commerce/documentation-tools/api/profile-service-api-reference
 
-(def db {:classname "com.mysql.jdbc.Driver"
-                          :subprotocol "mysql"
-                          :user "root"
-                          :password "MySQL2012"
-                          :subname "//localhost/world"})
+;(require '[clojure.java.jdbc :as sql])
+;
+;(def db {:classname "com.postgresql.Driver"
+;        :subprotocol "postgresql"
+;        :user "postgres"
+;        :password "PgSQL2012!"
+;        :subname "//localhost/postgres"})
+;
+;(def db {:classname "com.mysql.jdbc.Driver"
+;        :subprotocol "mysql"
+;        :user "root"
+;        :password "MySQL2012"
+;        :subname "//localhost/lambert"})
+;
+;(defn create-database [name]
+; (sql/with-connection db
+;   (with-open [s (.createStatement (sql/connection))]
+;     (.addBatch s (str "create database" name))
+;     (seq (.executeBatch s)))))
+;
+;(defn drop-database [name]
+; (sql/with-connection db
+;   (with-open [s (.createStatement (sql/connection))]
+;     (.addBatch s (str "drop database " name))
+;     (seq (.executeBatch s)))))
+;
+;(defn create-tables
+; "Creates the table needed to store the
+;winners and nominees."
+; []
+; (sql/create-table
+;   :nominees
+;   [:id :integer "PRIMARY KEY"]
+;   [:year :integer]
+;   [:title "varchar(64)"]
+;   [:author "varchar(32)"]
+;   [:winner "tinyint"]
+;   [:read_it "tinyint"]
+;   [:own_it "tinyint"]
+;   [:want_it "tinyint"]))
+;
+;(defn create-db-tables
+; "Creates a new database and tables"
+; []
+; (sql/with-connection db
+;   (create-tables)))
+;
+;(create-database "lambert")
+;
+;(drop-database "lambert")
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;(require '[clojure.java.jdbc :as sql])
+;
+;(def db {:classname "com.mysql.jdbc.Driver"
+;                          :subprotocol "mysql"
+;                          :user "root"
+;                          :password "MySQL2012"
+;                          :subname "//localhost/lambert"})
+
+;(require '[clojure.java.jdbc :as sql])
+;
+;(def db {:classname "com.postgresql.Driver"
+;                          :subprotocol "postgresql"
+;                          :user "postgres"
+;                          :password "PgSQL2012!"
+;                          :subname "//localhost/lambert"})
+                 
 ;(defn create-database [name]
 ;  (sql/with-connection db
 ;    (with-open [s (.createStatement (sql/connection))]
@@ -92,18 +156,18 @@
                  [monet "0.1.0-SNAPSHOT"]
                  [enfocus "0.9.1-SNAPSHOT"]
                  [com.keminglabs/c2 "0.1.2"]]
-  :dev-dependencies [[lein-swank "1.4.4"]
-                     [lein-cljsbuild "0.2.2"]]
-  ;:aot :all
-  :jvm-opts ["-Xmx1g" "-server"
-             "-Dhttp.proxyHost=webproxy.int.westgroup.com"
-             "-Dhttp.proxyPort=80"
-             "-Dhttps.proxyHost=webproxy.int.westgroup.com"
-             "-Dhttps.proxyPort=80"]
-  ;:jvm-opts ["-Xmx1g" "-server"]
+  :plugins [[lein-swank "1.4.4"]
+            [lein-cljsbuild "0.2.4"]]
+  :aot :all
+;  :jvm-opts ["-Xmx1g" "-server"
+;             "-Dhttp.proxyHost=webproxy.int.westgroup.com"
+;             "-Dhttp.proxyPort=80"
+;             "-Dhttps.proxyHost=webproxy.int.westgroup.com"
+;             "-Dhttps.proxyPort=80"]
+  :jvm-opts ["-Xmx1g" "-server"]
   :main com.outcastgeek.services.web.Services
   :source-path "src"
-  ;:hooks [leiningen.cljsbuild]
+;  :hooks [leiningen.cljsbuild]
   :cljsbuild {
     :builds [{
         ; The path to the top-level ClojureScript source directory:
