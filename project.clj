@@ -135,7 +135,7 @@
                  [org.xhtmlrenderer/core-renderer "R8"]
                  [clj-pdf "0.9.1"]
                  [org.glassfish/javax.servlet "3.1.1"]
-                 [org.slf4j/slf4j-log4j12 "1.6.6"]
+;                 [org.slf4j/slf4j-log4j12 "1.6.6"]
                  [org.slf4j/slf4j-api "1.6.6"]
                  [org.slf4j/jcl-over-slf4j "1.6.6"]
                  [ch.qos.logback/logback-core "1.0.6"]

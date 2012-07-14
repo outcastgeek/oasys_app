@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="true">
+<configuration debug="true" scan="true" scanPeriod="30 seconds">
 	<!-- always a good activate OnConsoleStatusListener -->
   	<statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
 
 	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<layout class="ch.qos.logback.classic.PatternLayout">
-			<Pattern>
-				%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
-			</Pattern>
+			<!--<Pattern>-->
+                <!--%n%-30(%-5level [%thread] - %d{HH:mm:ss.SSS}) %n%msg %n%logger{44}%n-->
+			<!--</Pattern>-->
+            <Pattern>
+                %n%d{ddMMMyyyy-HH:mm:ss.SSS}-%5p %c{44} %n%m%n
+            </Pattern>
 		</layout>
 		<file>logs/access.log</file>
 	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 	      <fileNamePattern>access.%d{yyyy-MM-dd}.log.zip</fileNamePattern>
 	    </rollingPolicy>
 	</appender>
+
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="FILE" />
+    </appender>
+
 	<logger name="com.outcastgeek" level="TRACE"/>
 	<root level="debug">
-		<appender-ref ref="FILE"/>
+		<appender-ref ref="ASYNC"/>
 	</root>
 </configuration>
