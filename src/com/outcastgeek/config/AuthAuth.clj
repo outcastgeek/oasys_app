@@ -181,13 +181,14 @@
 
 (def paypal-oauth2
   {:authorization-uri "https://identity.x.com/xidentity/resources/authorize"
-   :access-token-uri "https://identity.x.com/xidentity/resources/access_token"
+   :access-token-uri "https://identity.x.com/xidentity/oauthtokenservice"
    :redirect-uri (str appUrl "/paypalCallback")
-   :client-id (appProperties :git-client)
-   :client-secret (appProperties :git-secret)
+   :client-id (appProperties :paypal-client)
+   :client-secret (appProperties :paypal-secret)
    :access-query-param :access_token
-   :scope ["user" "repo" "public_repo" "delete_repo" "gist"]
-   :grant-type "authorization_code"})
+   :scope ["https://identity.x.com/xidentity/resources/profile/me"]
+   :grant-type "authorization_code"
+   :response-type "code"})
 
 ;; redirect user to (:uri auth-req) afterwards
 (def paypal-auth-req

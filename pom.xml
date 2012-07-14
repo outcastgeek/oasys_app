@@ -33,18 +33,6 @@
   </repositories>
   <dependencies>
     <dependency>
-      <groupId>lein-swank</groupId>
-      <artifactId>lein-swank</artifactId>
-      <version>1.4.4</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>lein-cljsbuild</groupId>
-      <artifactId>lein-cljsbuild</artifactId>
-      <version>0.2.2</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>clojure</artifactId>
       <version>1.4.0</version>
@@ -78,6 +66,11 @@
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>5.1.20</version>
+    </dependency>
+    <dependency>
+      <groupId>postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>9.1-901.jdbc4</version>
     </dependency>
     <dependency>
       <groupId>clj-record</groupId>

@@ -2,12 +2,45 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="acbdf285-07bb-420e-a0f3-ae38b4b8a7a3" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__postgresql_postgresql_9_1_901_jdbc4.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/_undefined_.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__fs_fs_1_1_2.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__lein_cljsbuild_lein_cljsbuild_0_2_2.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__lein_swank_lein_swank_1_4_4.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_access_1_0_6.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_access_1_0_6.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_classic_1_0_6.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_classic_1_0_6.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_core_1_0_6.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_core_1_0_6.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_site_1_0_6.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_site_1_0_6.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__cheshire_cheshire_4_0_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__cheshire_cheshire_4_0_0.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__clj_http_clj_http_0_4_3.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__clj_http_clj_http_0_4_3.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__clj_record_clj_record_1_1_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__clj_record_clj_record_1_1_1.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_0_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_0_0.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_dataformat_jackson_dataformat_smile_2_0_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_dataformat_jackson_dataformat_smile_2_0_0.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_pool_commons_pool_1_5_5.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_pool_commons_pool_1_5_5.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__compojure_compojure_1_1_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__compojure_compojure_1_1_0.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__mysql_mysql_connector_java_5_1_20.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__mysql_mysql_connector_java_5_1_20.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_1_3.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_1_3.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_1_4.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_1_4.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpmime_4_1_3.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpmime_4_1_3.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_clojure_data_json_0_1_2.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_clojure_data_json_0_1_2.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_clojure_java_jdbc_0_1_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_clojure_java_jdbc_0_1_1.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_6_6.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_6_6.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__redis_clients_jedis_1_5_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__redis_clients_jedis_1_5_0.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__resque_clojure_resque_clojure_0_2_2.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__resque_clojure_resque_clojure_0_2_2.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ring_ring_1_1_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__ring_ring_1_1_1.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ring_ring_core_1_1_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__ring_ring_core_1_1_1.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ring_ring_devel_1_1_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__ring_ring_devel_1_1_1.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ring_ring_jetty_adapter_1_1_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__ring_ring_jetty_adapter_1_1_1.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ring_ring_servlet_1_1_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__ring_ring_servlet_1_1_1.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__rrss_rrss_0_2_2.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__rrss_rrss_0_2_2.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.lein-deps-sum" afterPath="$PROJECT_DIR$/.lein-deps-sum" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.properties" afterPath="$PROJECT_DIR$/app.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project.clj" afterPath="$PROJECT_DIR$/project.clj" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/outcastgeek/config/AuthAuth.clj" afterPath="$PROJECT_DIR$/src/com/outcastgeek/config/AuthAuth.clj" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/outcastgeek/services/web/Services.clj" afterPath="$PROJECT_DIR$/src/com/outcastgeek/services/web/Services.clj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/outcastgeek/services/web/fluid.clj" afterPath="$PROJECT_DIR$/src/com/outcastgeek/services/web/fluid.clj" />
     </list>
     <ignored path="oasys_corp.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -74,10 +107,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="project.clj" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="project.clj" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/project.clj">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="28" selection-start="650" selection-end="650" vertical-scroll-proportion="-2.487327">
+            <state line="137" column="5" selection-start="4640" selection-end="4640" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -86,7 +119,16 @@
       <file leaf-file-name="AuthAuth.clj" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/outcastgeek/config/AuthAuth.clj">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="172" column="21" selection-start="6260" selection-end="6260" vertical-scroll-proportion="0.0">
+            <state line="199" column="21" selection-start="7207" selection-end="7207" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.properties" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="47" selection-start="146" selection-end="146" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -101,10 +143,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Services.clj" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Services.clj" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/outcastgeek/services/web/Services.clj">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="317" column="113" selection-start="10789" selection-end="10789" vertical-scroll-proportion="0.0">
+            <state line="319" column="148" selection-start="10975" selection-end="10975" vertical-scroll-proportion="0.39473686">
               <folding />
             </state>
           </provider>
@@ -124,10 +166,11 @@
         <option value="$PROJECT_DIR$/runner.sh" />
         <option value="$PROJECT_DIR$/resources/public/static/javascript/modernizr/modernizr.js" />
         <option value="$PROJECT_DIR$/resources/public/static/javascript/outcastgeek/common.js" />
-        <option value="$PROJECT_DIR$/project.clj" />
-        <option value="$PROJECT_DIR$/src/com/outcastgeek/services/web/Services.clj" />
         <option value="$PROJECT_DIR$/src/com/outcastgeek/services/web/fluid.clj" />
+        <option value="$PROJECT_DIR$/app.properties" />
+        <option value="$PROJECT_DIR$/project.clj" />
         <option value="$PROJECT_DIR$/src/com/outcastgeek/config/AuthAuth.clj" />
+        <option value="$PROJECT_DIR$/src/com/outcastgeek/services/web/Services.clj" />
       </list>
     </option>
   </component>
@@ -140,13 +183,28 @@
     </option>
   </component>
   <component name="MavenProjectNavigator">
-    <treeState />
+    <treeState>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="oasys_corp" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Lifecycle" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$LifecycleNode" />
+        </PATH_ELEMENT>
+      </PATH>
+    </treeState>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1365" />
-    <option name="y" value="-8" />
-    <option name="width" value="1603" />
-    <option name="height" value="1066" />
+    <option name="x" value="1504" />
+    <option name="y" value="-4" />
+    <option name="width" value="1857" />
+    <option name="height" value="1085" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -176,30 +234,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt;undefined&gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="_undefined_" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -249,27 +283,29 @@
               <option name="myItemId" value="public" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane">
+        <subPane>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="&lt;undefined&gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="oasys_corp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemId" value="_undefined_" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -278,18 +314,12 @@
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="MemberChooser.sorted" value="false" />
-    <property name="options.lastSelected" value="editor.preferences.smartKeys" />
-    <property name="GoToClass.includeJavaFiles" value="false" />
-    <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="MemberChooser.sorted" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="options.searchVisible" value="true" />
-    <property name="dynamic.classpath" value="false" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -516,16 +546,16 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1365" y="-8" width="1603" height="1066" extended-state="6" />
-    <editor active="true" />
+    <frame x="1504" y="-4" width="1857" height="1085" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Leiningen" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17153996" sideWeight="0.6379691" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Leiningen" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17100166" sideWeight="0.63811564" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24951267" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="SBT Console" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1611436" sideWeight="0.36534217" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="SBT Console" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1610404" sideWeight="0.23875803" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32781458" sideWeight="0.49772578" order="9" side_tool="true" content_ui="tabs" />
@@ -533,13 +563,13 @@
       <window_info id="IDEtalk" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Kahlua" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="IvyIDEA" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19948018" sideWeight="0.6721854" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24106562" sideWeight="0.6702356" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2407305" sideWeight="0.6702356" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1611436" sideWeight="0.62693155" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3620309" sideWeight="0.49772578" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1610404" sideWeight="0.63811564" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.36188436" sideWeight="0.49772578" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="IvyIDEA" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -640,21 +670,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/startAndMonitor.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/startCLJ.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="0" selection-start="58" selection-end="58" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/runner.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="0" selection-start="952" selection-end="952" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/logback.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="14" column="39" selection-start="647" selection-end="647" vertical-scroll-proportion="0.0" />
@@ -702,28 +717,47 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/outcastgeek/services/web/fluid.clj">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="157" column="69" selection-start="6510" selection-end="6510" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="157" column="69" selection-start="6510" selection-end="6510" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/outcastgeek/services/web/Services.clj">
+    <entry file="file://$PROJECT_DIR$/app.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="317" column="113" selection-start="10789" selection-end="10789" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/outcastgeek/config/AuthAuth.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="172" column="21" selection-start="6260" selection-end="6260" vertical-scroll-proportion="0.0">
+        <state line="9" column="47" selection-start="146" selection-end="146" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/project.clj">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="28" selection-start="650" selection-end="650" vertical-scroll-proportion="-2.487327">
+        <state line="137" column="5" selection-start="4640" selection-end="4640" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/outcastgeek/config/AuthAuth.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="199" column="21" selection-start="7207" selection-end="7207" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/renamingInShells.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/browserREPL.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/outcastgeek/services/web/Services.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="319" column="148" selection-start="10975" selection-end="10975" vertical-scroll-proportion="0.39473686">
           <folding />
         </state>
       </provider>
