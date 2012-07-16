@@ -7,9 +7,13 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.lein-deps-sum" afterPath="$PROJECT_DIR$/.lein-deps-sum" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.properties" afterPath="$PROJECT_DIR$/app.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project.clj" afterPath="$PROJECT_DIR$/project.clj" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/logback.xml" afterPath="$PROJECT_DIR$/resources/logback.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/outcastgeek/config/AuthAuth.clj" afterPath="$PROJECT_DIR$/src/com/outcastgeek/config/AuthAuth.clj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/outcastgeek/services/web/Services.clj" afterPath="$PROJECT_DIR$/src/com/outcastgeek/services/web/Services.clj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/outcastgeek/services/web/fluid.clj" afterPath="$PROJECT_DIR$/src/com/outcastgeek/services/web/fluid.clj" />
     </list>
     <ignored path="oasys_corp.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -85,19 +89,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="logback.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="logback.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/logback.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="72" selection-start="596" selection-end="596" vertical-scroll-proportion="0.18171807">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="log4j.properties" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/log4j.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="85" selection-start="585" selection-end="585" vertical-scroll-proportion="0.0">
+            <state line="11" column="72" selection-start="596" selection-end="596" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -106,7 +101,7 @@
       <file leaf-file-name="AuthAuth.clj" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/outcastgeek/config/AuthAuth.clj">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="199" column="21" selection-start="7207" selection-end="7207" vertical-scroll-proportion="0.0">
+            <state line="203" column="35" selection-start="7469" selection-end="7469" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -115,7 +110,7 @@
       <file leaf-file-name="app.properties" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="47" selection-start="146" selection-end="146" vertical-scroll-proportion="0.0">
+            <state line="33" column="81" selection-start="835" selection-end="835" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -124,16 +119,16 @@
       <file leaf-file-name="fluid.clj" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/outcastgeek/services/web/fluid.clj">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="157" column="69" selection-start="6510" selection-end="6510" vertical-scroll-proportion="0.0">
+            <state line="164" column="47" selection-start="6898" selection-end="6898" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Services.clj" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Services.clj" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/outcastgeek/services/web/Services.clj">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="319" column="148" selection-start="10975" selection-end="10975" vertical-scroll-proportion="0.0">
+            <state line="326" column="103" selection-start="11449" selection-end="11449" vertical-scroll-proportion="0.5451542">
               <folding />
             </state>
           </provider>
@@ -153,12 +148,12 @@
         <option value="$PROJECT_DIR$/runner.sh" />
         <option value="$PROJECT_DIR$/resources/public/static/javascript/modernizr/modernizr.js" />
         <option value="$PROJECT_DIR$/resources/public/static/javascript/outcastgeek/common.js" />
+        <option value="$PROJECT_DIR$/project.clj" />
+        <option value="$PROJECT_DIR$/resources/logback.xml" />
         <option value="$PROJECT_DIR$/src/com/outcastgeek/services/web/fluid.clj" />
         <option value="$PROJECT_DIR$/app.properties" />
         <option value="$PROJECT_DIR$/src/com/outcastgeek/config/AuthAuth.clj" />
         <option value="$PROJECT_DIR$/src/com/outcastgeek/services/web/Services.clj" />
-        <option value="$PROJECT_DIR$/project.clj" />
-        <option value="$PROJECT_DIR$/resources/logback.xml" />
       </list>
     </option>
   </component>
@@ -741,36 +736,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/outcastgeek/config/AuthAuth.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="199" column="21" selection-start="7207" selection-end="7207" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/outcastgeek/services/web/fluid.clj">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="157" column="69" selection-start="6510" selection-end="6510" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/outcastgeek/services/web/Services.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="319" column="148" selection-start="10975" selection-end="10975" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="47" selection-start="146" selection-end="146" vertical-scroll-proportion="0.0" />
+        <state line="164" column="47" selection-start="6898" selection-end="6898" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/log4j.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="85" selection-start="585" selection-end="585" vertical-scroll-proportion="0.0">
+        <state line="17" column="85" selection-start="585" selection-end="585" vertical-scroll-proportion="0.280837">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/logback.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="72" selection-start="596" selection-end="596" vertical-scroll-proportion="0.18171807">
+        <state line="11" column="72" selection-start="596" selection-end="596" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="81" selection-start="835" selection-end="835" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/outcastgeek/config/AuthAuth.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="203" column="35" selection-start="7469" selection-end="7469" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/outcastgeek/services/web/Services.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="326" column="103" selection-start="11449" selection-end="11449" vertical-scroll-proportion="0.5451542">
           <folding />
         </state>
       </provider>

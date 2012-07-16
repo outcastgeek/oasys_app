@@ -194,6 +194,21 @@
 (def paypal-auth-req
   (oauth2/make-auth-request paypal-oauth2))
 
+(def flattr-oauth2
+  {:authorization-uri "https://flattr.com/oauth/authorize"
+   :access-token-uri "https://flattr.com/oauth/token"
+   :redirect-uri (str appUrl "/flattrCallback")
+   :client-id (appProperties :flattr-client)
+   :client-secret (appProperties :flattr-secret)
+   :access-query-param :access_token
+   :scope ["flattr" "thing" "email"]
+   :grant-type "authorization_code"
+   :response-type "code"})
+
+;; redirect user to (:uri auth-req) afterwards
+(def flattr-auth-req
+  (oauth2/make-auth-request flattr-oauth2))
+
 (def oauth-providers
   {:fb fb-auth-req
    :goog goog-auth-req
@@ -202,7 +217,8 @@
    :live live-auth-req
    :foursquare foursquare-auth-req
    :git git-auth-req
-   :paypal paypal-auth-req})
+   :paypal paypal-auth-req
+   :flattr flattr-auth-req})
 
 (defmacro login-processor [provider-info-map provider-endpoint-info user-info-uri access-token-handle username-function]
   `(fn [params# session#]

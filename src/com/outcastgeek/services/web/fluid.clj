@@ -162,8 +162,9 @@
                  [:li [:a {:href "/login/goog"} "Google+"]]
                  [:li [:a {:href "/login/dwolla"} "Dwolla"]]
                  [:li [:a {:href "/login/paypal"} "Paypal"]]
+                 [:li [:a {:href "/login/flattr"} "Flattr"]]
                  [:li [:a {:href "/login/instagram"} "Instagram"]]
-                 [:li [:a {:href "/login/live"} "Windows Live ID"]]
+;                 [:li [:a {:href "/login/live"} "Windows Live ID"]]
                  [:li [:a {:href "/login/foursquare"} "Foursquare"]]
                  [:li [:a {:href "/login/git"} "Github"]]]])
 		         (= (session :username) "admin")

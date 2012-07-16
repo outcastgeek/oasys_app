@@ -320,6 +320,14 @@
                                                           "oauth_token"
                                                           #(-> % :identity :fullName )) params session))
 
+  ;Handle Flattr OAuth2 Callback
+  (GET "/flattrCallback" {session :session params :params} ((login-processor
+                                                              flattr-oauth2
+                                                              flattr-auth-req
+                                                              "https://api.flattr.com/rest/v2/user.json"
+                                                              "oauth_token"
+                                                              #(-> % :username )) params session))
+
   ;Handle Instagram OAuth2 Callback
   (GET "/instagramCallback" {session :session params :params} ((login-processor
                                                                  instagram-oauth2
