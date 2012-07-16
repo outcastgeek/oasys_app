@@ -1,0 +1,735 @@
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+  [1m[36m (26.0ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" character varying(255) NOT NULL) [0m
+  [1m[35m (0.0ms)[0m  SHOW search_path
+  [1m[36m (16.0ms)[0m  [1m SELECT i.relname, d.indisunique, a.attname, a.attnum, d.indkey
+ FROM pg_class t, pg_class i, pg_index d, pg_attribute a,
+ generate_series(0,31) AS s(i)
+ WHERE i.relkind = 'i'
+ AND d.indexrelid = i.oid
+ AND d.indisprimary = 'f'
+ AND t.oid = d.indrelid
+ AND t.relname = 'schema_migrations'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname IN ('"$user"','public') )
+ AND a.attrelid = t.oid
+ AND d.indkey[s.i]=a.attnum
+ ORDER BY i.relname
+[0m
+  [1m[35m (49.0ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (3.0ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateEmployees (20120716185550)
+  [1m[35m (42.0ms)[0m  CREATE TABLE "employees" ("id" serial primary key, "first_name" character varying(255), "last_name" character varying(255), "username" character varying(255), "email" character varying(255), "active" boolean, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36mPK and serial sequence (7.0ms)[0m  [1m SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"schema_migrations"'::regclass
+[0m
+  [1m[35mPK and custom sequence (3.0ms)[0m   SELECT attr.attname,
+ CASE
+ WHEN split_part(def.adsrc, '''', 2) ~ '.' THEN
+ substr(split_part(def.adsrc, '''', 2),
+ strpos(split_part(def.adsrc, '''', 2), '.')+1)
+ ELSE split_part(def.adsrc, '''', 2)
+ END as relname
+ FROM pg_class t
+ JOIN pg_attribute attr ON (t.oid = attrelid)
+ JOIN pg_attrdef def ON (adrelid = attrelid AND adnum = attnum)
+ JOIN pg_constraint cons ON (conrelid = adrelid AND adnum = conkey[1])
+ WHERE t.oid = '"schema_migrations"'::regclass
+ AND cons.contype = 'p'
+ AND def.adsrc ~* 'nextval'
+
+  [1m[36m (2.0ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20120716185550')[0m
+  [1m[35m (1.0ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36mPK and serial sequence (2.0ms)[0m  [1m SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"employees"'::regclass
+[0m
+  [1m[35m (0.0ms)[0m  SHOW search_path
+  [1m[36m (3.0ms)[0m  [1m SELECT i.relname, d.indisunique, a.attname, a.attnum, d.indkey
+ FROM pg_class t, pg_class i, pg_index d, pg_attribute a,
+ generate_series(0,31) AS s(i)
+ WHERE i.relkind = 'i'
+ AND d.indexrelid = i.oid
+ AND d.indisprimary = 'f'
+ AND t.oid = d.indrelid
+ AND t.relname = 'employees'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname IN ('"$user"','public') )
+ AND a.attrelid = t.oid
+ AND d.indkey[s.i]=a.attnum
+ ORDER BY i.relname
+[0m
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+  [1m[36m (1.0ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateEmployees (20120716185550)
+Migrating to CreatePayrollCycles (20120716200245)
+  [1m[35m (12.0ms)[0m  CREATE TABLE "payroll_cycles" ("id" serial primary key, "payroll_cycle_year" integer, "payroll_cycle_number" integer, "start_date" date, "end_date" date, "direct_deposit_date" date, "check_date" date, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36mPK and serial sequence (8.0ms)[0m  [1m SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"schema_migrations"'::regclass
+[0m
+  [1m[35mPK and custom sequence (3.0ms)[0m   SELECT attr.attname,
+ CASE
+ WHEN split_part(def.adsrc, '''', 2) ~ '.' THEN
+ substr(split_part(def.adsrc, '''', 2),
+ strpos(split_part(def.adsrc, '''', 2), '.')+1)
+ ELSE split_part(def.adsrc, '''', 2)
+ END as relname
+ FROM pg_class t
+ JOIN pg_attribute attr ON (t.oid = attrelid)
+ JOIN pg_attrdef def ON (adrelid = attrelid AND adnum = attnum)
+ JOIN pg_constraint cons ON (conrelid = adrelid AND adnum = conkey[1])
+ WHERE t.oid = '"schema_migrations"'::regclass
+ AND cons.contype = 'p'
+ AND def.adsrc ~* 'nextval'
+
+  [1m[36m (1.0ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20120716200245')[0m
+Migrating to CreateTimeSheets (20120716201037)
+  [1m[35m (7.0ms)[0m  CREATE TABLE "time_sheets" ("id" serial primary key, "employee_id" integer, "payroll_cycle_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (0.0ms)[0m  [1mSHOW search_path[0m
+  [1m[35m (9.0ms)[0m   SELECT i.relname, d.indisunique, a.attname, a.attnum, d.indkey
+ FROM pg_class t, pg_class i, pg_index d, pg_attribute a,
+ generate_series(0,31) AS s(i)
+ WHERE i.relkind = 'i'
+ AND d.indexrelid = i.oid
+ AND d.indisprimary = 'f'
+ AND t.oid = d.indrelid
+ AND t.relname = 'time_sheets'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname IN ('"$user"','public') )
+ AND a.attrelid = t.oid
+ AND d.indkey[s.i]=a.attnum
+ ORDER BY i.relname
+
+  [1m[36m (42.0ms)[0m  [1mCREATE INDEX "index_time_sheets_on_employee_id" ON "time_sheets" ("employee_id")[0m
+  [1m[35m (0.0ms)[0m  SHOW search_path
+  [1m[36m (1.0ms)[0m  [1m SELECT i.relname, d.indisunique, a.attname, a.attnum, d.indkey
+ FROM pg_class t, pg_class i, pg_index d, pg_attribute a,
+ generate_series(0,31) AS s(i)
+ WHERE i.relkind = 'i'
+ AND d.indexrelid = i.oid
+ AND d.indisprimary = 'f'
+ AND t.oid = d.indrelid
+ AND t.relname = 'time_sheets'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname IN ('"$user"','public') )
+ AND a.attrelid = t.oid
+ AND d.indkey[s.i]=a.attnum
+ ORDER BY i.relname
+[0m
+  [1m[35m (5.0ms)[0m  CREATE INDEX "index_time_sheets_on_payroll_cycle_id" ON "time_sheets" ("payroll_cycle_id")
+  [1m[36mPK and serial sequence (1.0ms)[0m  [1m SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"schema_migrations"'::regclass
+[0m
+  [1m[35mPK and custom sequence (2.0ms)[0m   SELECT attr.attname,
+ CASE
+ WHEN split_part(def.adsrc, '''', 2) ~ '.' THEN
+ substr(split_part(def.adsrc, '''', 2),
+ strpos(split_part(def.adsrc, '''', 2), '.')+1)
+ ELSE split_part(def.adsrc, '''', 2)
+ END as relname
+ FROM pg_class t
+ JOIN pg_attribute attr ON (t.oid = attrelid)
+ JOIN pg_attrdef def ON (adrelid = attrelid AND adnum = attnum)
+ JOIN pg_constraint cons ON (conrelid = adrelid AND adnum = conkey[1])
+ WHERE t.oid = '"schema_migrations"'::regclass
+ AND cons.contype = 'p'
+ AND def.adsrc ~* 'nextval'
+
+  [1m[36m (0.0ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20120716201037')[0m
+Migrating to CreateProjects (20120716203744)
+  [1m[35m (38.0ms)[0m  CREATE TABLE "projects" ("id" serial primary key, "name" character varying(255), "client" character varying(255), "description" text, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36mPK and serial sequence (1.0ms)[0m  [1m SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"schema_migrations"'::regclass
+[0m
+  [1m[35mPK and custom sequence (1.0ms)[0m   SELECT attr.attname,
+ CASE
+ WHEN split_part(def.adsrc, '''', 2) ~ '.' THEN
+ substr(split_part(def.adsrc, '''', 2),
+ strpos(split_part(def.adsrc, '''', 2), '.')+1)
+ ELSE split_part(def.adsrc, '''', 2)
+ END as relname
+ FROM pg_class t
+ JOIN pg_attribute attr ON (t.oid = attrelid)
+ JOIN pg_attrdef def ON (adrelid = attrelid AND adnum = attnum)
+ JOIN pg_constraint cons ON (conrelid = adrelid AND adnum = conkey[1])
+ WHERE t.oid = '"schema_migrations"'::regclass
+ AND cons.contype = 'p'
+ AND def.adsrc ~* 'nextval'
+
+  [1m[36m (1.0ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20120716203744')[0m
+Migrating to CreateWorkSegments (20120716204320)
+  [1m[35m (25.0ms)[0m  CREATE TABLE "work_segments" ("id" serial primary key, "project_id" integer, "timesheet_id" integer, "payroll_cycle_id" integer, "employee_id" integer, "date" date, "start_time" date, "end_time" time, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (0.0ms)[0m  [1mSHOW search_path[0m
+  [1m[35m (2.0ms)[0m   SELECT i.relname, d.indisunique, a.attname, a.attnum, d.indkey
+ FROM pg_class t, pg_class i, pg_index d, pg_attribute a,
+ generate_series(0,31) AS s(i)
+ WHERE i.relkind = 'i'
+ AND d.indexrelid = i.oid
+ AND d.indisprimary = 'f'
+ AND t.oid = d.indrelid
+ AND t.relname = 'work_segments'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname IN ('"$user"','public') )
+ AND a.attrelid = t.oid
+ AND d.indkey[s.i]=a.attnum
+ ORDER BY i.relname
+
+  [1m[36m (4.0ms)[0m  [1mCREATE INDEX "index_work_segments_on_project_id" ON "work_segments" ("project_id")[0m
+  [1m[35m (0.0ms)[0m  SHOW search_path
+  [1m[36m (1.0ms)[0m  [1m SELECT i.relname, d.indisunique, a.attname, a.attnum, d.indkey
+ FROM pg_class t, pg_class i, pg_index d, pg_attribute a,
+ generate_series(0,31) AS s(i)
+ WHERE i.relkind = 'i'
+ AND d.indexrelid = i.oid
+ AND d.indisprimary = 'f'
+ AND t.oid = d.indrelid
+ AND t.relname = 'work_segments'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname IN ('"$user"','public') )
+ AND a.attrelid = t.oid
+ AND d.indkey[s.i]=a.attnum
+ ORDER BY i.relname
+[0m
+  [1m[35m (6.0ms)[0m  CREATE INDEX "index_work_segments_on_timesheet_id" ON "work_segments" ("timesheet_id")
+  [1m[36m (1.0ms)[0m  [1mSHOW search_path[0m
+  [1m[35m (2.0ms)[0m   SELECT i.relname, d.indisunique, a.attname, a.attnum, d.indkey
+ FROM pg_class t, pg_class i, pg_index d, pg_attribute a,
+ generate_series(0,31) AS s(i)
+ WHERE i.relkind = 'i'
+ AND d.indexrelid = i.oid
+ AND d.indisprimary = 'f'
+ AND t.oid = d.indrelid
+ AND t.relname = 'work_segments'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname IN ('"$user"','public') )
+ AND a.attrelid = t.oid
+ AND d.indkey[s.i]=a.attnum
+ ORDER BY i.relname
+
+  [1m[36m (5.0ms)[0m  [1mCREATE INDEX "index_work_segments_on_payroll_cycle_id" ON "work_segments" ("payroll_cycle_id")[0m
+  [1m[35m (1.0ms)[0m  SHOW search_path
+  [1m[36m (2.0ms)[0m  [1m SELECT i.relname, d.indisunique, a.attname, a.attnum, d.indkey
+ FROM pg_class t, pg_class i, pg_index d, pg_attribute a,
+ generate_series(0,31) AS s(i)
+ WHERE i.relkind = 'i'
+ AND d.indexrelid = i.oid
+ AND d.indisprimary = 'f'
+ AND t.oid = d.indrelid
+ AND t.relname = 'work_segments'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname IN ('"$user"','public') )
+ AND a.attrelid = t.oid
+ AND d.indkey[s.i]=a.attnum
+ ORDER BY i.relname
+[0m
+  [1m[35m (8.0ms)[0m  CREATE INDEX "index_work_segments_on_employee_id" ON "work_segments" ("employee_id")
+  [1m[36mPK and serial sequence (2.0ms)[0m  [1m SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"schema_migrations"'::regclass
+[0m
+  [1m[35mPK and custom sequence (1.0ms)[0m   SELECT attr.attname,
+ CASE
+ WHEN split_part(def.adsrc, '''', 2) ~ '.' THEN
+ substr(split_part(def.adsrc, '''', 2),
+ strpos(split_part(def.adsrc, '''', 2), '.')+1)
+ ELSE split_part(def.adsrc, '''', 2)
+ END as relname
+ FROM pg_class t
+ JOIN pg_attribute attr ON (t.oid = attrelid)
+ JOIN pg_attrdef def ON (adrelid = attrelid AND adnum = attnum)
+ JOIN pg_constraint cons ON (conrelid = adrelid AND adnum = conkey[1])
+ WHERE t.oid = '"schema_migrations"'::regclass
+ AND cons.contype = 'p'
+ AND def.adsrc ~* 'nextval'
+
+  [1m[36m (0.0ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20120716204320')[0m
+  [1m[35m (1.0ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36mPK and serial sequence (2.0ms)[0m  [1m SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"employees"'::regclass
+[0m
+  [1m[35m (0.0ms)[0m  SHOW search_path
+  [1m[36m (3.0ms)[0m  [1m SELECT i.relname, d.indisunique, a.attname, a.attnum, d.indkey
+ FROM pg_class t, pg_class i, pg_index d, pg_attribute a,
+ generate_series(0,31) AS s(i)
+ WHERE i.relkind = 'i'
+ AND d.indexrelid = i.oid
+ AND d.indisprimary = 'f'
+ AND t.oid = d.indrelid
+ AND t.relname = 'employees'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname IN ('"$user"','public') )
+ AND a.attrelid = t.oid
+ AND d.indkey[s.i]=a.attnum
+ ORDER BY i.relname
+[0m
+  [1m[35mPK and serial sequence (1.0ms)[0m   SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"payroll_cycles"'::regclass
+
+  [1m[36m (2.0ms)[0m  [1mSHOW search_path[0m
+  [1m[35m (2.0ms)[0m   SELECT i.relname, d.indisunique, a.attname, a.attnum, d.indkey
+ FROM pg_class t, pg_class i, pg_index d, pg_attribute a,
+ generate_series(0,31) AS s(i)
+ WHERE i.relkind = 'i'
+ AND d.indexrelid = i.oid
+ AND d.indisprimary = 'f'
+ AND t.oid = d.indrelid
+ AND t.relname = 'payroll_cycles'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname IN ('"$user"','public') )
+ AND a.attrelid = t.oid
+ AND d.indkey[s.i]=a.attnum
+ ORDER BY i.relname
+
+  [1m[36mPK and serial sequence (2.0ms)[0m  [1m SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"projects"'::regclass
+[0m
+  [1m[35m (1.0ms)[0m  SHOW search_path
+  [1m[36m (2.0ms)[0m  [1m SELECT i.relname, d.indisunique, a.attname, a.attnum, d.indkey
+ FROM pg_class t, pg_class i, pg_index d, pg_attribute a,
+ generate_series(0,31) AS s(i)
+ WHERE i.relkind = 'i'
+ AND d.indexrelid = i.oid
+ AND d.indisprimary = 'f'
+ AND t.oid = d.indrelid
+ AND t.relname = 'projects'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname IN ('"$user"','public') )
+ AND a.attrelid = t.oid
+ AND d.indkey[s.i]=a.attnum
+ ORDER BY i.relname
+[0m
+  [1m[35mPK and serial sequence (1.0ms)[0m   SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"time_sheets"'::regclass
+
+  [1m[36m (0.0ms)[0m  [1mSHOW search_path[0m
+  [1m[35m (2.0ms)[0m   SELECT i.relname, d.indisunique, a.attname, a.attnum, d.indkey
+ FROM pg_class t, pg_class i, pg_index d, pg_attribute a,
+ generate_series(0,31) AS s(i)
+ WHERE i.relkind = 'i'
+ AND d.indexrelid = i.oid
+ AND d.indisprimary = 'f'
+ AND t.oid = d.indrelid
+ AND t.relname = 'time_sheets'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname IN ('"$user"','public') )
+ AND a.attrelid = t.oid
+ AND d.indkey[s.i]=a.attnum
+ ORDER BY i.relname
+
+  [1m[36mPK and serial sequence (2.0ms)[0m  [1m SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"work_segments"'::regclass
+[0m
+  [1m[35m (0.0ms)[0m  SHOW search_path
+  [1m[36m (2.0ms)[0m  [1m SELECT i.relname, d.indisunique, a.attname, a.attnum, d.indkey
+ FROM pg_class t, pg_class i, pg_index d, pg_attribute a,
+ generate_series(0,31) AS s(i)
+ WHERE i.relkind = 'i'
+ AND d.indexrelid = i.oid
+ AND d.indisprimary = 'f'
+ AND t.oid = d.indrelid
+ AND t.relname = 'work_segments'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname IN ('"$user"','public') )
+ AND a.attrelid = t.oid
+ AND d.indkey[s.i]=a.attnum
+ ORDER BY i.relname
+[0m
+Connecting to database specified by database.yml
+  [1m[36m (54.0ms)[0m  [1mDROP TABLE "employees"[0m
+  [1m[35m (30.0ms)[0m  CREATE TABLE "employees" ("id" serial primary key, "first_name" character varying(255), "last_name" character varying(255), "username" character varying(255), "email" character varying(255), "active" boolean, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (4.0ms)[0m  [1mDROP TABLE "payroll_cycles"[0m
+  [1m[35m (16.0ms)[0m  CREATE TABLE "payroll_cycles" ("id" serial primary key, "payroll_cycle_year" integer, "payroll_cycle_number" integer, "start_date" date, "end_date" date, "direct_deposit_date" date, "check_date" date, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (5.0ms)[0m  [1mDROP TABLE "projects"[0m
+  [1m[35m (45.0ms)[0m  CREATE TABLE "projects" ("id" serial primary key, "name" character varying(255), "client" character varying(255), "description" text, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (4.0ms)[0m  [1mDROP TABLE "time_sheets"[0m
+  [1m[35m (7.0ms)[0m  CREATE TABLE "time_sheets" ("id" serial primary key, "employee_id" integer, "payroll_cycle_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (1.0ms)[0m  [1mSHOW search_path[0m
+  [1m[35m (5.0ms)[0m   SELECT i.relname, d.indisunique, a.attname, a.attnum, d.indkey
+ FROM pg_class t, pg_class i, pg_index d, pg_attribute a,
+ generate_series(0,31) AS s(i)
+ WHERE i.relkind = 'i'
+ AND d.indexrelid = i.oid
+ AND d.indisprimary = 'f'
+ AND t.oid = d.indrelid
+ AND t.relname = 'time_sheets'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname IN ('"$user"','public') )
+ AND a.attrelid = t.oid
+ AND d.indkey[s.i]=a.attnum
+ ORDER BY i.relname
+
+  [1m[36m (35.0ms)[0m  [1mCREATE INDEX "index_time_sheets_on_employee_id" ON "time_sheets" ("employee_id")[0m
+  [1m[35m (0.0ms)[0m  SHOW search_path
+  [1m[36m (1.0ms)[0m  [1m SELECT i.relname, d.indisunique, a.attname, a.attnum, d.indkey
+ FROM pg_class t, pg_class i, pg_index d, pg_attribute a,
+ generate_series(0,31) AS s(i)
+ WHERE i.relkind = 'i'
+ AND d.indexrelid = i.oid
+ AND d.indisprimary = 'f'
+ AND t.oid = d.indrelid
+ AND t.relname = 'time_sheets'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname IN ('"$user"','public') )
+ AND a.attrelid = t.oid
+ AND d.indkey[s.i]=a.attnum
+ ORDER BY i.relname
+[0m
+  [1m[35m (5.0ms)[0m  CREATE INDEX "index_time_sheets_on_payroll_cycle_id" ON "time_sheets" ("payroll_cycle_id")
+  [1m[36m (5.0ms)[0m  [1mDROP TABLE "work_segments"[0m
+  [1m[35m (24.0ms)[0m  CREATE TABLE "work_segments" ("id" serial primary key, "project_id" integer, "timesheet_id" integer, "payroll_cycle_id" integer, "employee_id" integer, "date" date, "start_time" date, "end_time" time, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (2.0ms)[0m  [1mSHOW search_path[0m
+  [1m[35m (1.0ms)[0m   SELECT i.relname, d.indisunique, a.attname, a.attnum, d.indkey
+ FROM pg_class t, pg_class i, pg_index d, pg_attribute a,
+ generate_series(0,31) AS s(i)
+ WHERE i.relkind = 'i'
+ AND d.indexrelid = i.oid
+ AND d.indisprimary = 'f'
+ AND t.oid = d.indrelid
+ AND t.relname = 'work_segments'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname IN ('"$user"','public') )
+ AND a.attrelid = t.oid
+ AND d.indkey[s.i]=a.attnum
+ ORDER BY i.relname
+
+  [1m[36m (9.0ms)[0m  [1mCREATE INDEX "index_work_segments_on_employee_id" ON "work_segments" ("employee_id")[0m
+  [1m[35m (0.0ms)[0m  SHOW search_path
+  [1m[36m (2.0ms)[0m  [1m SELECT i.relname, d.indisunique, a.attname, a.attnum, d.indkey
+ FROM pg_class t, pg_class i, pg_index d, pg_attribute a,
+ generate_series(0,31) AS s(i)
+ WHERE i.relkind = 'i'
+ AND d.indexrelid = i.oid
+ AND d.indisprimary = 'f'
+ AND t.oid = d.indrelid
+ AND t.relname = 'work_segments'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname IN ('"$user"','public') )
+ AND a.attrelid = t.oid
+ AND d.indkey[s.i]=a.attnum
+ ORDER BY i.relname
+[0m
+  [1m[35m (3.0ms)[0m  CREATE INDEX "index_work_segments_on_payroll_cycle_id" ON "work_segments" ("payroll_cycle_id")
+  [1m[36m (0.0ms)[0m  [1mSHOW search_path[0m
+  [1m[35m (2.0ms)[0m   SELECT i.relname, d.indisunique, a.attname, a.attnum, d.indkey
+ FROM pg_class t, pg_class i, pg_index d, pg_attribute a,
+ generate_series(0,31) AS s(i)
+ WHERE i.relkind = 'i'
+ AND d.indexrelid = i.oid
+ AND d.indisprimary = 'f'
+ AND t.oid = d.indrelid
+ AND t.relname = 'work_segments'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname IN ('"$user"','public') )
+ AND a.attrelid = t.oid
+ AND d.indkey[s.i]=a.attnum
+ ORDER BY i.relname
+
+  [1m[36m (12.0ms)[0m  [1mCREATE INDEX "index_work_segments_on_project_id" ON "work_segments" ("project_id")[0m
+  [1m[35m (0.0ms)[0m  SHOW search_path
+  [1m[36m (2.0ms)[0m  [1m SELECT i.relname, d.indisunique, a.attname, a.attnum, d.indkey
+ FROM pg_class t, pg_class i, pg_index d, pg_attribute a,
+ generate_series(0,31) AS s(i)
+ WHERE i.relkind = 'i'
+ AND d.indexrelid = i.oid
+ AND d.indisprimary = 'f'
+ AND t.oid = d.indrelid
+ AND t.relname = 'work_segments'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname IN ('"$user"','public') )
+ AND a.attrelid = t.oid
+ AND d.indkey[s.i]=a.attnum
+ ORDER BY i.relname
+[0m
+  [1m[35m (5.0ms)[0m  CREATE INDEX "index_work_segments_on_timesheet_id" ON "work_segments" ("timesheet_id")
+  [1m[36m (0.0ms)[0m  [1mSELECT version FROM "schema_migrations"[0m
+  [1m[35m (1.0ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+Connecting to database specified by database.yml
+  [1m[36m (2.0ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35mPK and serial sequence (8.0ms)[0m   SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"employees"'::regclass
+
+  [1m[36m (0.0ms)[0m  [1mSHOW search_path[0m
+  [1m[35m (9.0ms)[0m   SELECT i.relname, d.indisunique, a.attname, a.attnum, d.indkey
+ FROM pg_class t, pg_class i, pg_index d, pg_attribute a,
+ generate_series(0,31) AS s(i)
+ WHERE i.relkind = 'i'
+ AND d.indexrelid = i.oid
+ AND d.indisprimary = 'f'
+ AND t.oid = d.indrelid
+ AND t.relname = 'employees'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname IN ('"$user"','public') )
+ AND a.attrelid = t.oid
+ AND d.indkey[s.i]=a.attnum
+ ORDER BY i.relname
+
+  [1m[36mPK and serial sequence (1.0ms)[0m  [1m SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"payroll_cycles"'::regclass
+[0m
+  [1m[35m (0.0ms)[0m  SHOW search_path
+  [1m[36m (2.0ms)[0m  [1m SELECT i.relname, d.indisunique, a.attname, a.attnum, d.indkey
+ FROM pg_class t, pg_class i, pg_index d, pg_attribute a,
+ generate_series(0,31) AS s(i)
+ WHERE i.relkind = 'i'
+ AND d.indexrelid = i.oid
+ AND d.indisprimary = 'f'
+ AND t.oid = d.indrelid
+ AND t.relname = 'payroll_cycles'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname IN ('"$user"','public') )
+ AND a.attrelid = t.oid
+ AND d.indkey[s.i]=a.attnum
+ ORDER BY i.relname
+[0m
+  [1m[35mPK and serial sequence (1.0ms)[0m   SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"projects"'::regclass
+
+  [1m[36m (0.0ms)[0m  [1mSHOW search_path[0m
+  [1m[35m (1.0ms)[0m   SELECT i.relname, d.indisunique, a.attname, a.attnum, d.indkey
+ FROM pg_class t, pg_class i, pg_index d, pg_attribute a,
+ generate_series(0,31) AS s(i)
+ WHERE i.relkind = 'i'
+ AND d.indexrelid = i.oid
+ AND d.indisprimary = 'f'
+ AND t.oid = d.indrelid
+ AND t.relname = 'projects'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname IN ('"$user"','public') )
+ AND a.attrelid = t.oid
+ AND d.indkey[s.i]=a.attnum
+ ORDER BY i.relname
+
+  [1m[36mPK and serial sequence (1.0ms)[0m  [1m SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"time_sheets"'::regclass
+[0m
+  [1m[35m (0.0ms)[0m  SHOW search_path
+  [1m[36m (1.0ms)[0m  [1m SELECT i.relname, d.indisunique, a.attname, a.attnum, d.indkey
+ FROM pg_class t, pg_class i, pg_index d, pg_attribute a,
+ generate_series(0,31) AS s(i)
+ WHERE i.relkind = 'i'
+ AND d.indexrelid = i.oid
+ AND d.indisprimary = 'f'
+ AND t.oid = d.indrelid
+ AND t.relname = 'time_sheets'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname IN ('"$user"','public') )
+ AND a.attrelid = t.oid
+ AND d.indkey[s.i]=a.attnum
+ ORDER BY i.relname
+[0m
+  [1m[35mPK and serial sequence (1.0ms)[0m   SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"work_segments"'::regclass
+
+  [1m[36m (1.0ms)[0m  [1mSHOW search_path[0m
+  [1m[35m (2.0ms)[0m   SELECT i.relname, d.indisunique, a.attname, a.attnum, d.indkey
+ FROM pg_class t, pg_class i, pg_index d, pg_attribute a,
+ generate_series(0,31) AS s(i)
+ WHERE i.relkind = 'i'
+ AND d.indexrelid = i.oid
+ AND d.indisprimary = 'f'
+ AND t.oid = d.indrelid
+ AND t.relname = 'work_segments'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname IN ('"$user"','public') )
+ AND a.attrelid = t.oid
+ AND d.indkey[s.i]=a.attnum
+ ORDER BY i.relname
+
+Connecting to database specified by database.yml
+  [1m[36m (20.0ms)[0m  [1mSELECT version FROM schema_migrations ORDER BY version[0m
+Connecting to database specified by database.yml
+  [1m[36m (1.0ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Connecting to database specified by database.yml
+  [1m[36m (1.0ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35mPK and serial sequence (2.0ms)[0m   SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"employees"'::regclass
+
+  [1m[36mSQL (25.0ms)[0m  [1mINSERT INTO "employees" ("active", "created_at", "email", "first_name", "last_name", "updated_at", "username") VALUES ('t', '2012-07-16 21:36:20.923000', 'john.doe@oasys_corp.com', 'john', 'doe', '2012-07-16 21:36:20.923000', 'JohnnyDough') RETURNING "id"[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "employees" ("active", "created_at", "email", "first_name", "last_name", "updated_at", "username") VALUES ('t', '2012-07-16 21:36:20.999000', 'lambert.lambert@oasys_corp.com', 'lambert', 'lambert', '2012-07-16 21:36:20.999000', 'LambyLamby') RETURNING "id"
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml

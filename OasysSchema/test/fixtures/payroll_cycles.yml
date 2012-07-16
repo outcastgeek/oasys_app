@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  payroll_cycle_year: 1
+  payroll_cycle_number: 1
+  start_date: 2012-07-16
+  end_date: 2012-07-16
+  direct_deposit_date: 2012-07-16
+  check_date: 2012-07-16
+
+two:
+  payroll_cycle_year: 1
+  payroll_cycle_number: 1
+  start_date: 2012-07-16
+  end_date: 2012-07-16
+  direct_deposit_date: 2012-07-16
+  check_date: 2012-07-16
