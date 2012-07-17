@@ -145,7 +145,8 @@
    :client-secret (appProperties :live-secret)
    :access-query-param :access_token
    :scope ["wl.signin" "wl.basic" "wl.offline_access"]
-   :grant-type "authorization_code"})
+   :grant-type "authorization_code"
+   :response-type "code"})
 
 ;; redirect user to (:uri auth-req) afterwards
 (def live-auth-req
