@@ -324,8 +324,8 @@
   (GET "/flattrCallback" {session :session params :params} ((login-processor
                                                               flattr-oauth2
                                                               flattr-auth-req
-                                                              "https://api.flattr.com/rest/v2/user.json"
-                                                              "oauth_token"
+                                                              "https://api.flattr.com/rest/v2/user"
+                                                              "access_token"
                                                               #(-> % :username )) params session))
 
   ;Handle Instagram OAuth2 Callback
