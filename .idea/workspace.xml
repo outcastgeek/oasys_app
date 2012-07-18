@@ -2,17 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="acbdf285-07bb-420e-a0f3-ae38b4b8a7a3" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/public/views/carousel.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/public/views/home.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/public/views/industries.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/public/views/practice.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/public/views/service.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/public/views/facts.html" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/resources/public/views/results-template.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/public/views/home.html" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/public/static/javascript/outcastgeek/common.js" afterPath="$PROJECT_DIR$/resources/public/static/javascript/outcastgeek/common.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/public/views/carousel.html" afterPath="$PROJECT_DIR$/resources/public/views/carousel.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/public/views/industries.html" afterPath="$PROJECT_DIR$/resources/public/views/industries.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/public/views/practice.html" afterPath="$PROJECT_DIR$/resources/public/views/practice.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/public/views/service.html" afterPath="$PROJECT_DIR$/resources/public/views/service.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/public/views/staffing.html" afterPath="$PROJECT_DIR$/resources/public/views/staffing.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/outcastgeek/services/web/Services.clj" afterPath="$PROJECT_DIR$/src/com/outcastgeek/services/web/Services.clj" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/outcastgeek/services/web/fluid.clj" afterPath="$PROJECT_DIR$/src/com/outcastgeek/services/web/fluid.clj" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/public/views/none.html" afterPath="$PROJECT_DIR$/resources/public/views/staffing.html" />
     </list>
     <ignored path="oasys_corp.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -70,19 +71,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="common.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="common.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/public/static/javascript/outcastgeek/common.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="63" column="51" selection-start="1696" selection-end="1696" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="app.properties" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="81" selection-start="835" selection-end="835" vertical-scroll-proportion="0.0">
+            <state line="68" column="28" selection-start="1875" selection-end="1875" vertical-scroll-proportion="0.3546911">
               <folding />
             </state>
           </provider>
@@ -91,16 +83,70 @@
       <file leaf-file-name="fluid.clj" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/outcastgeek/services/web/fluid.clj">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="35" selection-start="1721" selection-end="1721" vertical-scroll-proportion="0.0">
+            <state line="101" column="19" selection-start="3899" selection-end="3899" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Services.clj" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="carousel.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/public/views/carousel.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1" column="35" selection-start="36" selection-end="36" vertical-scroll-proportion="-0.625">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="facts.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/public/views/facts.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="17" column="23" selection-start="804" selection-end="804" vertical-scroll-proportion="-10.625">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Services.clj" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/outcastgeek/services/web/Services.clj">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="162" column="52" selection-start="4726" selection-end="4726" vertical-scroll-proportion="0.51431715">
+            <state line="165" column="43" selection-start="4835" selection-end="4835" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="service.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/public/views/service.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3" column="110" selection-start="144" selection-end="144" vertical-scroll-proportion="-1.875">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="industries.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/public/views/industries.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3" column="71" selection-start="98" selection-end="98" vertical-scroll-proportion="-1.875">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="practice.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/public/views/practice.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3" column="179" selection-start="209" selection-end="209" vertical-scroll-proportion="-1.875">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="staffing.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/public/views/staffing.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="3" selection-start="32" selection-end="32" vertical-scroll-proportion="-1.25">
               <folding />
             </state>
           </provider>
@@ -116,22 +162,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/resources/public/static/javascript/modernizr/modernizr.js" />
         <option value="$PROJECT_DIR$/project.clj" />
         <option value="$PROJECT_DIR$/resources/logback.xml" />
         <option value="$PROJECT_DIR$/app.properties" />
         <option value="$PROJECT_DIR$/src/com/outcastgeek/config/AuthAuth.clj" />
         <option value="$PROJECT_DIR$/resources/public/views/none.html" />
         <option value="$PROJECT_DIR$/resources/public/views/page-template.html" />
-        <option value="$PROJECT_DIR$/resources/public/static/javascript/outcastgeek/common.js" />
-        <option value="$PROJECT_DIR$/src/com/outcastgeek/services/web/Services.clj" />
-        <option value="$PROJECT_DIR$/resources/public/views/carousel.html" />
         <option value="$PROJECT_DIR$/resources/public/views/home.html" />
         <option value="$PROJECT_DIR$/src/com/outcastgeek/services/web/fluid.clj" />
+        <option value="$PROJECT_DIR$/resources/public/views/carousel.html" />
+        <option value="$PROJECT_DIR$/src/com/outcastgeek/services/web/Services.clj" />
+        <option value="$PROJECT_DIR$/resources/public/views/service.html" />
         <option value="$PROJECT_DIR$/resources/public/views/industries.html" />
         <option value="$PROJECT_DIR$/resources/public/views/practice.html" />
-        <option value="$PROJECT_DIR$/resources/public/views/service.html" />
         <option value="$PROJECT_DIR$/resources/public/views/staffing.html" />
+        <option value="$PROJECT_DIR$/resources/public/views/facts.html" />
+        <option value="$PROJECT_DIR$/resources/public/static/javascript/outcastgeek/common.js" />
       </list>
     </option>
   </component>
@@ -756,11 +802,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/idea.jar!/standardSchemas/xhtml1-transitional.xsd">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1141" column="2" selection-start="33440" selection-end="33440" vertical-scroll-proportion="0.33259913" />
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/compojure/compojure/1.1.0/compojure-1.1.0.jar!/compojure/core.clj">
       <provider selected="true" editor-type-id="text-editor">
         <state line="112" column="10" selection-start="3474" selection-end="3474" vertical-scroll-proportion="0.38215858" />
@@ -786,65 +827,72 @@
         <state line="33" column="81" selection-start="835" selection-end="835" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/public/static/javascript/outcastgeek/common.js">
+    <entry file="file://$PROJECT_DIR$/src/com/outcastgeek/services/web/resumebuilder.clj">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="51" selection-start="1696" selection-end="1696" vertical-scroll-proportion="0.0">
+        <state line="300" column="29" selection-start="13619" selection-end="13619" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/outcastgeek/services/web/fluid.clj">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="35" selection-start="1721" selection-end="1721" vertical-scroll-proportion="0.0">
+        <state line="101" column="19" selection-start="3899" selection-end="3899" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/public/views/carousel.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="16" selection-start="548" selection-end="548" vertical-scroll-proportion="0.13777268">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/public/views/home.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="46" selection-start="51" selection-end="51" vertical-scroll-proportion="0.050904978">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/public/views/industries.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="1" selection-end="21" vertical-scroll-proportion="0.016968327">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/public/views/practice.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="6" selection-start="56" selection-end="56" vertical-scroll-proportion="0.06787331">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/public/views/service.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="6" selection-start="54" selection-end="54" vertical-scroll-proportion="0.050904978">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/public/views/staffing.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="6" selection-start="55" selection-end="55" vertical-scroll-proportion="0.050904978">
+        <state line="1" column="35" selection-start="36" selection-end="36" vertical-scroll-proportion="-0.625">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/outcastgeek/services/web/Services.clj">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="162" column="52" selection-start="4726" selection-end="4726" vertical-scroll-proportion="0.51431715">
+        <state line="165" column="43" selection-start="4835" selection-end="4835" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/public/views/practice.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="179" selection-start="209" selection-end="209" vertical-scroll-proportion="-1.875">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/public/views/facts.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="23" selection-start="804" selection-end="804" vertical-scroll-proportion="-10.625">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/public/views/staffing.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="3" selection-start="32" selection-end="32" vertical-scroll-proportion="-1.25">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/public/views/industries.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="71" selection-start="98" selection-end="98" vertical-scroll-proportion="-1.875">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/public/views/service.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="110" selection-start="144" selection-end="144" vertical-scroll-proportion="-1.875">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/public/static/javascript/outcastgeek/common.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="68" column="28" selection-start="1875" selection-end="1875" vertical-scroll-proportion="0.3546911">
           <folding />
         </state>
       </provider>

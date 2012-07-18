@@ -176,10 +176,18 @@
        [:div {:class "content"}
        (flash request)
        body
+       [:hr]
        [:footer
-        [:p {:id "copyright"} "Copyright &copy; 2012  &bull; "
+        [:a {:href ""} "Oasys Technologies"]
+        [:p "1250 Yankee Doodle Rd, Suite 222"]
+        [:p "Eagan, Mn 55121"]
+        [:p "Ph: (651) 894-3839"]
+        [:p "Fax: (651) 327-1310"]
+        [:div {:class "pull-right"}
+         [:p {:id "copyright"} "Copyright &copy; 2012  &bull; "
           [:a {:href "http://www.outcastgeek.com"} "outcastgeek"]
-          " &bull;  All rights reserved"]]]]
+          " &bull;  All rights reserved"]]
+        ]]]
        (include-js "http://yui.yahooapis.com/3.5.1/build/yui/yui-min.js")
        (include-js "/static/javascript/outcastgeek/common.js")
       ]])

@@ -164,8 +164,9 @@
 ;          [:h2 "Welcome"]
 ;          [:div "Retrieved robot: " ((fetch-one :robots ) :name )]
 ;          ]]
+        "<div class='hero-unit'  ng-view></div>"
         [:div {:class "row" :ng-include "'/views/carousel.html'"}]
-        "<div class='row'  ng-view></div>"
+        [:div {:class "row" :ng-include "'/views/facts.html'"}]
         ))
     {:flash "" :flashstyle ""}))
 

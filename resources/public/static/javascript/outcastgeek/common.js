@@ -93,7 +93,7 @@ YUI({
                     when('/practice', {templateUrl:'views/practice.html'}).
                     when('/staffing', {templateUrl:'views/staffing.html'}).
                     when('/service', {templateUrl:'views/service.html'}).
-                    otherwise({redirectTo:'/home', templateUrl:'views/home.html'});
+                    otherwise({redirectTo:'/service', templateUrl:'views/service.html'});
             });
 
 //        setInterval("refreshSession()", 450000); // Every 7.5 mn
