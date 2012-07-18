@@ -122,9 +122,10 @@
              [:img {:src "/static/images/oasys-logo9.png" :alt "Oasys Technologies" :height "30px"}]
           ]
          [:ul {:class "nav nav-pills" :style "margin-top: 3px;"}
-          ;[:li (button-link-to "" (str ">>"title"<<"))]
-          [:li (button-link-to "/resume" "Resume Builder")]
-          [:li (button-link-to "/about" "About")]
+          [:li [:a {:href "#/service"} "Service Offerings"]]
+          [:li [:a {:href "#/industries"} "Industries"]]
+          [:li [:a {:href "#/practice"} "Practice Areas"]]
+          [:li [:a {:href "#/staffing"} "Strategic Staffing"]]
           [:li {:class "divider-vertical"}]
           [:li {:class "dropdown" :id "Contact"}
             [:a {:class "dropdown-toggle" :data-toggle "dropdown" :href "#Contact"}
@@ -134,15 +135,6 @@
               [:li [:a {:href "http://www.twitter.com/akpanydre" :target "_blank"} "Twitter"]]
               [:li [:a {:href "http://www.linkedin.com/in/ebbybenjamin" :target "_blank"} "LinkedIn"]]
               [:li [:a {:href "http://www.outcastgeek.com/" :target "_blank"} "Blog"]]
-            ]]
-          [:li {:class "dropdown" :id "SearchBy"}
-           [:a {:class "dropdown-toggle" :data-toggle "dropdown" :href "#SearchBy"}
-            "SearchBy"
-            [:b {:class "caret"}]]
-           [:ul {:class "dropdown-menu"}
-            [:li [:a {:href "#" :ng-click "searchBy('service')"} "Service"]]
-            [:li [:a {:href "#" :ng-click "searchBy('lob')"} "LOB"]]
-            [:li [:a {:href "#" :ng-click "searchBy('source')"} "Source"]]
             ]]
           ]
          (dosync

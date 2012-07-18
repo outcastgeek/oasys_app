@@ -152,28 +152,21 @@
 ;        {:flash "" :flashstyle ""}))))
 
 (defn home [request]
-  (insert! :robots {:name "robby"})
+;  (insert! :robots {:name "robby"})
   (page
     request
     (html-doc
       request
       "Services | "
       (html
-        [:div {:class "row"}
-         [:div {:class "span8"}
-          [:h2 "Welcome"]
-          [:div "Retrieved robot: " ((fetch-one :robots ) :name )]
-          ]]
-        [:div {:class "row"}
-         [:div {:class "span8"}
-          [:fieldset [:legend "{{SearchBy}}"]
-           [:div {:class "clearfix"}
-            [:div {:class "input"}
-             [:input {:id "search" :name "search"
-                      :required "required" :size "120"
-                      :type "text" :ng-model "Criteria" :value "{{Criteria}}"}]]]
-           [:button {:class "btn btn-primary" :ng-click "changeLocation()"} "Search"]]]
-         "<div class='span8'  ng-view></div>"]))
+;        [:div {:class "row"}
+;         [:div {:class "span8"}
+;          [:h2 "Welcome"]
+;          [:div "Retrieved robot: " ((fetch-one :robots ) :name )]
+;          ]]
+        [:div {:class "row" :ng-include "'/views/carousel.html'"}]
+        "<div class='row'  ng-view></div>"
+        ))
     {:flash "" :flashstyle ""}))
 
 (defn register [request]

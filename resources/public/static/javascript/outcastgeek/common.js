@@ -5,42 +5,10 @@
 //Angular Controllers
 
 function MainCtrl($scope, $location) {
-
-    $scope.SearchBy = "Search by Service";
-    $scope.ResultUri = "/service";
-    $scope.Criteria = "";
-    $scope.searchBy = function(criteria) {
-        $scope.SearchBy = "Search by " + criteria;
-        $scope.ResultUri = "/" + criteria;
-        refreshSession();
+    $scope.navigateTo = function(page) {
+        $location.path("/" + page);
+//        refreshSession();
     };
-
-    $scope.changeLocation = function() {
-        if ($scope.Criteria)
-            $location.path($scope.ResultUri + "/" + $scope.Criteria);
-        else
-            $location.path("/nothing");
-        refreshSession();
-    };
-}
-
-function ServiceCtrl($scope, $routeParams) {
-    $scope.Criteria = "SERVICE";
-    $scope.Value = $routeParams.criteria;
-}
-
-function LobCtrl($scope, $routeParams) {
-    $scope.Criteria = "LOB";
-    $scope.Value = $routeParams.criteria;
-}
-
-function SourceCtrl($scope, $routeParams) {
-    $scope.Criteria = "SOURCE";
-    $scope.Value = $routeParams.criteria;
-}
-
-function NoneCtrl($scope, $routeParams) {
-    $scope.NoResult = "Nothing here!";
 }
 
 // Session Handling
@@ -121,10 +89,11 @@ YUI({
         angular.module("main", []).
             config(function($routeProvider) {
                 $routeProvider.
-                    when('/service/:criteria', {templateUrl:'views/results-template.html', controller:ServiceCtrl}).
-                    when('/lob/:criteria', {templateUrl:'views/results-template.html', controller:LobCtrl}).
-                    when('/source/:criteria', {templateUrl:'views/results-template.html', controller:SourceCtrl}).
-                    otherwise({redirectTo:'/nothing', templateUrl:'views/none.html', controller:NoneCtrl});
+                    when('/industries', {templateUrl:'views/industries.html'}).
+                    when('/practice', {templateUrl:'views/practice.html'}).
+                    when('/staffing', {templateUrl:'views/staffing.html'}).
+                    when('/service', {templateUrl:'views/service.html'}).
+                    otherwise({redirectTo:'/home', templateUrl:'views/home.html'});
             });
 
 //        setInterval("refreshSession()", 450000); // Every 7.5 mn
