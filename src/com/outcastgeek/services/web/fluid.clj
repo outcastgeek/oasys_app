@@ -105,7 +105,7 @@
           <script src='http://html5shim.googlecode.com/svn/trunk/html5.js'></script>
         <![endif]-->
         ")
-      (include-css "/static/stylesheets/bootstrap.min.css")
+      (include-css "/static/stylesheets/cerulean.min.css")
       (include-css "/static/stylesheets/bootstrap-responsive.min.css")
       [:style {:type "text/css"}
        "body {
@@ -122,10 +122,10 @@
              [:img {:src "/static/images/oasys-logo9.png" :alt "Oasys Technologies" :height "30px"}]
           ]
          [:ul {:class "nav nav-pills" :style "margin-top: 3px;"}
-          [:li [:a {:href "#/service"} "Service Offerings"]]
-          [:li [:a {:href "#/industries"} "Industries"]]
-          [:li [:a {:href "#/practice"} "Practice Areas"]]
-          [:li [:a {:href "#/staffing"} "Strategic Staffing"]]
+          [:li [:a {:href "/#/service"} "Service Offerings"]]
+          [:li [:a {:href "/#/industries"} "Industries"]]
+          [:li [:a {:href "/#/practice"} "Practice Areas"]]
+          [:li [:a {:href "/#/staffing"} "Strategic Staffing"]]
           [:li {:class "divider-vertical"}]
           [:li {:class "dropdown" :id "Contact"}
             [:a {:class "dropdown-toggle" :data-toggle "dropdown" :href "#Contact"}
@@ -176,17 +176,16 @@
        [:div {:class "content"}
        (flash request)
        body
-       [:hr]
-       [:footer
+       [:footer {:style "background-color=#E5E5E5;"}
+        [:hr]
         [:a {:href ""} "Oasys Technologies"]
         [:p "1250 Yankee Doodle Rd, Suite 222"]
         [:p "Eagan, Mn 55121"]
         [:p "Ph: (651) 894-3839"]
         [:p "Fax: (651) 327-1310"]
-        [:div {:class "pull-right"}
-         [:p {:id "copyright"} "Copyright &copy; 2012  &bull; "
-          [:a {:href "http://www.outcastgeek.com"} "outcastgeek"]
-          " &bull;  All rights reserved"]]
+        [:p {:id "copyright" :class "pull-right"} "Copyright &copy; 2012  &bull; "
+         [:a {:href "http://www.outcastgeek.com"} "outcastgeek"]
+         " &bull;  All rights reserved"]
         ]]]
        (include-js "http://yui.yahooapis.com/3.5.1/build/yui/yui-min.js")
        (include-js "/static/javascript/outcastgeek/common.js")
