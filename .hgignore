@@ -7,6 +7,7 @@ syntax: glob
 *.orig
 *~
 *.pyc
+*.jar
 
 # switch to regexp syntax.
 syntax: regexp
@@ -15,4 +16,7 @@ syntax: regexp
 ^\.classpath/
 ^\.idea/
 ^\.lein-plugins/
+^\lib/
+^\classes/
+~\target/
 
