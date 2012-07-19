@@ -1,0 +1,18 @@
+# use glob syntax.
+syntax: glob
+
+*.ipr
+*.iml
+*.iws
+*.orig
+*~
+*.pyc
+
+# switch to regexp syntax.
+syntax: regexp
+^\.DS_Store/
+^\.project/
+^\.classpath/
+^\.idea/
+^\.lein-plugins/
+
