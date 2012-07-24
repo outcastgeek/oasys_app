@@ -1,6 +1,7 @@
 (ns com.outcastgeek.config.AppConfig
   (:use clojure.java.io
         somnium.congomongo)
+  (:require [resque-clojure.core :as resque])
   (:import java.util.Date
            com.mongodb.Mongo
            com.mongodb.ServerAddress
@@ -36,11 +37,15 @@
     (ServerAddress. (appProperties :mongo-url) (appProperties :mongo-port)))
    (MongoOptions.)))
 
-(def appCtx
-  (ClassPathXmlApplicationContext. "spring/applicationContext.xml"))
+;;;;;;;;;;;;;;;; MESSAGING ;;;;;;;;;;;;;;;;;;;
 
-(def ogMsgPub
-  (. appCtx getBean "ogMessagePublisher"))
+(resque/configure {:host (appProperties :redis-url) :port (appProperties :redis-port)}) ;; optional
+
+;(def appCtx
+;  (ClassPathXmlApplicationContext. "spring/applicationContext.xml"))
+
+;(def ogMsgPub
+;  (. appCtx getBean "ogMessagePublisher"))
 
 ;Borrowed from here: https://raw.github.com/hozumi/session-expiry/master/src/hozumi/session_expiry.clj
 

@@ -22,7 +22,8 @@
            com.google.gson.GsonBuilder)
   (:require [ring.middleware.session :as rs]
             [hozumi.mongodb-session :as mongoss]
-            [compojure.route :as route])
+            [compojure.route :as route]
+            [resque-clojure.core :as resque])
   (:gen-class :extends javax.servlet.http.HttpServlet))
 
 (set-connection! mongo-connection)
@@ -151,9 +152,14 @@
 ;              ]]))
 ;        {:flash "" :flashstyle ""}))))
 
+(defn helloQueue [msg]
+  (debug (str "QUEUED MSG: " msg)))
+
 (defn home [request]
 ;  (insert! :robots {:name "robby"})
-  (.dispatchMessage ogMsgPub "ogmessages" "Messaging through REDIS!!!!")
+  ;; creating a job
+  (resque/enqueue "testqueue" "com.outcastgeek.services.web.Services/helloQueue" "hello")
+  ;(.dispatchMessage ogMsgPub "ogmessages" "Messaging through REDIS!!!!")
   (page
     request
     (html-doc
@@ -382,6 +388,8 @@
 
 (defn runJetty [portNumber]
   (info "Starting Jetty...")
+  ;; listening for jobs
+  (resque/start ["testqueue"])
   (run-jetty website {:port (Integer/parseInt portNumber)}))
 
 (defn runNetty [portNumber]
