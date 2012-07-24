@@ -153,6 +153,7 @@
 
 (defn home [request]
 ;  (insert! :robots {:name "robby"})
+  (.dispatchMessage ogMsgPub "ogmessages" "Messaging through REDIS!!!!")
   (page
     request
     (html-doc

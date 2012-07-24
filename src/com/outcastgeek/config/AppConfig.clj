@@ -4,7 +4,8 @@
   (:import java.util.Date
            com.mongodb.Mongo
            com.mongodb.ServerAddress
-           com.mongodb.MongoOptions))
+           com.mongodb.MongoOptions
+           org.springframework.context.support.ClassPathXmlApplicationContext))
 
 (defn load-props
   [file-name]
@@ -34,6 +35,12 @@
     ;(ServerAddress. "127.0.0.1" 27018)
     (ServerAddress. (appProperties :mongo-url) (appProperties :mongo-port)))
    (MongoOptions.)))
+
+(def appCtx
+  (ClassPathXmlApplicationContext. "spring/applicationContext.xml"))
+
+(def ogMsgPub
+  (. appCtx getBean "ogMessagePublisher"))
 
 ;Borrowed from here: https://raw.github.com/hozumi/session-expiry/master/src/hozumi/session_expiry.clj
 

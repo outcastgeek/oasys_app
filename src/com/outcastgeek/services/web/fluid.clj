@@ -176,7 +176,7 @@
        [:div {:class "content"}
        (flash request)
        body
-       [:footer {:style "background-color=#E5E5E5;"}
+       [:footer {:style "background-color=#E5E5E5;ee"}
         [:hr]
         [:a {:href ""} "Oasys Technologies"]
         [:p "1250 Yankee Doodle Rd, Suite 222"]

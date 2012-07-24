@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: fetch:fetch:0.1.0-alpha2">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/fetch/fetch/0.1.0-alpha2/fetch-0.1.0-alpha2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/fetch/fetch/0.1.0-alpha2/fetch-0.1.0-alpha2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/fetch/fetch/0.1.0-alpha2/fetch-0.1.0-alpha2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -148,6 +148,11 @@
                  [com.typesafe.akka/akka-remote "2.0.2"]
                  [com.typesafe.akka/akka-file-mailbox "2.0.2"]
                  [com.typesafe.akka/akka-slf4j "2.0.2"]
+                 ;;;;;;;;;;; SPRING ;;;;;;;;;;;;;;;;;;;;;;;;
+                 [org.springframework/spring-context "3.1.2.RELEASE"]
+                 [org.springframework/spring-jms "3.1.2.RELEASE"]
+                 [redis.clients/jedis "2.0.0"]
+                 [org.springframework.data/spring-data-redis "1.0.0.RC1"]
                  ;;;;;;;;;;; CLJS LIBS ;;;;;;;;;;;;;;;;;;;;;;;;
                  [jayq "0.1.0-alpha4"]
                  [waltz "0.1.0-alpha1"]
@@ -166,6 +171,7 @@
 ;             "-Dhttps.proxyPort=80"]
   :jvm-opts ["-Xmx1g" "-server"]
   :main com.outcastgeek.services.web.Services
+  :java-source-path "java"
   :source-path "src"
   :hooks [leiningen.cljsbuild]
   :cljsbuild {
@@ -186,6 +192,7 @@
                :compiler {
                            :output-to "resources/public/static/javascript/outcastgeek/outcastgeek.js"  ; default: main.js in current directory
                            :optimizations :whitespace
+                           :libs ["resources/public/static/javascript/outcastgeek/closure"]
                            :pretty-print true}}
              {
                ; The path to the top-level ClojureScript source directory:
@@ -219,6 +226,7 @@
   ;; failures to :fail, :warn, or :ignore. In :releases, :daily,
   ;; :always, and :never are supported.
   :checksum :warn
-  :update :daily)
-:repositories {"akka.io" "http://repo.akka.io/releases"
-                  "java.net" "http://download.java.net/maven/2"}
+  :update :daily
+  :repositories {"akka.io" "http://repo.akka.io/releases"
+                 "java.net" "http://download.java.net/maven/2"
+                 "spring.milestone" "http://maven.springframework.org/milestone"})

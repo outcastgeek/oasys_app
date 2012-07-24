@@ -9,6 +9,10 @@ function MainCtrl($scope, $location) {
         $location.path("/" + page);
 //        refreshSession();
     };
+
+    $scope.customLog = function(msg) {
+        outcastgeek.core.customLog(msg);
+    };
 }
 
 // Session Handling
@@ -78,7 +82,7 @@ YUI({
             }
         }
     }
-}).use('modernizr', 'angular', 'jquery', 'bootstrap', function(Y) {
+}).use('modernizr', 'angular', 'jquery', 'bootstrap', 'outcastgeek', function(Y) {
 
         angular.element(document).ready(function() {
             angular.bootstrap(document);

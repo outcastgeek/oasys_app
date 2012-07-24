@@ -30,8 +30,32 @@
       <id>clojars</id>
       <url>http://clojars.org/repo/</url>
     </repository>
+    <repository>
+      <id>akka.io</id>
+      <url>http://repo.akka.io/releases</url>
+    </repository>
+    <repository>
+      <id>java.net</id>
+      <url>http://download.java.net/maven/2</url>
+    </repository>
+    <repository>
+      <id>spring.milestone</id>
+      <url>http://maven.springframework.org/milestone</url>
+    </repository>
   </repositories>
   <dependencies>
+    <dependency>
+      <groupId>lein-swank</groupId>
+      <artifactId>lein-swank</artifactId>
+      <version>1.4.4</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>lein-cljsbuild</groupId>
+      <artifactId>lein-cljsbuild</artifactId>
+      <version>0.2.1</version>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>clojure</artifactId>
@@ -226,6 +250,26 @@
       <groupId>com.typesafe.akka</groupId>
       <artifactId>akka-slf4j</artifactId>
       <version>2.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>3.1.2.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jms</artifactId>
+      <version>3.1.2.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>redis.clients</groupId>
+      <artifactId>jedis</artifactId>
+      <version>2.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-redis</artifactId>
+      <version>1.0.0.RC1</version>
     </dependency>
     <dependency>
       <groupId>jayq</groupId>
