@@ -10,112 +10,8 @@
                  ;[mysql/mysql-connector-java "5.1.20"]
                  [postgresql/postgresql "9.1-901.jdbc4"]
                  [korma "0.3.0-beta11"]
-                 ;[clj-record "1.1.1"]
 
 ;Check this out: https://www.x.com/developers/x.commerce/documentation-tools/api/profile-service-api-reference
-
-;(require '[clojure.java.jdbc :as sql])
-;
-;(def db {:classname "com.postgresql.Driver"
-;        :subprotocol "postgresql"
-;        :user "postgres"
-;        :password "PgSQL2012!"
-;        :subname "//localhost/postgres"})
-;
-;(def db {:classname "com.mysql.jdbc.Driver"
-;        :subprotocol "mysql"
-;        :user "root"
-;        :password "MySQL2012"
-;        :subname "//localhost/lambert"})
-;
-;(defn create-database [name]
-; (sql/with-connection db
-;   (with-open [s (.createStatement (sql/connection))]
-;     (.addBatch s (str "create database" name))
-;     (seq (.executeBatch s)))))
-;
-;(defn drop-database [name]
-; (sql/with-connection db
-;   (with-open [s (.createStatement (sql/connection))]
-;     (.addBatch s (str "drop database " name))
-;     (seq (.executeBatch s)))))
-;
-;(defn create-tables
-; "Creates the table needed to store the
-;winners and nominees."
-; []
-; (sql/create-table
-;   :nominees
-;   [:id :integer "PRIMARY KEY"]
-;   [:year :integer]
-;   [:title "varchar(64)"]
-;   [:author "varchar(32)"]
-;   [:winner "tinyint"]
-;   [:read_it "tinyint"]
-;   [:own_it "tinyint"]
-;   [:want_it "tinyint"]))
-;
-;(defn create-db-tables
-; "Creates a new database and tables"
-; []
-; (sql/with-connection db
-;   (create-tables)))
-;
-;(create-database "lambert")
-;
-;(drop-database "lambert")
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;(require '[clojure.java.jdbc :as sql])
-;
-;(def db {:classname "com.mysql.jdbc.Driver"
-;                          :subprotocol "mysql"
-;                          :user "root"
-;                          :password "MySQL2012"
-;                          :subname "//localhost/lambert"})
-
-;(require '[clojure.java.jdbc :as sql])
-;
-;(def db {:classname "com.postgresql.Driver"
-;                          :subprotocol "postgresql"
-;                          :user "postgres"
-;                          :password "PgSQL2012!"
-;                          :subname "//localhost/lambert"})
-                 
-;(defn create-database [name]
-;  (sql/with-connection db
-;    (with-open [s (.createStatement (sql/connection))]
-;      (.addBatch s (str "create database " name))
-;      (seq (.executeBatch s)))))
-;
-;(defn drop-database [name]
-;  (sql/with-connection db
-;    (with-open [s (.createStatement (sql/connection))]
-;      (.addBatch s (str "drop database " name))
-;      (seq (.executeBatch s)))))
-
-;                 (ns com.example.city
-;                   (:require clj-record.boot))
-;
-;
-;                 (def db {:classname "com.mysql.jdbc.Driver"
-;                          :subprotocol "mysql"
-;                          :user "root"
-;                          :password "MySQL2012"
-;                          :subname "//localhost/world"})
-;
-;                 (clj-record.core/init-model
-;                   :table-name "city")
-;
-;                 (def father-rec (com.example.city/create {:Name "Abidjan"
-;                                                           :CountryCode 225
-;                                                           :District "Cocody"
-;                                                           :Population 5000000}))
-
-
-
-
 
                  [hiccup/hiccup "1.0.0"]
                  [clj-style/clj-style "1.0.1"]
@@ -176,15 +72,16 @@
   :source-path "src"
   :hooks [leiningen.cljsbuild]
   :cljsbuild {
-    :builds [{
-        ; The path to the top-level ClojureScript source directory:
-        :source-path "src-cljs/example"
-        ; The standard ClojureScript compiler options:
-        ; (See the ClojureScript compiler documentation for details.)
-        :compiler {
-          :output-to "resources/public/static/javascript/example/example.js"  ; default: main.js in current directory
-          :optimizations :advanced
-          :pretty-print false}}
+    :builds [
+;             {
+;			        ; The path to the top-level ClojureScript source directory:
+;			        :source-path "src-cljs/example"
+;			        ; The standard ClojureScript compiler options:
+;			        ; (See the ClojureScript compiler documentation for details.)
+;			        :compiler {
+;			          :output-to "resources/public/static/javascript/example/example.js"  ; default: main.js in current directory
+;			          :optimizations :advanced
+;			          :pretty-print false}}
              {
                ; The path to the top-level ClojureScript source directory:
                :source-path "src-cljs/outcastgeek"
@@ -195,34 +92,35 @@
                            :optimizations :advanced
                            :libs ["resources/public/static/javascript/outcastgeek/closure"]
                            :pretty-print true}}
-             {
-               ; The path to the top-level ClojureScript source directory:
-               :source-path "src-cljs/jayq"
-               ; The standard ClojureScript compiler options:
-               ; (See the ClojureScript compiler documentation for details.)
-               :compiler {
-                           :output-to "resources/public/static/javascript/jayq/jayq.js"  ; default: main.js in current directory
-                           :optimizations :whitespace
-                           :externs ["resources/public/static/javascript/jquery/jquery.js"]
-                           :pretty-print true}}
-             {
-               ; The path to the top-level ClojureScript source directory:
-               :source-path "src-cljs/crate"
-               ; The standard ClojureScript compiler options:
-               ; (See the ClojureScript compiler documentation for details.)
-               :compiler {
-                           :output-to "resources/public/static/javascript/crate/crate.js"  ; default: main.js in current directory
-                           :optimizations :whitespace
-                           :pretty-print true}}
-             {
-               ; The path to the top-level ClojureScript source directory:
-               :source-path "src-cljs/c2"
-               ; The standard ClojureScript compiler options:
-               ; (See the ClojureScript compiler documentation for details.)
-               :compiler {
-                           :output-to "resources/public/static/javascript/c2/c2.js"  ; default: main.js in current directory
-                           :optimizations :whitespace
-                           :pretty-print true}}]}
+;             {
+;               ; The path to the top-level ClojureScript source directory:
+;               :source-path "src-cljs/jayq"
+;               ; The standard ClojureScript compiler options:
+;               ; (See the ClojureScript compiler documentation for details.)
+;               :compiler {
+;                           :output-to "resources/public/static/javascript/jayq/jayq.js"  ; default: main.js in current directory
+;                           :optimizations :whitespace
+;                           :externs ["resources/public/static/javascript/jquery/jquery.js"]
+;                           :pretty-print true}}
+;             {
+;               ; The path to the top-level ClojureScript source directory:
+;               :source-path "src-cljs/crate"
+;               ; The standard ClojureScript compiler options:
+;               ; (See the ClojureScript compiler documentation for details.)
+;               :compiler {
+;                           :output-to "resources/public/static/javascript/crate/crate.js"  ; default: main.js in current directory
+;                           :optimizations :whitespace
+;                           :pretty-print true}}
+;             {
+;               ; The path to the top-level ClojureScript source directory:
+;               :source-path "src-cljs/c2"
+;               ; The standard ClojureScript compiler options:
+;               ; (See the ClojureScript compiler documentation for details.)
+;               :compiler {
+;                           :output-to "resources/public/static/javascript/c2/c2.js"  ; default: main.js in current directory
+;                           :optimizations :whitespace
+;                           :pretty-print true}}
+             ]}
   ;; You can also set the policies for how to handle :checksum
   ;; failures to :fail, :warn, or :ignore. In :releases, :daily,
   ;; :always, and :never are supported.

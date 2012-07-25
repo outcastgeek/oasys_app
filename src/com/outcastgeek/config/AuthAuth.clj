@@ -1,12 +1,12 @@
 (ns com.outcastgeek.config.AuthAuth
   (:use clojure.tools.logging
-        [korma.core :only [insert values]]
         somnium.congomongo
         com.outcastgeek.config.AppConfig
         com.outcastgeek.domain.Entities)
   (:require [ring.middleware.session :as rs]
             [clj-oauth2.client :as oauth2]
-            [clojure.data.json :as json])
+            [clojure.data.json :as json]
+            [resque-clojure.core :as resque])
   (:import java.util.UUID))
 
 (set-connection! mongo-connection)
@@ -228,14 +228,11 @@
           access-token# (access-info# :access-token)
           resp# (oauth2/get ~user-info-uri {:query-params {(keyword ~access-token-handle) access-token#}})
           user-info# (json/read-json (resp# :body))
-          username# (~username-function user-info#)
-          timestamp# (get-current-timestamp)]
+          username# (~username-function user-info#)]
     (debug user-info#)
-    (debug (str "TIMESTAMP: " timestamp#))
-    (insert employees
-              (values {:username username#
-                       :created_at timestamp#
-                       :updated_at timestamp#}))
+    (resque/enqueue "createNewEmployeeQueue"
+                    "com.outcastgeek.domain.Entities/createNewEmployee"
+                    {:username username#})
       (do
         {:status 302
          :headers {"Location" "/"}

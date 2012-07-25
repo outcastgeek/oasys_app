@@ -1,5 +1,6 @@
 (ns com.outcastgeek.domain.Entities
-  (:use com.outcastgeek.config.AppConfig
+  (:use clojure.tools.logging
+        com.outcastgeek.config.AppConfig
         korma.core
         korma.db))
 
@@ -21,3 +22,16 @@
 (defentity time_sheets)
 
 (defentity work_segments)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn createNewEmployee [data]
+  (let [employeeData (merge
+                        (select-keys
+                          data
+                          [:username :first_name :last_name :email :active])
+                        {:created_at (get-current-timestamp)
+                         :updated_at (get-current-timestamp)})]
+    (debug "PERSISTING NEW EMPLOYEE: " employeeData)
+    (insert employees
+              (values employeeData))))

@@ -390,6 +390,7 @@
   (info "Starting Jetty...")
   ;; listening for jobs
   (resque/start ["testqueue"])
+  (resque/start ["createNewEmployeeQueue"])
   (run-jetty website {:port (Integer/parseInt portNumber)}))
 
 (defn runNetty [portNumber]
