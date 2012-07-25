@@ -32,8 +32,8 @@ test:
   adapter: postgresql
   encoding: unicode
   database: OasysSchema_test
-  username: OasysSchema
-  password:
+  username: postgres
+  password: PgSQL2012!
 
 production:
   adapter: postgresql

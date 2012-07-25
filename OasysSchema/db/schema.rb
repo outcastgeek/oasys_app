@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120716204320) do
+ActiveRecord::Schema.define(:version => 20120725033130) do
 
   create_table "employees", :force => true do |t|
     t.string   "first_name"
@@ -46,6 +46,8 @@ ActiveRecord::Schema.define(:version => 20120716204320) do
     t.integer  "payroll_cycle_id"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
+    t.date     "start_date"
+    t.date     "end_date"
   end
 
   add_index "time_sheets", ["employee_id"], :name => "index_time_sheets_on_employee_id"
@@ -57,10 +59,9 @@ ActiveRecord::Schema.define(:version => 20120716204320) do
     t.integer  "payroll_cycle_id"
     t.integer  "employee_id"
     t.date     "date"
-    t.date     "start_time"
-    t.time     "end_time"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
+    t.float    "hours"
   end
 
   add_index "work_segments", ["employee_id"], :name => "index_work_segments_on_employee_id"

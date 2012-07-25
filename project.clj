@@ -191,7 +191,7 @@
                ; (See the ClojureScript compiler documentation for details.)
                :compiler {
                            :output-to "resources/public/static/javascript/outcastgeek/outcastgeek.js"  ; default: main.js in current directory
-                           :optimizations :whitespace
+                           :optimizations :advanced
                            :libs ["resources/public/static/javascript/outcastgeek/closure"]
                            :pretty-print true}}
              {

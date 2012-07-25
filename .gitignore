@@ -1,7 +1,10 @@
-.DS_Store
-log/**/*
-tmp/**/*
-bin/*
-vendor/gems/*
-!vendor/gems/cache/
-.sass-cache/*
+/target
+/lib
+/classes
+/checkouts
+pom.xml
+*.jar
+*.class
+.lein-deps-sum
+.lein-failures
+.lein-plugins

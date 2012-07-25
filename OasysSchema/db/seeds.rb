@@ -38,7 +38,9 @@ project = Project.create(:client => "Wells Fargo",
 
 timesheet = TimeSheet.create({
                                :employee_id => employees.first.object_id,
-                               :payroll_cycle_id => payroll_cycle.object_id
+                               :payroll_cycle_id => payroll_cycle.object_id,
+                               :start_date => 7.days.ago,
+                               :end_date => today + 7.days
                              },
                              :without_protection => true)
 
@@ -49,8 +51,7 @@ work_segments = WorkSegment.create([
                                       :payroll_cycle_id => payroll_cycle.object_id,
                                       :employee_id => employees.first.object_id,
                                       :date => 4.days.ago,
-                                      :start_time => 4.days.ago,
-                                      :end_time => 4.days.ago
+                                      :hours => 8.00
                                     },
                                     {
                                       :project_id => project.object_id,
@@ -58,8 +59,7 @@ work_segments = WorkSegment.create([
                                       :payroll_cycle_id => payroll_cycle.object_id,
                                       :employee_id => employees.first.object_id,
                                       :date => 8.days.ago,
-                                      :start_time => 8.days.ago,
-                                      :end_time => 8.days.ago
+                                      :hours => 12.00
                                     }
                                    ],
                                    :without_protection => true)
