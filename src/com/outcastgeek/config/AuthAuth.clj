@@ -4,12 +4,11 @@
         com.outcastgeek.config.AppConfig)
   (:require [ring.middleware.session :as rs]
             [clj-oauth2.client :as oauth2]
-            [clojure.data.json :as json])
+            [clojure.data.json :as json]
+            [com.outcastgeek.domain.User :as User])
   (:import java.util.UUID))
 
 (set-connection! mongo-connection)
-
-(defrecord User [username email password])
 
 (def ^:dynamic *hash-delay* 1000)
 
@@ -228,17 +227,24 @@
           access-token# (access-info# :access-token)
           resp# (oauth2/get ~user-info-uri {:query-params {(keyword ~access-token-handle) access-token#}})
           user-info# (json/read-json (resp# :body))
-          username# (~username-function user-info#)]
+          username# (~username-function user-info#)
+          timestamp# (User/get-current-timestamp)]
     (debug user-info#)
-    (do
-      {:status 302
-       :headers {"Location" "/"}
-       :session (merge session# {:access-info access-info#
-                                :user-info user-info#
-                                :login true :username username#
-                                :flash (str "You are now Logged In " username#)
-                                :flashstyle "alert-success"})
-       }))))
+    (debug (str "TIMESTAMP: " timestamp#))
+    (dorun
+      (User/create {:username username#
+                    :created_at timestamp#
+                    :updated_at timestamp#})
+      (do
+        {:status 302
+         :headers {"Location" "/"}
+         :session (merge session# {:access-info access-info#
+                                   :user-info user-info#
+                                   :login true :username username#
+                                   :flash (str "You are now Logged In " username#)
+                                   :flashstyle "alert-success"})
+         }))
+    )))
 
 (defn logout-controller []
   (do
@@ -269,7 +275,7 @@
         ;(.matches password "^.*(?=.{6,})(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d\\W]).*$")
         (= csrf (session :csrf)))
       (do
-        (insert! :users (User. username email (hash-password password "outcastgeek")))
+        (insert! :users ({:username username :email email :password (hash-password password "outcastgeek")}))
         {:status 302
          :headers {"Location" "/"}
          :session (merge session {:login true :username username

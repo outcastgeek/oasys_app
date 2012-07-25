@@ -18,6 +18,16 @@
 (def appProperties
   (load-props "app.properties"))
 
+;;;;;;;;;;;;;;;;; DATABASE ;;;;;;;;;;;;;;;;;;;;;;;
+
+(def db {:classname (appProperties :class-name)
+         :subprotocol (appProperties :sub-protocol)
+         :user (appProperties :username)
+         :password (appProperties :passwd)
+         :subname (appProperties :sub-name)})
+
+;;;;;;;;;;;;;;;;; STORAGE ;;;;;;;;;;;;;;;;;;;;;;;;
+
 (def dbName (appProperties :mongo-database))
 
 (def mongo-connection
