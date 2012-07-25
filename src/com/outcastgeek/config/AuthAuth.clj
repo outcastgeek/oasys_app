@@ -1,11 +1,12 @@
 (ns com.outcastgeek.config.AuthAuth
   (:use clojure.tools.logging
+        [korma.core :only [insert values]]
         somnium.congomongo
-        com.outcastgeek.config.AppConfig)
+        com.outcastgeek.config.AppConfig
+        com.outcastgeek.domain.Entities)
   (:require [ring.middleware.session :as rs]
             [clj-oauth2.client :as oauth2]
-            [clojure.data.json :as json]
-            [com.outcastgeek.domain.User :as User])
+            [clojure.data.json :as json])
   (:import java.util.UUID))
 
 (set-connection! mongo-connection)
@@ -228,13 +229,13 @@
           resp# (oauth2/get ~user-info-uri {:query-params {(keyword ~access-token-handle) access-token#}})
           user-info# (json/read-json (resp# :body))
           username# (~username-function user-info#)
-          timestamp# (User/get-current-timestamp)]
+          timestamp# (get-current-timestamp)]
     (debug user-info#)
     (debug (str "TIMESTAMP: " timestamp#))
-    (dorun
-      (User/create {:username username#
-                    :created_at timestamp#
-                    :updated_at timestamp#})
+    (insert employees
+              (values {:username username#
+                       :created_at timestamp#
+                       :updated_at timestamp#}))
       (do
         {:status 302
          :headers {"Location" "/"}
@@ -243,7 +244,7 @@
                                    :login true :username username#
                                    :flash (str "You are now Logged In " username#)
                                    :flashstyle "alert-success"})
-         }))
+         })
     )))
 
 (defn logout-controller []

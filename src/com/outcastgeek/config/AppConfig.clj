@@ -3,10 +3,14 @@
         somnium.congomongo)
   (:require [resque-clojure.core :as resque])
   (:import java.util.Date
+           java.sql.Timestamp
            com.mongodb.Mongo
            com.mongodb.ServerAddress
            com.mongodb.MongoOptions
            org.springframework.context.support.ClassPathXmlApplicationContext))
+
+(defn get-current-timestamp []
+  (Timestamp. (. (Date.) getTime)))
 
 (defn load-props
   [file-name]
@@ -17,14 +21,6 @@
 
 (def appProperties
   (load-props "app.properties"))
-
-;;;;;;;;;;;;;;;;; DATABASE ;;;;;;;;;;;;;;;;;;;;;;;
-
-(def db {:classname (appProperties :class-name)
-         :subprotocol (appProperties :sub-protocol)
-         :user (appProperties :username)
-         :password (appProperties :passwd)
-         :subname (appProperties :sub-name)})
 
 ;;;;;;;;;;;;;;;;; STORAGE ;;;;;;;;;;;;;;;;;;;;;;;;
 

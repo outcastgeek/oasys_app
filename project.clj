@@ -7,9 +7,10 @@
                  [resque-clojure "0.2.2"]
                  [congomongo/congomongo "0.1.9"]
                  [org.clojars.hozumi/mongodb-session "1.0.1"]
-                 [mysql/mysql-connector-java "5.1.20"]
+                 ;[mysql/mysql-connector-java "5.1.20"]
                  [postgresql/postgresql "9.1-901.jdbc4"]
-                 [clj-record "1.1.1"]
+                 [korma "0.3.0-beta11"]
+                 ;[clj-record "1.1.1"]
 
 ;Check this out: https://www.x.com/developers/x.commerce/documentation-tools/api/profile-service-api-reference
 
