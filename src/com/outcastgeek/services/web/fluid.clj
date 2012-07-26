@@ -148,7 +148,7 @@
                 [:ul {:class "dropdown-menu"}
                  [:li [:a {:href "/login"} "Login"]]
                  [:li [:a {:href "/register"} "Register"]]
-                 [:li [:a {:href "#Profile"} "Profile"]]
+                 [:li [:a {:href "/profile"} "Profile"]]
                  [:li {:class "divider"}]
                  [:li [:a {:href "/login/fb"} "Facebook"]]
                  [:li [:a {:href "/login/goog"} "Google+"]]
@@ -168,7 +168,7 @@
 		         :else
                (html
                  [:ul {:class "nav nav-pills pull-right" :style "margin-top: 3px;"}
-                  [:li (button-link-to "#Profile" (session :username))]
+                  [:li (button-link-to "/profile" (session :username))]
                   [:li {:class "divider-vertical"}]
                   [:li (button-link-to "/logout" "Logout")]]
                  )))]]]

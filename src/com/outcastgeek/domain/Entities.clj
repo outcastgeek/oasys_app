@@ -28,7 +28,12 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defn upsertEmployee [data]
+(defn findEmployee [data]
+  (debug "EMPLOYEE CRITERIA: " data)
+  (select employees
+          (where data)))
+
+(defn createEmployee [data]
   (debug "RAW EMPLOYEE DATA: " data)
   (let [employeeData (merge
                         (select-keys
@@ -37,6 +42,9 @@
                         {:active false
                          :created_at (get-current-timestamp)
                          :updated_at (get-current-timestamp)})]
-    (debug "PERSISTING NEW EMPLOYEE: " employeeData)
-    (insert employees
-              (values employeeData))))
+    (when
+      (empty? (findEmployee {:unique (employeeData :unique)}))
+      (debug "PERSISTING NEW EMPLOYEE: " employeeData)
+      (insert employees
+              (values employeeData)))
+    ))

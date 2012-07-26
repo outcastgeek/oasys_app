@@ -15,6 +15,7 @@
         com.outcastgeek.services.web.resumebuilder
         com.outcastgeek.config.AuthAuth
         com.outcastgeek.config.AppConfig
+        com.outcastgeek.domain.Entities
         com.outcastgeek.services.work.FuncDocCreator)
   (:import java.util.UUID
            java.util.concurrent.TimeUnit
@@ -152,14 +153,8 @@
 ;              ]]))
 ;        {:flash "" :flashstyle ""}))))
 
-(defn helloQueue [msg]
-  (debug (str "QUEUED MSG: " msg)))
-
 (defn home [request]
 ;  (insert! :robots {:name "robby"})
-  ;; creating a job
-  (resque/enqueue "testqueue" "com.outcastgeek.services.web.Services/helloQueue" "hello")
-  ;(.dispatchMessage ogMsgPub "ogmessages" "Messaging through REDIS!!!!")
   (page
     request
     (html-doc
@@ -243,6 +238,32 @@
       {:csrf csrf :flash "" :flashstyle ""}
       )))
 
+(defn profile [request]
+  (let [session (request :session)
+        username (session :username)
+        unique (-> session :user-info :unique)
+        employee (first (findEmployee {:unique unique}))]
+   (debug "FOUND EMPLOYEE: " employee) 
+   (page
+    request
+    (html-doc
+      request
+      "Profile | "
+      (html
+        [:div {:class "hero-unit"}
+         [:h1 username]
+         [:p "profile details:"]]
+        [:div {:class "row"}
+         [:div {:class "span6"}
+          [:h2 "Info"]
+          [:ul
+           [:li "First Name" (employee :first_name)]
+           [:li "Last Name: " (employee :last_name)]
+           [:li "Email: " (employee :email)]
+           [:li "Active: " (employee :active)]]]
+         ]))
+    {:flash "" :flashstyle ""})))
+
 (defn oauth-redirect [request]
   (let [provider (-> request :params :provider keyword)
         session (request :session )]
@@ -260,6 +281,8 @@
   (POST "/login" {session :session params :params} (login-controller params session))
 
   (ANY "/logout" [] (logout-controller))
+  
+  (GET "/profile" request ((glua (auth-req? request) profile) request))
 
   ;(ANY "/*" (ensure-admin-controller session))
   ;(ANY "/admin/" (admin-view session))

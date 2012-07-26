@@ -231,7 +231,7 @@
           user-info# (~userinfo-function user-data#)]
     (debug user-info#)
     (resque/enqueue "createNewEmployeeQueue"
-                    "com.outcastgeek.domain.Entities/upsertEmployee"
+                    "com.outcastgeek.domain.Entities/createEmployee"
                     user-info#)
       (do
         {:status 302
@@ -239,6 +239,7 @@
          :session (merge session# {:access-info access-info#
                                    :user-data user-data#
                                    :login true :username (user-info# :username)
+                                   :user-info user-info#
                                    :flash (str "You are now Logged In " (user-info# :username))
                                    :flashstyle "alert-success"})
          })
