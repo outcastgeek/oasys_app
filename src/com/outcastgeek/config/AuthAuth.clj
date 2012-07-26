@@ -221,25 +221,25 @@
    :paypal paypal-auth-req
    :flattr flattr-auth-req})
 
-(defmacro login-processor [provider-info-map provider-endpoint-info user-info-uri access-token-handle username-function]
+(defmacro login-processor [provider-info-map provider-endpoint-info user-info-uri access-token-handle userinfo-function]
   `(fn [params# session#]
     (let [auth-resp# (select-keys params# [:code :state])
           access-info# (oauth2/get-access-token ~provider-info-map auth-resp# ~provider-endpoint-info)
           access-token# (access-info# :access-token)
           resp# (oauth2/get ~user-info-uri {:query-params {(keyword ~access-token-handle) access-token#}})
-          user-info# (json/read-json (resp# :body))
-          username# (~username-function user-info#)]
+          user-data# (json/read-json (resp# :body))
+          user-info# (~userinfo-function user-data#)]
     (debug user-info#)
     (resque/enqueue "createNewEmployeeQueue"
-                    "com.outcastgeek.domain.Entities/createNewEmployee"
-                    {:username username#})
+                    "com.outcastgeek.domain.Entities/upsertEmployee"
+                    user-info#)
       (do
         {:status 302
          :headers {"Location" "/"}
          :session (merge session# {:access-info access-info#
-                                   :user-info user-info#
-                                   :login true :username username#
-                                   :flash (str "You are now Logged In " username#)
+                                   :user-data user-data#
+                                   :login true :username (user-info# :username)
+                                   :flash (str "You are now Logged In " (user-info# :username))
                                    :flashstyle "alert-success"})
          })
     )))

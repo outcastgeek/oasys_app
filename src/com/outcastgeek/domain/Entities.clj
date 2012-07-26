@@ -4,6 +4,8 @@
         korma.core
         korma.db))
 
+;;;; Check out: https://gist.github.com/2e8a3d55d80707ce79e0
+
 ;;;;;;;;;;;;;;;;; DATABASE ;;;;;;;;;;;;;;;;;;;;;;;
 
 (defdb db {:classname (appProperties :class-name)
@@ -11,7 +13,8 @@
            :user (appProperties :username)
            :password (appProperties :passwd)
            :subname (appProperties :sub-name)})
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;   ENTITIES     ;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defentity employees)
 
@@ -25,12 +28,14 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defn createNewEmployee [data]
+(defn upsertEmployee [data]
+  (debug "RAW EMPLOYEE DATA: " data)
   (let [employeeData (merge
                         (select-keys
                           data
-                          [:username :first_name :last_name :email :active])
-                        {:created_at (get-current-timestamp)
+                          [:username :first_name :last_name :email :unique :provider])
+                        {:active false
+                         :created_at (get-current-timestamp)
                          :updated_at (get-current-timestamp)})]
     (debug "PERSISTING NEW EMPLOYEE: " employeeData)
     (insert employees

@@ -295,7 +295,13 @@
                                                           fb-auth-req
                                                           "https://graph.facebook.com/me"
                                                           "access_token"
-                                                          #(% :name )) params session))
+                                                          (fn [user-data]
+                                                            {:username (user-data :name)
+                                                             :first_name (user-data :first_name)
+                                                             :last_name (user-data :last_name)
+                                                             :email (str (user-data :username) "@facebook.com")
+                                                             :unique (user-data :id)
+                                                             :provider "fb"})) params session))
 
   ;Handle Google+ OAuth2 Callback
   (GET "/oauth2callback" {session :session params :params} ((login-processor
@@ -303,7 +309,13 @@
                                                               goog-auth-req
                                                               "https://www.googleapis.com/oauth2/v1/userinfo"
                                                               "access_token"
-                                                              #(% :name )) params session))
+                                                              (fn [user-data]
+                                                                {:username (user-data :name)
+                                                                 :first_name (user-data :given_name)
+                                                                 :last_name (user-data :family_name)
+                                                                 :email (user-data :email)
+                                                                 :unique (user-data :id)
+                                                                 :provider "goog"})) params session))
 
   ;Handle Dwolla OAuth2 Callback
   (GET "/oauth2cash" {session :session params :params} ((login-processor
@@ -311,7 +323,12 @@
                                                           dwolla-auth-req
                                                           "https://www.dwolla.com/oauth/rest/users"
                                                           "oauth_token"
-                                                          #(-> % :Response :Name )) params session))
+                                                          (fn [user-data]
+                                                            {:username (-> user-data :Response :Name)
+                                                             :first_name (-> user-data :Response :Name)
+                                                             :last_name (-> user-data :Response :Name)
+                                                             :unique (-> user-data :Response :Id)
+                                                             :provider "dwolla"})) params session))
 
   ;Handle Paypal OAuth2 Callback
   (GET "/paypalCallback" {session :session params :params} ((login-processor
@@ -319,7 +336,14 @@
                                                           paypal-auth-req
                                                           "https://identity.x.com/xidentity/resources/profile/me"
                                                           "oauth_token"
-                                                          #(-> % :identity :fullName )) params session))
+                                                          (fn [user-data]
+                                                            {:username (-> user-data :identity :fullName)
+                                                             :first_name (-> user-data :identity :firstName)
+                                                             :last_name (-> user-data :identity :lastName)
+                                                             :email (-> user-data :identity :emails :first)
+                                                             :unique (-> user-data :identity :userId)
+                                                             :payerId (-> user-data :identity :payerID)
+                                                             :provider "paypal"})) params session))
 
   ;Handle Flattr OAuth2 Callback
   (GET "/flattrCallback" {session :session params :params} ((login-processor
@@ -327,7 +351,13 @@
                                                               flattr-auth-req
                                                               "https://api.flattr.com/rest/v2/user"
                                                               "access_token"
-                                                              #(-> % :username )) params session))
+                                                              (fn [user-data]
+                                                                {:username (-> user-data :username)
+                                                                 :first_name (-> user-data :firstname)
+                                                                 :last_name (-> user-data :lastname)
+                                                                 :unique (-> user-data :link)
+                                                                 :email (-> user-data :email)
+                                                                 :provider "flattr"})) params session))
 
   ;Handle Instagram OAuth2 Callback
   (GET "/instagramCallback" {session :session params :params} ((login-processor
@@ -335,7 +365,12 @@
                                                                  instagram-auth-req
                                                                  "https://api.instagram.com/v1/users/self"
                                                                  "access_token"
-                                                                 #(-> % :data :username )) params session))
+                                                                 (fn [user-data]
+                                                                   {:username (-> user-data :data :username)
+                                                                    :first_name (-> user-data :data :full_name)
+                                                                    :last_name (-> user-data :data :full_name)
+                                                                    :unique (-> user-data :data :id)
+                                                                    :provider "instagram"})) params session))
 
   ;Handle Live OAuth2 Callback
   (GET "/liveCallback" {session :session params :params} ((login-processor
@@ -343,7 +378,9 @@
                                                             live-auth-req
                                                             "https://apis.live.net/v5.0/me"
                                                             "access_token"
-                                                            #(% :username )) params session))
+                                                            (fn [user-data]
+                                                              {:username (user-data :username)
+                                                               :provider "live"})) params session))
 
   ;Handle Foursquare OAuth2 Callback
   (GET "/foursquareCallback" {session :session params :params} ((login-processor
@@ -351,7 +388,13 @@
                                                                   foursquare-auth-req
                                                                   "https://api.foursquare.com/v2/users/self"
                                                                   "oauth_token"
-                                                                  #(-> % :response :user :firstName )) params session))
+                                                                  (fn [user-data]
+                                                                    {:username (-> user-data :response :user :firstName)
+                                                                     :first_name (-> user-data :response :user :firstName)
+                                                                     :last_name (-> user-data :response :user :lastName)
+                                                                     :email (-> user-data :response :user :contact :email)
+                                                                     :unique (-> user-data :response :user :id)
+                                                                     :provider "foursquare"})) params session))
 
   ;Handle Github OAuth2 Callback
   (GET "/gitCallback" {session :session params :params} ((login-processor
@@ -359,7 +402,10 @@
                                                            git-auth-req
                                                            "https://api.github.com/user"
                                                            "access_token"
-                                                           #(% :login )) params session))
+                                                           (fn [user-data]
+                                                             {:username (user-data :login)
+                                                              :unique (user-data :id)
+                                                              :provider "git"})) params session))
 
   (route/resources "/")
 

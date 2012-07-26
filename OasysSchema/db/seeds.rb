@@ -12,14 +12,18 @@ employees = Employee.create([
                                :email => "john.doe@oasys_corp.com",
                                :first_name => "john",
                                :last_name => "doe",
-                               :username => "JohnnyDough"
+                               :username => "JohnnyDough",
+                               :unique => "unique1",
+                               :provider => "provider1"
                              },
                              {
                                :active => true,
                                :email => "lambert.lambert@oasys_corp.com",
                                :first_name => "lambert",
                                :last_name => "lambert",
-                               :username => "LambyLamby"
+                               :username => "LambyLamby",
+                               :unique => "unique2",
+                               :provider => "provider2"
                              }
                             ])
 

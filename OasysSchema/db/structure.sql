@@ -40,7 +40,9 @@ CREATE TABLE employees (
     email character varying(255),
     active boolean,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    "unique" character varying(255),
+    provider character varying(255)
 );
 
 
@@ -354,3 +356,5 @@ INSERT INTO schema_migrations (version) VALUES ('20120725032508');
 INSERT INTO schema_migrations (version) VALUES ('20120725032707');
 
 INSERT INTO schema_migrations (version) VALUES ('20120725033130');
+
+INSERT INTO schema_migrations (version) VALUES ('20120726064334');
