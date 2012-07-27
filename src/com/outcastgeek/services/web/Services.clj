@@ -5,7 +5,7 @@
         compojure.handler
         ring.util.servlet
         ring.adapter.jetty
-        com.outcastgeek.web.server.adapter.netty
+        ring.adapter.netty
         hiccup.core
         hiccup.page
         rrss
@@ -16,10 +16,7 @@
         com.outcastgeek.config.AppConfig
         com.outcastgeek.domain.Entities
         com.outcastgeek.services.work.FuncDocCreator)
-  (:import java.util.UUID
-           java.util.concurrent.TimeUnit
-           com.google.gson.Gson
-           com.google.gson.GsonBuilder)
+  (:import java.util.UUID)
   (:require [ring.middleware.session :as rs]
             [hozumi.mongodb-session :as mongoss]
             [compojure.route :as route]
@@ -33,9 +30,6 @@
                           :collection-name :outcastgeek_sessions}))
 
 (def glua gen-login-unless-auth)
-
-(def gson
-  (.. (GsonBuilder.) excludeFieldsWithoutExposeAnnotation create))
 
 (defn page
   [request html sessMerge]
@@ -146,6 +140,7 @@
 
 (defn home [request]
 ;  (insert! :robots {:name "robby"})
+;  (debug "EMPLOYEES: " (allEmployees))
   (page
     request
     (html-doc
@@ -445,16 +440,17 @@
 
 (defn runJetty [portNumber]
   (info "Starting Jetty...")
-  ;; listening for jobs
-  (resque/start ["createNewEmployeeQueue"
-                 "sendNewMailQueue"])
   (run-jetty website {:port (Integer/parseInt portNumber)}))
 
 (defn runNetty [portNumber]
   (info "Starting Netty...")
-  (run-netty website {:port (Integer/parseInt portNumber)}))
+  (run-netty website {:port (Integer/parseInt portNumber)
+                  :netty {"reuseAddress" true}}))
 
 (defn -main [server portNumber]
+  ;; listening for jobs
+  (resque/start ["createNewEmployeeQueue"
+                 "sendNewMailQueue"])
   (cond
     (= server "Jetty")
     (runJetty portNumber)

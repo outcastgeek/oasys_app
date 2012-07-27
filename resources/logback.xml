@@ -23,6 +23,10 @@
     </appender>
 
 	<logger name="com.outcastgeek" level="TRACE"/>
+	<logger name="org.postgresql" additivity="false">
+		<appender-ref ref="ASYNC"/>
+	</logger>
+	
 	<root level="debug">
 		<appender-ref ref="ASYNC"/>
 	</root>

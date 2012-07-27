@@ -67,6 +67,11 @@
       <version>0.2.3</version>
     </dependency>
     <dependency>
+      <groupId>redis.clients</groupId>
+      <artifactId>jedis</artifactId>
+      <version>2.0.0</version>
+    </dependency>
+    <dependency>
       <groupId>rrss</groupId>
       <artifactId>rrss</artifactId>
       <version>0.2.2</version>
@@ -117,6 +122,16 @@
       <version>1.1.1</version>
     </dependency>
     <dependency>
+      <groupId>compojure</groupId>
+      <artifactId>compojure</artifactId>
+      <version>1.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>me.shenfeng</groupId>
+      <artifactId>async-ring-adapter</artifactId>
+      <version>1.0.1</version>
+    </dependency>
+    <dependency>
       <groupId>clj-http</groupId>
       <artifactId>clj-http</artifactId>
       <version>0.5.0</version>
@@ -127,24 +142,9 @@
       <version>0.2.0</version>
     </dependency>
     <dependency>
-      <groupId>compojure</groupId>
-      <artifactId>compojure</artifactId>
-      <version>1.1.1</version>
-    </dependency>
-    <dependency>
       <groupId>cheshire</groupId>
       <artifactId>cheshire</artifactId>
       <version>4.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-      <version>2.1</version>
-    </dependency>
-    <dependency>
-      <groupId>com.thoughtworks.xstream</groupId>
-      <artifactId>xstream</artifactId>
-      <version>1.4.2</version>
     </dependency>
     <dependency>
       <groupId>commons-fileupload</groupId>
@@ -215,11 +215,6 @@
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-site</artifactId>
       <version>1.0.6</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.netty</groupId>
-      <artifactId>netty</artifactId>
-      <version>3.2.7.Final</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>

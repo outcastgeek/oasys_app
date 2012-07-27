@@ -30,6 +30,9 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defn allEmployees []
+  (select employees))
+
 (defn findEmployee [data]
   (debug "EMPLOYEE CRITERIA: " data)
   (select employees
