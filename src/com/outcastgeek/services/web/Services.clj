@@ -5,7 +5,6 @@
         compojure.handler
         ring.util.servlet
         ring.adapter.jetty
-        ring.middleware.reload-modified
         com.outcastgeek.web.server.adapter.netty
         hiccup.core
         hiccup.page
@@ -32,14 +31,6 @@
 (def mongoSessionStore
   (mongoss/mongodb-store {:auto-key-change? true
                           :collection-name :outcastgeek_sessions}))
-
-(def one-minute 60)
-(def fifteen-minutes (* 15 one-minute))
-(def redisSessionStore
-  (expiring-redis-store {:auto-key-change? true
-                         :collection-name :outcastgeek_sessions
-                         :duration fifteen-minutes
-                         :resolution one-minute}))
 
 (def glua gen-login-unless-auth)
 
@@ -445,12 +436,9 @@
   )
 
 (def website (-> main-routes
-               (wrap-reload-modified ["src"])
                (wrap-session-expiry 900) ;; 15 mn
                (rs/wrap-session {:cookie-name "ogeeky-sessions"
                                  :store mongoSessionStore})
-               ;                   (rs/wrap-session {:cookie-name "ogeeky-sessions"
-               ;                                     :store redisSessionStore})
                (site)))
 
 (defservice website)
@@ -458,8 +446,8 @@
 (defn runJetty [portNumber]
   (info "Starting Jetty...")
   ;; listening for jobs
-  (resque/start ["testqueue"])
-  (resque/start ["createNewEmployeeQueue"])
+  (resque/start ["createNewEmployeeQueue"
+                 "sendNewMailQueue"])
   (run-jetty website {:port (Integer/parseInt portNumber)}))
 
 (defn runNetty [portNumber]
@@ -472,5 +460,4 @@
     (runJetty portNumber)
     (= server "Netty")
     (runNetty portNumber)
-    )
-  )
+    ))

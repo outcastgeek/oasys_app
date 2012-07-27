@@ -1,8 +1,10 @@
 (ns com.outcastgeek.domain.Entities
   (:use clojure.tools.logging
         com.outcastgeek.config.AppConfig
+        com.outcastgeek.services.web.Mail
         korma.core
-        korma.db))
+        korma.db)
+  (:require [resque-clojure.core :as resque]))
 
 ;;;; Check out: https://gist.github.com/2e8a3d55d80707ce79e0
 
@@ -46,5 +48,6 @@
       (empty? (findEmployee {:unique (employeeData :unique)}))
       (debug "PERSISTING NEW EMPLOYEE: " employeeData)
       (insert employees
-              (values employeeData)))
-    ))
+              (values employeeData))
+      (sendWelcomeEmail employeeData)
+      )))

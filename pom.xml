@@ -119,7 +119,7 @@
     <dependency>
       <groupId>clj-http</groupId>
       <artifactId>clj-http</artifactId>
-      <version>0.4.3</version>
+      <version>0.5.0</version>
     </dependency>
     <dependency>
       <groupId>clj-oauth2</groupId>
@@ -129,17 +129,12 @@
     <dependency>
       <groupId>compojure</groupId>
       <artifactId>compojure</artifactId>
-      <version>1.1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.cemerick</groupId>
-      <artifactId>friend</artifactId>
-      <version>0.0.9</version>
+      <version>1.1.1</version>
     </dependency>
     <dependency>
       <groupId>cheshire</groupId>
       <artifactId>cheshire</artifactId>
-      <version>4.0.0</version>
+      <version>4.0.1</version>
     </dependency>
     <dependency>
       <groupId>com.google.code.gson</groupId>
@@ -227,79 +222,9 @@
       <version>3.2.7.Final</version>
     </dependency>
     <dependency>
-      <groupId>com.typesafe.akka</groupId>
-      <artifactId>akka-actor</artifactId>
-      <version>2.0.2</version>
-    </dependency>
-    <dependency>
-      <groupId>com.typesafe.akka</groupId>
-      <artifactId>akka-remote</artifactId>
-      <version>2.0.2</version>
-    </dependency>
-    <dependency>
-      <groupId>com.typesafe.akka</groupId>
-      <artifactId>akka-file-mailbox</artifactId>
-      <version>2.0.2</version>
-    </dependency>
-    <dependency>
-      <groupId>com.typesafe.akka</groupId>
-      <artifactId>akka-slf4j</artifactId>
-      <version>2.0.2</version>
-    </dependency>
-    <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
       <version>3.1.2.RELEASE</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-jms</artifactId>
-      <version>3.1.2.RELEASE</version>
-    </dependency>
-    <dependency>
-      <groupId>redis.clients</groupId>
-      <artifactId>jedis</artifactId>
-      <version>2.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.data</groupId>
-      <artifactId>spring-data-redis</artifactId>
-      <version>1.0.0.RC1</version>
-    </dependency>
-    <dependency>
-      <groupId>jayq</groupId>
-      <artifactId>jayq</artifactId>
-      <version>0.1.0-alpha4</version>
-    </dependency>
-    <dependency>
-      <groupId>waltz</groupId>
-      <artifactId>waltz</artifactId>
-      <version>0.1.0-alpha1</version>
-    </dependency>
-    <dependency>
-      <groupId>fetch</groupId>
-      <artifactId>fetch</artifactId>
-      <version>0.1.0-alpha2</version>
-    </dependency>
-    <dependency>
-      <groupId>crate</groupId>
-      <artifactId>crate</artifactId>
-      <version>0.2.0-alpha3</version>
-    </dependency>
-    <dependency>
-      <groupId>monet</groupId>
-      <artifactId>monet</artifactId>
-      <version>0.1.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>enfocus</groupId>
-      <artifactId>enfocus</artifactId>
-      <version>0.9.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>com.keminglabs</groupId>
-      <artifactId>c2</artifactId>
-      <version>0.1.2</version>
     </dependency>
   </dependencies>
 </project>

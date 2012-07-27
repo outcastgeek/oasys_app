@@ -6,7 +6,6 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:task="http://www.springframework.org/schema/task"
        xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:redis="http://www.springframework.org/schema/redis"
        xsi:schemaLocation="
            http://www.springframework.org/schema/beans
                 http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -17,39 +16,13 @@
            http://www.springframework.org/schema/aop
                 http://www.springframework.org/schema/aop/spring-aop.xsd
            http://www.springframework.org/schema/util
-                http://www.springframework.org/schema/util/spring-util.xsd
-           http://www.springframework.org/schema/redis http://www.springframework.org/schema/redis/spring-redis.xsd">
+                http://www.springframework.org/schema/util/spring-util.xsd">
 
     <context:annotation-config />
 
     <!-- Scans the classpath of this application for @Components to deploy as beans -->
     <context:component-scan base-package="com.outcastgeek"/>
 
-    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
-          p:host-name="${redis.host}" p:port="${redis.port}" p:password="${redis.pass}" p:use-pool="true"/>
-
-    <!-- Configurer that replaces ${...} placeholders with values from a properties file -->
-    <context:property-placeholder location="classpath:redis.properties"/>
-
-    <bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate"
-          p:connection-factory-ref="connectionFactory"/>
-
     <bean id="ogMessagesListener" class="messages.OgMessageListener" />
-
-    <bean id="ogMessagePublisher" class="messages.OgMessagePublisher" />
-
-    <!--<bean id="ogMessages" class="org.springframework.data.redis.listener.ChannelTopic">-->
-        <!--<constructor-arg value="ogmessages" />-->
-    <!--</bean>-->
-
-    <!-- the default ConnectionFactory -->
-    <redis:listener-container connection-factory="connectionFactory">
-        <!-- the method attribute can be skipped as the default method name is "handleMessage" -->
-        <redis:listener ref="ogMessagesListener" method="onMessage" topic="ogmessages" />
-    </redis:listener-container>
-
-    <!-- redis template definition -->
-    <bean id="jRedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate"
-          p:connection-factory-ref="connectionFactory"/>
 
 </beans>
