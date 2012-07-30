@@ -4,10 +4,10 @@
   (:require [resque-clojure.core :as resque])
   (:import java.util.Date
            java.sql.Timestamp
-;           org.springframework.context.support.ClassPathXmlApplicationContext
            com.mongodb.Mongo
            com.mongodb.ServerAddress
-           com.mongodb.MongoOptions))
+           com.mongodb.MongoOptions
+           org.springframework.context.support.ClassPathXmlApplicationContext))
 
 (defn get-current-timestamp []
   (Timestamp. (. (Date.) getTime)))
@@ -47,8 +47,8 @@
 
 (resque/configure {:host (appProperties :redis-url) :port (appProperties :redis-port)}) ;; optional
 
-;(def appCtx
-;  (ClassPathXmlApplicationContext. "spring/applicationContext.xml"))
+(def appCtx
+  (ClassPathXmlApplicationContext. "spring/applicationContext.xml"))
 
 ;Borrowed from here: https://raw.github.com/hozumi/session-expiry/master/src/hozumi/session_expiry.clj
 

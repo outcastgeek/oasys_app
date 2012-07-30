@@ -56,7 +56,8 @@
 ;                 [com.typesafe.akka/akka-remote "2.0.2"]
 ;                 [com.typesafe.akka/akka-file-mailbox "2.0.2"]
 ;                 [com.typesafe.akka/akka-slf4j "2.0.2"]
-                 ;;;;;;;;;;; OasysData ;;;;;;;;;;;;;;;;;;;;;;;;
+                 ;;;;;;;;;;; SPRING ;;;;;;;;;;;;;;;;;;;;;;;;
+                 [org.springframework/spring-web "3.1.2.RELEASE"]
                  [com.outcastgeek/OasysData "0.1.0.BUILD-SNAPSHOT"]
                  ;;;;;;;;;;; CLJS LIBS ;;;;;;;;;;;;;;;;;;;;;;;;
 ;                 [jayq "0.1.0-alpha4"]
