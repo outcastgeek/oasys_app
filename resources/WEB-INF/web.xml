@@ -7,33 +7,16 @@
     <!-- ==================== -->
     <!-- Spring configuration -->
     <!-- ==================== -->
-
-    <context-param>
-        <param-name>contextClass</param-name>
-        <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
-    </context-param>
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>spring.AppConfig</param-value>
+        <param-value>classpath*:spring/applicationContext*.xml</param-value>
     </context-param>
-    <!-- Spring root context listener -->
+    <!-- Creates the Spring Container shared by all Servlets and Filters -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-
-    <!-- ===================================================================
-	 -  Servlet listeners
-	 -  =================================================================== --> 
-<!--
-        <listener>
-	  <listener-class>com.outcastgeek.web.akka.Initializer</listener-class>
-	</listener>
--->
- 	<listener>
-	  <listener-class>com.outcastgeek.services.web.WorkListener</listener-class>
-	</listener>
     
-        <filter>
+    <filter>
 	  <filter-name>TeeFilter</filter-name>
 	  <filter-class>ch.qos.logback.access.servlet.TeeFilter</filter-class>
 	</filter>
@@ -53,24 +36,6 @@
 	  <url-pattern>/static/*</url-pattern>
 	</filter-mapping>
 	 -->
-
-    <!-- ===================================================================
-	 -  Security
-	 -  =================================================================== -->
-    <context-param>
-        <param-name>gwt.xsrf.session_cookie_name</param-name>
-        <param-value>ogeeky-sessions</param-value>
-    </context-param>
-    <servlet>
-        <servlet-name>xsrf</servlet-name>
-        <servlet-class>
-            com.google.gwt.user.server.rpc.XsrfTokenServiceServlet
-        </servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>xsrf</servlet-name>
-        <url-pattern>/gwt/xsrf</url-pattern>
-    </servlet-mapping>
 	
 	 <!-- ===================================================================
 	 -  Servlets
@@ -94,16 +59,6 @@
        <servlet-name>DefaultServlet</servlet-name>
        <url-pattern>/static/*</url-pattern>
      </servlet-mapping>
-
-    <servlet>
-        <servlet-name>greetServlet</servlet-name>
-        <!--<servlet-class>com.mycompany.mywebapp.server.GreetingServiceImpl</servlet-class>-->
-        <servlet-class>com.mycompany.mywebapp.server.GreetingServiceFuncImpl</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>greetServlet</servlet-name>
-        <url-pattern>/mywebapp/greet</url-pattern>
-    </servlet-mapping>
  
  <!-- 
  	<servlet>
@@ -141,7 +96,6 @@
 	  -->
 	  
 	 <!-- Continuation Filter, to enable jetty continuations -->
-         <!--
 	 <filter>
 	     <filter-name>ContinuationFilter</filter-name>
 	     <filter-class>org.eclipse.jetty.continuation.ContinuationFilter</filter-class>
@@ -151,6 +105,7 @@
 	     <url-pattern>/*</url-pattern>
 	 </filter-mapping>
 
+         <!--
 	 <filter>
 	   <filter-name>QoSFilter</filter-name>
 	   <filter-class>org.eclipse.jetty.servlets.QoSFilter</filter-class>
@@ -176,6 +131,8 @@
 	   <filter-name>DoSFilter</filter-name>
 	   <url-pattern>/*</url-pattern>
 	 </filter-mapping>
+	   -->
+	 
 	 <filter>
 	    <filter-name>MultiPartFilter</filter-name>
 	    <filter-class>org.eclipse.jetty.servlets.MultiPartFilter</filter-class>
@@ -233,7 +190,6 @@
 	    <filter-name>IncludableGzipFilter</filter-name>
 	    <url-pattern>/*</url-pattern>
 	  </filter-mapping>
-	   -->
 	  
 	  <!-- Comment out to support PUT and DELETE
 	  <filter>

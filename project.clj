@@ -13,7 +13,7 @@
                  [hiccup/hiccup "1.0.0"]
                  [clj-style/clj-style "1.0.1"]
                  [ring/ring-core "1.1.1"]
-                 [ring/ring "1.1.1"]
+                 [ring/ring "1.1.1" :exclusions [ring/ring-jetty-adapter]]
                  [compojure/compojure "1.1.1"]
                  [me.shenfeng/async-ring-adapter "1.0.1"]
                  [clj-http "0.5.0"]
@@ -23,10 +23,28 @@
                  [rome/rome "1.0"]
                  [org.apache.tika/tika-core "1.0"]
                  [org.apache.tika/tika-parsers "1.0"]
-                 [com.lowagie/itext "2.0.8"]
-                 [org.xhtmlrenderer/core-renderer "R8"]
-                 [clj-pdf "0.9.1"]
+                 
+;http://code.google.com/p/flying-saucer/
+                 
+                 [org.xhtmlrenderer/flying-saucer-core "9.0.0"]
+                 [org.xhtmlrenderer/flying-saucer-pdf "9.0.0"]
+                 [org.xhtmlrenderer/flying-saucer-log4j "9.0.0"]
+;                 [clj-pdf "0.9.1"]
+                 
                  [org.glassfish/javax.servlet "3.1.1"]
+                 [org.eclipse.jetty/jetty-server "8.1.4.v20120524"]
+	               [org.eclipse.jetty/jetty-security "8.1.4.v20120524"]
+	               [org.eclipse.jetty/jetty-servlet "8.1.4.v20120524"]
+	               [org.eclipse.jetty/jetty-webapp "8.1.4.v20120524"]
+	               [org.eclipse.jetty/jetty-servlets "8.1.4.v20120524"]
+	               [org.eclipse.jetty/jetty-xml "8.1.4.v20120524"]
+	               [org.eclipse.jetty/jetty-util "8.1.4.v20120524"]
+	               [org.eclipse.jetty/jetty-jmx "8.1.4.v20120524"]
+	               [org.eclipse.jetty/jetty-http "8.1.4.v20120524"]
+	               [org.eclipse.jetty/jetty-io "8.1.4.v20120524"]
+	               [org.eclipse.jetty/jetty-continuation "8.1.4.v20120524"]
+	               [org.eclipse.jetty/jetty-websocket "8.1.4.v20120524"]
+                 
                  [org.slf4j/slf4j-api "1.6.6"]
                  [org.slf4j/jcl-over-slf4j "1.6.6"]
                  [ch.qos.logback/logback-core "1.0.6"]
@@ -50,7 +68,7 @@
 ;                 [com.keminglabs/c2 "0.1.2"]
                  ]
   :dev-dependencies [[lein-swank "1.4.4"]
-                     [lein-cljsbuild "0.2.1"]]
+                     [lein-cljsbuild "0.2.4"]]
   :aot :all
 ;  :jvm-opts ["-Xmx1g" "-server"
 ;             "-Dhttp.proxyHost=webproxy.int.westgroup.com"
@@ -80,7 +98,7 @@
                ; (See the ClojureScript compiler documentation for details.)
                :compiler {
                            :output-to "resources/public/static/javascript/outcastgeek/outcastgeek.js"  ; default: main.js in current directory
-                           :optimizations :advanced
+                           :optimizations :simple
                            :libs ["resources/public/static/javascript/outcastgeek/closure"]
                            :pretty-print true}}
 ;             {

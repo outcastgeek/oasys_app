@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" output="target/classes" path="src"/>
+	<classpathentry kind="src" path="src-cljs"/>
 	<classpathentry kind="src" path="java"/>
 	<classpathentry kind="src" path="OasysSchema/config"/>
 	<classpathentry kind="src" path="OasysSchema/test"/>

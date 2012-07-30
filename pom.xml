@@ -53,7 +53,7 @@
     <dependency>
       <groupId>lein-cljsbuild</groupId>
       <artifactId>lein-cljsbuild</artifactId>
-      <version>0.2.1</version>
+      <version>0.2.4</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -113,13 +113,14 @@
     </dependency>
     <dependency>
       <groupId>ring</groupId>
-      <artifactId>ring-core</artifactId>
-      <version>1.1.1</version>
-    </dependency>
-    <dependency>
-      <groupId>ring</groupId>
       <artifactId>ring</artifactId>
       <version>1.1.1</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>ring-jetty-adapter</artifactId>
+          <groupId>ring</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>compojure</groupId>
@@ -167,24 +168,84 @@
       <version>1.0</version>
     </dependency>
     <dependency>
-      <groupId>com.lowagie</groupId>
-      <artifactId>itext</artifactId>
-      <version>2.0.8</version>
+      <groupId>org.xhtmlrenderer</groupId>
+      <artifactId>flying-saucer-core</artifactId>
+      <version>9.0.0</version>
     </dependency>
     <dependency>
       <groupId>org.xhtmlrenderer</groupId>
-      <artifactId>core-renderer</artifactId>
-      <version>R8</version>
+      <artifactId>flying-saucer-pdf</artifactId>
+      <version>9.0.0</version>
     </dependency>
     <dependency>
-      <groupId>clj-pdf</groupId>
-      <artifactId>clj-pdf</artifactId>
-      <version>0.9.1</version>
+      <groupId>org.xhtmlrenderer</groupId>
+      <artifactId>flying-saucer-log4j</artifactId>
+      <version>9.0.0</version>
     </dependency>
     <dependency>
       <groupId>org.glassfish</groupId>
       <artifactId>javax.servlet</artifactId>
       <version>3.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-server</artifactId>
+      <version>8.1.4.v20120524</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-security</artifactId>
+      <version>8.1.4.v20120524</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-servlet</artifactId>
+      <version>8.1.4.v20120524</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-webapp</artifactId>
+      <version>8.1.4.v20120524</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-servlets</artifactId>
+      <version>8.1.4.v20120524</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-xml</artifactId>
+      <version>8.1.4.v20120524</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-util</artifactId>
+      <version>8.1.4.v20120524</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-jmx</artifactId>
+      <version>8.1.4.v20120524</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-http</artifactId>
+      <version>8.1.4.v20120524</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-io</artifactId>
+      <version>8.1.4.v20120524</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-continuation</artifactId>
+      <version>8.1.4.v20120524</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-websocket</artifactId>
+      <version>8.1.4.v20120524</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>

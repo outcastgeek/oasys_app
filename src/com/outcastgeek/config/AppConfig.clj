@@ -4,10 +4,10 @@
   (:require [resque-clojure.core :as resque])
   (:import java.util.Date
            java.sql.Timestamp
+;           org.springframework.context.support.ClassPathXmlApplicationContext
            com.mongodb.Mongo
            com.mongodb.ServerAddress
-           com.mongodb.MongoOptions
-           org.springframework.context.support.ClassPathXmlApplicationContext))
+           com.mongodb.MongoOptions))
 
 (defn get-current-timestamp []
   (Timestamp. (. (Date.) getTime)))
@@ -50,9 +50,6 @@
 ;(def appCtx
 ;  (ClassPathXmlApplicationContext. "spring/applicationContext.xml"))
 
-;(def ogMsgPub
-;  (. appCtx getBean "ogMessagePublisher"))
-
 ;Borrowed from here: https://raw.github.com/hozumi/session-expiry/master/src/hozumi/session_expiry.clj
 
 (defn- expire? [date expire-ms]
@@ -63,20 +60,22 @@
   (let [expire-ms (* 1000 expire-sec)]
     (fn [{{timestamp :session_timestamp :as req-session} :session :as request}]
       (let [expired?  (and timestamp (expire? timestamp expire-ms))
-	    request  (if expired?
-		       (assoc request :session {})
-		       request)
-	    response (handler request)]
-	(if (contains? response :session)
-	  (if (response :session)
-	    ;;write-session and update date
-	    (assoc-in response [:session :session_timestamp] (Date.)) 
-	    ;;delete-session because response include {:session nil}
-	    response) 
-	  (if (empty? req-session)
-	    response
-	    (if expired?
-	      ;;delete-session because session is expired
-	      (assoc response :session nil)
-	      ;;update date
-	      (assoc response :session (assoc req-session :session_timestamp (Date.))))))))))
+            request  (if expired?
+                       (assoc request :session {})
+                       request)
+            response (handler request)]
+        (if (contains? response :session)
+          (if (response :session)
+            ;;write-session and update date
+            (assoc-in response [:session :session_timestamp] (Date.)) 
+            ;;delete-session because response include {:session nil}
+            response)
+          (if (empty? req-session)
+            response
+            (if expired?
+              ;;delete-session because session is expired
+              (assoc response :session nil)
+              ;;update date
+              (assoc response :session (assoc req-session :session_timestamp (Date.)))))
+          ))
+      )))

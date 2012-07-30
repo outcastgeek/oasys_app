@@ -4,7 +4,7 @@
         compojure.core
         compojure.handler
         ring.util.servlet
-        ring.adapter.jetty
+;        ring.adapter.jetty
         ring.adapter.netty
         hiccup.core
         hiccup.page
@@ -16,7 +16,8 @@
         com.outcastgeek.config.AppConfig
         com.outcastgeek.domain.Entities
         com.outcastgeek.services.work.FuncDocCreator)
-  (:import java.util.UUID)
+  (:import java.util.UUID
+           com.outcastgeek.web.server.runner.Jetty)
   (:require [ring.middleware.session :as rs]
             [hozumi.mongodb-session :as mongoss]
             [compojure.route :as route]
@@ -438,22 +439,26 @@
 
 (defservice website)
 
-(defn runJetty [portNumber]
+;(defn runJetty [portNumber]
+;  (info "Starting Jetty...")
+;  (run-jetty website {:port (Integer/parseInt portNumber)}))
+
+(defn runJetty [portNumber webXml]
   (info "Starting Jetty...")
-  (run-jetty website {:port (Integer/parseInt portNumber)}))
+  (Jetty/runServer (Integer/parseInt portNumber) webXml))
 
 (defn runNetty [portNumber]
   (info "Starting Netty...")
   (run-netty website {:port (Integer/parseInt portNumber)
                   :netty {"reuseAddress" true}}))
 
-(defn -main [server portNumber]
+(defn -main [server portNumber webXml]
   ;; listening for jobs
   (resque/start ["createNewEmployeeQueue"
                  "sendNewMailQueue"])
   (cond
     (= server "Jetty")
-    (runJetty portNumber)
+    (runJetty portNumber webXml)
     (= server "Netty")
     (runNetty portNumber)
     ))
