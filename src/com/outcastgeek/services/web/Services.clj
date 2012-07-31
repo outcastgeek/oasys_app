@@ -219,7 +219,6 @@
            [:tr [:td {:id "nameFieldContainer"}]
             [:td {:id "sendButtonContainer"}]]
            [:tr [:td {:colspan "2" :style "color:red;" :id "errorLabelContainer"}]]]
-          (include-js "/static/js/mywebapp/mywebapp.nocache.js")
           ))
       {:csrf csrf :flash "" :flashstyle ""}
       )))

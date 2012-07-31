@@ -13,6 +13,7 @@ employees = Employee.create([
                                :first_name => "john",
                                :last_name => "doe",
                                :username => "JohnnyDough",
+                               :password => "password1",
                                :uniq => "unique1",
                                :provider => "provider1"
                              },
@@ -22,6 +23,7 @@ employees = Employee.create([
                                :first_name => "lambert",
                                :last_name => "lambert",
                                :username => "LambyLamby",
+                               :password => "password2",
                                :uniq => "unique2",
                                :provider => "provider2"
                              }

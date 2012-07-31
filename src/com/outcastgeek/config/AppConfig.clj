@@ -5,12 +5,12 @@
   (:require [resque-clojure.core :as resque])
   (:import java.util.Date
            java.sql.Timestamp
+;           java.util.Properties
+;           javax.persistence.Persistence
+;           com.outcastgeek.config.JavaConfig
            com.mongodb.Mongo
            com.mongodb.ServerAddress
-           com.mongodb.MongoOptions
-           java.util.Properties
-           javax.persistence.Persistence
-           com.outcastgeek.config.JavaConfig))
+           com.mongodb.MongoOptions))
 
 (defn get-current-timestamp []
   (Timestamp. (. (Date.) getTime)))
@@ -25,9 +25,9 @@
 (def appProperties
   (load-props "app.properties"))
 
-(def props
-  (doto (Properties.)
-    (.load (reader "app.properties"))))
+;(def props
+;  (doto (Properties.)
+;    (.load (reader "app.properties"))))
 
 ;;;;;;;;;;;;;;;;; STORAGE ;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -60,15 +60,15 @@
 ;(def entityManager
 ;  (. appCtx getBean "entityManagerFactory"))
 
-(def entityManager
-  (. (Persistence/createEntityManagerFactory "persistenceUnit" props) createEntityManager))
-
-(defmacro with-transaction
-  [& body]
-  `(let [tx# (.getTransaction entityManager)]
-     (.begin tx#)
-     ~@body
-     (.commit tx#)))
+;(def entityManager
+;  (. (Persistence/createEntityManagerFactory "persistenceUnit" props) createEntityManager))
+;
+;(defmacro with-transaction
+;  [& body]
+;  `(let [tx# (.getTransaction entityManager)]
+;     (.begin tx#)
+;     ~@body
+;     (.commit tx#)))
 
 ;Borrowed from here: https://raw.github.com/hozumi/session-expiry/master/src/hozumi/session_expiry.clj
 

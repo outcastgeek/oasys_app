@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120731002005) do
+ActiveRecord::Schema.define(:version => 20120731185518) do
 
   create_table "employees", :force => true do |t|
     t.string   "first_name"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(:version => 20120731002005) do
     t.datetime "updated_at", :null => false
     t.string   "provider"
     t.string   "uniq"
+    t.string   "password"
   end
 
   create_table "payroll_cycles", :force => true do |t|

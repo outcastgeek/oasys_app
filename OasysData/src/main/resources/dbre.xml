@@ -16,6 +16,7 @@
         <column name="updated_at" primaryKey="false" required="true" scale="6" size="29" type="93,timestamp"/>
         <column name="provider" primaryKey="false" required="false" scale="0" size="255" type="12,varchar"/>
         <column name="uniq" primaryKey="false" required="false" scale="0" size="255" type="12,varchar"/>
+        <column name="password" primaryKey="false" required="false" scale="0" size="255" type="12,varchar"/>
         <unique name="employees_pkey">
             <unique-column name="id"/>
         </unique>

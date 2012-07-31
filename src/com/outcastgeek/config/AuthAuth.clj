@@ -44,8 +44,7 @@
   (let [username (params :username)
         password (params :password)
         csrf (params :csrf)
-        user (fetch-one :users
-                        :where {:username username})]
+        user (first (findEmployee {:username username}))]
     (dosync
         (debug "Authenticating...")
         (if
@@ -232,7 +231,7 @@
     (debug user-info#)
     (resque/enqueue "createNewEmployeeQueue"
                     "com.outcastgeek.domain.Entities/createEmployee"
-                    user-info#)
+                    (merge user-info# {:password (hash-password (user-info# :uniq) "outcastgeek")}))
       (do
         {:status 302
          :headers {"Location" "/"}
@@ -259,8 +258,7 @@
         password (params :password)
         confirmpassword (params :confirmpassword)
         csrf (params :csrf)
-        user (fetch-one :users
-                        :where {:username username})]
+        user (first (findEmployee {:username username}))]
   (dosync
     (if
       (and
@@ -274,7 +272,11 @@
         ;(.matches password "^.*(?=.{6,})(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d\\W]).*$")
         (= csrf (session :csrf)))
       (do
-        (insert! :users ({:username username :email email :password (hash-password password "outcastgeek")}))
+        (resque/enqueue "createNewEmployeeQueue"
+                    "com.outcastgeek.domain.Entities/createEmployee"
+                    {:username username
+                     :email email
+                     :password (hash-password password "outcastgeek")})
         {:status 302
          :headers {"Location" "/"}
          :session (merge session {:login true :username username

@@ -24,7 +24,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 import org.springframework.transaction.annotation.Transactional;
 
 @Entity
-@Table(schema = "public", name = "projects")
+@Table(schema = "public",name = "projects")
 @Configurable
 @RooJavaBean
 @RooToString
@@ -32,65 +32,39 @@ import org.springframework.transaction.annotation.Transactional;
 @RooDbManaged(automaticallyDelete = true)
 public class Projects {
 
-    @PersistenceContext
+	@PersistenceContext
     transient EntityManager entityManager;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Integer id;
-
-    @Column(name = "name", length = 255)
-    private String name;
-
-    @Column(name = "client", length = 255)
-    private String client;
-
-    @Column(name = "description")
-    private String description;
-
-    @Column(name = "created_at")
-    @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(style = "M-")
-    private Date createdAt;
-
-    @Column(name = "updated_at")
-    @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(style = "M-")
-    private Date updatedAt;
-
-    public static final EntityManager entityManager() {
+	public static final EntityManager entityManager() {
         EntityManager em = new Projects().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
         return em;
     }
 
-    public static long countProjectses() {
+	public static long countProjectses() {
         return entityManager().createQuery("SELECT COUNT(o) FROM Projects o", Long.class).getSingleResult();
     }
 
-    public static List<com.outcastgeek.domain.Projects> findAllProjectses() {
+	public static List<Projects> findAllProjectses() {
         return entityManager().createQuery("SELECT o FROM Projects o", Projects.class).getResultList();
     }
 
-    public static com.outcastgeek.domain.Projects findProjects(Integer id) {
+	public static Projects findProjects(Integer id) {
         if (id == null) return null;
         return entityManager().find(Projects.class, id);
     }
 
-    public static List<com.outcastgeek.domain.Projects> findProjectsEntries(int firstResult, int maxResults) {
+	public static List<Projects> findProjectsEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM Projects o", Projects.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
 
-    @Transactional
+	@Transactional
     public void persist() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.persist(this);
     }
 
-    @Transactional
+	@Transactional
     public void remove() {
         if (this.entityManager == null) this.entityManager = entityManager();
         if (this.entityManager.contains(this)) {
@@ -101,75 +75,101 @@ public class Projects {
         }
     }
 
-    @Transactional
+	@Transactional
     public void flush() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.flush();
     }
 
-    @Transactional
+	@Transactional
     public void clear() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.clear();
     }
 
-    @Transactional
-    public com.outcastgeek.domain.Projects merge() {
+	@Transactional
+    public Projects merge() {
         if (this.entityManager == null) this.entityManager = entityManager();
         Projects merged = this.entityManager.merge(this);
         this.entityManager.flush();
         return merged;
     }
 
-    public String toString() {
+	public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
-    public Integer getId() {
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Integer id;
+
+	public Integer getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+	public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getName() {
+	@Column(name = "name", length = 255)
+    private String name;
+
+	@Column(name = "client", length = 255)
+    private String client;
+
+	@Column(name = "description")
+    private String description;
+
+	@Column(name = "created_at")
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(style = "M-")
+    private Date createdAt;
+
+	@Column(name = "updated_at")
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(style = "M-")
+    private Date updatedAt;
+
+	public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+	public void setName(String name) {
         this.name = name;
     }
 
-    public String getClient() {
+	public String getClient() {
         return client;
     }
 
-    public void setClient(String client) {
+	public void setClient(String client) {
         this.client = client;
     }
 
-    public String getDescription() {
+	public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+	public void setDescription(String description) {
         this.description = description;
     }
 
-    public Date getCreatedAt() {
+	public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
+	public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

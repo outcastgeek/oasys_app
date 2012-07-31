@@ -57,8 +57,8 @@
 ;                 [com.typesafe.akka/akka-slf4j "2.0.2"]
                  ;;;;;;;;;;; SPRING ;;;;;;;;;;;;;;;;;;;;;;;;
                  [org.springframework/spring-context "3.1.2.RELEASE"]
-                 [org.springframework/spring-web "3.1.2.RELEASE"]
-                 [com.outcastgeek/OasysData "0.1.0.BUILD-SNAPSHOT"]
+;                 [org.springframework/spring-web "3.1.2.RELEASE"]
+;                 [com.outcastgeek/OasysData "0.1.0.BUILD-SNAPSHOT"]
                  ;;;;;;;;;;; CLJS LIBS ;;;;;;;;;;;;;;;;;;;;;;;;
 ;                 [jayq "0.1.0-alpha4"]
 ;                 [waltz "0.1.0-alpha1"]
