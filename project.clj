@@ -4,7 +4,6 @@
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [org.clojure/tools.logging "0.2.3"]
                  [redis.clients/jedis "2.0.0"]
-                 [rrss/rrss "0.2.2"]
                  [resque-clojure "0.2.2"]
                  [congomongo/congomongo "0.1.9"]
                  [org.clojars.hozumi/mongodb-session "1.0.1"]
@@ -57,6 +56,7 @@
 ;                 [com.typesafe.akka/akka-file-mailbox "2.0.2"]
 ;                 [com.typesafe.akka/akka-slf4j "2.0.2"]
                  ;;;;;;;;;;; SPRING ;;;;;;;;;;;;;;;;;;;;;;;;
+                 [org.springframework/spring-context "3.1.2.RELEASE"]
                  [org.springframework/spring-web "3.1.2.RELEASE"]
                  [com.outcastgeek/OasysData "0.1.0.BUILD-SNAPSHOT"]
                  ;;;;;;;;;;; CLJS LIBS ;;;;;;;;;;;;;;;;;;;;;;;;

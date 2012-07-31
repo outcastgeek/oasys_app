@@ -18,6 +18,8 @@
            http://www.springframework.org/schema/util
                 http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 
-    <import resource="classpath*:META-INF/spring/*.xml"/>
+	<context:annotation-config />
+
+    <bean id="javaConfig" class="com.outcastgeek.config.JavaConfig" />
 
 </beans>

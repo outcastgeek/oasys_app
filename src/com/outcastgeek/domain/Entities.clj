@@ -4,7 +4,12 @@
         com.outcastgeek.services.web.Mail
         korma.core
         korma.db)
-  (:require [resque-clojure.core :as resque]))
+  (:require [resque-clojure.core :as resque])
+  (:import java.util.Date
+           com.outcastgeek.domain.Employees))
+
+;(def employeesEntity
+;  (. appCtx getBean "employees"))
 
 ;;;; Check out: https://gist.github.com/2e8a3d55d80707ce79e0
 
@@ -43,14 +48,26 @@
   (let [employeeData (merge
                         (select-keys
                           data
-                          [:username :first_name :last_name :email :unique :provider])
+                          [:username :first_name :last_name :email :uniq :provider])
                         {:active false
                          :created_at (get-current-timestamp)
                          :updated_at (get-current-timestamp)})]
     (when
-      (empty? (findEmployee {:unique (employeeData :unique)}))
+      (empty? (findEmployee {:uniq (employeeData :uniq)}))
       (debug "PERSISTING NEW EMPLOYEE: " employeeData)
       (insert employees
               (values employeeData))
+      (doto (Employees.)
+        (.setFirstName (employeeData :first_name))
+        (.setLastName (employeeData :last_name))
+        (.setUsername (employeeData :username))
+        (.setEmail (employeeData :email))
+        (.setActive false)
+        (.setuniq (employeeData :uniq))
+        (.setProvider (employeeData :provider))
+        (.setCreatedAt (Date.))
+        (.setUpdatedAt (Date.))
+        (.persist)
+        (.flush))
       (sendWelcomeEmail employeeData)
       )))

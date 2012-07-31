@@ -7,7 +7,7 @@
            com.mongodb.Mongo
            com.mongodb.ServerAddress
            com.mongodb.MongoOptions
-           org.springframework.context.support.ClassPathXmlApplicationContext))
+           com.outcastgeek.config.JavaConfig))
 
 (defn get-current-timestamp []
   (Timestamp. (. (Date.) getTime)))
@@ -48,7 +48,7 @@
 (resque/configure {:host (appProperties :redis-url) :port (appProperties :redis-port)}) ;; optional
 
 (def appCtx
-  (ClassPathXmlApplicationContext. "spring/applicationContext.xml"))
+  (JavaConfig/getContext))
 
 ;Borrowed from here: https://raw.github.com/hozumi/session-expiry/master/src/hozumi/session_expiry.clj
 

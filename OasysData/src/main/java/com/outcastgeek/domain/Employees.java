@@ -63,11 +63,11 @@ public class Employees {
     @DateTimeFormat(style = "M-")
     private Date updatedAt;
 
-	@Column(name = "unique", length = 255)
-    private String unique;
-
 	@Column(name = "provider", length = 255)
     private String provider;
+
+	@Column(name = "uniq", length = 255)
+    private String uniq;
 
 	public String getFirstName() {
         return firstName;
@@ -125,20 +125,20 @@ public class Employees {
         this.updatedAt = updatedAt;
     }
 
-	public String getUnique() {
-        return unique;
-    }
-
-	public void setUnique(String unique) {
-        this.unique = unique;
-    }
-
 	public String getProvider() {
         return provider;
     }
 
 	public void setProvider(String provider) {
         this.provider = provider;
+    }
+
+	public String getUniq() {
+        return uniq;
+    }
+
+	public void setUniq(String uniq) {
+        this.uniq = uniq;
     }
 
 	@PersistenceContext

@@ -1,3 +1,3 @@
 class Employee < ActiveRecord::Base
-  attr_accessible :active, :email, :first_name, :last_name, :username, :unique, :provider
+  attr_accessible :active, :email, :first_name, :last_name, :username, :uniq, :provider
 end

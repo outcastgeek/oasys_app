@@ -8,7 +8,6 @@
         ring.adapter.netty
         hiccup.core
         hiccup.page
-        rrss
         somnium.congomongo
         com.outcastgeek.services.web.fluid
         com.outcastgeek.services.web.resumebuilder
@@ -228,8 +227,8 @@
 (defn profile [request]
   (let [session (request :session)
         username (session :username)
-        unique (-> session :user-info :unique)
-        employee (first (findEmployee {:unique unique}))]
+        uniq (-> session :user-info :uniq)
+        employee (first (findEmployee {:uniq uniq}))]
    (debug "FOUND EMPLOYEE: " employee) 
    (page
     request
@@ -310,7 +309,7 @@
                                                              :first_name (user-data :first_name)
                                                              :last_name (user-data :last_name)
                                                              :email (str (user-data :username) "@facebook.com")
-                                                             :unique (user-data :id)
+                                                             :uniq (user-data :id)
                                                              :provider "fb"})) params session))
 
   ;Handle Google+ OAuth2 Callback
@@ -324,7 +323,7 @@
                                                                  :first_name (user-data :given_name)
                                                                  :last_name (user-data :family_name)
                                                                  :email (user-data :email)
-                                                                 :unique (user-data :id)
+                                                                 :uniq (user-data :id)
                                                                  :provider "goog"})) params session))
 
   ;Handle Dwolla OAuth2 Callback
@@ -337,7 +336,7 @@
                                                             {:username (-> user-data :Response :Name)
                                                              :first_name (-> user-data :Response :Name)
                                                              :last_name (-> user-data :Response :Name)
-                                                             :unique (-> user-data :Response :Id)
+                                                             :uniq (-> user-data :Response :Id)
                                                              :provider "dwolla"})) params session))
 
   ;Handle Paypal OAuth2 Callback
@@ -351,7 +350,7 @@
                                                              :first_name (-> user-data :identity :firstName)
                                                              :last_name (-> user-data :identity :lastName)
                                                              :email (-> user-data :identity :emails :first)
-                                                             :unique (-> user-data :identity :userId)
+                                                             :uniq (-> user-data :identity :userId)
                                                              :payerId (-> user-data :identity :payerID)
                                                              :provider "paypal"})) params session))
 
@@ -365,7 +364,7 @@
                                                                 {:username (-> user-data :username)
                                                                  :first_name (-> user-data :firstname)
                                                                  :last_name (-> user-data :lastname)
-                                                                 :unique (-> user-data :link)
+                                                                 :uniq (-> user-data :link)
                                                                  :email (-> user-data :email)
                                                                  :provider "flattr"})) params session))
 
@@ -379,7 +378,7 @@
                                                                    {:username (-> user-data :data :username)
                                                                     :first_name (-> user-data :data :full_name)
                                                                     :last_name (-> user-data :data :full_name)
-                                                                    :unique (-> user-data :data :id)
+                                                                    :uniq (-> user-data :data :id)
                                                                     :provider "instagram"})) params session))
 
   ;Handle Live OAuth2 Callback
@@ -403,7 +402,7 @@
                                                                      :first_name (-> user-data :response :user :firstName)
                                                                      :last_name (-> user-data :response :user :lastName)
                                                                      :email (-> user-data :response :user :contact :email)
-                                                                     :unique (-> user-data :response :user :id)
+                                                                     :uniq (-> user-data :response :user :id)
                                                                      :provider "foursquare"})) params session))
 
   ;Handle Github OAuth2 Callback
@@ -414,7 +413,7 @@
                                                            "access_token"
                                                            (fn [user-data]
                                                              {:username (user-data :login)
-                                                              :unique (user-data :id)
+                                                              :uniq (user-data :id)
                                                               :provider "git"})) params session))
 
   (route/resources "/")
