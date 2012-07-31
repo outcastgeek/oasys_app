@@ -1,12 +1,15 @@
 (ns com.outcastgeek.config.AppConfig
   (:use clojure.java.io
-        somnium.congomongo)
+        somnium.congomongo
+        [clojure.java.io :only [reader]])
   (:require [resque-clojure.core :as resque])
   (:import java.util.Date
            java.sql.Timestamp
            com.mongodb.Mongo
            com.mongodb.ServerAddress
            com.mongodb.MongoOptions
+           java.util.Properties
+           javax.persistence.Persistence
            com.outcastgeek.config.JavaConfig))
 
 (defn get-current-timestamp []
@@ -21,6 +24,10 @@
 
 (def appProperties
   (load-props "app.properties"))
+
+(def props
+  (doto (Properties.)
+    (.load (reader "app.properties"))))
 
 ;;;;;;;;;;;;;;;;; STORAGE ;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -47,8 +54,14 @@
 
 (resque/configure {:host (appProperties :redis-url) :port (appProperties :redis-port)}) ;; optional
 
-(def appCtx
-  (JavaConfig/getContext))
+;(def appCtx
+;  (JavaConfig/getContext))
+;
+;(def entityManager
+;  (. appCtx getBean "entityManagerFactory"))
+
+(def entityManager
+  (Persistence/createEntityManagerFactory "persistenceUnit" props))
 
 ;Borrowed from here: https://raw.github.com/hozumi/session-expiry/master/src/hozumi/session_expiry.clj
 

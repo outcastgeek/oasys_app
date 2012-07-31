@@ -22,3 +22,7 @@ database reverse engineer --schema public --includeTables "employees payroll_cyc
 // script --file bootStrap.roo
 quit
 // Spring Roo 1.2.2.RELEASE [rev 7d75659] log closed at 2012-07-30 19:26:54
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2012-07-30 23:37:04
+hint
+quit
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log closed at 2012-07-30 23:50:50
