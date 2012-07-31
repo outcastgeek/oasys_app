@@ -57,7 +57,7 @@
       (debug "PERSISTING NEW EMPLOYEE: " employeeData)
 ;      (insert employees
 ;              (values employeeData))
-      (. entityManager persist
+      (with-transaction
         (doto (Employees.)
 	        (.setFirstName (employeeData :first_name))
 	        (.setLastName (employeeData :last_name))
@@ -67,7 +67,8 @@
 	        (.setuniq (employeeData :uniq))
 	        (.setProvider (employeeData :provider))
 	        (.setCreatedAt (Date.))
-	        (.setUpdatedAt (Date.))))
-      (. entityManager flush)
+	        (.setUpdatedAt (Date.))
+          (.persist)
+          (.flush)))
       (sendWelcomeEmail employeeData)
       )))

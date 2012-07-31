@@ -61,7 +61,14 @@
 ;  (. appCtx getBean "entityManagerFactory"))
 
 (def entityManager
-  (Persistence/createEntityManagerFactory "persistenceUnit" props))
+  (. (Persistence/createEntityManagerFactory "persistenceUnit" props) createEntityManager))
+
+(defmacro with-transaction
+  [& body]
+  `(let [tx# (.getTransaction entityManager)]
+     (.begin tx#)
+     ~@body
+     (.commit tx#)))
 
 ;Borrowed from here: https://raw.github.com/hozumi/session-expiry/master/src/hozumi/session_expiry.clj
 
