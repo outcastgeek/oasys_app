@@ -23,8 +23,7 @@
     </appender>
 
 	<logger name="com.outcastgeek" level="TRACE"/>
-	<logger name="org.hibernate.type" level="ALL" />
-  	<logger name="org.hibernate" level="DEBUG" />
+  	
   	<!-- 
 	<logger name="org.postgresql" additivity="false">
 		<appender-ref ref="ASYNC"/>
