@@ -38,6 +38,13 @@
 (defn allEmployees []
   (select employees))
 
+(defn updateEmployee [data]
+  (update employees
+          (set-fields (select-keys
+                        data
+                        [:username :first_name :last_name :email :password]))
+          (where {:uniq (data :uniq)})))
+
 (defn findEmployee [data]
   (debug "EMPLOYEE CRITERIA: " data)
   (select employees

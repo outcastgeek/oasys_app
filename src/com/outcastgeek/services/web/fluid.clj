@@ -147,7 +147,7 @@
                  [:span {:class "caret"}]]
                 [:ul {:class "dropdown-menu"}
                  [:li [:a {:href "/login"} "Login"]]
-                 [:li [:a {:href "/register"} "Register"]]
+;                 [:li [:a {:href "/register"} "Register"]]
                  [:li [:a {:href "/profile"} "Profile"]]
                  [:li {:class "divider"}]
                  [:li [:a {:href "/login/fb"} "Facebook"]]

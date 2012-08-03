@@ -22,6 +22,9 @@
                  [rome/rome "1.0"]
                  [org.apache.tika/tika-core "1.0"]
                  [org.apache.tika/tika-parsers "1.0"]
+;                 [org.apache.solr/solr-core "3.6.1"]
+;                 [org.apache.solr/solr-solrj "3.6.1"]
+;                 [org.apache.solr/solr-clustering "3.6.1"]
                  
 ;http://code.google.com/p/flying-saucer/
                  

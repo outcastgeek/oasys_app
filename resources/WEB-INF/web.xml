@@ -3,6 +3,43 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
      version="3.0">
+     
+    <!-- =============== SOLR =============================== -->
+    
+    <!--<filter>
+  <filter-name>SolrRequestFilter</filter-name>
+  <filter-class>org.apache.solr.servlet.SolrDispatchFilter</filter-class>  
+ </filter>
+ 
+ <filter-mapping>
+   
+  <filter-name>SolrRequestFilter</filter-name>
+  <url-pattern>/dataimport</url-pattern>
+ </filter-mapping>
+ <servlet>
+  <servlet-name>SolrServer</servlet-name>
+  <servlet-class>org.apache.solr.servlet.SolrServlet</servlet-class>
+  <load-on-startup>1</load-on-startup>
+ </servlet>
+ <servlet>
+  <servlet-name>SolrUpdate</servlet-name>
+  <servlet-class>org.apache.solr.servlet.SolrUpdateServlet</servlet-class>
+  <load-on-startup>2</load-on-startup>
+ </servlet>
+ <servlet>
+  <servlet-name>Logging</servlet-name>
+  <servlet-class>org.apache.solr.servlet.LogLevelSelection</servlet-class>
+ </servlet>
+<servlet-mapping>
+  <servlet-name>SolrUpdate</servlet-name>
+  <url-pattern>/update/*</url-pattern>
+ </servlet-mapping>
+ <servlet-mapping>
+  <servlet-name>Logging</servlet-name>
+  <url-pattern>/admin/logging</url-pattern>
+ </servlet-mapping>-->
+ 
+ <!-- =============== END SOLR ========================== -->
 
     <!-- ==================== -->
     <!-- Spring configuration -->

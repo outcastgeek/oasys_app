@@ -41,33 +41,120 @@
                   (dec count)))))))
 
 (defn login-controller [params session]
-  (let [username (params :username)
+  (let [uniq (params :uniq)
         password (params :password)
         csrf (params :csrf)
-        user (first (findEmployee {:username username}))]
+        user (first (findEmployee {:uniq uniq}))]
     (dosync
-        (debug "Authenticating...")
+        (debug "Authenticating" user)
         (if
           (and
             (not (nil? user))
             (= (hash-password password "outcastgeek") (user :password))
-            (= username (user :username))
+            (= uniq (user :uniq))
             (= csrf (session :csrf)))
           (do
             (debug "Authenticated!!!!")
             {:status 302
              :headers {"Location" "/"}
-             :session (merge session {:login true :username username
-                                      :flash (str "You are now Logged In " username)
+             :session (merge session {:login true :username (user :username)
+                                      :user-info user
+                                      :flash (str "You are now Logged In " (user :username))
                                       :flashstyle "alert-success"})
              })
           (do
-            (debug "Cannot authenticate with username: " username " + password: **** combination")
+            (debug "Cannot authenticate with username: " uniq " + password: **** combination")
             {:status 302
              :headers {"Location" "/login"}
              :session (merge session {:flash "Could not Log you in with the provided Information"
                                       :flashstyle "alert-error"})
              })))))
+
+(defn register-controller [params session]
+  (let [username (params :username)
+        email (params :email)
+        password (params :password)
+        confirmpassword (params :confirmpassword)
+        csrf (params :csrf)
+        user (first (findExistingEmployee {:username username}))]
+  (dosync
+    (cond
+      (and
+        (= confirmpassword password)
+        (not (= username password))
+        (nil? user)
+        ; Username can include letters, numbers,
+        ; spaces, underscores, and hyphens.
+        (.matches username "[\\w\\s\\-]+")
+;        (.matches email "\\A[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@[A-Z0-9-]+(?:\\.[A-Z0-9-]+)*\\Z")
+;        (.matches password "^.*(?=.{6,})(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d\\W]).*$")
+        (= csrf (session :csrf)))
+      (do
+        (resque/enqueue "createNewEmployeeQueue"
+                    "com.outcastgeek.domain.Entities/createEmployee"
+                    {:username username
+                     :email email
+                     :uniq csrf
+                     :password (hash-password password "outcastgeek")})
+        {:status 302
+         :headers {"Location" "/"}
+         :session (merge session {:login true :username username
+                                  ::user-info {:username username
+                                               :email email
+                                               :uniq csrf}
+                                  :flash (str "You are now Registered " username)
+                                  :flashstyle "alert-success"})
+         })
+      :else (do
+              {:status 302
+			         :headers {"Location" "/register"}
+			         :session (merge session {:flash "Could not Register you with the provided Information"
+			                                      :flashstyle "alert-error"})
+			         })))))
+
+(defn profile-controller [params session]
+  (let [username (params :username)
+        email (params :email)
+        password (cond (nil? (params :password))
+                       (-> session :user-info :password)
+                       :else (hash-password (params :password) "outcastgeek"))
+        confirmpassword (params :confirmpassword)
+        firstname (params :first_name)
+        lastname (params :last_name)
+        csrf (params :csrf)
+        uniq (-> session :user-info :uniq)]
+  (dosync
+    (if
+      (and
+        (= confirmpassword password)
+        (not (= username password))
+        ; Username can include letters, numbers,
+        ; spaces, underscores, and hyphens.
+        (.matches username "[\\w\\s\\-]+")
+;        (.matches email "\\A[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@[A-Z0-9-]+(?:\\.[A-Z0-9-]+)*\\Z")
+;        (.matches password "^.*(?=.{6,})(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d\\W]).*$")
+        (= csrf (session :csrf)))
+      (do
+        (resque/enqueue "createNewEmployeeQueue"
+                    "com.outcastgeek.domain.Entities/updateEmployee"
+                    {:username username
+                     :email email
+                     :first_name firstname
+                     :last_name lastname
+                     :uniq uniq
+                     :password password})
+        {:status 302
+         :headers {"Location" "/profile"}
+         :session (merge session {:login true :username username
+                                  :flash (str "Your profile has been updated " username)
+                                  :flashstyle "alert-success"})
+         })
+      (do
+        {:status 302
+         :headers {"Location" "/profile"}
+         :session (merge session {:flash "Could not Update your profile with the provided Information"
+                                      :flashstyle "alert-error"})
+         })))))
 
 (def appUrl
   (str (appProperties :app-protocol)
@@ -251,44 +338,6 @@
      :session {:flash "You are now Logged Out!"
                :flashstyle "alert-success"}
      }))
-
-(defn register-controller [params session]
-  (let [username (params :username)
-        email (params :email)
-        password (params :password)
-        confirmpassword (params :confirmpassword)
-        csrf (params :csrf)
-        user (first (findEmployee {:username username}))]
-  (dosync
-    (if
-      (and
-        (= confirmpassword password)
-        (not (= username password))
-        (nil? user)
-        ; Username can include letters, numbers,
-        ; spaces, underscores, and hyphens.
-        (.matches username "[\\w\\s\\-]+")
-        ;(.matches email "\\A[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@[A-Z0-9-]+(?:\\.[A-Z0-9-]+)*\\Z")
-        ;(.matches password "^.*(?=.{6,})(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d\\W]).*$")
-        (= csrf (session :csrf)))
-      (do
-        (resque/enqueue "createNewEmployeeQueue"
-                    "com.outcastgeek.domain.Entities/createEmployee"
-                    {:username username
-                     :email email
-                     :password (hash-password password "outcastgeek")})
-        {:status 302
-         :headers {"Location" "/"}
-         :session (merge session {:login true :username username
-                                  :flash (str "You are now Registered " username)
-                                  :flashstyle "alert-success"})
-         })
-      (do
-        {:status 302
-         :headers {"Location" "/register"}
-         :session (merge session {:flash "Could not Register you with the provided Information"
-                                      :flashstyle "alert-error"})
-         })))))
 
 (defn auth-req? [req]
   (let [session (req :session)]

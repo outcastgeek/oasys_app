@@ -38,10 +38,6 @@
    :body html
    :session (merge (request :session ) sessMerge)})
 
-;(defn admin-view [session]
-;  (page session "Admin"
-;    [:p "Only admin can see this page."]))
-
 (defn resume [request]
   (let [csrf (str (UUID/randomUUID))
         step ((request :params ) :step )
@@ -66,77 +62,11 @@
        :body (generatePdfFromHtml (fullResume session))})
     ))
 
-(defn login [request]
-  (let [csrf (str (UUID/randomUUID))
-        session (request :session )]
-    (page
-      request
-      (html-doc
-        request
-        "Log in | "
-        (html
-          [:div {:class "row"}
-           [:div {:class "span16"}
-            [:h2 "Log in"]
-            [:br ]
-            [:form {:method "post" :action "/login" :enctype "application/x-www-form-urlencoded"}
-             [:fieldset [:legend "Enter your username and password"]
-              (input "User Name" "username" session)
-              (secret-input "Password" "password" session)
-              [:input {:type "hidden" :name "csrf" :value csrf}]
-              [:input {:class "btn btn-primary" :type "submit" :value "Login"}]
-              [:span " or "] (button-link-to "/register" "Register ")
-              ]]]]
-          (goog-analytics)
-          ))
-      {:csrf csrf :flash "" :flashstyle ""})))
-
-;(defn home [request]
-;  (insert! :robots
-;           {:name "robby"})
-;  (page
-;   request
-;   (html-doc
-;    request
-;    "Services"
-;    (html
-;     [:div {:class "row"}
-;      [:div {:class "span16"}
-;       [:h2 "Welcome"]
-;       [:div "Retrieved robot: " ((fetch-one :robots) :name)]
-;       ]]
-;     (include-js "/static/js/out/hello/hello.js")
-;     (javascript-tag
-;      "
-;      alert(greet('ClojureScript'));
-;      alert('The sum of [1,2,3,4,5,6,7,8,9] is: ' + hello.core.sum([1,2,3,4,5,6,7,8,9]));
-;      ")
-;     ))
-;   {:flash "" :flashstyle ""}))
-
 (defn home-other [request]
   (do
     {:status 302
      :headers {"Location" "http://signup.upgradeavenue.com"}
      }))
-
-;(defn async-home [channel request]
-;  (enqueue channel
-;    (dosync
-;      (insert! :robots
-;        {:name "robby"})
-;      (page
-;        request
-;        (html-doc
-;          request
-;          "Services | "
-;          (html
-;            [:div {:class "row"}
-;             [:div {:class "span16"}
-;              [:h2 "Welcome"]
-;              [:div "Retrieved robot: " ((fetch-one :robots) :name)]
-;              ]]))
-;        {:flash "" :flashstyle ""}))))
 
 (defn home [request]
 ;  (insert! :robots {:name "robby"})
@@ -162,32 +92,6 @@
         [:div {:class "row" :ng-include "'/views/facts.html'"}]
         ))
     {:flash "" :flashstyle ""}))
-
-(defn register [request]
-  (let [csrf (str (UUID/randomUUID))
-        session (request :session )]
-    (page
-      request
-      (html-doc
-        request
-        "Register | "
-        (html
-          [:div {:class "row"}
-           [:div {:class "span16"}
-            [:h2 "Register"]
-            [:br ]
-            [:form {:method "post" :action "/register" :enctype "application/x-www-form-urlencoded"}
-             [:fieldset [:legend "Enter your information"]
-              (input "User Name" "username" session)
-              (input "Email" "email" session)
-              (secret-input "Password" "password" session)
-              (secret-input "Confirm Password" "confirmpassword" session)
-              [:input {:type "hidden" :name "csrf" :value csrf}]
-              [:input {:class "btn btn-primary" :type "submit" :value "Register"}]
-              ]]]]
-          (goog-analytics)
-          ))
-      {:csrf csrf :flash "" :flashstyle ""})))
 
 (defn about [request]
   (let [csrf (str (UUID/randomUUID))
@@ -228,11 +132,62 @@
       {:csrf csrf :flash "" :flashstyle ""}
       )))
 
+(defn login [request]
+  (let [csrf (str (UUID/randomUUID))
+        session (request :session )]
+    (page
+      request
+      (html-doc
+        request
+        "Log in | "
+        (html
+          [:div {:class "row"}
+           [:div {:class "span16"}
+            [:h2 "Log in"]
+            [:br ]
+            [:form {:method "post" :action "/login" :enctype "application/x-www-form-urlencoded"}
+             [:fieldset [:legend "Enter your username and password"]
+              (input "User ID" "uniq" (session :user-info))
+              (secret-input "Password" "password" session)
+              [:input {:type "hidden" :name "csrf" :value csrf}]
+              [:input {:class "btn btn-primary" :type "submit" :value "Login"}]
+;              [:span " or "] (button-link-to "/register" "Register ")
+              ]]]]
+          ))
+      {:csrf csrf :flash "" :flashstyle ""})))
+
+(defn register [request]
+  (let [csrf (str (UUID/randomUUID))
+        session (request :session )]
+    (page
+      request
+      (html-doc
+        request
+        "Register | "
+        (html
+          [:div {:class "row"}
+           [:div {:class "span12"}
+            [:h2 "Register"]
+            [:br ]
+            [:form {:method "post" :action "/register" :enctype "application/x-www-form-urlencoded"}
+             [:fieldset [:legend "Enter your information"]
+              (input "User Name" "username" session)
+              (input "Email" "email" session)
+              (secret-input "Password" "password" session)
+              (secret-input "Confirm Password" "confirmpassword" session)
+              [:input {:type "hidden" :name "csrf" :value csrf}]
+              [:input {:class "btn btn-primary" :type "submit" :value "Register"}]
+              ]]]]
+          ))
+      {:csrf csrf :flash "" :flashstyle ""})))
+
 (defn profile [request]
-  (let [session (request :session)
+  (let [csrf (str (UUID/randomUUID))
+        session (request :session)
         username (session :username)
         uniq (-> session :user-info :uniq)
-        employee (first (findEmployee {:uniq uniq}))]
+        employee (first (findExistingEmployee {:uniq uniq
+                                               :username username}))]
    (debug "FOUND EMPLOYEE: " employee) 
    (page
     request
@@ -247,12 +202,26 @@
          [:div {:class "span6"}
           [:h2 "Info"]
           [:ul
-           [:li "First Name" (employee :first_name)]
+           [:li "First Name: " (employee :first_name)]
            [:li "Last Name: " (employee :last_name)]
            [:li "Email: " (employee :email)]
            [:li "Active: " (employee :active)]]]
+         [:div {:class "span6"}
+            [:h2 "Update Your Profile"]
+            [:br ]
+            [:form {:method "post" :action "/profile" :enctype "application/x-www-form-urlencoded"}
+             [:fieldset [:legend "Enter values only for the information you would like to update"]
+              (input "First Name" "first_name" (session :user-info))
+              (input "Last Name" "last_name" (session :user-info))
+              (input "User Name" "username" session)
+              (input "Email" "email" (session :user-info))
+              (secret-input "Password" "password" session :required false)
+              (secret-input "Confirm Password" "confirmpassword" session :required false)
+              [:input {:type "hidden" :name "csrf" :value csrf}]
+              [:input {:class "btn btn-primary" :type "submit" :value "Update"}]
+              ]]]
          ]))
-    {:flash "" :flashstyle ""})))
+    {:csrf csrf :flash "" :flashstyle ""})))
 
 (defn oauth-redirect [request]
   (let [provider (-> request :params :provider keyword)
@@ -273,6 +242,8 @@
   (ANY "/logout" [] (logout-controller))
   
   (GET "/profile" request ((glua (auth-req? request) profile) request))
+  
+  (POST "/profile" {session :session params :params} (profile-controller params session))
 
   ;(ANY "/*" (ensure-admin-controller session))
   ;(ANY "/admin/" (admin-view session))
@@ -291,9 +262,9 @@
 
   (GET "/" request (home request))
 
-  (GET "/register" request (register request))
-
-  (POST "/register" {session :session params :params} (register-controller params session))
+;  (GET "/register" request (register request))
+;
+;  (POST "/register" {session :session params :params} (register-controller params session))
 
   (GET "/about" request (about request))
 
