@@ -115,9 +115,10 @@
 (defn profile-controller [params session]
   (let [username (params :username)
         email (params :email)
-        password (cond (nil? (params :password))
-                       (-> session :user-info :password)
-                       :else (hash-password (params :password) "outcastgeek"))
+        hashed-password (cond (nil? (params :password))
+                              (-> session :user-info :password)
+                         :else (hash-password (params :password) "outcastgeek"))
+        password (params :password)
         confirmpassword (params :confirmpassword)
         firstname (params :first_name)
         lastname (params :last_name)
@@ -142,7 +143,7 @@
                      :first_name firstname
                      :last_name lastname
                      :uniq uniq
-                     :password password})
+                     :password hashed-password})
         {:status 302
          :headers {"Location" "/profile"}
          :session (merge session {:login true :username username

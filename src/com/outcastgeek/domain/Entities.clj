@@ -33,17 +33,41 @@
 
 (defentity work_segments)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;     Projects       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn allProjects []
+  (select projects))
+
+(defn findProject [data]
+  (debug "PROJECT CRITERIA: " data)
+  (select projects
+          (where data)))
+
+(defn createProject [data]
+  (debug "RAW PROJECT DATA: " data)
+  (let [existingProject (first (findProject data))]
+    (when
+      (nil? existingProject)
+      (debug "PERSISTING NEW PROJECT: " data)
+      (insert projects
+              (values data))
+      )))
+
+;;;;;;;;;;;;;;;;;;     Employees       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defn allEmployees []
   (select employees))
 
 (defn updateEmployee [data]
-  (update employees
-          (set-fields (select-keys
-                        data
-                        [:username :first_name :last_name :email :password]))
-          (where {:uniq (data :uniq)})))
+  (let [employeeData (merge
+                       (select-keys
+                         data
+                         [:username :first_name :last_name :email :password])
+                       {:updated_at (get-current-timestamp)})]
+    (debug "Updating employee with: " employeeData)
+    (update employees
+          (set-fields employeeData)
+          (where {:uniq (employeeData :uniq)}))))
 
 (defn findEmployee [data]
   (debug "EMPLOYEE CRITERIA: " data)

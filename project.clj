@@ -85,7 +85,7 @@
   ;; Options to pass to java compiler for java source,
   ;; exactly the same as command line arguments to javac
   :javac-options {:target "1.7"
-                  :debug "on"
+                  :debug "off"
                   :source "1.7"}
   ;:javac-options ["-target" "1.7" "-source" "1.7" "-Xlint:-options"]
   ;; Leave the contents of :source-paths out of jars (for AOT projects)
