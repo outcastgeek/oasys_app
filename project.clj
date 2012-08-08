@@ -5,7 +5,7 @@
                  [org.clojure/tools.logging "0.2.3"]
                  [redis.clients/jedis "2.0.0"]
                  [resque-clojure "0.2.2"]
-                 [congomongo/congomongo "0.1.9"]
+                 [congomongo/congomongo "0.1.10"]
                  [org.clojars.hozumi/mongodb-session "1.0.1"]
                  [postgresql/postgresql "9.1-901.jdbc4"]
                  [korma "0.3.0-beta11"]
@@ -14,7 +14,10 @@
                  [ring/ring-core "1.1.1"]
                  [ring/ring "1.1.1" :exclusions [ring/ring-jetty-adapter]]
                  [compojure/compojure "1.1.1"]
+                 [com.novemberain/validateur "1.1.0"]
                  [me.shenfeng/async-ring-adapter "1.0.1"]
+                 [clojurewerkz/quartzite "1.0.0-rc6"]
+                 [com.novemberain/quartz-mongodb "1.0.0"]
                  [clj-http "0.5.0"]
                  [clj-oauth2 "0.2.0"]
                  [cheshire "4.0.1"]
@@ -46,7 +49,7 @@
 	               [org.eclipse.jetty/jetty-io "8.1.4.v20120524"]
 	               [org.eclipse.jetty/jetty-continuation "8.1.4.v20120524"]
 	               [org.eclipse.jetty/jetty-websocket "8.1.4.v20120524"]
-                 
+                 ;;;;;;;;;;;;;;;  LOGGING    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                  [org.slf4j/slf4j-api "1.6.6"]
                  [org.slf4j/jcl-over-slf4j "1.6.6"]
                  [ch.qos.logback/logback-core "1.0.6"]
@@ -72,7 +75,7 @@
 ;                 [com.keminglabs/c2 "0.1.2"]
                  ]
   :dev-dependencies [[lein-swank "1.4.4"]
-                     [lein-cljsbuild "0.2.4"]
+                     [lein-cljsbuild "0.2.5"]
                      [midje "1.4.0"]
                      [com.stuartsierra/lazytest "1.2.3"]]
   :aot :all

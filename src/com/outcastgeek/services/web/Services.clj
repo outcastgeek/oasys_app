@@ -10,11 +10,12 @@
         hiccup.page
         somnium.congomongo
         com.outcastgeek.services.web.fluid
-        com.outcastgeek.services.web.resumebuilder
+;        com.outcastgeek.services.web.resumebuilder
         com.outcastgeek.config.AuthAuth
         com.outcastgeek.config.AppConfig
         com.outcastgeek.domain.Entities
-        com.outcastgeek.services.work.FuncDocCreator)
+;        com.outcastgeek.services.work.FuncDocCreator
+        com.outcastgeek.util.Jobs)
   (:import java.util.UUID
            com.outcastgeek.web.server.runner.Jetty)
   (:require [ring.middleware.session :as rs]
@@ -37,36 +38,6 @@
    :headers {"Content-Type" "text/html"}
    :body html
    :session (merge (request :session ) sessMerge)})
-
-(defn resume [request]
-  (let [csrf (str (UUID/randomUUID))
-        step ((request :params ) :step )
-        session (request :session )]
-    (page
-      request
-      (html-doc
-        request
-        "Build Your Resume Like A Boss | Free, Easy & Awesome | "
-        (cond
-          (nil? step)
-          (resume-get-step 0 csrf session)
-          :else (resume-get-step step csrf session)))
-      {:csrf csrf :flash "" :flashstyle ""})))
-
-(defn downloadResume [request]
-  (let [session (request :session )]
-    (debug "Downloading resume as PDF document...")
-    (do
-      {:status 200
-       :headers {"Content-Type" "application/pdf"}
-       :body (generatePdfFromHtml (fullResume session))})
-    ))
-
-(defn home-other [request]
-  (do
-    {:status 302
-     :headers {"Location" "http://signup.upgradeavenue.com"}
-     }))
 
 (defn home [request]
 ;  (insert! :robots {:name "robby"})
@@ -105,29 +76,6 @@
           [:div {:class "hero-unit"}
            [:h1 "What is this Web App?"]
            [:p "It is an awesome piece of teachnology! It's magical."]]
-          ))
-      {:csrf csrf :flash "" :flashstyle ""}
-      )))
-
-(defn bogus [request]
-  (let [csrf (str (UUID/randomUUID))
-        session (request :session )]
-    (page
-      request
-      (html-doc
-        request
-        "Bogus | A page full of bogus"
-        (html
-          [:div {:class "row"}
-           [:div {:class "span14 hero-unit"}
-            [:h1 "What is this BOGUS page?"]
-            [:p "It's a route to try out bogus stuff!"]
-            ]]
-          [:table {:align "center"}
-           [:tr [:td {:colspan "2" :style "font-weight:bold;"} "Please enter your name:"]]
-           [:tr [:td {:id "nameFieldContainer"}]
-            [:td {:id "sendButtonContainer"}]]
-           [:tr [:td {:colspan "2" :style "color:red;" :id "errorLabelContainer"}]]]
           ))
       {:csrf csrf :flash "" :flashstyle ""}
       )))
@@ -248,18 +196,6 @@
   ;(ANY "/*" (ensure-admin-controller session))
   ;(ANY "/admin/" (admin-view session))
 
-  (GET "/resume" request (resume request))
-  ;(GET "/resume/:step" request ((glua (auth-req? request) resume) request))
-  (GET "/resume/:step" request (resume request))
-
-  (GET "/resume/:step/add" request (resume request))
-
-  (GET "/resume/:step/remove/:index" request (resume request))
-
-  (POST "/resume" {session :session params :params} (resume-handler params session))
-
-  (GET "/downloadResume" request (downloadResume request))
-
   (GET "/" request (home request))
 
 ;  (GET "/register" request (register request))
@@ -267,8 +203,6 @@
 ;  (POST "/register" {session :session params :params} (register-controller params session))
 
   (GET "/about" request (about request))
-
-  (GET "/bogus" request (bogus request))
 
   ;Redirect to OAuth2 Provider
   (GET "/login/:provider" request (oauth-redirect request))
@@ -427,6 +361,8 @@
                   :netty {"reuseAddress" true}}))
 
 (defn -main [server portNumber webXml]
+  ;; Starting Scheduled Jobs
+  (runJobs)
   ;; listening for jobs
   (resque/start ["createNewEmployeeQueue"
                  "sendNewMailQueue"])

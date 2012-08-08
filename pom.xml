@@ -42,6 +42,10 @@
       <id>spring.milestone</id>
       <url>http://maven.springframework.org/milestone</url>
     </repository>
+    <repository>
+      <id>stuart</id>
+      <url>http://stuartsierra.com/maven2</url>
+    </repository>
   </repositories>
   <dependencies>
     <dependency>
@@ -53,7 +57,19 @@
     <dependency>
       <groupId>lein-cljsbuild</groupId>
       <artifactId>lein-cljsbuild</artifactId>
-      <version>0.2.4</version>
+      <version>0.2.5</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>midje</groupId>
+      <artifactId>midje</artifactId>
+      <version>1.4.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.stuartsierra</groupId>
+      <artifactId>lazytest</artifactId>
+      <version>1.2.3</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -79,7 +95,7 @@
     <dependency>
       <groupId>congomongo</groupId>
       <artifactId>congomongo</artifactId>
-      <version>0.1.9</version>
+      <version>0.1.10</version>
     </dependency>
     <dependency>
       <groupId>org.clojars.hozumi</groupId>
@@ -128,9 +144,19 @@
       <version>1.1.1</version>
     </dependency>
     <dependency>
+      <groupId>com.novemberain</groupId>
+      <artifactId>validateur</artifactId>
+      <version>1.1.0</version>
+    </dependency>
+    <dependency>
       <groupId>me.shenfeng</groupId>
       <artifactId>async-ring-adapter</artifactId>
       <version>1.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>clojurewerkz</groupId>
+      <artifactId>quartzite</artifactId>
+      <version>1.0.0-rc6</version>
     </dependency>
     <dependency>
       <groupId>clj-http</groupId>
@@ -166,21 +192,6 @@
       <groupId>org.apache.tika</groupId>
       <artifactId>tika-parsers</artifactId>
       <version>1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.solr</groupId>
-      <artifactId>solr-core</artifactId>
-      <version>3.6.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.solr</groupId>
-      <artifactId>solr-solrj</artifactId>
-      <version>3.6.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.solr</groupId>
-      <artifactId>solr-clustering</artifactId>
-      <version>3.6.1</version>
     </dependency>
     <dependency>
       <groupId>org.xhtmlrenderer</groupId>

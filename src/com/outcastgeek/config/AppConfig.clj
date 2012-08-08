@@ -33,22 +33,13 @@
 
 (def dbName (appProperties :mongo-database))
 
+;The MongoURI spec:
+;http://www.mongodb.org/display/DOCS/Connections
 (def mongo-connection
-  (make-connection
-   dbName
-   ;{:host "localhost" :port 27019}
-   ;{:host "localhost" :port 27018}
-   {:host (appProperties :mongo-url) :port (appProperties :mongo-port)}
-   (MongoOptions.)))
+  ;note that authentication is handled when given a user:pass@ section
+  ;(make-connection "mongodb://user:pass@host:27071/databasename")
+  (make-connection (str "mongodb://localhost:27017/" dbName)))
 ;(debug "Connected to Replica Set.")
-
-(def connection
-  (Mongo.
-   (list
-    ;(ServerAddress. "127.0.0.1" 27019)
-    ;(ServerAddress. "127.0.0.1" 27018)
-    (ServerAddress. (appProperties :mongo-url) (appProperties :mongo-port)))
-   (MongoOptions.)))
 
 ;;;;;;;;;;;;;;;; MESSAGING ;;;;;;;;;;;;;;;;;;;
 
