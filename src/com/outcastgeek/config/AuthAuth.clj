@@ -5,8 +5,7 @@
         com.outcastgeek.domain.Entities)
   (:require [ring.middleware.session :as rs]
             [clj-oauth2.client :as oauth2]
-            [clojure.data.json :as json]
-            [resque-clojure.core :as resque])
+            [clojure.data.json :as json])
   (:import java.util.UUID))
 
 (set-connection! mongo-connection)
@@ -90,8 +89,7 @@
 ;        (.matches password "^.*(?=.{6,})(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d\\W]).*$")
         (= csrf (session :csrf)))
       (do
-        (resque/enqueue "createNewEmployeeQueue"
-                    "com.outcastgeek.domain.Entities/createEmployee"
+        (queueEmployeeCreation
                     {:username username
                      :email email
                      :uniq csrf
@@ -136,8 +134,7 @@
 ;        (.matches password "^.*(?=.{6,})(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d\\W]).*$")
         (= csrf (session :csrf)))
       (do
-        (resque/enqueue "createNewEmployeeQueue"
-                    "com.outcastgeek.domain.Entities/updateEmployee"
+        (queueEmployeeUpdate
                     {:username username
                      :email email
                      :first_name firstname
@@ -317,8 +314,7 @@
           user-data# (json/read-json (resp# :body))
           user-info# (~userinfo-function user-data#)]
     (debug user-info#)
-    (resque/enqueue "createNewEmployeeQueue"
-                    "com.outcastgeek.domain.Entities/createEmployee"
+    (queueEmployeeCreation
                     (merge user-info# {:password (hash-password (user-info# :uniq) "outcastgeek")}))
       (do
         {:status 302

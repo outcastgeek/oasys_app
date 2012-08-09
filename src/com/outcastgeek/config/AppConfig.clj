@@ -45,6 +45,10 @@
 
 (resque/configure {:host (appProperties :redis-url) :port (appProperties :redis-port)}) ;; optional
 
+(def employeeQueue (appProperties :employee-queue))
+
+(def mailQueue (appProperties :mail-queue))
+
 ;(def appCtx
 ;  (JavaConfig/getContext))
 ;

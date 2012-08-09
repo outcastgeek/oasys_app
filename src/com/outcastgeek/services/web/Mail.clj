@@ -2,7 +2,8 @@
   (:use clojure.tools.logging
         [cheshire.core :as json]
         com.outcastgeek.config.AppConfig)
-  (:require [clj-http.client :as client]))
+  (:require [clj-http.client :as client]
+            [resque-clojure.core :as resque]))
 
 (defn sendWelcomeEmail [employeeData]
   (debug "Sending welcome email to " (employeeData :username) "here" (employeeData :email))
@@ -27,4 +28,10 @@
                 :debug true
                 :debug-body true})]
     (debug "MAIL SEND CALLBACK: " resp)))
+
+(defn queueSendWelcomeEmail [data]
+  (resque/enqueue mailQueue
+                    "com.outcastgeek.services.web.Mail/sendWelcomeEmail"
+                    data))
+
 

@@ -13,7 +13,7 @@
 (defn runJobs []
   ;; starting Quartz Scheduler"""
   (qs/initialize)
-  (qs/start)
+;  (qs/start)
   (let [job (j/build
               (j/of-type NoOpJob)
               (j/with-identity (j/key "jobs.noop.1")))

@@ -17,6 +17,7 @@
 ;        com.outcastgeek.services.work.FuncDocCreator
         com.outcastgeek.util.Jobs)
   (:import java.util.UUID
+           org.quartz.ObjectAlreadyExistsException
            com.outcastgeek.web.server.runner.Jetty)
   (:require [ring.middleware.session :as rs]
             [hozumi.mongodb-session :as mongoss]
@@ -41,11 +42,10 @@
 
 (defn home [request]
 ;  (insert! :robots {:name "robby"})
-;  (resque/enqueue "createNewEmployeeQueue"
-;                    "com.outcastgeek.domain.Entities/createEmployee"
-;                    {:username (str "username" (UUID/randomUUID))
-;                     :email (str "email" (UUID/randomUUID))
-;                     :password (str "password" (UUID/randomUUID))})
+  (queueEmployeeCreation
+                    {:username (str "username" (UUID/randomUUID))
+                     :email (str "email" (UUID/randomUUID))
+                     :password (str "password" (UUID/randomUUID))})
 ;  (debug "EMPLOYEES: " (allEmployees))
   (page
     request
@@ -362,10 +362,14 @@
 
 (defn -main [server portNumber webXml]
   ;; Starting Scheduled Jobs
-  (runJobs)
+  (try
+    (runJobs)
+    (catch ObjectAlreadyExistsException e
+      (error "Exception message: " (.getMessage e)))
+    (finally 
+      (info "Proceeding ....")))
   ;; listening for jobs
-  (resque/start ["createNewEmployeeQueue"
-                 "sendNewMailQueue"])
+  (resque/start [employeeQueue mailQueue])
   (cond
     (= server "Jetty")
     (runJetty portNumber webXml)

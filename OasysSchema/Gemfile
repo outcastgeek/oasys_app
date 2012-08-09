@@ -37,5 +37,10 @@ gem 'jquery-rails'
 # Deploy with Capistrano
 # gem 'capistrano'
 
+# Monitoring Tools
+gem 'resque'
+gem 'redmon'
+gem 'humongous'
+
 # To use debugger
 # gem 'ruby-debug'

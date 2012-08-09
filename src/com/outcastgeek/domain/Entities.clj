@@ -95,18 +95,16 @@
       (debug "PERSISTING NEW EMPLOYEE: " employeeData)
       (insert employees
               (values employeeData))
-;      (with-transaction
-;        (doto (Employees.)
-;	        (.setFirstName (employeeData :first_name))
-;	        (.setLastName (employeeData :last_name))
-;	        (.setUsername (employeeData :username))
-;	        (.setEmail (employeeData :email))
-;	        (.setActive false)
-;	        (.setuniq (employeeData :uniq))
-;	        (.setProvider (employeeData :provider))
-;	        (.setCreatedAt (Date.))
-;	        (.setUpdatedAt (Date.))
-;          (.persist)
-;          (.flush)))
-      (sendWelcomeEmail employeeData)
+      (queueSendWelcomeEmail data)
       )))
+
+(defn queueEmployeeCreation [data]
+  (resque/enqueue employeeQueue
+                    "com.outcastgeek.domain.Entities/createEmployee"
+                    data))
+
+(defn queueEmployeeUpdate [data]
+  (resque/enqueue employeeQueue
+                    "com.outcastgeek.domain.Entities/updateEmployee"
+                    data))
+
