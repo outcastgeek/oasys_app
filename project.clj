@@ -78,15 +78,21 @@
                  ]
   :dev-dependencies [[lein-swank "1.4.4"]
                      [lein-cljsbuild "0.2.5"]
-                     [midje "1.4.0"]
-                     [com.stuartsierra/lazytest "1.2.3"]]
+                     ;[midje "1.4.0"]
+                     ;[com.stuartsierra/lazytest "1.2.3"]
+                     ;[clj-ns-browser "1.2.0"]
+                     ]
   :aot :all
 ;  :jvm-opts ["-Xmx1g" "-server"
 ;             "-Dhttp.proxyHost=webproxy.int.westgroup.com"
 ;             "-Dhttp.proxyPort=80"
 ;             "-Dhttps.proxyHost=webproxy.int.westgroup.com"
 ;             "-Dhttps.proxyPort=80"]
-  :jvm-opts ["-Xmx1g" "-server"]
+  :jvm-opts ["-Xmx1g" "-server" "-Xms1g" "-XX:MaxPermSize=128m"
+             "-XX:CompileThreshold=4" "-XX:+AggressiveOpts"
+             "-XX:MaxHeapFreeRatio=70" "-XX:MinHeapFreeRatio=40"
+             "-XX:+UseParallelGC" "-XX:ParallelGCThreads=24"
+             "-XX:+DisableExplicitGC" "-Djava.awt.headless=true"]
   ;; Options to pass to java compiler for java source,
   ;; exactly the same as command line arguments to javac
   :javac-options {:target "1.7"
@@ -155,7 +161,8 @@
   :checksum :warn
   :update :daily
   :repositories {"sonatype.snapshots" "https://oss.sonatype.org/content/repositories/snapshots"
-                 "akka.io" "http://repo.akka.io/releases"
+                 ;"akka.io" "http://repo.akka.io/releases"
+                 ;"spring.milestone" "http://maven.springframework.org/milestone"
+                 ;"stuart" "http://stuartsierra.com/maven2"
                  "java.net" "http://download.java.net/maven/2"
-                 "spring.milestone" "http://maven.springframework.org/milestone"
-                 "stuart" "http://stuartsierra.com/maven2"})
+                 })

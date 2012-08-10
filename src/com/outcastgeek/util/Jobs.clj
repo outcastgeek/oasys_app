@@ -1,26 +1,27 @@
 (ns com.outcastgeek.util.Jobs
   (:use clojure.tools.logging
+        com.outcastgeek.config.AppConfig
         [clojurewerkz.quartzite.jobs :only [defjob]]
-        [clojurewerkz.quartzite.schedule.simple :only [schedule with-repeat-count with-interval-in-milliseconds]])
+        [clojurewerkz.quartzite.schedule.simple :only [schedule repeat-forever with-interval-in-minutes]])
   (:require [clojurewerkz.quartzite.scheduler :as qs]
             [clojurewerkz.quartzite.triggers :as t]
             [clojurewerkz.quartzite.jobs :as j]))
 
-(defjob NoOpJob
+(defjob SessionsCleaner
   [ctx]
-  (debug "<<<< Does nothing >>>>"))
+  (debug "<<<< Cleaning expired user sessions.... >>>>"))
 
 (defn runJobs []
   ;; starting Quartz Scheduler"""
   (qs/initialize)
-;  (qs/start)
-  (let [job (j/build
-              (j/of-type NoOpJob)
-              (j/with-identity (j/key "jobs.noop.1")))
-        trigger (t/build
-                  (t/with-identity (t/key "triggers.1"))
+  (qs/start)
+  (let [sessionsCleanerJob (j/build
+              (j/of-type SessionsCleaner)
+              (j/with-identity (j/key sessionsCleaner)))
+        sessionsCleanerTrigger (t/build
+                  (t/with-identity (t/key sessionsTrigger))
                   (t/start-now)
                   (t/with-schedule (schedule
-                                     (with-repeat-count 10)
-                                     (with-interval-in-milliseconds 200))))]
-    (qs/schedule job trigger)))
+                                     (repeat-forever)
+                                     (with-interval-in-minutes 2))))]
+    (qs/schedule sessionsCleaner sessionsCleanerTrigger)))

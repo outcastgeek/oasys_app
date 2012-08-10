@@ -4,7 +4,6 @@
         compojure.core
         compojure.handler
         ring.util.servlet
-;        ring.adapter.jetty
         ring.adapter.netty
         hiccup.core
         hiccup.page
@@ -340,16 +339,12 @@
   )
 
 (def website (-> main-routes
-               (wrap-session-expiry 900) ;; 15 mn
-               (rs/wrap-session {:cookie-name "ogeeky-sessions"
+               (wrap-session-expiry sessionDuration)
+               (rs/wrap-session {:cookie-name sessionName
                                  :store mongoSessionStore})
                (site)))
 
 (defservice website)
-
-;(defn runJetty [portNumber]
-;  (info "Starting Jetty...")
-;  (run-jetty website {:port (Integer/parseInt portNumber)}))
 
 (defn runJetty [portNumber webXml]
   (info "Starting Jetty...")

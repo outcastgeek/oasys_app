@@ -35,7 +35,7 @@
 (def mongo-connection
   ;note that authentication is handled when given a user:pass@ section
   ;(make-connection "mongodb://user:pass@host:27071/databasename")
-  (make-connection (str "mongodb://localhost:27017/" dbName)))
+  (make-connection (str (appProperties :mongo-uri) dbName)))
 ;(debug "Connected to Replica Set.")
 
 ;;;;;;;;;;;;;;;; MESSAGING ;;;;;;;;;;;;;;;;;;;
@@ -45,6 +45,16 @@
 (def employeeQueue (appProperties :employee-queue))
 
 (def mailQueue (appProperties :mail-queue))
+
+;;;;;;;;;;;;;;;;; User Sessions ;;;;;;;;;;;;;;;;;;
+
+(def sessionName (appProperties :session-name))
+
+(def sessionDuration (appProperties :session-duration))
+
+(def sessionsCleaner (appProperties :session-cleaner-name))
+
+(def sessionsTrigger (appProperties :session-cleaner-trigger))
 
 ;Borrowed from here: https://raw.github.com/hozumi/session-expiry/master/src/hozumi/session_expiry.clj
 
