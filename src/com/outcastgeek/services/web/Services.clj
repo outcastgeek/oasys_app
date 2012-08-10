@@ -42,10 +42,10 @@
 
 (defn home [request]
 ;  (insert! :robots {:name "robby"})
-  (queueEmployeeCreation
-                    {:username (str "username" (UUID/randomUUID))
-                     :email (str "email" (UUID/randomUUID))
-                     :password (str "password" (UUID/randomUUID))})
+;  (queueEmployeeCreation
+;                    {:username (str "username" (UUID/randomUUID))
+;                     :email (str "email" (UUID/randomUUID))
+;                     :password (str "password" (UUID/randomUUID))})
 ;  (debug "EMPLOYEES: " (allEmployees))
   (page
     request

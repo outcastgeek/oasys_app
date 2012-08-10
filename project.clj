@@ -1,7 +1,8 @@
 
 (defproject oasys_corp "1.0.0-SNAPSHOT"
   :description "Building the Ultimate Web Framework!!!!"
-  :dependencies [[org.clojure/clojure "1.4.0"]
+  :dependencies [[org.clojure/clojure "1.5.0-master-SNAPSHOT"]
+                 ;[org.clojure/clojure "1.4.0"]
                  [org.clojure/tools.logging "0.2.3"]
                  [redis.clients/jedis "2.0.0"]
                  [resque-clojure "0.2.2"]
@@ -18,6 +19,7 @@
                  [me.shenfeng/async-ring-adapter "1.0.1"]
                  [clojurewerkz/quartzite "1.0.0-rc6"]
                  [com.novemberain/quartz-mongodb "1.0.0"]
+                 [com.draines/postal "1.8.0"]
                  [clj-http "0.5.0"]
                  [clj-oauth2 "0.2.0"]
                  [cheshire "4.0.1"]
@@ -62,7 +64,7 @@
 ;                 [com.typesafe.akka/akka-file-mailbox "2.0.2"]
 ;                 [com.typesafe.akka/akka-slf4j "2.0.2"]
                  ;;;;;;;;;;; SPRING ;;;;;;;;;;;;;;;;;;;;;;;;
-                 [org.springframework/spring-context "3.1.2.RELEASE"]
+;                 [org.springframework/spring-context "3.1.2.RELEASE"]
 ;                 [org.springframework/spring-web "3.1.2.RELEASE"]
 ;                 [com.outcastgeek/OasysData "0.1.0.BUILD-SNAPSHOT"]
                  ;;;;;;;;;;; CLJS LIBS ;;;;;;;;;;;;;;;;;;;;;;;;
@@ -152,7 +154,8 @@
   ;; :always, and :never are supported.
   :checksum :warn
   :update :daily
-  :repositories {"akka.io" "http://repo.akka.io/releases"
+  :repositories {"sonatype.snapshots" "https://oss.sonatype.org/content/repositories/snapshots"
+                 "akka.io" "http://repo.akka.io/releases"
                  "java.net" "http://download.java.net/maven/2"
                  "spring.milestone" "http://maven.springframework.org/milestone"
                  "stuart" "http://stuartsierra.com/maven2"})

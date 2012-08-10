@@ -5,9 +5,6 @@
   (:require [resque-clojure.core :as resque])
   (:import java.util.Date
            java.sql.Timestamp
-;           java.util.Properties
-;           javax.persistence.Persistence
-;           com.outcastgeek.config.JavaConfig
            com.mongodb.Mongo
            com.mongodb.ServerAddress
            com.mongodb.MongoOptions))
@@ -48,22 +45,6 @@
 (def employeeQueue (appProperties :employee-queue))
 
 (def mailQueue (appProperties :mail-queue))
-
-;(def appCtx
-;  (JavaConfig/getContext))
-;
-;(def entityManager
-;  (. appCtx getBean "entityManagerFactory"))
-
-;(def entityManager
-;  (. (Persistence/createEntityManagerFactory "persistenceUnit" props) createEntityManager))
-;
-;(defmacro with-transaction
-;  [& body]
-;  `(let [tx# (.getTransaction entityManager)]
-;     (.begin tx#)
-;     ~@body
-;     (.commit tx#)))
 
 ;Borrowed from here: https://raw.github.com/hozumi/session-expiry/master/src/hozumi/session_expiry.clj
 
