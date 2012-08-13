@@ -28,7 +28,7 @@
 
 (def mongoSessionStore
   (mongoss/mongodb-store {:auto-key-change? true
-                          :collection-name :outcastgeek_sessions}))
+                          :collection-name sessionsCollection}))
 
 (def glua gen-login-unless-auth)
 

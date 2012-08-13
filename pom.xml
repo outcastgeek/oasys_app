@@ -31,24 +31,12 @@
       <url>http://clojars.org/repo/</url>
     </repository>
     <repository>
-      <id>sonatype-snapshots</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-    </repository>
-    <repository>
-      <id>akka.io</id>
-      <url>http://repo.akka.io/releases</url>
+      <id>sonatype.snapshots</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </repository>
     <repository>
       <id>java.net</id>
       <url>http://download.java.net/maven/2</url>
-    </repository>
-    <repository>
-      <id>spring.milestone</id>
-      <url>http://maven.springframework.org/milestone</url>
-    </repository>
-    <repository>
-      <id>stuart</id>
-      <url>http://stuartsierra.com/maven2</url>
     </repository>
   </repositories>
   <dependencies>
@@ -65,18 +53,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>midje</groupId>
-      <artifactId>midje</artifactId>
-      <version>1.4.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.stuartsierra</groupId>
-      <artifactId>lazytest</artifactId>
-      <version>1.2.3</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>clojure</artifactId>
       <version>1.5.0-master-SNAPSHOT</version>
@@ -85,6 +61,11 @@
       <groupId>org.clojure</groupId>
       <artifactId>tools.logging</artifactId>
       <version>0.2.3</version>
+    </dependency>
+    <dependency>
+      <groupId>clj-time</groupId>
+      <artifactId>clj-time</artifactId>
+      <version>0.4.3</version>
     </dependency>
     <dependency>
       <groupId>redis.clients</groupId>
@@ -310,6 +291,11 @@
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-access</artifactId>
+      <version>1.0.6</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-site</artifactId>
       <version>1.0.6</version>
     </dependency>
   </dependencies>

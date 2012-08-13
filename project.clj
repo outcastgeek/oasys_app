@@ -4,6 +4,7 @@
   :dependencies [[org.clojure/clojure "1.5.0-master-SNAPSHOT"]
                  ;[org.clojure/clojure "1.4.0"]
                  [org.clojure/tools.logging "0.2.3"]
+                 [clj-time "0.4.3"]
                  [redis.clients/jedis "2.0.0"]
                  [resque-clojure "0.2.2"]
                  [congomongo/congomongo "0.1.10"]

@@ -6,6 +6,11 @@
 	</projects>
 	<buildSpec>
 		<buildCommand>
+			<name>org.python.pydev.PyDevBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
 			<name>ccw.leiningen.builder</name>
 			<arguments>
 			</arguments>
@@ -25,11 +30,18 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<buildCommand>
+			<name>com.quest.toadext.editors.project.ToadextProjectBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>ccw.leiningen.nature</nature>
 		<nature>org.eclipse.m2e.core.maven2Nature</nature>
+		<nature>com.quest.toadext.ToadextNature</nature>
 		<nature>ccw.nature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
-		<nature>ccw.leiningen.nature</nature>
+		<nature>org.python.pydev.pythonNature</nature>
 	</natures>
 </projectDescription>

@@ -30,6 +30,8 @@
 
 (def dbName (appProperties :mongo-database))
 
+(def sessionsCollection (keyword (appProperties :sessions-collection)))
+
 ;The MongoURI spec:
 ;http://www.mongodb.org/display/DOCS/Connections
 (def mongo-connection
