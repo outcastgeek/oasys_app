@@ -1,8 +1,10 @@
 (ns com.outcastgeek.config.AppConfig
-  (:use clojure.java.io
+  (:use clojure.tools.logging
+        clojure.java.io
         somnium.congomongo
         [clojure.java.io :only [reader]])
-  (:require [resque-clojure.core :as resque])
+  (:require [resque-clojure.core :as resque]
+            [clojure.core.reducers :as r])
   (:import java.util.Date
            java.sql.Timestamp
            com.mongodb.Mongo
@@ -28,17 +30,19 @@
 
 ;;;;;;;;;;;;;;;;; STORAGE ;;;;;;;;;;;;;;;;;;;;;;;;
 
-(def dbName (appProperties :mongo-database))
+(def dbName (str (appProperties :mongo-database)))
 
 (def sessionsCollection (keyword (appProperties :sessions-collection)))
 
 ;The MongoURI spec:
 ;http://www.mongodb.org/display/DOCS/Connections
 (def mongo-connection
-  ;note that authentication is handled when given a user:pass@ section
-  ;(make-connection "mongodb://user:pass@host:27071/databasename")
-  (make-connection (str (appProperties :mongo-uri) dbName)))
+  (make-connection dbName
+                   {:host (appProperties :mongo-host)
+                    :port (appProperties :mongo-port)}
+                   (mongo-options :auto-connect-retry true)))
 ;(debug "Connected to Replica Set.")
+(set-write-concern mongo-connection :safe) ;Consult documentation
 
 ;;;;;;;;;;;;;;;; MESSAGING ;;;;;;;;;;;;;;;;;;;
 
@@ -87,3 +91,27 @@
               (assoc response :session (assoc req-session :session_timestamp (Date.)))))
           ))
       )))
+(defn expired? [date]
+  (< sessionDuration
+     (- (.getTime (Date.)) (.getTime date))))
+
+(defn destroyExpiredSessions [sess]
+  (let [sessionId (sess :_id)]
+    (debug "<<<< Destroying expired user session with Id: " sessionId " >>>>")
+    (destroy! sessionsCollection
+              {:_id sessionId})))
+
+(defn grapSomeSessions []
+  (debug "<<<< Grabbing some user sessions.... >>>>")
+  (fetch sessionsCollection
+         :limit 44))
+
+(defn filterOutExpiredSessions [sessions]
+  (debug "<<<< Filtering out expired user sessions.... >>>>")
+  (into () (filter #(expired? (% :session_timestamp)) sessions)))
+
+(defn cleanExpiredSessions []
+  (debug "\n\n<<<< Cleaning expired user sessions.... >>>>")
+  (r/map #((if (expired? %)
+                 (destroyExpiredSessions %))) (grapSomeSessions))
+  (debug "<<<< Done cleaning expired user sessions.... >>>>\n\n"))
