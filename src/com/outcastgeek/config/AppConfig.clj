@@ -104,14 +104,19 @@
 (defn grapSomeSessions []
   (debug "<<<< Grabbing some user sessions.... >>>>")
   (fetch sessionsCollection
-         :limit 44))
+         :limit 24000))
 
 (defn filterOutExpiredSessions [sessions]
   (debug "<<<< Filtering out expired user sessions.... >>>>")
-  (into () (filter #(expired? (% :session_timestamp)) sessions)))
+  (into () (filter #(expired? (% :session_timestamp)) sessions))
+;  (into () (r/filter #(expired? (% :session_timestamp)) sessions))
+  )
 
 (defn cleanExpiredSessions []
   (debug "\n\n<<<< Cleaning expired user sessions.... >>>>")
-  (r/map #((if (expired? %)
-                 (destroyExpiredSessions %))) (grapSomeSessions))
+  (doall
+    (pmap destroyExpiredSessions (filterOutExpiredSessions (grapSomeSessions))))
+;  (do
+;    (r/map #((if (expired? %)
+;                 (destroyExpiredSessions %))) (grapSomeSessions)))
   (debug "<<<< Done cleaning expired user sessions.... >>>>\n\n"))
