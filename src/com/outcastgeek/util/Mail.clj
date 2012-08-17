@@ -1,4 +1,4 @@
-(ns com.outcastgeek.services.web.Mail
+(ns com.outcastgeek.util.Mail
   (:use clojure.tools.logging
         [cheshire.core :as json]
         com.outcastgeek.config.AppConfig)
@@ -31,7 +31,7 @@
 
 (defn queueSendWelcomeEmail [data]
   (resque/enqueue mailQueue
-                    "com.outcastgeek.services.web.Mail/sendWelcomeEmail"
+                    "com.outcastgeek.util.Mail/sendWelcomeEmail"
                     data))
 
 

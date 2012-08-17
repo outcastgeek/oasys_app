@@ -1,7 +1,7 @@
 (ns com.outcastgeek.domain.Entities
   (:use clojure.tools.logging
         com.outcastgeek.config.AppConfig
-        com.outcastgeek.services.web.Mail
+        com.outcastgeek.util.Mail
         korma.core
         korma.db)
   (:require [resque-clojure.core :as resque])

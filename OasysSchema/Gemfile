@@ -39,7 +39,7 @@ gem 'jquery-rails'
 
 # Monitoring Tools
 gem 'resque'
-gem 'redmon'
+#gem 'redmon' # Not working on jruby!!!!
 gem 'humongous'
 
 # To use debugger

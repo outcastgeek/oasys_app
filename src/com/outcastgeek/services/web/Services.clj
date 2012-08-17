@@ -9,7 +9,7 @@
         hiccup.page
         somnium.congomongo
         com.outcastgeek.services.web.fluid
-;        com.outcastgeek.services.web.resumebuilder
+        com.outcastgeek.util.Sessions
         com.outcastgeek.config.AuthAuth
         com.outcastgeek.config.AppConfig
         com.outcastgeek.domain.Entities
