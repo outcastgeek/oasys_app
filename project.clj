@@ -77,7 +77,7 @@
 ;                 [enfocus "0.9.1-SNAPSHOT"]
 ;                 [com.keminglabs/c2 "0.1.2"]
                  ]
-  :dev-dependencies [[lein-swank "1.4.4"]
+  :plugins [[lein-swank "1.4.4"]
                      [lein-cljsbuild "0.2.5"]
                      ;[midje "1.4.0"]
                      ;[com.stuartsierra/lazytest "1.2.3"]
