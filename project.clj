@@ -78,11 +78,11 @@
 ;                 [com.keminglabs/c2 "0.1.2"]
                  ]
   :plugins [[lein-swank "1.4.4"]
-                     [lein-cljsbuild "0.2.5"]
-                     ;[midje "1.4.0"]
-                     ;[com.stuartsierra/lazytest "1.2.3"]
-                     ;[clj-ns-browser "1.2.0"]
-                     ]
+            [lein-cljsbuild "0.2.5"]
+            ;[midje "1.4.0"]
+            ;[com.stuartsierra/lazytest "1.2.3"]
+            ;[clj-ns-browser "1.2.0"]
+            ]
   :aot :all
 ;  :jvm-opts ["-Xmx1g" "-server"
 ;             "-Dhttp.proxyHost=webproxy.int.westgroup.com"
@@ -96,16 +96,17 @@
              "-XX:+DisableExplicitGC" "-Djava.awt.headless=true"]
   ;; Options to pass to java compiler for java source,
   ;; exactly the same as command line arguments to javac
-  :javac-options {:target "1.7"
-                  :debug "off"
-                  :source "1.7"}
-  ;:javac-options ["-target" "1.7" "-source" "1.7" "-Xlint:-options"]
+;  :javac-options {:target "1.7"
+;                  :debug "off"
+;                  :source "1.7"}
+  :javac-options ["-target" "1.7" "-source" "1.7" "-Xlint:-options"]
   ;; Leave the contents of :source-paths out of jars (for AOT projects)
   :omit-source true
   :main com.outcastgeek.services.web.Services
-  :java-source-path "java"
+  :java-source-paths ["java"]
+;  :java-source-path "java"
   :source-path "src"
-  :hooks [leiningen.cljsbuild]
+;  :hooks [leiningen.cljsbuild]
   :cljsbuild {
     :builds [
 ;             {

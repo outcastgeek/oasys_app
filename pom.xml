@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<?xml version="1.0" encoding="UTF-8"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>oasys_corp</groupId>
   <artifactId>oasys_corp</artifactId>
+  <packaging>jar</packaging>
   <version>1.0.0-SNAPSHOT</version>
   <name>oasys_corp</name>
   <description>Building the Ultimate Web Framework!!!!</description>
@@ -17,41 +16,89 @@
     </resources>
     <testResources>
       <testResource>
-        <directory>test-resources</directory>
+        <directory>dev-resources</directory>
+      </testResource>
+      <testResource>
+        <directory>resources</directory>
       </testResource>
     </testResources>
+    <directory>target</directory>
+    <outputDirectory>target/classes</outputDirectory>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.7</version>
+        <executions>
+          <execution>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>java</source>
+              </sources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>add-test-source</id>
+            <phase>generate-test-sources</phase>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
+            <configuration>
+              <sources/>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
   <repositories>
     <repository>
       <id>central</id>
       <url>http://repo1.maven.org/maven2</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
     </repository>
     <repository>
       <id>clojars</id>
-      <url>http://clojars.org/repo/</url>
+      <url>https://clojars.org/repo/</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
     </repository>
     <repository>
       <id>sonatype.snapshots</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
     </repository>
     <repository>
       <id>java.net</id>
       <url>http://download.java.net/maven/2</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
     </repository>
   </repositories>
   <dependencies>
-    <dependency>
-      <groupId>lein-swank</groupId>
-      <artifactId>lein-swank</artifactId>
-      <version>1.4.4</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>lein-cljsbuild</groupId>
-      <artifactId>lein-cljsbuild</artifactId>
-      <version>0.2.5</version>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>clojure</artifactId>
@@ -118,8 +165,8 @@
       <version>1.1.1</version>
       <exclusions>
         <exclusion>
-          <artifactId>ring-jetty-adapter</artifactId>
           <groupId>ring</groupId>
+          <artifactId>ring-jetty-adapter</artifactId>
         </exclusion>
       </exclusions>
     </dependency>

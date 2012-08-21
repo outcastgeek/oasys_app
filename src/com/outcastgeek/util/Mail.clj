@@ -1,9 +1,13 @@
 (ns com.outcastgeek.util.Mail
   (:use clojure.tools.logging
+        postal.core
         [cheshire.core :as json]
         com.outcastgeek.config.AppConfig)
   (:require [clj-http.client :as client]
             [resque-clojure.core :as resque]))
+
+;(defn sendWelcomeEmail [employeeData]
+;  )
 
 (defn sendWelcomeEmail [employeeData]
   (debug "Sending welcome email to " (employeeData :username) "here" (employeeData :email))
