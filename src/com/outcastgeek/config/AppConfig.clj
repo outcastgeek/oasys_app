@@ -27,6 +27,10 @@
 ;  (doto (Properties.)
 ;    (.load (reader "app.properties"))))
 
+;;;;;;;;;;;;;;;;; APPLICATION ;;;;;;;;;;;;;;;;;;;;;;;;
+
+(def appName (appProperties :app-name))
+
 ;;;;;;;;;;;;;;;;; STORAGE ;;;;;;;;;;;;;;;;;;;;;;;;
 
 (def dbName (str (appProperties :mongo-database)))
@@ -60,3 +64,17 @@
 (def sessionsCleaner (appProperties :session-cleaner-name))
 
 (def sessionsTrigger (appProperties :session-cleaner-trigger))
+
+;;;;;;;;;;;;;;;;; E-MAIL ;;;;;;;;;;;;;;;;;;
+
+(def smtpHost (appProperties :amz-smtp-host))
+
+(def smtpPort (appProperties :amz-smtp-port))
+
+(def smtpUser (appProperties :amz-smtp-user))
+
+(def smtpPwd (appProperties :amz-smtp-pwd))
+
+(def smtpSender (appProperties :amz-smtp-sender))
+
+
