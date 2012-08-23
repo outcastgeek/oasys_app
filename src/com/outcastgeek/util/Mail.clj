@@ -13,7 +13,7 @@
                  {:from smtpSender
                   ; Make sure to request production access to send emails to actual target
                   :to (employeeData :email)
-;                  :to smtpSender
+                  ;:to smtpSender
                   :subject "Your WebApp Profile has been created."
                   :body (str "Welcome to " appName " " (employeeData :username) "!!!!")}))
 
@@ -21,5 +21,3 @@
   (resque/enqueue mailQueue
                     "com.outcastgeek.util.Mail/sendWelcomeEmail"
                     data))
-
-
