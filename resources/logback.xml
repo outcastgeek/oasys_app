@@ -24,7 +24,7 @@
 
 	<logger name="com.outcastgeek" level="TRACE"/>
   	
-	<logger name="org.quartz" level="INFO"/>
+	<logger name="org.quartz" level="DEBUG"/>
   	<!-- 
 	<logger name="org.postgresql" additivity="false">
 		<appender-ref ref="ASYNC"/>

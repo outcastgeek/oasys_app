@@ -3,7 +3,8 @@
         com.outcastgeek.config.AppConfig
         com.outcastgeek.util.Mail
         korma.core
-        korma.db)
+        korma.db
+        clj-time.coerce)
   (:require [resque-clojure.core :as resque]
             [clj-time.core :as time])
   (:import ;com.outcastgeek.domain.Employees
@@ -21,6 +22,9 @@
            :user (appProperties :username)
            :password (appProperties :passwd)
            :subname (appProperties :sub-name)})
+
+(defn sqlCast [x as]
+  (raw (format "CAST(%s AS %s)" (name x) (name as))))
 
 ;;;;;;;;;;;;;;;   ENTITIES     ;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -102,8 +106,9 @@
 (defn findExistingPayroll [data]
   (debug "FINDING PAYROLL CRITERIA: " data)
   (select payroll_cycles
-          (where (or (like :payroll_cycle_year (data :payroll_cycle_year))
-                     (like :payroll_cycle_number (data :payroll_cycle_number))))))
+          (where (or (= :payroll_cycle_year (data :payroll_cycle_year))
+                     (= :payroll_cycle_number (data :payroll_cycle_number)))
+                 )))
 
 (defn createCurrentPayrollCycle []
   (debug "Checking / Creating this month's payroll cycle...")
@@ -112,10 +117,10 @@
         lastDayOfTheFollowingMonth (lastDayOfTheMonthOf (time/plus rightNow (time/months 1)))
         payrollData {:payroll_cycle_year (time/year rightNow)
                      :payroll_cycle_number (time/month rightNow)
-                     :start_date (firstDayOfTheMonthOf rightNow)
-                     :end_date (lastDayOfTheMonthOf rightNow)
-                     :direct_deposit_date lastDayOfTheFollowingMonth
-                     :check_date lastDayOfTheFollowingMonth
+                     :start_date (to-sql-date (firstDayOfTheMonthOf rightNow))
+                     :end_date (to-sql-date (lastDayOfTheMonthOf rightNow))
+                     :direct_deposit_date (to-sql-date lastDayOfTheFollowingMonth)
+                     :check_date (to-sql-date lastDayOfTheFollowingMonth)
                      :created_at (get-current-timestamp)
                      :updated_at (get-current-timestamp)}
         existingPayroll (first (findExistingPayroll payrollData))]
