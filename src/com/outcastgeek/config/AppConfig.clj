@@ -2,7 +2,8 @@
   (:use clojure.tools.logging
         clojure.java.io
         somnium.congomongo
-        [clojure.java.io :only [reader]])
+        [clojure.java.io :only [reader]]
+        clj-time.core)
   (:require [resque-clojure.core :as resque])
   (:import java.util.Date
            java.sql.Timestamp
@@ -10,8 +11,24 @@
            com.mongodb.ServerAddress
            com.mongodb.MongoOptions))
 
+;;;;;;;;;;;;;;;;;;;  Utils  ;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defn get-current-timestamp []
   (Timestamp. (. (Date.) getTime)))
+
+(defn firstDayOfTheMonthOf [date]
+  (let [cyear (year date)
+        cmonth (month date)]
+    (date-time cyear cmonth 1)))
+
+(defn lastDayOfTheMonthOf [date]
+  (let [oneMonthFromDate (plus date (months 1))
+        cyear (year oneMonthFromDate)
+        cmonth (month oneMonthFromDate)
+        firstOfNextMonth (date-time cyear cmonth 1)]
+    (minus firstOfNextMonth (days 1))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defn load-props
   [file-name]
@@ -61,9 +78,15 @@
 
 (def sessionDuration (appProperties :session-duration))
 
+;;;;;;;;;;;;;;;;; Jobs ;;;;;;;;;;;;;;;;;;
+
 (def sessionsCleaner (appProperties :session-cleaner-name))
 
 (def sessionsTrigger (appProperties :session-cleaner-trigger))
+
+(def payrollCreator (appProperties :payroll-creator-name))
+
+(def payrollTrigger (appProperties :payroll-creator-trigger))
 
 ;;;;;;;;;;;;;;;;; E-MAIL ;;;;;;;;;;;;;;;;;;
 

@@ -1,6 +1,7 @@
 (ns com.outcastgeek.util.Jobs
   (:use com.outcastgeek.config.AppConfig
         com.outcastgeek.util.Sessions
+        com.outcastgeek.domain.Entities
         [clojurewerkz.quartzite.jobs :only [defjob]]
         [clojurewerkz.quartzite.schedule.simple :only [schedule repeat-forever with-interval-in-minutes]])
   (:require [clojurewerkz.quartzite.scheduler :as qs]
@@ -12,19 +13,19 @@
 
 (defjob PayrollCycleCreator
   [ctx]
-  (print "<<<< Checking / Creating this month's payroll cycle >>>>"))
+  (createCurrentPayrollCycle))
 
-(defn schedulePayrollCycleCreator []    ;;;;;;; REVISIT THIS!!!!
-  (let [sessionsCleanerJob (j/build
+(defn schedulePayrollCycleCreator []
+  (let [payrollCreatorJob (j/build
               (j/of-type PayrollCycleCreator)
-              (j/with-identity (j/key sessionsCleaner)))
-        sessionsCleanerTrigger (t/build
-                  (t/with-identity (t/key sessionsTrigger))
+              (j/with-identity (j/key payrollCreator)))
+        payrollCreatorTrigger (t/build
+                  (t/with-identity (t/key payrollTrigger))
                   (t/start-now)
                   (t/with-schedule (schedule
                                      (repeat-forever)
                                      (with-interval-in-minutes 1))))]
-    (qs/schedule sessionsCleanerJob sessionsCleanerTrigger)))
+    (qs/schedule payrollCreatorJob payrollCreatorTrigger)))
 
 ;;;;;;;;;;;;    Sessions Job ;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -48,4 +49,5 @@
   ;; starting Quartz Scheduler"""
   (qs/initialize)
   (qs/start)
-  (scheduleSessionsCleaner))
+  (scheduleSessionsCleaner)
+  (schedulePayrollCycleCreator))
