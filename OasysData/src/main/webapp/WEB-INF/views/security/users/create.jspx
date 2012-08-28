@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:create id="fc_com_outcastgeek_model_security_Principal" modelAttribute="principal" path="/security/users" render="${empty dependencies}" z="oesxHWzU7359Bof3HUFOU3vIbTA=">
+        <field:textarea field="username" id="c_com_outcastgeek_model_security_Principal_username" required="true" z="CwA5FldigvPBqPrlCT0L1z+mEMQ="/>
+        <field:textarea field="password" id="c_com_outcastgeek_model_security_Principal_password" required="true" z="Ftr2pXpEwLslnJgqvYsyXnpLto8="/>
+        <field:checkbox field="enabled" id="c_com_outcastgeek_model_security_Principal_enabled" z="qROb9ivGWpNWbUIJekLeyWQEZ2I="/>
+    </form:create>
+    <form:dependency dependencies="${dependencies}" id="d_com_outcastgeek_model_security_Principal" render="${not empty dependencies}" z="9ThP6r4p+qlmxT/nCrEFxOs1QyM="/>
+</div>

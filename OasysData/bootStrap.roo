@@ -1,4 +1,20 @@
-// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2012-07-30 02:08:47
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2012-08-28 02:47:39
 project --topLevelPackage com.outcastgeek --projectName OasysData --java 7 --packaging JAR
 jpa setup --provider HIBERNATE --database POSTGRES --databaseName OasysSchema_development --userName postgres --password PgSQL2012!
 database reverse engineer --schema public --includeTables "employees payroll_cycles projects time_sheets work_segments" --package ~.domain
+web mvc setup
+web mvc scaffold --class ~.web.EmployeeController --backingType ~.domain.Employees
+entity jpa --class ~.model.security.Principal --table security_principals
+field string --fieldName username --notNull --sizeMax 50 --sizeMin 3
+field string --fieldName password --notNull --sizeMax 50 --sizeMin 3
+field boolean --fieldName enabled
+entity jpa --class ~.model.security.Authority
+entity jpa --class ~.model.security.Authority --table security_authorities
+field string --fieldName roleId --notNull --sizeMax 10 --sizeMin 8
+field string --fieldName authority --notNull --sizeMax 50 --sizeMin 8 --regexp ^ROLE_[A-Z]*
+entity jpa --class ~.model.security.AuthorityPrincipalAssignment --table security_role_assignments
+field reference --fieldName username --type ~.model.security.Principal
+field reference --fieldName roleId --type ~.model.security.Authority
+web mvc scaffold --class ~.web.security.UserController --backingType ~.model.security.Principal --path /security/users
+web mvc scaffold --class ~.web.security.RoleController --backingType ~.model.security.Authority --path /security/roles
+web mvc scaffold --class ~.web.security.RoleMappingController --backingType ~.model.security.AuthorityPrincipalAssignment --path /security/assignments

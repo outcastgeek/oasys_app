@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_outcastgeek_domain_Employees" object="${employees}" path="/employeeses" z="U5ZW+j5h8xPOZpaNvYB4ccEs0BA=">
+        <field:display field="firstName" id="s_com_outcastgeek_domain_Employees_firstName" object="${employees}" z="wydc1pxQ//QPYN10OlqO51YSYj8="/>
+        <field:display field="lastName" id="s_com_outcastgeek_domain_Employees_lastName" object="${employees}" z="Y8h7fi0BrZ1KxbSz3UMq8wr3qsk="/>
+        <field:display field="username" id="s_com_outcastgeek_domain_Employees_username" object="${employees}" z="5JCDKfWRZi32KNIersiBiNsTrSo="/>
+        <field:display field="email" id="s_com_outcastgeek_domain_Employees_email" object="${employees}" z="j9LxzF2r+RbsSjVfZbftlwWmBgM="/>
+        <field:display field="active" id="s_com_outcastgeek_domain_Employees_active" object="${employees}" z="pZl4LbpO/0LRjQ02daiEarZnAyM="/>
+        <field:display date="true" dateTimePattern="${employees_createdat_date_format}" field="createdAt" id="s_com_outcastgeek_domain_Employees_createdAt" object="${employees}" z="Kwip/R8QcTo/doJ3cfJHamYKyxI="/>
+        <field:display date="true" dateTimePattern="${employees_updatedat_date_format}" field="updatedAt" id="s_com_outcastgeek_domain_Employees_updatedAt" object="${employees}" z="qH/k+ME4rTLoLlUSFJeIUnwTsfE="/>
+        <field:display field="provider" id="s_com_outcastgeek_domain_Employees_provider" object="${employees}" z="DeJVlmmEa5gUUGvWnYqHLVm6hOE="/>
+        <field:display field="uniq" id="s_com_outcastgeek_domain_Employees_uniq" object="${employees}" z="KXB9oQ4y0JhKlDFGJezn1wSeYYg="/>
+        <field:display field="password" id="s_com_outcastgeek_domain_Employees_password" object="${employees}" z="wWsCL51eeLfLnIO8DJ38az4nvG8="/>
+    </page:show>
+</div>

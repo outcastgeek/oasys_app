@@ -1,3 +1,5 @@
 // Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2012-07-30 09:10:54
 quit
 // Spring Roo 1.2.2.RELEASE [rev 7d75659] log closed at 2012-07-30 09:19:38
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2012-08-27 23:48:36
+// [failed] jpa setup --provider HIBERNATE --database POSTGRES --databaseName OasysSchema_development --userName postgres --password PgSQL2012!
