@@ -2,9 +2,9 @@
   (:use clojure.tools.logging
         clojure.java.io
         somnium.congomongo
-        [clojure.java.io :only [reader]]
-        clj-time.core)
-  (:require [resque-clojure.core :as resque])
+        [clojure.java.io :only [reader]])
+  (:require [resque-clojure.core :as resque]
+            [clj-time.core :as time])
   (:import java.util.Date
            java.sql.Timestamp
            com.mongodb.Mongo
@@ -17,16 +17,16 @@
   (Timestamp. (. (Date.) getTime)))
 
 (defn firstDayOfTheMonthOf [date]
-  (let [cyear (year date)
-        cmonth (month date)]
-    (date-time cyear cmonth 1)))
+  (let [cyear (time/year date)
+        cmonth (time/month date)]
+    (time/date-time cyear cmonth 1)))
 
 (defn lastDayOfTheMonthOf [date]
-  (let [oneMonthFromDate (plus date (months 1))
-        cyear (year oneMonthFromDate)
-        cmonth (month oneMonthFromDate)
-        firstOfNextMonth (date-time cyear cmonth 1)]
-    (minus firstOfNextMonth (days 1))))
+  (let [oneMonthFromDate (time/plus date (time/months 1))
+        cyear (time/year oneMonthFromDate)
+        cmonth (time/month oneMonthFromDate)
+        firstOfNextMonth (time/date-time cyear cmonth 1)]
+    (time/minus firstOfNextMonth (time/days 1))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
