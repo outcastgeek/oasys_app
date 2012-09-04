@@ -13,7 +13,8 @@
 
 (defjob PayrollCycleCreator
   [ctx]
-  (createCurrentPayrollCycle))
+  (createCurrentPayrollCycle)
+  (createCurrentTimesheets))
 
 (defn schedulePayrollCycleCreator []
   (let [payrollCreatorJob (j/build

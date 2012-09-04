@@ -28,6 +28,14 @@
         firstOfNextMonth (time/date-time cyear cmonth 1)]
     (time/minus firstOfNextMonth (time/days 1))))
 
+(defn firstDayOfTheWeekOf [date]
+  (let [cday (time/day-of-week date)]
+    (time/minus date (time/days (+ 1 cday)))))
+
+(defn lastDayOfTheWeekOf [date]
+  (let [cday (time/day-of-week date)]
+    (time/plus date (time/days (- 7 cday)))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defn load-props

@@ -5,7 +5,8 @@
         korma.core
         korma.db
         clj-time.coerce)
-  (:require [resque-clojure.core :as resque]
+  (:require [clojure.core.reducers :as r]
+            [resque-clojure.core :as resque]
             [clj-time.core :as time])
   (:import ;com.outcastgeek.domain.Employees
            java.util.Date))
@@ -129,6 +130,49 @@
       (debug "PERSISTING NEW PAYROLL: " payrollData)
       (insert payroll_cycles
               (values payrollData))
+      )))
+
+;;;;;;;;;;;;;;;;;;     Timesheets       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn allTimesheets []
+  (select time_sheets))
+
+(defn findTimesheet [data]
+  (debug "TIMESHEET CRITERIA: " data)
+  (select time_sheets
+          (where data)))
+
+(defn findExistingTimesheet [data]
+  (debug "TIMESHEET CRITERIA: " data)
+  (select time_sheets
+          (where (or (= :start_date (data :start_date))
+                     (= :end_date (data :end_date)))
+                 )))
+
+
+
+(defn createCurrentTimesheets []
+  (debug "Checking / Creating this week's employees timesheets...")
+  (let [rightNow (time/now)
+        payrollCycle (first (findExistingPayroll {:payroll_cycle_year (time/year rightNow)
+                                                  :payroll_cycle_number (time/month rightNow)}))
+        timesheetData {:start_date (to-sql-date (firstDayOfTheWeekOf rightNow))
+                       :end_date (to-sql-date (lastDayOfTheWeekOf rightNow))
+                       :created_at (get-current-timestamp)
+                       :updated_at (get-current-timestamp)}
+        existingTimesheet (first (findExistingTimesheet timesheetData))
+        newTimesheetForEmployee (fn [employee]
+                                  (let [data (merge timesheetData
+                                                    {:payroll_cycle_id (payrollCycle :payroll_cycle_id)
+                                                     :employee_id (employee :employee_id)})]
+                                    (debug "PERSISTING NEW TIMESHEET FOR EMPLOYEE: " employee)
+                                    (debug "AND WITH DATA: " data)
+                                    (insert time_sheets
+                                            (values data))))]
+    (when
+      (nil? existingTimesheet)
+      (doall
+        (pmap newTimesheetForEmployee (allEmployees)))
       )))
 
 ;;;;;;;;;;;;;;;;;;     Projects       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

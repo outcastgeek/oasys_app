@@ -79,7 +79,7 @@
                  ]
   :plugins [[lein-swank "1.4.4"]
             [lein-cljsbuild "0.2.5"]
-            [lein-light "0.0.8"]
+            [lein-light "0.0.11"]
             ;[midje "1.4.0"]
             ;[com.stuartsierra/lazytest "1.2.3"]
             ;[clj-ns-browser "1.2.0"]
