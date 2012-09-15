@@ -163,14 +163,16 @@
         existingTimesheet (first (findExistingTimesheet timesheetData))
         newTimesheetForEmployee (fn [employee]
                                   (let [data (merge timesheetData
-                                                    {:payroll_cycle_id (payrollCycle :payroll_cycle_id)
-                                                     :employee_id (employee :employee_id)})]
+                                                    {:payroll_cycle_id (payrollCycle :id)
+                                                     :employee_id (employee :id)})]
                                     (debug "PERSISTING NEW TIMESHEET FOR EMPLOYEE: " employee)
                                     (debug "AND WITH DATA: " data)
                                     (insert time_sheets
                                             (values data))))]
     (when
-      (nil? existingTimesheet)
+      (and
+        (nil? existingTimesheet)
+        (not (nil? payrollCycle)))
       (doall
         (pmap newTimesheetForEmployee (allEmployees)))
       )))
