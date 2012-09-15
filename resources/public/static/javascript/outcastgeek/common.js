@@ -55,7 +55,10 @@ YUI({
                     fullpath: 'http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js'
                 },
                 'angular': {
-                    fullpath: 'http://code.angularjs.org/angular-1.0.1.min.js'
+                    fullpath: 'http://ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js'
+                },
+                'angular-resource': {
+                    fullpath: 'http://ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular-resource.min.js'
                 },
                 'modernizr': {
                     fullpath: 'http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.5.3/modernizr.min.js'
@@ -82,7 +85,7 @@ YUI({
             }
         }
     }
-}).use('modernizr', 'angular', 'jquery', 'bootstrap', 'outcastgeek', function(Y) {
+}).use('modernizr', 'angular', 'angular-resource', 'jquery', 'bootstrap', 'outcastgeek', function(Y) {
 
         angular.element(document).ready(function() {
             angular.bootstrap(document);

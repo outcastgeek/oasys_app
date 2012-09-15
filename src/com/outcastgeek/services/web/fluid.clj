@@ -168,7 +168,7 @@
 		         :else
                (html
                  [:ul {:class "nav nav-pills pull-right" :style "margin-top: 3px;"}
-                  [:li (button-link-to "/timesheet" "timsheet")]
+                  [:li (button-link-to "/timesheet" "timesheet")]
                   [:li {:class "divider-vertical"}]
                   [:li (button-link-to "/profile" (session :username))]
                   [:li {:class "divider-vertical"}]

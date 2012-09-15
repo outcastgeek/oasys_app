@@ -102,7 +102,7 @@
 ;  :javac-options {:target "1.7"
 ;                  :debug "off"
 ;                  :source "1.7"}
-  :javac-options ["-target" "1.7" "-source" "1.7" "-Xlint:-options"]
+  :javac-options ["-target" "1.6" "-source" "1.6" "-Xlint:-options"]
   ;; Leave the contents of :source-paths out of jars (for AOT projects)
   :omit-source true
   :main com.outcastgeek.services.web.Services
