@@ -10,5 +10,5 @@
         [clj-style.core :as cs]
         com.outcastgeek.services.web.style))
 
-(defn timesheets [request]
-  (debug request))
+(defn timesheets-controller [params session]
+  (debug session))

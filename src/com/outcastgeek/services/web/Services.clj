@@ -13,6 +13,7 @@
         com.outcastgeek.config.AuthAuth
         com.outcastgeek.config.AppConfig
         com.outcastgeek.domain.Entities
+        com.outcastgeek.services.web.Payroll
 ;        com.outcastgeek.services.work.FuncDocCreator
         com.outcastgeek.util.Jobs)
   (:import java.util.UUID
@@ -170,6 +171,48 @@
          ]))
     {:csrf csrf :flash "" :flashstyle ""})))
 
+(defn timesheets [request]
+  (let [csrf (str (UUID/randomUUID))
+        session (request :session)
+        username (session :username)
+        uniq (-> session :user-info :uniq)
+        employee (first (findExistingEmployee {:uniq uniq
+                                               :username username}))]
+   (debug "FOUND EMPLOYEE: " employee) 
+   (page
+    request
+    (html-doc
+      request
+      "Profile | "
+      (html
+        [:div {:class "hero-unit"}
+         [:h1 username]
+         [:p "Timesheets:"]]
+        [:div {:class "row"}
+         [:div {:class "span6"}
+          [:h2 "Info"]
+          [:ul
+           [:li "First Name: " (employee :first_name)]
+           [:li "Last Name: " (employee :last_name)]
+           [:li "Email: " (employee :email)]
+           [:li "Active: " (employee :active)]]]
+         [:div {:class "span6"}
+            [:h2 "Update Your Profile"]
+            [:br ]
+            [:form {:method "post" :action "/profile" :enctype "application/x-www-form-urlencoded"}
+             [:fieldset [:legend "Enter values only for the information you would like to update"]
+              (input "First Name" "first_name" (session :user-info))
+              (input "Last Name" "last_name" (session :user-info))
+              (input "User Name" "username" session)
+              (input "Email" "email" (session :user-info))
+              (secret-input "Password" "password" session :required false)
+              (secret-input "Confirm Password" "confirmpassword" session :required false)
+              [:input {:type "hidden" :name "csrf" :value csrf}]
+              [:input {:class "btn btn-primary" :type "submit" :value "Update"}]
+              ]]]
+         ]))
+    {:csrf csrf :flash "" :flashstyle ""})))
+
 (defn oauth-redirect [request]
   (let [provider (-> request :params :provider keyword)
         session (request :session )]
@@ -191,6 +234,10 @@
   (GET "/profile" request ((glua (auth-req? request) profile) request))
   
   (POST "/profile" {session :session params :params} (profile-controller params session))
+
+  (GET "/timesheets" request ((glua (auth-req? request) timesheets) request))
+  
+  (POST "/timesheets" {session :session params :params} (timesheets-controller params session))
 
   ;(ANY "/*" (ensure-admin-controller session))
   ;(ANY "/admin/" (admin-view session))
