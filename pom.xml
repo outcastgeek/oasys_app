@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>oasys_corp</groupId>
   <artifactId>oasys_corp</artifactId>
@@ -7,23 +8,23 @@
   <name>oasys_corp</name>
   <description>Building the Ultimate Web Framework!!!!</description>
   <build>
-    <sourceDirectory>src</sourceDirectory>
-    <testSourceDirectory>test</testSourceDirectory>
+    <sourceDirectory>C:\workspace-sts\oasys_corp\src</sourceDirectory>
+    <testSourceDirectory>C:\workspace-sts\oasys_corp\test</testSourceDirectory>
     <resources>
       <resource>
-        <directory>resources</directory>
+        <directory>C:\workspace-sts\oasys_corp\resources</directory>
       </resource>
     </resources>
     <testResources>
       <testResource>
-        <directory>dev-resources</directory>
+        <directory>C:\workspace-sts\oasys_corp\dev-resources</directory>
       </testResource>
       <testResource>
-        <directory>resources</directory>
+        <directory>C:\workspace-sts\oasys_corp\resources</directory>
       </testResource>
     </testResources>
-    <directory>target</directory>
-    <outputDirectory>target/classes</outputDirectory>
+    <directory>C:\workspace-sts\oasys_corp\target</directory>
+    <outputDirectory>C:\workspace-sts\oasys_corp\target\classes</outputDirectory>
     <plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -38,7 +39,7 @@
             </goals>
             <configuration>
               <sources>
-                <source>java</source>
+                <source>C:\workspace-sts\oasys_corp\java</source>
               </sources>
             </configuration>
           </execution>
@@ -187,6 +188,25 @@
       <exclusions>
         <exclusion>
           <groupId>org.jboss.netty</groupId>
+          <artifactId>netty</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>io.netty</groupId>
+          <artifactId>netty</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>aleph</groupId>
+      <artifactId>aleph</artifactId>
+      <version>0.3.0-beta4</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.jboss.netty</groupId>
+          <artifactId>netty</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>io.netty</groupId>
           <artifactId>netty</artifactId>
         </exclusion>
       </exclusions>
