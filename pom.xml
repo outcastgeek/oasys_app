@@ -158,16 +158,16 @@
     <dependency>
       <groupId>ring</groupId>
       <artifactId>ring-core</artifactId>
-      <version>1.1.5</version>
+      <version>1.1.6</version>
     </dependency>
     <dependency>
       <groupId>ring</groupId>
       <artifactId>ring</artifactId>
-      <version>1.1.5</version>
+      <version>1.1.6</version>
       <exclusions>
         <exclusion>
-          <groupId>ring</groupId>
-          <artifactId>ring-jetty-adapter</artifactId>
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>jetty-server</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -185,21 +185,6 @@
       <groupId>me.shenfeng</groupId>
       <artifactId>async-ring-adapter</artifactId>
       <version>1.0.1</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.jboss.netty</groupId>
-          <artifactId>netty</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>io.netty</groupId>
-          <artifactId>netty</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>aleph</groupId>
-      <artifactId>aleph</artifactId>
-      <version>0.3.0-beta4</version>
       <exclusions>
         <exclusion>
           <groupId>org.jboss.netty</groupId>

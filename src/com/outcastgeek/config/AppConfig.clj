@@ -58,7 +58,9 @@
 
 (set-write-concern mongo-connection :safe) ;Consult documentation
 
-(resque/configure {:host (appProperties :redis-url) :port (appProperties :redis-port)}) ;; optional
+(resque/configure {:host (appProperties :redis-url)
+                   :port (appProperties :redis-port)
+                   :max-workers (appProperties :redis-workers)}) ;; optional
 
 (def employeeQueue (appProperties :employee-queue))
 

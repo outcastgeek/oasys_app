@@ -13,15 +13,13 @@
                  [korma "0.3.0-beta11"]
                  [hiccup/hiccup "1.0.0"]
                  [clj-style/clj-style "1.0.1"]
-                 [ring/ring-core "1.1.5"]
-                 [ring/ring "1.1.5" :exclusions [ring/ring-jetty-adapter]]
+                 [ring/ring-core "1.1.6"]
+                 [ring/ring "1.1.6" :exclusions [org.eclipse.jetty/jetty-server]]
+;                 [ring/ring "1.1.6" :exclusions [ring/ring-jetty-adapter]]
                  [compojure/compojure "1.1.3"]
                  [com.novemberain/validateur "1.1.0"]
                  [me.shenfeng/async-ring-adapter "1.0.1" :exclusions [[org.jboss.netty/netty]
                                                                       [io.netty/netty]]]
-                 [aleph "0.3.0-beta4" :exclusions [[org.jboss.netty/netty]
-                                                   [io.netty/netty]]]
-;                 [org.jboss.netty/netty "3.2.7.Final"]
                  [io.netty/netty "3.5.7.Final"]
                  [clojurewerkz/quartzite "1.0.0-rc6"]
                  [com.novemberain/quartz-mongodb "1.0.0"]
@@ -82,13 +80,20 @@
 ;                 [enfocus "0.9.1-SNAPSHOT"]
 ;                 [com.keminglabs/c2 "0.1.2"]
                  ]
+  :dev-dependencies [[ring/ring-devel "1.1.6"]]
   :plugins [[lein-swank "1.4.4"]
+            [lein-ring "0.7.5"]
             [lein-cljsbuild "0.2.7"]
             [lein-light "0.0.11"]
             ;[midje "1.4.0"]
             ;[com.stuartsierra/lazytest "1.2.3"]
             ;[clj-ns-browser "1.2.0"]
             ]
+  :ring {:handler com.outcastgeek.services.web.Services/website
+         :port 9998
+         :auto-reload? true
+         :auto-refresh? false
+         :stacktraces? true}
   :aot :all
 ;  :jvm-opts ["-Xmx1g" "-server"
 ;             "-Dhttp.proxyHost=webproxy.int.westgroup.com"
