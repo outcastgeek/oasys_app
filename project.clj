@@ -63,10 +63,14 @@
                  [ch.qos.logback/logback-access "1.0.6"]
                  [ch.qos.logback/logback-site "1.0.6"]
                  ;;;;;;;;;;;;;; AKKA ;;;;;;;;;;;;;;;;;;;;;;;;;;
-;                 [com.typesafe.akka/akka-actor "2.0.2"]
-;                 [com.typesafe.akka/akka-remote "2.0.2"]
-;                 [com.typesafe.akka/akka-file-mailbox "2.0.2"]
-;                 [com.typesafe.akka/akka-slf4j "2.0.2"]
+                 [org.clojure.gaverhae/okku "0.1.3" :exclusions [[com.typesafe.akka/akka-actor]
+                                                                 [com.typesafe.akka/akka-remote]
+                                                                 [com.typesafe.akka/akka-file-mailbox]
+                                                                 [com.typesafe.akka/akka-slf4j]]]
+                 [com.typesafe.akka/akka-actor "2.0.3"]
+                 [com.typesafe.akka/akka-remote "2.0.3"]
+                 [com.typesafe.akka/akka-file-mailbox "2.0.3"]
+                 [com.typesafe.akka/akka-slf4j "2.0.3"]
                  ;;;;;;;;;;; SPRING ;;;;;;;;;;;;;;;;;;;;;;;;
 ;                 [org.springframework/spring-context "3.1.2.RELEASE"]
 ;                 [org.springframework/spring-web "3.1.2.RELEASE"]
@@ -110,7 +114,7 @@
 ;  :javac-options {:target "1.7"
 ;                  :debug "off"
 ;                  :source "1.7"}
-  :javac-options ["-target" "1.6" "-source" "1.6" "-Xlint:-options"]
+  :javac-options ["-target" "1.7" "-source" "1.7" "-Xlint:-options"]
   ;; Leave the contents of :source-paths out of jars (for AOT projects)
   :omit-source true
   :main com.outcastgeek.services.web.Services
@@ -174,7 +178,7 @@
   :checksum :warn
   :update :daily
   :repositories {"sonatype.snapshots" "https://oss.sonatype.org/content/repositories/snapshots"
-                 ;"akka.io" "http://repo.akka.io/releases"
+                 "akka.io" "http://repo.akka.io/releases"
                  ;"spring.milestone" "http://maven.springframework.org/milestone"
                  ;"stuart" "http://stuartsierra.com/maven2"
                  "java.net" "http://download.java.net/maven/2"
