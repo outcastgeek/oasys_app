@@ -142,11 +142,19 @@
   (select time_sheets
           (where data)))
 
+(defn findEmployeeCurrentTimesheet [data]
+  (debug "TIMESHEET CRITERIA: " data)
+  (select time_sheets
+          (where (and (= :employee_id (data :employee_id))
+                      (= :start_date (data :start_date))
+                      (= :end_date (data :end_date)))
+                 )))
+
 (defn findExistingTimesheet [data]
   (debug "TIMESHEET CRITERIA: " data)
   (select time_sheets
-          (where (or (= :start_date (data :start_date))
-                     (= :end_date (data :end_date)))
+          (where (and (= :start_date (data :start_date))
+                      (= :end_date (data :end_date)))
                  )))
 
 
@@ -176,6 +184,13 @@
       (doall
         (pmap newTimesheetForEmployee (allEmployees)))
       )))
+
+;;;;;;;;;;;;;;;;;;     WorkSegments   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn findWorksegment [data]
+  (debug "WORKSEGMENT CRITERIA: " data)
+  (select work_segments
+          (where data)))
 
 ;;;;;;;;;;;;;;;;;;     Projects       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

@@ -8,6 +8,7 @@
         hiccup.core
         hiccup.page
         somnium.congomongo
+        clj-time.coerce
         com.outcastgeek.services.web.fluid
         com.outcastgeek.util.Sessions
         com.outcastgeek.config.AuthAuth
@@ -22,7 +23,8 @@
   (:require [ring.middleware.session :as rs]
             [hozumi.mongodb-session :as mongoss]
             [compojure.route :as route]
-            [resque-clojure.core :as resque])
+            [resque-clojure.core :as resque]
+            [clj-time.core :as t])
   (:gen-class :extends javax.servlet.http.HttpServlet))
 
 (set-connection! mongo-connection)
@@ -173,12 +175,18 @@
 
 (defn timesheets [request]
   (let [csrf (str (UUID/randomUUID))
+        rightNow (t/now)
         session (request :session)
         username (session :username)
         uniq (-> session :user-info :uniq)
         employee (first (findExistingEmployee {:uniq uniq
-                                               :username username}))]
-   (debug "FOUND EMPLOYEE: " employee) 
+                                               :username username}))
+        currentTimeSheet (first (findEmployeeCurrentTimesheet {:employee_id (employee :id)
+                                                               :start_date (to-sql-date (firstDayOfTheWeekOf rightNow))
+                                                               :end_date (to-sql-date (lastDayOfTheWeekOf rightNow))}))
+        workSegments (findWorksegment {:employee_id (employee :id)
+                                       :timesheet_id (currentTimeSheet :id)})]
+   (debug (employee :username) "'s current timesheet's work segments: " workSegments)
    (page
     request
     (html-doc
@@ -219,7 +227,7 @@
     (debug (-> oauth-providers provider :uri ))
     (do
       {:status 302
-       :headers {"Location" (-> oauth-providers provider :uri )}
+       :headers {"Location" (-> oauth-providers provider :uri)}
        :session (merge session {:provider provider})
        })))
 
