@@ -80,7 +80,7 @@
 
 (def jmsConnection
   (jms-connection queueServerConnectionFactory
-                  #(. queueServerConnectionFactory close)))
+                  (fn [] (. queueServerConnectionFactory close))))
 
 ;;;;;;;;;;;;;;;;;;;    END QUEUES    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

@@ -62,6 +62,7 @@
                  [org.jboss.javaee/jboss-jms-api "1.1.0.20070913080910"]
                  [org.hornetq/hornetq-core "2.2.21.Final"]
                  [org.hornetq/hornetq-jms-client "2.2.21.Final"]
+                 [org.immutant/immutant-messaging "0.4.0"]
                  ;;;;;;;;;;;;;;;  LOGGING    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                  [org.slf4j/slf4j-api "1.6.6"]
                  [org.slf4j/jcl-over-slf4j "1.6.6"]
