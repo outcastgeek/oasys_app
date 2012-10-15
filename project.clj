@@ -57,6 +57,11 @@
 	               [org.eclipse.jetty/jetty-io "8.1.4.v20120524"]
 	               [org.eclipse.jetty/jetty-continuation "8.1.4.v20120524"]
 	               [org.eclipse.jetty/jetty-websocket "8.1.4.v20120524"]
+                 ;;;;;;;;;;;;;;;  MESSAGING  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                 [clamq/clamq-jms "0.4"]
+                 [org.jboss.javaee/jboss-jms-api "1.1.0.20070913080910"]
+                 [org.hornetq/hornetq-core "2.2.21.Final"]
+                 [org.hornetq/hornetq-jms-client "2.2.21.Final"]
                  ;;;;;;;;;;;;;;;  LOGGING    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                  [org.slf4j/slf4j-api "1.6.6"]
                  [org.slf4j/jcl-over-slf4j "1.6.6"]
@@ -109,7 +114,7 @@
 ;  :javac-options {:target "1.7"
 ;                  :debug "off"
 ;                  :source "1.7"}
-  :javac-options ["-target" "1.6" "-source" "1.6" "-Xlint:-options"]
+  :javac-options ["-target" "1.7" "-source" "1.7" "-Xlint:-options"]
   ;; Leave the contents of :source-paths out of jars (for AOT projects)
   :omit-source true
   :main com.outcastgeek.services.web.Services

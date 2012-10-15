@@ -356,6 +356,26 @@
       <version>8.1.4.v20120524</version>
     </dependency>
     <dependency>
+      <groupId>clamq</groupId>
+      <artifactId>clamq-jms</artifactId>
+      <version>0.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.javaee</groupId>
+      <artifactId>jboss-jms-api</artifactId>
+      <version>1.1.0.20070913080910</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hornetq</groupId>
+      <artifactId>hornetq-core</artifactId>
+      <version>2.2.21.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hornetq</groupId>
+      <artifactId>hornetq-jms-client</artifactId>
+      <version>2.2.21.Final</version>
+    </dependency>
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>1.6.6</version>

@@ -410,7 +410,8 @@
   (run-netty website {:port (Integer/parseInt portNumber)
                   :netty {"reuseAddress" true}}))
 
-(defn -main [server portNumber webXml]
+(defn -main [server portNumber queuePortNumber]
+;(defn -main [server portNumber webXml]
   ;; Starting Scheduled Jobs
   (try
     (runJobs)
@@ -420,9 +421,12 @@
       (info "Proceeding ....")))
   ;; listening for jobs
   (resque/start [employeeQueue mailQueue])
+  ;; running Queue Server
+  (. queueServer start)
   (cond
     (= server "Jetty")
-    (runJetty portNumber webXml)
+    (runJetty portNumber "webXml")
+    ;(runJetty portNumber webXml)
     (= server "Netty")
     (runNetty portNumber)
     ))

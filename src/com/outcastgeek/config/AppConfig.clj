@@ -2,6 +2,8 @@
   (:use clojure.tools.logging
         clojure.java.io
         somnium.congomongo
+        clamq.protocol.connection
+        clamq.jms
         [clojure.java.io :only [reader]])
   (:require [resque-clojure.core :as resque]
             [clj-time.core :as time])
@@ -9,7 +11,8 @@
            java.sql.Timestamp
            com.mongodb.Mongo
            com.mongodb.ServerAddress
-           com.mongodb.MongoOptions))
+           com.mongodb.MongoOptions
+           com.outcastgeek.util.QueueServer))
 
 (defn get-current-timestamp []
   (Timestamp. (. (Date.) getTime)))
@@ -58,6 +61,7 @@
 
 (set-write-concern mongo-connection :safe) ;Consult documentation
 
+;;;;;;;;;;;;;;;;;;;    QUEUES    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (resque/configure {:host (appProperties :redis-url)
                    :port (appProperties :redis-port)
                    :max-workers (appProperties :redis-workers)}) ;; optional
@@ -65,6 +69,20 @@
 (def employeeQueue (appProperties :employee-queue))
 
 (def mailQueue (appProperties :mail-queue))
+
+(def queueServer
+  (QueueServer/createQueueServer (appProperties :queue-server-conf-url)
+                                 (appProperties :queue-server-port)))
+
+(def queueServerConnectionFactory
+  (QueueServer/createConnectionFactory (appProperties :queue-server-conf-url)
+                                       (appProperties :queue-server-port)))
+
+(def jmsConnection
+  (jms-connection queueServerConnectionFactory
+                  #(. queueServerConnectionFactory close)))
+
+;;;;;;;;;;;;;;;;;;;    END QUEUES    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (def sessionName (appProperties :session-name))
 
@@ -85,5 +103,6 @@
 (def smtpUser (appProperties :amz-smtp-user))
 
 (def smtpPwd (appProperties :amz-smtp-pwd))
+
 
 (def smtpSender (appProperties :amz-smtp-sender))
