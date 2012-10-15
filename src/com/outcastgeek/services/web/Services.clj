@@ -23,6 +23,7 @@
   (:require [ring.middleware.session :as rs]
             [hozumi.mongodb-session :as mongoss]
             [compojure.route :as route]
+            [immutant.messaging :as msg]
             [resque-clojure.core :as resque]
             [clj-time.core :as t])
   (:gen-class :extends javax.servlet.http.HttpServlet))
@@ -410,7 +411,7 @@
   (run-netty website {:port (Integer/parseInt portNumber)
                   :netty {"reuseAddress" true}}))
 
-(defn -main [server portNumber queuePortNumber]
+(defn -main [server portNumber]
 ;(defn -main [server portNumber webXml]
   ;; Starting Scheduled Jobs
   (try
@@ -423,9 +424,12 @@
   (resque/start [employeeQueue mailQueue])
   ;; running Queue Server
   (. queueServer start)
+  ;; start queues
+  (msg/start "/queue/work")
+  (msg/start "/topic/news")
   (cond
     (= server "Jetty")
-    (runJetty portNumber "webXml")
+    (runJetty portNumber "web.xml")
     ;(runJetty portNumber webXml)
     (= server "Netty")
     (runNetty portNumber)
