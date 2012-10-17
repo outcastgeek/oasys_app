@@ -18,9 +18,23 @@
         </acceptor>
     </acceptors>
 
+
     <!-- Other config -->
 
     <security-settings>
+		<cluster-user>HORNETQ.CLUSTER.ADMIN.USER</cluster-user>
+		<cluster-password>AdminPassword</cluster-password>
+	
+		<!-- Users config -->
+		<!-- create new user named guest as the default user -->
+		<defaultuser name="guest" password="guest">
+			<role name="guest" />
+		</defaultuser>
+		<!-- create new user named admin with admin stuff -->
+		<user name="admin" password="admin">
+			<role name="admin" />
+		</user>
+		
         <!--security for example queue-->
         <security-setting match="#">
             <permission type="createDurableQueue" roles="guest"/>
