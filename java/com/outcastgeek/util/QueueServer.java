@@ -43,6 +43,9 @@ public class QueueServer {
 		configuration.setConfigurationUrl(confUrl);
 		configuration.setPersistenceEnabled(true);
 		configuration.setJournalType(JournalType.NIO);
+		configuration.setThreadPoolMaxSize(Runtime.getRuntime().availableProcessors());
+		configuration.setClusterUser("guest");
+		configuration.setClusterPassword("guest");
 		
 		// Prepare configuration objects
 		String netty = NettyAcceptorFactory.class.getName();
@@ -61,6 +64,9 @@ public class QueueServer {
 		// Create server
 		HornetQServer server = HornetQServers
 				.newHornetQServer(configuration);
+		server.getSecurityManager().addUser("guest", "guest");
+        server.getSecurityManager().setDefaultUser("guest");
+        server.getSecurityManager().addRole("guest", "guest");
 		
 		return server;
 	}

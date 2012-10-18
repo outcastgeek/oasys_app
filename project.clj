@@ -62,7 +62,7 @@
                  [org.jboss.javaee/jboss-jms-api "1.1.0.20070913080910"]
                  [org.hornetq/hornetq-core "2.2.21.Final"]
                  [org.hornetq/hornetq-jms-client "2.2.21.Final"]
-                 [org.immutant/immutant-messaging "0.4.0"]
+                 [org.immutant/immutant-messaging "0.5.0"]
                  ;;;;;;;;;;;;;;;  LOGGING    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                  [org.slf4j/slf4j-api "1.6.6"]
                  [org.slf4j/jcl-over-slf4j "1.6.6"]
@@ -93,7 +93,7 @@
 ;                 [com.keminglabs/c2 "0.1.2"]
                  ]
   :plugins [[lein-swank "1.4.4"]
-            [lein-cljsbuild "0.2.7"]
+            [lein-cljsbuild "0.2.8"]
             [lein-light "0.0.11"]
             ;[midje "1.4.0"]
             ;[com.stuartsierra/lazytest "1.2.3"]

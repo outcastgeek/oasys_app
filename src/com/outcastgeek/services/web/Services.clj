@@ -424,9 +424,16 @@
   (resque/start [employeeQueue mailQueue])
   ;; running Queue Server
   (. queueServer start)
+  ;; listen for messages in queues
+  (msg/listen "/queue/print"
+               #(pprint %)
+               (appProperties :queue-server-host)
+               (appProperties :queue-server-port)
+               :username "guest"
+               :password "guest")
   ;; start queues
-  (msg/start "/queue/work")
-  (msg/start "/topic/news")
+;  (msg/start "/queue/work")
+;  (msg/start "/topic/news")
   (cond
     (= server "Jetty")
     (runJetty portNumber "web.xml")
