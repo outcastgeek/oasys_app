@@ -6,6 +6,7 @@
         clamq.jms
         [clojure.java.io :only [reader]])
   (:require [resque-clojure.core :as resque]
+            [okku.core :as akka]
             [clamq.protocol.connection :as qcon]
             [clamq.protocol.consumer :as cons]
             [clamq.protocol.producer :as prod]
@@ -72,6 +73,15 @@
 (def employeeQueue (appProperties :employee-queue))
 
 (def mailQueue (appProperties :mail-queue))
+
+(def as
+  (akka/actor-system "OutcastgeekActorSystem"))
+
+(def echo-actor
+  (akka/spawn
+    (akka/actor (akka/onReceive [msg]
+                                (debug msg)))
+    :in as))
 
 (def queueServer
   (QueueServer/createQueueServer (appProperties :queue-server-conf-url)

@@ -85,6 +85,8 @@
 (defn login [request]
   (let [csrf (str (UUID/randomUUID))
         session (request :session )]
+    (.tell echo-actor "Testing...")
+    (.tell echo-actor ["more" {"complex" "object"}])
     (page
       request
       (html-doc
