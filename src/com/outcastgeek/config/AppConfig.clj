@@ -6,6 +6,9 @@
         clamq.jms
         [clojure.java.io :only [reader]])
   (:require [resque-clojure.core :as resque]
+            [clamq.protocol.connection :as qcon]
+            [clamq.protocol.consumer :as cons]
+            [clamq.protocol.producer :as prod]
             [clj-time.core :as time])
   (:import java.util.Date
            java.sql.Timestamp
@@ -72,15 +75,41 @@
 
 (def queueServer
   (QueueServer/createQueueServer (appProperties :queue-server-conf-url)
+                                 (appProperties :queue-server-host)
                                  (appProperties :queue-server-port)))
+
+(def jmsServerManager
+  (QueueServer/createJMSServerManager queueServer
+                                      (appProperties :queue-manager-conf-url)))
 
 (def queueServerConnectionFactory
   (QueueServer/createConnectionFactory (appProperties :queue-server-conf-url)
+                                       (appProperties :queue-server-host)
                                        (appProperties :queue-server-port)))
 
 (def jmsConnection
   (jms-connection queueServerConnectionFactory
                   (fn [] (. queueServerConnectionFactory close))))
+
+(defn qConsumer [queue listener]
+  (let [consu (qcon/consumer jmsConnection
+                             {:endpoint queue
+                              :on-message listener
+                              :transacted false})]
+    consu))
+
+(defn qProducer [options]
+  (let [produ (qcon/producer jmsConnection
+                             options)]
+    produ))
+
+(def queueProducer
+  (qProducer {:pubSub false}))
+
+(defn qPublish [queue message]
+  (prod/publish queueProducer
+                queue
+                message))
 
 ;;;;;;;;;;;;;;;;;;;    END QUEUES    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

@@ -23,7 +23,6 @@
   (:require [ring.middleware.session :as rs]
             [hozumi.mongodb-session :as mongoss]
             [compojure.route :as route]
-            [immutant.messaging :as msg]
             [resque-clojure.core :as resque]
             [clj-time.core :as t])
   (:gen-class :extends javax.servlet.http.HttpServlet))
@@ -424,16 +423,12 @@
   (resque/start [employeeQueue mailQueue])
   ;; running Queue Server
   (. queueServer start)
-  ;; listen for messages in queues
-  (msg/listen "/queue/print"
-               #(pprint %)
-               (appProperties :queue-server-host)
-               (appProperties :queue-server-port)
-               :username "guest"
-               :password "guest")
   ;; start queues
-;  (msg/start "/queue/work")
-;  (msg/start "/topic/news")
+  (Thread/sleep 4000)
+  (. jmsServerManager start)
+  ;; listen for messages in queues
+  (qConsumer
+    "/queue/ExampleQueue" #(pprint %))
   (cond
     (= server "Jetty")
     (runJetty portNumber "web.xml")
