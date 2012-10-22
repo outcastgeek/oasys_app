@@ -23,7 +23,6 @@
   (:require [ring.middleware.session :as rs]
             [hozumi.mongodb-session :as mongoss]
             [compojure.route :as route]
-            [resque-clojure.core :as resque]
             [clj-time.core :as t])
   (:gen-class :extends javax.servlet.http.HttpServlet))
 
@@ -43,23 +42,12 @@
    :session (merge (request :session ) sessMerge)})
 
 (defn home [request]
-;  (insert! :robots {:name "robby"})
-;  (queueEmployeeCreation
-;                    {:username (str "username" (UUID/randomUUID))
-;                     :email (str "email" (UUID/randomUUID))
-;                     :password (str "password" (UUID/randomUUID))})
-;  (debug "EMPLOYEES: " (allEmployees))
   (page
     request
     (html-doc
       request
       "Services | "
       (html
-;        [:div {:class "row"}
-;         [:div {:class "span8"}
-;          [:h2 "Welcome"]
-;          [:div "Retrieved robot: " ((fetch-one :robots ) :name )]
-;          ]]
         "<div class='hero-unit'  ng-view></div>"
         [:div {:class "row" :ng-include "'/views/carousel.html'"}]
         [:div {:class "row" :ng-include "'/views/facts.html'"}]

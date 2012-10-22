@@ -126,16 +126,6 @@
       <version>0.4.3</version>
     </dependency>
     <dependency>
-      <groupId>redis.clients</groupId>
-      <artifactId>jedis</artifactId>
-      <version>2.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>resque-clojure</groupId>
-      <artifactId>resque-clojure</artifactId>
-      <version>0.2.2</version>
-    </dependency>
-    <dependency>
       <groupId>congomongo</groupId>
       <artifactId>congomongo</artifactId>
       <version>0.2.0</version>
@@ -340,26 +330,6 @@
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-websocket</artifactId>
       <version>8.1.4.v20120524</version>
-    </dependency>
-    <dependency>
-      <groupId>clamq</groupId>
-      <artifactId>clamq-jms</artifactId>
-      <version>0.4</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.javaee</groupId>
-      <artifactId>jboss-jms-api</artifactId>
-      <version>1.1.0.20070913080910</version>
-    </dependency>
-    <dependency>
-      <groupId>org.hornetq</groupId>
-      <artifactId>hornetq-core</artifactId>
-      <version>2.2.21.Final</version>
-    </dependency>
-    <dependency>
-      <groupId>org.hornetq</groupId>
-      <artifactId>hornetq-jms</artifactId>
-      <version>2.2.21.Final</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>

@@ -2,12 +2,9 @@
   (:use clojure.tools.logging
         clojure.java.io
         somnium.congomongo
-        clamq.protocol.connection
-        clamq.jms
+        okku.core
         [clojure.java.io :only [reader]])
-  (:require [resque-clojure.core :as resque]
-            [okku.core :as akka]
-            [clj-time.core :as time])
+  (:require [clj-time.core :as time])
   (:import java.util.Date
            java.sql.Timestamp
            com.mongodb.Mongo
@@ -61,23 +58,17 @@
 
 (set-write-concern mongo-connection :safe) ;Consult documentation
 
-;;;;;;;;;;;;;;;;;;;    QUEUES    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(resque/configure {:host (appProperties :redis-url)
-                   :port (appProperties :redis-port)
-                   :max-workers (appProperties :redis-workers)}) ;; optional
+;;;;;;;;;;;;;;;;;;;    AKKA    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(def employeeQueue (appProperties :employee-queue))
-
-(def mailQueue (appProperties :mail-queue))
-
-(def as
-  (akka/actor-system "OutcastgeekActorSystem"))
+(def actorSystem
+  (actor-system "OutcastgeekActorSystem"))
 
 (def echo-actor
-  (akka/spawn
-    (akka/actor (akka/onReceive [msg]
-                                (debug msg)))
-    :in as))
+  (spawn
+    (actor (onReceive [msg]
+                      (debug msg)))
+    :name "echo"
+    :in actorSystem))
 
 ;;;;;;;;;;;;;;;;;;;    END QUEUES    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

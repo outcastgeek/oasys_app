@@ -1,18 +1,14 @@
 (ns com.outcastgeek.domain.Entities
   (:use clojure.tools.logging
+        okku.core
         com.outcastgeek.config.AppConfig
         com.outcastgeek.util.Mail
         korma.core
         korma.db
         clj-time.coerce)
   (:require [clojure.core.reducers :as r]
-            [resque-clojure.core :as resque]
             [clj-time.core :as time])
-  (:import ;com.outcastgeek.domain.Employees
-           java.util.Date))
-
-;(def employeesEntity
-;  (. appCtx getBean "employees"))
+  (:import java.util.Date))
 
 ;;;; Check out: https://gist.github.com/2e8a3d55d80707ce79e0
 
@@ -83,16 +79,6 @@
               (values employeeData))
       (queueSendWelcomeEmail data)
       )))
-
-(defn queueEmployeeCreation [data]
-  (resque/enqueue employeeQueue
-                    "com.outcastgeek.domain.Entities/createEmployee"
-                    data))
-
-(defn queueEmployeeUpdate [data]
-  (resque/enqueue employeeQueue
-                    "com.outcastgeek.domain.Entities/updateEmployee"
-                    data))
 
 ;;;;;;;;;;;;;;;;;;     Payroll Cycles       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -235,3 +221,24 @@
               (values projectData)))
       (updateProject projectData))))
 
+;;;;;;;;;;;;;;;;;;;;;;;; ACTORS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(def create-employee-actor
+  (spawn
+    (actor (onReceive [msg]
+                      (createEmployee msg)))
+    :name "createEmployee"
+    :in actorSystem))
+
+(def update-employee-actor
+  (spawn
+    (actor (onReceive [msg]
+                      (updateEmployee msg)))
+    :name "updateEmployee"
+    :in actorSystem))
+
+(defn queueEmployeeCreation [data]
+  (.tell create-employee-actor data))
+
+(defn queueEmployeeUpdate [data]
+  (.tell update-employee-actor data))

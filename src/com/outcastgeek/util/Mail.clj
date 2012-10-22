@@ -1,9 +1,9 @@
 (ns com.outcastgeek.util.Mail
   (:use clojure.tools.logging
         postal.core
+        okku.core
         com.outcastgeek.config.AppConfig)
-  (:require [clj-http.client :as client]
-            [resque-clojure.core :as resque]))
+  (:require [clj-http.client :as client]))
 
 (defn sendWelcomeEmail [employeeData]
   (debug "Sending welcome email to " (employeeData :username) "here" (employeeData :email))
@@ -17,7 +17,12 @@
                   :subject "Your WebApp Profile has been created."
                   :body (str "Welcome to " appName " " (employeeData :username) "!!!!")}))
 
+(def mail-actor
+  (spawn
+    (actor (onReceive [msg]
+                      (sendWelcomeEmail msg)))
+    :name "sendWelcomeEmail"
+    :in actorSystem))
+
 (defn queueSendWelcomeEmail [data]
-  (resque/enqueue mailQueue
-                    "com.outcastgeek.util.Mail/sendWelcomeEmail"
-                    data))
+  (.tell mail-actor data))
