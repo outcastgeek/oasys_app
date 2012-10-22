@@ -7,16 +7,12 @@
         [clojure.java.io :only [reader]])
   (:require [resque-clojure.core :as resque]
             [okku.core :as akka]
-            [clamq.protocol.connection :as qcon]
-            [clamq.protocol.consumer :as cons]
-            [clamq.protocol.producer :as prod]
             [clj-time.core :as time])
   (:import java.util.Date
            java.sql.Timestamp
            com.mongodb.Mongo
            com.mongodb.ServerAddress
-           com.mongodb.MongoOptions
-           com.outcastgeek.util.QueueServer))
+           com.mongodb.MongoOptions))
 
 (defn get-current-timestamp []
   (Timestamp. (. (Date.) getTime)))
@@ -82,44 +78,6 @@
     (akka/actor (akka/onReceive [msg]
                                 (debug msg)))
     :in as))
-
-(def queueServer
-  (QueueServer/createQueueServer (appProperties :queue-server-conf-url)
-                                 (appProperties :queue-server-host)
-                                 (appProperties :queue-server-port)))
-
-(def jmsServerManager
-  (QueueServer/createJMSServerManager queueServer
-                                      (appProperties :queue-manager-conf-url)))
-
-(def queueServerConnectionFactory
-  (QueueServer/createConnectionFactory (appProperties :queue-server-conf-url)
-                                       (appProperties :queue-server-host)
-                                       (appProperties :queue-server-port)))
-
-(def jmsConnection
-  (jms-connection queueServerConnectionFactory
-                  (fn [] (. queueServerConnectionFactory close))))
-
-(defn qConsumer [queue listener]
-  (let [consu (qcon/consumer jmsConnection
-                             {:endpoint queue
-                              :on-message listener
-                              :transacted false})]
-    consu))
-
-(defn qProducer [options]
-  (let [produ (qcon/producer jmsConnection
-                             options)]
-    produ))
-
-(def queueProducer
-  (qProducer {:pubSub false}))
-
-(defn qPublish [queue message]
-  (prod/publish queueProducer
-                queue
-                message))
 
 ;;;;;;;;;;;;;;;;;;;    END QUEUES    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

@@ -421,16 +421,6 @@
       (error "Exception message: " (.getMessage e)))
     (finally 
       (info "Proceeding ....")))
-  ;; listening for jobs
-  (resque/start [employeeQueue mailQueue])
-  ;; running Queue Server
-  (. queueServer start)
-  ;; start queues
-  (Thread/sleep 4000)
-  (. jmsServerManager start)
-  ;; listen for messages in queues
-  (qConsumer
-    "/queue/ExampleQueue" #(pprint %))
   (cond
     (= server "Jetty")
     (runJetty portNumber "web.xml")
