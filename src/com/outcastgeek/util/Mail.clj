@@ -22,7 +22,8 @@
     (actor (onReceive [msg]
                       (sendWelcomeEmail msg)))
     :name "sendWelcomeEmail"
-    :in actorSystem))
+    :in actorSystem
+    :router (round-robin-router(appProperties :number-of-actors))))
 
 (defn queueSendWelcomeEmail [data]
   (.tell mail-actor data))

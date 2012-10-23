@@ -61,14 +61,15 @@
 ;;;;;;;;;;;;;;;;;;;    AKKA    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (def actorSystem
-  (actor-system "OutcastgeekActorSystem"))
+  (actor-system (appProperties :actor-system)))
 
 (def echo-actor
   (spawn
     (actor (onReceive [msg]
                       (debug msg)))
     :name "echo"
-    :in actorSystem))
+    :in actorSystem
+    :router (round-robin-router(appProperties :number-of-actors))))
 
 ;;;;;;;;;;;;;;;;;;;    END QUEUES    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

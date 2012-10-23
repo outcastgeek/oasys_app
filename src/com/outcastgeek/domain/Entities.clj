@@ -228,14 +228,16 @@
     (actor (onReceive [msg]
                       (createEmployee msg)))
     :name "createEmployee"
-    :in actorSystem))
+    :in actorSystem
+    :router (round-robin-router(appProperties :number-of-actors))))
 
 (def update-employee-actor
   (spawn
     (actor (onReceive [msg]
                       (updateEmployee msg)))
     :name "updateEmployee"
-    :in actorSystem))
+    :in actorSystem
+    :router (round-robin-router(appProperties :number-of-actors))))
 
 (defn queueEmployeeCreation [data]
   (.tell create-employee-actor data))
