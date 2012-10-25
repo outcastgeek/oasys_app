@@ -93,5 +93,4 @@
 
 (def smtpPwd (appProperties :amz-smtp-pwd))
 
-
 (def smtpSender (appProperties :amz-smtp-sender))
