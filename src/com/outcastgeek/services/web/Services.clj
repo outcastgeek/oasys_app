@@ -42,6 +42,7 @@
    :session (merge (request :session ) sessMerge)})
 
 (defn home [request]
+  (.tell echo-actor "Homey!!!!")
   (page
     request
     (html-doc
