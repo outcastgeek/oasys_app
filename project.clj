@@ -60,12 +60,15 @@
                  [ch.qos.logback/logback-classic "1.0.6"]
                  [ch.qos.logback/logback-access "1.0.6"]
                  [ch.qos.logback/logback-site "1.0.6"]
+                 ;;;;;;;;;;;;;;;;; ZEROMQ ;;;;;;;;;;;;;;;;;;
+                 [org.zeromq/zeromq-scala-binding_2.9.1 "0.0.6"]
                  ;;;;;;;;;;;;;; AKKA ;;;;;;;;;;;;;;;;;;;;;;;;;;
                  [org.clojure.gaverhae/okku "0.1.3" :exclusions [[com.typesafe.akka/akka-actor]
                                                                  [com.typesafe.akka/akka-remote]
                                                                  [com.typesafe.akka/akka-file-mailbox]
                                                                  [com.typesafe.akka/akka-slf4j]]]
                  [com.typesafe.akka/akka-actor "2.0.3"]
+                 [com.typesafe.akka/akka-zeromq "2.0.3"]
                  [com.typesafe.akka/akka-remote "2.0.3"]
                  [com.typesafe.akka/akka-file-mailbox "2.0.3"]
                  [com.typesafe.akka/akka-slf4j "2.0.3"]
