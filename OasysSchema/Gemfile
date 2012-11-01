@@ -11,6 +11,10 @@ gem 'activerecord-jdbcpostgresql-adapter'
 gem 'jruby-openssl'
 gem 'json'
 
+# Servers
+gem 'mizuno'
+gem 'trinidad'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -23,6 +27,8 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'angularjs-rails'
+gem "ember-rails"
 gem 'jquery-rails'
 
 # To use ActiveModel has_secure_password
@@ -37,8 +43,14 @@ gem 'jquery-rails'
 # Deploy with Capistrano
 # gem 'capistrano'
 
+# NoSQL
+gem 'redis-rails'
+gem 'redis-objects', :require => 'redis/objects'
+gem 'mongoid'
+
 # Monitoring Tools
 gem 'resque'
+gem 'genghisapp'
 #gem 'redmon' # Not working on jruby!!!!
 #gem 'humongous' # Not working properly on jruby!!!!
 
