@@ -1,0 +1,6 @@
+
+do_my_job:
+  every: 1s
+  class: MyJob
+  args:
+  description: Runs the perform method in MyJob

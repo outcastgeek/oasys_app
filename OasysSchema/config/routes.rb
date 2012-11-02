@@ -56,6 +56,6 @@ OasysSchema::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
 
-  mount Resque::Server.new, :at => "/resque"
+  mount Resque::Server.new, :at => '/resque'
   mount Genghis::Server.new, :at => '/genghis'
 end

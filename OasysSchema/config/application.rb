@@ -2,6 +2,8 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 require 'resque/server'
+require 'resque_scheduler'
+require 'resque_scheduler/server'
 require 'genghis'
 
 if defined?(Bundler)
