@@ -64,29 +64,13 @@
 (def actorSystem
   (actor-system (appProperties :actor-system)))
 
-(def pubSocket
-  (Akka/createPubSocket actorSystem, (appProperties :actor-endpoint)))
-
-(defn publish [topic message]
-  (Akka/publish pubSocket topic message))
-
-(defn subscribe [topic listener]
-  (Akka/createSubSocket actorSystem
-                        (appProperties :actor-endpoint)
-                        listener
-                        topic))
-
 (def echo-actor
   (spawn
     (actor (onReceive [msg]
                       (debug msg)))
     :name "echo"
     :in actorSystem
-    ;:router (round-robin-router(appProperties :number-of-actors))
     ))
-
-;(subscribe "echo"
-;             echo-actor)
 
 ;;;;;;;;;;;;;;;;;;;    END QUEUES    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

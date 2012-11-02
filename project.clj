@@ -174,6 +174,7 @@
   :update :daily
   :repositories {"sonatype.snapshots" "https://oss.sonatype.org/content/repositories/snapshots"
                  "akka.io" "http://repo.akka.io/releases"
+                 ;"akka.io.snapshots" "http://repo.akka.io/snapshots"
                  ;"spring.milestone" "http://maven.springframework.org/milestone"
                  ;"stuart" "http://stuartsierra.com/maven2"
                  "java.net" "http://download.java.net/maven/2"
