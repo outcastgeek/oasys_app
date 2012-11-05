@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.6'
+gem 'cells'
 
 
 # Bundle edge Rails instead:
@@ -14,6 +15,7 @@ gem 'json'
 # Servers
 gem 'mizuno'
 gem 'trinidad'
+gem 'thick'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -54,6 +56,10 @@ gem 'resque-scheduler' # job scheduling
 gem 'genghisapp'
 #gem 'redmon' # Not working on jruby!!!!
 #gem 'humongous' # Not working properly on jruby!!!!
+
+# Actors
+gem 'celluloid'
+gem 'dcell'
 
 # To use debugger
 # gem 'ruby-debug'
