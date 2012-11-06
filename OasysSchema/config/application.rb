@@ -5,6 +5,7 @@ require 'celluloid'
 require 'resque/server'
 require 'resque_scheduler'
 require 'resque_scheduler/server'
+require 'resque-history/server'
 require 'genghis'
 
 if defined?(Bundler)
