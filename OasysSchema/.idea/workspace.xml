@@ -61,7 +61,7 @@
       <file leaf-file-name="Gemfile" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Gemfile">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="21" selection-start="609" selection-end="609" vertical-scroll-proportion="0.0">
+            <state line="36" column="18" selection-start="661" selection-end="661" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -70,7 +70,7 @@
       <file leaf-file-name="myjob.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/jobs/myjob.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="55" selection-start="191" selection-end="191" vertical-scroll-proportion="0.13289036">
+            <state line="10" column="24" selection-start="242" selection-end="242" vertical-scroll-proportion="0.16611296">
               <folding />
             </state>
           </provider>
@@ -692,7 +692,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1439" y="0" width="1922" height="1080" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -785,7 +785,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Gemfile">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="21" selection-start="609" selection-end="609" vertical-scroll-proportion="0.0" />
+        <state line="36" column="18" selection-start="661" selection-end="661" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/config/initializers/resque_auth.rb">
@@ -853,7 +855,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/jobs/myjob.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="55" selection-start="191" selection-end="191" vertical-scroll-proportion="0.13289036">
+        <state line="10" column="24" selection-start="242" selection-end="242" vertical-scroll-proportion="0.16611296">
           <folding />
         </state>
       </provider>
