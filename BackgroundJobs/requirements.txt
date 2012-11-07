@@ -1,0 +1,7 @@
+pymongo
+mongokit
+redis
+celery
+celery-with-redis
+flower
+pytz

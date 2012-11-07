@@ -13,6 +13,9 @@ gem 'activerecord-jdbcpostgresql-adapter'
 gem 'jruby-openssl'
 gem 'json'
 
+# JVM Dependencies
+gem 'buildr'
+
 # Servers
 gem 'mizuno'
 gem 'trinidad'
