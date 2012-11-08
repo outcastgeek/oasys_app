@@ -6,7 +6,7 @@ import zmq.green as zmq
 print zmq.Context
 ctx = zmq.Context()
 sock = ctx.socket(zmq.PUSH)
-sock.bind('ipc:///tmp/zmqtest')
+sock.bind('tcp://127.0.0.1:4444')
 
 spawn(sock.send_pyobj, ('this', 'is', 'a', 'python', 'tuple'))
 spawn_later(1, sock.send_pyobj, {'hi': 1234})
@@ -18,7 +18,7 @@ spawn_later(4, sock.send_pyobj, 'quit')
 # client
 ctx = zmq.Context() # create a new context to kick the wheels
 sock = ctx.socket(zmq.PULL)
-sock.connect('ipc:///tmp/zmqtest')
+sock.connect('tcp://127.0.0.1:4444')
 
 def get_objs(sock):
     while True:
@@ -37,4 +37,4 @@ print_every('printing every half second', 0.5)
 spawn(get_objs, sock).join()
 
 if __name__ == "__main__":
-    main()
+    pass

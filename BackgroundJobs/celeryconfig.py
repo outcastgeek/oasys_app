@@ -1,8 +1,10 @@
 
-import pyximport; pyximport.install()
-
 ## Broker settings.
 BROKER_URL = 'redis://localhost:6379/0'
+
+## Pool
+CELERYD_POOL = 'gevent'
+#CELERYD_CONCURRENCY = 16
 
 # List of modules to import when celery starts.
 CELERY_IMPORTS = ("tasks.tasks", )
@@ -13,20 +15,26 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERY_REDIS_MAX_CONNECTIONS = 4000
 
 CELERY_ANNOTATIONS = {"tasks.add": {"rate_limit": "10/s"},
-                      "tasks.fib": {"rate_limit": "10/s"}}
+                      "tasks.fib": {"rate_limit": "10/s"},
+                      "tasks.devide_and_conquer": {"rate_limit": "0.1/s"},}
 
 from datetime import timedelta
 
 CELERYBEAT_SCHEDULE = {
-    'runs-add-every-0.4-seconds': {
+    'runs-add-every-1-seconds': {
         'task': 'tasks.tasks.add',
-        'schedule': timedelta(seconds=0.4),
+        'schedule': timedelta(seconds=1),
         'args': (16, 16)
     },
-    'runs-fib-every-0.4-seconds': {
+    'runs-fib-every-1-seconds': {
         'task': 'tasks.tasks.fib',
-        'schedule': timedelta(seconds=0.4),
+        'schedule': timedelta(seconds=1),
         'args': (1024,)
+    },
+    'runs-devide_and_conquer-every-1-seconds': {
+        'task': 'tasks.tasks.devide_and_conquer',
+        'schedule': timedelta(seconds=1),
+        'args': (8,100,10000,)
     },
 }
 

@@ -6,5 +6,6 @@ celery
 celery-with-redis
 flower
 pytz
+gevent
 pyzmq
 pykka
