@@ -1,4 +1,4 @@
-#cython
+cython
 pymongo
 mongokit
 redis
@@ -7,5 +7,4 @@ celery-with-redis
 flower
 pytz
 pyzmq
-zerorpc
 pykka

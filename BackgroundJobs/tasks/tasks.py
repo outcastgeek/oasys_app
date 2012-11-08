@@ -1,24 +1,22 @@
 
-#import pyximport; pyximport.install()
-#import cython
-
 from celery import Celery
 from celery.contrib import rdb
 
 celery = Celery()
-#celery.config_from_object('celeryconfig')
+celery.config_from_object('celeryconfig')
+
+from celery.utils.log import get_task_logger
+
+logger = get_task_logger(__name__)
 
 @celery.task
-#@cython.cfunc
-#@cython.locals(x=cython.int, y=cython.int)
 def add(x, y):
+    logger.debug('Adding %s + %s' % (x, y))
     return x + y
 
 @celery.task
-#@cython.cfunc
-#@cython.returns(cython.int)
-#@cython.locals(n=cython.int)
-def fib(n): # return Fibonacci series up to n
+def fib(n):
+    logger.debug('Return Fibonacci series up to %s' % n)
     result = []
     a, b = 0, 1
     while b < n:

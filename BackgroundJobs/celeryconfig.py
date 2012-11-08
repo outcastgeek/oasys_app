@@ -1,4 +1,6 @@
 
+import pyximport; pyximport.install()
+
 ## Broker settings.
 BROKER_URL = 'redis://localhost:6379/0'
 
@@ -24,7 +26,7 @@ CELERYBEAT_SCHEDULE = {
     'runs-fib-every-0.4-seconds': {
         'task': 'tasks.tasks.fib',
         'schedule': timedelta(seconds=0.4),
-        'args': (128,)
+        'args': (1024,)
     },
 }
 
