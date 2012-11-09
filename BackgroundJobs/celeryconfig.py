@@ -16,7 +16,7 @@ CELERY_REDIS_MAX_CONNECTIONS = 4000
 
 CELERY_ANNOTATIONS = {"tasks.add": {"rate_limit": "10/s"},
                       "tasks.fib": {"rate_limit": "10/s"},
-                      "tasks.devide_and_conquer": {"rate_limit": "0.1/s"},}
+                      "tasks.retry_stream": {"rate_limit": "10/s"},}
 
 from datetime import timedelta
 
@@ -32,9 +32,9 @@ CELERYBEAT_SCHEDULE = {
         'args': (1024,)
     },
     'runs-devide_and_conquer-every-1-seconds': {
-        'task': 'tasks.tasks.devide_and_conquer',
+        'task': 'tasks.tasks.retry_stream',
         'schedule': timedelta(seconds=1),
-        'args': (8,100,10000,)
+        'args': (10,20,2,)
     },
 }
 

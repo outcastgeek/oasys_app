@@ -8,4 +8,5 @@ flower
 pytz
 gevent
 pyzmq
+zerorpc
 pykka

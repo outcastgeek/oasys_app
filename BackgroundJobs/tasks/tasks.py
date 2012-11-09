@@ -26,109 +26,78 @@ def fib(n):
 
 ################ ZMQ Stuff ########################
 
-from gevent import spawn, spawn_later, joinall, killall
-import zmq.green as zmq
-from time import time
+from gevent import spawn, spawn_later, shutdown, joinall, killall
+import zerorpc
 
-def ventilator(batch_size, test_size):
-    """task ventilator function"""
+import itertools
 
-    #"""set up a zeromq context"""
-    context = zmq.Context()
+from functools import wraps
 
-    """create a push socket for sending tasks to workers"""
-    send_sock = context.socket(zmq.PUSH)
-    send_sock.bind("tcp://127.0.0.1:5555")
+def retry(tries=3):
+    def retry_decorating_function(func):
+        @wraps(func)
+        def wrap(*args, **kwds):
+            result = None
+            x = 1
+            ex = None
+            while x <= tries + 1:
+                try:
+                    result = func(*args, **kwds)
+                except Exception, e:
+                    if x == tries + 1:
+                        print "\n\nBREAK ON #%s!!!!\n\n" % x
+                        logger.error("Something went wrong: %s" % e)
+                        raise e
+                    print "\n########################################"
+                    print "           Retry #%s" % x
+                    print "########################################\n"
+                    x +=1
+                    continue
+                break
+            return result
+        return wrap
+    return retry_decorating_function
 
-    """create a pull socket for receiving acks from the sink"""
-    recv_sock = context.socket(zmq.PULL)
-    recv_sock.bind("tcp://127.0.0.1:5557")
+def bicycle(iterable, repeat=1):
+    for item in itertools.cycle(iterable):
+        for _ in xrange(repeat):
+            yield item
 
-    """initiate counter for tasks sent"""
-    current_batch_count = 0
+def run_streaming_rpc(endpoint):
+    worker = zerorpc.Server(StreamingRPC())
+    print endpoint
+    worker.bind(endpoint)
+    spawn(worker.run)
 
-    """start the message loop"""
-    for x in range(test_size):
+def run_rpc_servers(pool_size = 128, endpoint = "tcp://0.0.0.0:4242"):
+    endpoints = bicycle([''.join(endpoint + str(x)) for x in xrange(pool_size)], 1)
 
-        """send until we reach our batch limit"""
-        while current_batch_count < batch_size:
-            send_sock.send("task")
-            current_batch_count += 1
+    try:
+        [run_streaming_rpc(endpoints.next()) for x in xrange(pool_size)]
+    except:
+        print "ZeroRPC Servers already started!!!!"
+    finally:
+        return endpoints
 
-        """reset the batch count"""
-        current_batch_count = 0
+class StreamingRPC(object):
+    @zerorpc.stream
+    def streaming_range(self, fr, to, step):
+        print (fr, to, step)
+        #lb = 1 / 0
+        return xrange(fr, to, step)
 
-        """wait for an acknowledgement and block while waiting -
-           note this could be more sophisticated and provide
-           support for other message types from the sink,
-           but keeping it simple for this example"""
-        msg = recv_sock.recv()
-
-def worker():
-    """task worker function"""
-
-    """set up a zeromq context"""
-    context = zmq.Context()
-
-    """create a pull socket for receiving tasks from the ventilator"""
-    recv_socket = context.socket(zmq.PULL)
-    recv_socket.connect("tcp://127.0.0.1:5555")
-
-    """create a push socket for sending results to the sink"""
-    send_socket = context.socket(zmq.PUSH)
-    send_socket.connect("tcp://127.0.0.1:5556")
-
-    """receive tasks and send results"""
-    while True:
-        task = recv_socket.recv()
-        send_socket.send("result")
-
-def sink(batch_size, test_size):
-    """task sink function"""
-
-    """set up a zmq context"""
-    context = zmq.Context()
-
-    """create a pull socket for receiving results from the workers"""
-    recv_sockett = context.socket(zmq.PULL)
-    recv_sockett.bind("tcp://127.0.0.1:5556")
-
-    """create a push socket for sending acknowledgements to the ventilator"""
-    send_sockett = context.socket(zmq.PUSH)
-    send_sockett.connect("tcp://127.0.0.1:5557")
-
-    result_count = 0
-    batch_start_time = time()
-    test_start_time = batch_start_time
-
-    for x in range(test_size):
-        """receive a result and increment the count"""
-        msg = recv_sockett.recv()
-        result_count += 1
-
-        """acknowledge that we've completed a batch"""
-        if result_count == batch_size:
-            send_sockett.send("ACK")
-            result_count = 0
-            batch_start_time = time()
-
-    duration = time() - test_start_time
-    tps = test_size / duration
-    print "ZeroMQ throughput...."
-    print "messages per second: %s" % (tps)
-    logger.debug('messages per second: %s' % tps)
+run_rpc_servers()
 
 @celery.task
-def devide_and_conquer(num_workers, batch_size, test_size):
-    def devide_and_conquer_runner(num_workers, batch_size, test_size):
-        ventilator_t = spawn(ventilator, batch_size, test_size)
-        sink_t = spawn(sink, batch_size, test_size)
-
-        threads = [ventilator_t, sink_t] + [spawn(worker) for i in xrange(num_workers)]
-        joinall(threads)
-        killall(threads)
-    spawn(devide_and_conquer_runner, num_workers, batch_size, test_size).join(10)
-    #devide_and_conquer_runner(num_workers, batch_size, test_size)
+@retry()
+def retry_stream(fr, to, step):
+    endpoints = run_rpc_servers()
+    endpoint = endpoints.next()
+    print "Using Rpc Node %s" % endpoint
+    c = zerorpc.Client(endpoint)
+    #c.connect(endpoint)    
+    for item in c.streaming_range(fr, to, step):
+        print item
 
 """
 if __name__ == '__main__':
@@ -136,28 +105,5 @@ if __name__ == '__main__':
 """
 
 if __name__ == '__main__':
-    num_workers = 8
-    batch_size = 100
-    test_size = 1000
-    spawn(devide_and_conquer, num_workers, batch_size, test_size).join(10)
 
-"""
-if __name__ == '__main__':
-    from multiprocessing import Process
-    num_workers = 4
-    batch_size = 100
-    test_size = 1000
-
-    workers = {}
-    ventilator_t = Process(target=ventilator, args=(batch_size, test_size,))
-    sink_t = Process(target=sink, args=(batch_size, test_size,))
-
-    sink_t.start()
-
-    for x in range(num_workers):
-        workers[x] = Process(target=worker, args=())
-        workers[x].start()
-
-    ventilator_t.start()
-    ventilator_t.join()
-"""
+    retry_stream(10, 20, 2)
