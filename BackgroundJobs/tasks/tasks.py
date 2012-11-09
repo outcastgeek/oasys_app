@@ -27,11 +27,17 @@ def fib(n):
 ################ ZMQ Stuff ########################
 
 from gevent import spawn, spawn_later, shutdown, joinall, killall
+
+import multiprocessing
+from  multiprocessing import Process
+
 import zerorpc
 
 import itertools
 
 from functools import wraps
+
+from random import randrange
 
 def retry(tries=3):
     def retry_decorating_function(func):
@@ -67,10 +73,11 @@ def run_streaming_rpc(endpoint):
     worker = zerorpc.Server(StreamingRPC())
     print endpoint
     worker.bind(endpoint)
-    spawn(worker.run)
+    #spawn(worker.run)
+    Process(target=worker.run, args=()).start()
 
-def run_rpc_servers(pool_size = 128, endpoint = "tcp://0.0.0.0:4242"):
-    endpoints = bicycle([''.join(endpoint + str(x)) for x in xrange(pool_size)], 1)
+def run_rpc_servers(pool_size = multiprocessing.cpu_count(), endpoint = "tcp://127.0.0.1:"):
+    endpoints = bicycle([''.join(endpoint + str(randrange(4000, 4872 + x))) for x in xrange(pool_size)], 1)
 
     try:
         [run_streaming_rpc(endpoints.next()) for x in xrange(pool_size)]
