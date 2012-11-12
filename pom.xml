@@ -361,6 +361,16 @@
       <version>1.0.6</version>
     </dependency>
     <dependency>
+      <groupId>redis.clients</groupId>
+      <artifactId>jedis</artifactId>
+      <version>2.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>resque-clojure</groupId>
+      <artifactId>resque-clojure</artifactId>
+      <version>0.2.2</version>
+    </dependency>
+    <dependency>
       <groupId>org.zeromq</groupId>
       <artifactId>zeromq-scala-binding_2.9.1</artifactId>
       <version>0.0.6</version>

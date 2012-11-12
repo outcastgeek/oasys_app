@@ -60,6 +60,9 @@
                  [ch.qos.logback/logback-classic "1.0.6"]
                  [ch.qos.logback/logback-access "1.0.6"]
                  [ch.qos.logback/logback-site "1.0.6"]
+                 ;;;;;;;;;;;;;;;;; QUEUE  ;;;;;;;;;;;;;;;;;;
+                 [redis.clients/jedis "2.1.0"]
+                 [resque-clojure "0.2.2"]
                  ;;;;;;;;;;;;;;;;; ZEROMQ ;;;;;;;;;;;;;;;;;;
                  [org.zeromq/zeromq-scala-binding_2.9.1 "0.0.6"]
                  ;;;;;;;;;;;;;; AKKA ;;;;;;;;;;;;;;;;;;;;;;;;;;

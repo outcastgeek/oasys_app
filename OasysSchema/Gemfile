@@ -14,12 +14,12 @@ gem 'jruby-openssl'
 gem 'json'
 
 # JVM Dependencies
-gem 'buildr'
+#gem 'buildr'
 
 # Servers
 gem 'mizuno'
 gem 'trinidad'
-gem 'thick'
+#gem 'thick'
 
 # Gems used only for assets and not required
 # in production environments by default.

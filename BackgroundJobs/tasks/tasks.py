@@ -73,8 +73,8 @@ def run_streaming_rpc(endpoint):
     worker = zerorpc.Server(StreamingRPC())
     print endpoint
     worker.bind(endpoint)
-    #spawn(worker.run)
-    Process(target=worker.run, args=()).start()
+    spawn(worker.run)
+    #Process(target=worker.run, args=()).start()
 
 def run_rpc_servers(pool_size = multiprocessing.cpu_count(), endpoint = "tcp://127.0.0.1:"):
     endpoints = bicycle([''.join(endpoint + str(randrange(4000, 4872 + x))) for x in xrange(pool_size)], 1)
@@ -99,10 +99,13 @@ run_rpc_servers()
 @retry()
 def retry_stream(fr, to, step):
     endpoints = run_rpc_servers()
-    endpoint = endpoints.next()
-    print "Using Rpc Node %s" % endpoint
-    c = zerorpc.Client(endpoint)
-    #c.connect(endpoint)    
+    #endpoint = endpoints.next()
+    #print "Using Rpc Node %s" % endpoint
+    #c = zerorpc.Client(endpoint)
+    #c.connect(endpoint)
+    c = zerorpc.Client()
+    pool_size = multiprocessing.cpu_count()
+    [c.connect(endpoints.next()) for x in xrange(pool_size)]
     for item in c.streaming_range(fr, to, step):
         print item
 

@@ -4,7 +4,8 @@
         somnium.congomongo
         okku.core
         [clojure.java.io :only [reader]])
-  (:require [clj-time.core :as time])
+  (:require [clj-time.core :as time]
+            [resque-clojure.core :as resque])
   (:import java.util.Date
            java.sql.Timestamp
            com.mongodb.Mongo
@@ -58,6 +59,15 @@
                    (mongo-options :auto-connect-retry true)))
 
 (set-write-concern mongo-connection :safe) ;Consult documentation
+
+;;;;;;;;;;;;;;;;;;;    QUEUES    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(resque/configure {:host (appProperties :redis-url)
+                   :port (appProperties :redis-port)
+                   :max-workers (appProperties :redis-workers)}) ;; optional
+
+(def employeeQueue (appProperties :employee-queue))
+
+(def mailQueue (appProperties :mail-queue))
 
 ;;;;;;;;;;;;;;;;;;;    AKKA    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

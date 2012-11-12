@@ -3,7 +3,7 @@
 BROKER_URL = 'redis://localhost:6379/0'
 
 ## Pool
-#CELERYD_POOL = 'gevent'
+CELERYD_POOL = 'gevent'
 #CELERYD_CONCURRENCY = 16
 
 # List of modules to import when celery starts.
