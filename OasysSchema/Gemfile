@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.6'
+gem 'rails', '3.2.9'
 
 gem 'cells'
 
@@ -13,13 +13,9 @@ gem 'activerecord-jdbcpostgresql-adapter'
 gem 'jruby-openssl'
 gem 'json'
 
-# JVM Dependencies
-#gem 'buildr'
-
 # Servers
 gem 'mizuno'
 gem 'trinidad'
-#gem 'thick'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -59,12 +55,6 @@ gem 'resque' # background jobs
 gem 'resque-scheduler' # job scheduling
 gem 'resque-history'
 gem 'genghisapp'
-#gem 'redmon' # Not working on jruby!!!!
-#gem 'humongous' # Not working properly on jruby!!!!
-
-# Actors
-gem 'celluloid'
-gem 'dcell'
 
 # To use debugger
 # gem 'ruby-debug'

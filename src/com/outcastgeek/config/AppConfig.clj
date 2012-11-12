@@ -60,10 +60,16 @@
 
 (set-write-concern mongo-connection :safe) ;Consult documentation
 
-;;;;;;;;;;;;;;;;;;;    QUEUES    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;    QUEUES
+
 (resque/configure {:host (appProperties :redis-url)
                    :port (appProperties :redis-port)
-                   :max-workers (appProperties :redis-workers)}) ;; optional
+                   :namespace (appProperties :redis-namespace)}) ;; optional
+
+(defn enQueueStuff [name]
+  (debug name)
+  (resque/enqueue "my_job_queue" "MyJob" name)
+  (debug "Done enqueueing MyJob!!!!"))
 
 (def employeeQueue (appProperties :employee-queue))
 
@@ -76,8 +82,8 @@
 
 (def echo-actor
   (spawn
-    (actor (onReceive [msg]
-                      (debug msg)))
+   (actor (onReceive [msg]
+                     (enQueueStuff msg)))
     :name "echo"
     :in actorSystem
     ))

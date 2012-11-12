@@ -8,4 +8,3 @@ task "resque:setup" => :environment do
   ENV['VERBOSE '] = '0'
   ENV['VVERBOSE '] = '0'
 end
-

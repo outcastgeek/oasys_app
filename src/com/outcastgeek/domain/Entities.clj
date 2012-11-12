@@ -239,11 +239,11 @@
     :in actorSystem
     :router (round-robin-router(appProperties :number-of-actors))))
 
-;(defn queueEmployeeCreation [data]
-;  (.tell create-employee-actor data))
-;
-;(defn queueEmployeeUpdate [data]
-;  (.tell update-employee-actor data))
+(defn queueEmployeeCreation [data]
+  (.tell create-employee-actor data))
+
+(defn queueEmployeeUpdate [data]
+  (.tell update-employee-actor data))
 
 ;(defn queueEmployeeCreation [data]
 ;  (resque/enqueue employeeQueue

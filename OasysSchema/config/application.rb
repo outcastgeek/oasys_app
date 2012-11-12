@@ -1,7 +1,6 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
-require 'celluloid'
 require 'resque/server'
 require 'resque_scheduler'
 require 'resque_scheduler/server'
@@ -64,7 +63,5 @@ module OasysSchema
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
-
-    Celluloid.logger = Rails.logger
   end
 end
