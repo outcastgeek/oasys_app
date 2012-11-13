@@ -2,7 +2,6 @@
   (:use clojure.tools.logging
         clojure.java.io
         somnium.congomongo
-        okku.core
         [clojure.java.io :only [reader]])
   (:require [clj-time.core :as time]
             [resque-clojure.core :as resque])
@@ -10,8 +9,7 @@
            java.sql.Timestamp
            com.mongodb.Mongo
            com.mongodb.ServerAddress
-           com.mongodb.MongoOptions
-           com.outcastgeek.distributed.Akka))
+           com.mongodb.MongoOptions))
 
 (defn get-current-timestamp []
   (Timestamp. (. (Date.) getTime)))
@@ -74,19 +72,6 @@
 (def employeeQueue (appProperties :employee-queue))
 
 (def mailQueue (appProperties :mail-queue))
-
-;;;;;;;;;;;;;;;;;;;    AKKA    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(def actorSystem
-  (actor-system (appProperties :actor-system)))
-
-(def echo-actor
-  (spawn
-   (actor (onReceive [msg]
-                     (enQueueStuff msg)))
-    :name "echo"
-    :in actorSystem
-    ))
 
 ;;;;;;;;;;;;;;;;;;;    END QUEUES    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

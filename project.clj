@@ -1,7 +1,8 @@
 
 (defproject oasys_corp "1.0.0-SNAPSHOT"
   :description "Building the Ultimate Web Framework!!!!"
-  :dependencies [[org.clojure/clojure "1.5.0-master-SNAPSHOT"]
+  :dependencies [[org.clojure/clojure "1.5.0-alpha5"]
+                 ;[org.clojure/clojure "1.5.0-master-SNAPSHOT"]
                  ;[org.clojure/clojure "1.4.0"]
                  [org.clojure/tools.logging "0.2.3"]
                  [clj-time "0.4.3"]
@@ -64,20 +65,6 @@
                  [resque-clojure "0.2.2"]
                  ;;;;;;;;;;;;;;;;; ZEROMQ ;;;;;;;;;;;;;;;;;;
                  [org.zeromq/zeromq-scala-binding_2.9.1 "0.0.6"]
-                 ;;;;;;;;;;;;;; AKKA ;;;;;;;;;;;;;;;;;;;;;;;;;;
-                 [org.clojure.gaverhae/okku "0.1.3" :exclusions [[com.typesafe.akka/akka-actor]
-                                                                 [com.typesafe.akka/akka-remote]
-                                                                 [com.typesafe.akka/akka-file-mailbox]
-                                                                 [com.typesafe.akka/akka-slf4j]]]
-                 [com.typesafe.akka/akka-actor "2.0.3"]
-                 [com.typesafe.akka/akka-zeromq "2.0.3"]
-                 [com.typesafe.akka/akka-remote "2.0.3"]
-                 [com.typesafe.akka/akka-file-mailbox "2.0.3"]
-                 [com.typesafe.akka/akka-slf4j "2.0.3"]
-                 ;;;;;;;;;;; SPRING ;;;;;;;;;;;;;;;;;;;;;;;;
-;                 [org.springframework/spring-context "3.1.2.RELEASE"]
-;                 [org.springframework/spring-web "3.1.2.RELEASE"]
-;                 [com.outcastgeek/OasysData "0.1.0.BUILD-SNAPSHOT"]
                  ;;;;;;;;;;; CLJS LIBS ;;;;;;;;;;;;;;;;;;;;;;;;
 ;                 [jayq "0.1.0-alpha4"]
 ;                 [waltz "0.1.0-alpha1"]
@@ -174,10 +161,10 @@
   ;; :always, and :never are supported.
   :checksum :warn
   :update :daily
-  :repositories {"sonatype.snapshots" "https://oss.sonatype.org/content/repositories/snapshots"
-                 "akka.io" "http://repo.akka.io/releases"
+  :repositories {"java.net" "http://download.java.net/maven/2"
+                 ;"sonatype.snapshots" "https://oss.sonatype.org/content/repositories/snapshots"
+                 ;"akka.io" "http://repo.akka.io/releases"
                  ;"akka.io.snapshots" "http://repo.akka.io/snapshots"
                  ;"spring.milestone" "http://maven.springframework.org/milestone"
                  ;"stuart" "http://stuartsierra.com/maven2"
-                 "java.net" "http://download.java.net/maven/2"
                  })

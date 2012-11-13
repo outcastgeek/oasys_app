@@ -1,6 +1,5 @@
 (ns com.outcastgeek.domain.Entities
   (:use clojure.tools.logging
-        okku.core
         com.outcastgeek.config.AppConfig
         com.outcastgeek.util.Mail
         korma.core
@@ -221,36 +220,8 @@
               (values projectData)))
       (updateProject projectData))))
 
-;;;;;;;;;;;;;;;;;;;;;;;; ACTORS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(def create-employee-actor
-  (spawn
-    (actor (onReceive [msg]
-                      (createEmployee msg)))
-    :name "createEmployee"
-    :in actorSystem
-    :router (round-robin-router(appProperties :number-of-actors))))
-
-(def update-employee-actor
-  (spawn
-    (actor (onReceive [msg]
-                      (updateEmployee msg)))
-    :name "updateEmployee"
-    :in actorSystem
-    :router (round-robin-router(appProperties :number-of-actors))))
-
 (defn queueEmployeeCreation [data]
-  (.tell create-employee-actor data))
+  (createEmployee data))
 
 (defn queueEmployeeUpdate [data]
-  (.tell update-employee-actor data))
-
-;(defn queueEmployeeCreation [data]
-;  (resque/enqueue employeeQueue
-;                    "com.outcastgeek.domain.Entities/createEmployee"
-;                    data))
-;
-;(defn queueEmployeeUpdate [data]
-;  (resque/enqueue employeeQueue
-;                    "com.outcastgeek.domain.Entities/updateEmployee"
-;                    data))
+  (updateEmployee data))

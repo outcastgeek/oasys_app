@@ -42,7 +42,7 @@
    :session (merge (request :session ) sessMerge)})
 
 (defn home [request]
-  (.tell echo-actor "Homey!!!!")
+  (enQueueStuff "Homey!!!!")
   (page
     request
     (html-doc
@@ -74,8 +74,6 @@
 (defn login [request]
   (let [csrf (str (UUID/randomUUID))
         session (request :session )]
-    (.tell echo-actor "Testing...")
-    (.tell echo-actor ["more" {"complex" "object"}])
     (page
       request
       (html-doc

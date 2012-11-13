@@ -1,7 +1,6 @@
 (ns com.outcastgeek.util.Sessions
   (:use clojure.tools.logging
         somnium.congomongo
-        okku.core
         com.outcastgeek.config.AppConfig)
   (:require [clojure.core.reducers :as r])
   (:import java.util.Date))
@@ -57,20 +56,6 @@
   (into () (filter #(expired? (% :session_timestamp)) sessions))
 ;  (into () (r/filter #(expired? (% :session_timestamp)) sessions))
   )
-
-;(def sessions-cleaner-actor
-;  (spawn
-;    (actor (onReceive [msg]
-;                      (destroyExpiredSessions msg)))
-;    :name "sessionsCleaner"
-;    :in actorSystem
-;    :router (round-robin-router(appProperties :number-of-actors))))
-;
-;(def distributedSessionsCleaner
-;  (look-up
-;    (str (appProperties :actor-system-base-path) "sessionsCleaner")
-;    :in actorSystem
-;    :router (round-robin-router(appProperties :number-of-actors))))
 
 (defn cleanExpiredSessions []
   (debug "\n\n<<<< Cleaning expired user sessions.... >>>>")
