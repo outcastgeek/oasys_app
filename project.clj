@@ -78,10 +78,16 @@
             [lein-cljsbuild "0.2.8"]
             [lein-light "0.0.13"]
             [lein-depgraph "0.1.0"]
-            ;[midje "1.4.0"]
+            [lein-cucumber "1.0.1"]
+            [lein-midje "2.0.1"]
             ;[com.stuartsierra/lazytest "1.2.3"]
             ;[clj-ns-browser "1.2.0"]
-            ]
+            [lein-ring "0.7.5"]
+            ;:plugins [[lein-git-deps "0.0.1-SNAPSHOT"]]
+            [lein-scalac "0.1.0"]
+            [lein-marginalia "0.7.1"]]
+  :prep-tasks ["scalac" "javac" ["cljsbuild" "once"]]
+  :ring {:handler com.outcastgeek.services.web.Services/website}
   :aot :all
 ;  :jvm-opts ["-Xmx1g" "-server"
 ;             "-Dhttp.proxyHost=webproxy.int.westgroup.com"
@@ -102,10 +108,10 @@
   ;; Leave the contents of :source-paths out of jars (for AOT projects)
   :omit-source true
   :main com.outcastgeek.services.web.Services
+  :scala-source-path "scala"
   :java-source-paths ["java"]
 ;  :java-source-path "java"
   :source-path "src"
-;  :hooks [leiningen.cljsbuild]
   :cljsbuild {
     :builds [
 ;             {
