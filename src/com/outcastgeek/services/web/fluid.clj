@@ -191,5 +191,6 @@
         ]]]
        (include-js "http://yui.yahooapis.com/3.5.1/build/yui/yui-min.js")
        (include-js "/static/javascript/outcastgeek/common.js")
+       (include-js "/static/javascript/outcastgeek/outcastgeek.js")
       ]])
 ))

@@ -85,7 +85,8 @@
             [lein-ring "0.7.5"]
             ;:plugins [[lein-git-deps "0.0.1-SNAPSHOT"]]
             [lein-scalac "0.1.0"]
-            [lein-marginalia "0.7.1"]]
+            [lein-marginalia "0.7.1"]
+            [lein-catnip "0.5.0"]]
   :prep-tasks ["scalac" "javac" ["cljsbuild" "once"]]
   :ring {:handler com.outcastgeek.services.web.Services/website}
   :aot :all

@@ -23,6 +23,7 @@
   (:require [ring.middleware.session :as rs]
             [hozumi.mongodb-session :as mongoss]
             [compojure.route :as route]
+            [ring.middleware.reload :as reload]
             [clj-time.core :as t])
   (:gen-class :extends javax.servlet.http.HttpServlet))
 
@@ -386,6 +387,7 @@
                (wrap-session-expiry sessionDuration)
                (rs/wrap-session {:cookie-name sessionName
                                  :store mongoSessionStore})
+               (reload/wrap-reload)
                (site)))
 
 (defservice website)
