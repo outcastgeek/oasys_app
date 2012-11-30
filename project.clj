@@ -6,7 +6,10 @@
                  ;[org.clojure/clojure "1.4.0"]
                  [org.clojure/tools.logging "0.2.3"]
                  [clj-time "0.4.3"]
+                 [org.clojure/data.json "0.1.1"]
+                 [cheshire "5.0.0"]
                  [congomongo/congomongo "0.2.0"]
+                 ;[congomongo/congomongo "0.3.3"]
                  [org.clojars.hozumi/mongodb-session "1.0.1"]
                  [postgresql/postgresql "9.1-901.jdbc4"]
                  [korma "0.3.0-beta11"]
@@ -62,7 +65,7 @@
                  [ch.qos.logback/logback-access "1.0.6"]
                  [ch.qos.logback/logback-site "1.0.6"]
                  ;;;;;;;;;;;;;;;;; QUEUE  ;;;;;;;;;;;;;;;;;;
-                 [resque-clojure "0.2.2"]
+                 ;[resque-clojure "0.2.2"]
                  ;;;;;;;;;;;;;;;;; ZEROMQ ;;;;;;;;;;;;;;;;;;
                  [org.zeromq/zeromq-scala-binding_2.9.1 "0.0.6"]
                  ;;;;;;;;;;; CLJS LIBS ;;;;;;;;;;;;;;;;;;;;;;;;

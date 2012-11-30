@@ -5,7 +5,7 @@
         com.outcastgeek.domain.Entities)
   (:require [ring.middleware.session :as rs]
             [clj-oauth2.client :as oauth2]
-            [clojure.data.json :as json])
+            [cheshire.core :refer :all])
   (:import java.util.UUID))
 
 (set-connection! mongo-connection)
@@ -311,7 +311,7 @@
           access-info# (oauth2/get-access-token ~provider-info-map auth-resp# ~provider-endpoint-info)
           access-token# (access-info# :access-token)
           resp# (oauth2/get ~user-info-uri {:query-params {(keyword ~access-token-handle) access-token#}})
-          user-data# (json/read-json (resp# :body))
+          user-data# (parse-string (resp# :body) true)
           user-info# (~userinfo-function user-data#)]
     (debug user-info#)
     (queueEmployeeCreation

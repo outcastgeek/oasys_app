@@ -73,7 +73,9 @@
    ))
 
 (defn html-doc
-  [request  ^String title body]
+  [request  ^String title body & {:keys [pagejs pagecss]
+                                  :or {pagejs "/static/javascript/outcastgeek/outcastgeek.js"
+                                       pagecss ""}}]
   (let [session (request :session)]
   (html
     (str "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML+RDFa 1.0//EN' 'http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd'>")
@@ -107,6 +109,7 @@
         ")
       (include-css "/static/stylesheets/cerulean.min.css")
       (include-css "/static/stylesheets/bootstrap-responsive.min.css")
+      (include-css pagecss)
       [:style {:type "text/css"}
        "body {
           //padding-top: 60px;
@@ -190,7 +193,8 @@
          " &bull;  All rights reserved"]
         ]]]
        (include-js "http://yui.yahooapis.com/3.5.1/build/yui/yui-min.js")
-       (include-js "/static/javascript/outcastgeek/common.js")
-       (include-js "/static/javascript/outcastgeek/outcastgeek.js")
+       (javascript-tag
+        )
+       (include-js pagejs)
       ]])
 ))

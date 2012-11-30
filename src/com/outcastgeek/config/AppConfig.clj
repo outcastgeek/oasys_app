@@ -4,7 +4,8 @@
         somnium.congomongo
         [clojure.java.io :only [reader]])
   (:require [clj-time.core :as time]
-            [resque-clojure.core :as resque])
+            ;[resque-clojure.core :as resque]
+            )
   (:import java.util.Date
            java.sql.Timestamp
            com.mongodb.Mongo
@@ -60,13 +61,13 @@
 
 ;;;;;;;;;;;;;;;;;;;    QUEUES
 
-(resque/configure {:host (appProperties :redis-url)
-                   :port (appProperties :redis-port)
-                   :namespace (appProperties :redis-namespace)}) ;; optional
+;(resque/configure {:host (appProperties :redis-url)
+;                   :port (appProperties :redis-port)
+;                   :namespace (appProperties :redis-namespace)}) ;; optional
 
 (defn enQueueStuff [name]
   (debug name)
-  (resque/enqueue "my_job_queue" "MyJob" name)
+  ;(resque/enqueue "my_job_queue" "MyJob" name)
   (debug "Done enqueueing MyJob!!!!"))
 
 (def employeeQueue (appProperties :employee-queue))

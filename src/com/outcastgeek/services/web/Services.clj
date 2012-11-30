@@ -43,7 +43,7 @@
    :session (merge (request :session ) sessMerge)})
 
 (defn home [request]
-  (enQueueStuff "Homey!!!!")
+  ;(enQueueStuff "Homey!!!!")
   (page
     request
     (html-doc
