@@ -74,7 +74,7 @@
 
 (defn html-doc
   [request  ^String title body & {:keys [pagejs pagecss]
-                                  :or {pagejs "/static/javascript/outcastgeek/outcastgeek.js"
+                                  :or {pagejs "/static/javascript/oasys/oasys.js"
                                        pagecss ""}}]
   (let [session (request :session)]
   (html
@@ -91,7 +91,9 @@
      "xmlns:gr" "http://purl.org/goodrelations/v1#"
      "xmlns:xsd" "http://www.w3.org/2001/XMLSchema#"
      "xmlns:ng" "http://angularjs.org"
-     :ng-app "main"}
+     ;:ng-app "main"
+     :ng-app "oasys.tech.index"
+    }
      [:head
       [:title (str title "Web App")]
       [:meta {:http-equiv "Content-Type"
@@ -117,7 +119,7 @@
         }
        "]
       ]
-     [:body {:ng-controller "MainCtrl"}
+     [:body {:ng-controller "oasys.core.IndexMainCtrl"}
       [:div {:class "navbar" :data-dropdown "dropdown"}
        [:div {:class "navbar-inner"}
         [:div {:class "container"}
@@ -192,9 +194,11 @@
          [:a {:href "http://www.outcastgeek.com"} "outcastgeek"]
          " &bull;  All rights reserved"]
         ]]]
-       (include-js "http://yui.yahooapis.com/3.5.1/build/yui/yui-min.js")
-       (javascript-tag
-        )
+       ;(include-js "http://yui.yahooapis.com/3.5.1/build/yui/yui-min.js")
+       (include-js "http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js")
+       (include-js "http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.0.4/bootstrap.min.js")
+       (include-js "http://ajax.googleapis.com/ajax/libs/angularjs/1.0.3/angular.min.js")
+       (include-js "http://ajax.googleapis.com/ajax/libs/angularjs/1.0.3/angular-resource.min.js")
        (include-js pagejs)
       ]])
 ))

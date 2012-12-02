@@ -135,7 +135,17 @@
                :compiler {
                            :output-to "resources/public/static/javascript/outcastgeek/outcastgeek.js"  ; default: main.js in current directory
                            :optimizations :simple
-                           :libs ["resources/public/static/javascript/outcastgeek/closure"]
+                           :libs ["resources/public/static/javascript/closure"]
+                           :pretty-print true}}
+             {
+               ; The path to the top-level ClojureScript source directory:
+               :source-path "src-cljs/oasys"
+               ; The standard ClojureScript compiler options:
+               ; (See the ClojureScript compiler documentation for details.)
+               :compiler {
+                           :output-to "resources/public/static/javascript/oasys/oasys.js"  ; default: main.js in current directory
+                           :optimizations :simple
+                           :libs ["resources/public/static/javascript/closure"]
                            :pretty-print true}}
 ;             {
 ;               ; The path to the top-level ClojureScript source directory:
