@@ -92,7 +92,7 @@
      "xmlns:xsd" "http://www.w3.org/2001/XMLSchema#"
      "xmlns:ng" "http://angularjs.org"
      ;:ng-app "main"
-     :ng-app "oasys.tech.index"
+     :ng-app ""
     }
      [:head
       [:title (str title "Web App")]

@@ -1,6 +1,6 @@
 (ns oasys.core
-    (:require [og.common :as common]
-              [oasys.tech.index :as index]))
+  (:require [og.common :as common]
+            [oasys.tech.index :as index]))
 
 ;####################################################
 ; Bootstrap
@@ -21,6 +21,7 @@
 (aset IndexMainCtrl "$inject" (array "$scope" "$location"))
 
 (index/setup)
+
 
 ;####################################################
 ; Index

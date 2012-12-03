@@ -1,10 +1,14 @@
 
 goog.provide('oasys.tech.index');
 
-oasys.tech.index.MainCtrl = function($scope, $location) {
-    $scope.navigateTo = function(page) {
-        $location.path("/" + page);
+oasys.tech.index.navigateTo = function(locationObject) {
+    return function(page) {
+        locationObject.path("/" + page);
     };
+};
+
+oasys.tech.index.MainCtrl = function($scope, $location) {
+    $scope.navigateTo = oasys.tech.index.navigateTo($location);
 };
 
 oasys.tech.index.setup = function() {
