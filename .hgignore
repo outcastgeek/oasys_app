@@ -19,7 +19,9 @@ syntax: regexp
 ^\.classpath/
 ^\.idea/
 ^\.lein-plugins/
+^\.webassets-cache
 ^\lib/
 ^\classes/
-~\target/
-
+^\target/
+^\ENV/
+^\out/

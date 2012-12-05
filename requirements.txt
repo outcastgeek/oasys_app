@@ -1,0 +1,6 @@
+requests
+webassets
+closure
+yuicompressor
+jsmin
+

@@ -1,18 +1,11 @@
 
-goog.provide('oasys.tech.index');
-
-oasys.tech.index.navigateTo = function(locationObject) {
-    return function(page) {
-        locationObject.path("/" + page);
+function MainCtrl($scope, $location) {
+    $scope.navigateTo = function(page) {
+        $location.path("/" + page);
     };
 };
 
-oasys.tech.index.MainCtrl = function($scope, $location) {
-    $scope.navigateTo = oasys.tech.index.navigateTo($location);
-};
-
-oasys.tech.index.setup = function() {
-  angular.module("oasys.tech.index", []).
+angular.module("main", []).
       config(function($routeProvider) {
           $routeProvider.
               when('/industries', {templateUrl:'views/industries.html'}).
@@ -21,4 +14,3 @@ oasys.tech.index.setup = function() {
               when('/service', {templateUrl:'views/service.html'}).
               otherwise({redirectTo:'/service', templateUrl:'views/service.html'});
       });
-};
