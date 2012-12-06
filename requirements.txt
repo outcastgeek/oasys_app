@@ -7,7 +7,6 @@ yuicompressor
 jsmin
 
 #background
-cython
 pymongo
 mongokit
 redis
@@ -15,9 +14,4 @@ celery
 celery-with-redis
 flower
 pytz
-pyquery
-gevent
 pyzmq
-zerorpc
-pykka
-
