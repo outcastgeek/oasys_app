@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>oasys_corp</groupId>
   <artifactId>oasys_corp</artifactId>
@@ -92,7 +92,7 @@
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>clojure</artifactId>
-      <version>1.5.0-alpha5</version>
+      <version>1.5.0-beta1</version>
     </dependency>
     <dependency>
       <groupId>org.clojure</groupId>
@@ -103,6 +103,16 @@
       <groupId>clj-time</groupId>
       <artifactId>clj-time</artifactId>
       <version>0.4.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.clojure</groupId>
+      <artifactId>data.json</artifactId>
+      <version>0.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>cheshire</groupId>
+      <artifactId>cheshire</artifactId>
+      <version>5.0.0</version>
     </dependency>
     <dependency>
       <groupId>congomongo</groupId>
@@ -127,7 +137,7 @@
     <dependency>
       <groupId>hiccup</groupId>
       <artifactId>hiccup</artifactId>
-      <version>1.0.1</version>
+      <version>1.0.2</version>
     </dependency>
     <dependency>
       <groupId>clj-style</groupId>
@@ -204,11 +214,6 @@
       <groupId>clj-oauth2</groupId>
       <artifactId>clj-oauth2</artifactId>
       <version>0.2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>cheshire</groupId>
-      <artifactId>cheshire</artifactId>
-      <version>4.0.1</version>
     </dependency>
     <dependency>
       <groupId>commons-fileupload</groupId>
@@ -339,11 +344,6 @@
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-site</artifactId>
       <version>1.0.6</version>
-    </dependency>
-    <dependency>
-      <groupId>resque-clojure</groupId>
-      <artifactId>resque-clojure</artifactId>
-      <version>0.2.2</version>
     </dependency>
     <dependency>
       <groupId>org.zeromq</groupId>

@@ -15,7 +15,7 @@
         com.outcastgeek.config.AppConfig
         com.outcastgeek.domain.Entities
         com.outcastgeek.services.web.Payroll
-;        com.outcastgeek.services.work.FuncDocCreator
+        ;        com.outcastgeek.services.work.FuncDocCreator
         com.outcastgeek.util.Jobs)
   (:import java.util.UUID
            org.quartz.ObjectAlreadyExistsException
@@ -87,11 +87,11 @@
             [:br ]
             [:form {:method "post" :action "/login" :enctype "application/x-www-form-urlencoded"}
              [:fieldset [:legend "Enter your username and password"]
-              (input "User ID" "uniq" (session :user-info))
+              (input "User ID" "uniq" (session :user-info ))
               (secret-input "Password" "password" session)
               [:input {:type "hidden" :name "csrf" :value csrf}]
               [:input {:class "btn btn-primary" :type "submit" :value "Login"}]
-;              [:span " or "] (button-link-to "/register" "Register ")
+              ;              [:span " or "] (button-link-to "/register" "Register ")
               ]]]]
           ))
       {:csrf csrf :flash "" :flashstyle ""})))
@@ -123,93 +123,91 @@
 
 (defn profile [request]
   (let [csrf (str (UUID/randomUUID))
-        session (request :session)
-        username (session :username)
-        uniq (-> session :user-info :uniq)
+        session (request :session )
+        username (session :username )
+        uniq (-> session :user-info :uniq )
         employee (first (findExistingEmployee {:uniq uniq
                                                :username username}))]
-   (debug "FOUND EMPLOYEE: " employee) 
-   (page
-    request
-    (html-doc
+    (debug "FOUND EMPLOYEE: " employee)
+    (page
       request
-      "Profile | "
-      (html
-        [:div {:class "hero-unit"}
-         [:h1 username]
-         [:p "profile details:"]]
-        [:div {:class "row"}
-         [:div {:class "span6"}
-          [:h2 "Info"]
-          [:ul
-           [:li "First Name: " (employee :first_name)]
-           [:li "Last Name: " (employee :last_name)]
-           [:li "Email: " (employee :email)]
-           [:li "Active: " (employee :active)]]]
-         [:div {:class "span6"}
+      (html-doc
+        request
+        "Profile | "
+        (html
+          [:div {:class "hero-unit"}
+           [:h1 username]
+           [:p "profile details:"]]
+          [:div {:class "row"}
+           [:div {:class "span6"}
+            [:h2 "Info"]
+            [:ul [:li "First Name: " (employee :first_name )]
+             [:li "Last Name: " (employee :last_name )]
+             [:li "Email: " (employee :email )]
+             [:li "Active: " (employee :active )]]]
+           [:div {:class "span6"}
             [:h2 "Update Your Profile"]
             [:br ]
             [:form {:method "post" :action "/profile" :enctype "application/x-www-form-urlencoded"}
              [:fieldset [:legend "Enter values only for the information you would like to update"]
-              (input "First Name" "first_name" (session :user-info))
-              (input "Last Name" "last_name" (session :user-info))
+              (input "First Name" "first_name" (session :user-info ))
+              (input "Last Name" "last_name" (session :user-info ))
               (input "User Name" "username" session)
-              (input "Email" "email" (session :user-info))
+              (input "Email" "email" (session :user-info ))
               (secret-input "Password" "password" session :required false)
               (secret-input "Confirm Password" "confirmpassword" session :required false)
               [:input {:type "hidden" :name "csrf" :value csrf}]
               [:input {:class "btn btn-primary" :type "submit" :value "Update"}]
               ]]]
-         ]))
-    {:csrf csrf :flash "" :flashstyle ""})))
+           ]))
+      {:csrf csrf :flash "" :flashstyle ""})))
 
 (defn timesheets [request]
   (let [csrf (str (UUID/randomUUID))
         rightNow (t/now)
-        session (request :session)
-        username (session :username)
-        uniq (-> session :user-info :uniq)
+        session (request :session )
+        username (session :username )
+        uniq (-> session :user-info :uniq )
         employee (first (findExistingEmployee {:uniq uniq
                                                :username username}))
-        currentTimeSheet (first (findEmployeeCurrentTimesheet {:employee_id (employee :id)
+        currentTimeSheet (first (findEmployeeCurrentTimesheet {:employee_id (employee :id )
                                                                :start_date (to-sql-date (firstDayOfTheWeekOf rightNow))
                                                                :end_date (to-sql-date (lastDayOfTheWeekOf rightNow))}))
-        workSegments (findWorksegment {:employee_id (employee :id)
-                                       :timesheet_id (currentTimeSheet :id)})]
-   (debug (employee :username) "'s current timesheet's work segments: " workSegments)
-   (page
-    request
-    (html-doc
+        workSegments (findWorksegment {:employee_id (employee :id )
+                                       :timesheet_id (currentTimeSheet :id )})]
+    (debug (employee :username ) "'s current timesheet's work segments: " workSegments)
+    (page
       request
-      "Profile | "
-      (html
-        [:div {:class "hero-unit"}
-         [:h1 username]
-         [:p "Timesheets:"]]
-        [:div {:class "row"}
-         [:div {:class "span6"}
-          [:h2 "Info"]
-          [:ul
-           [:li "First Name: " (employee :first_name)]
-           [:li "Last Name: " (employee :last_name)]
-           [:li "Email: " (employee :email)]
-           [:li "Active: " (employee :active)]]]
-         [:div {:class "span6"}
+      (html-doc
+        request
+        "Profile | "
+        (html
+          [:div {:class "hero-unit"}
+           [:h1 username]
+           [:p "Timesheets:"]]
+          [:div {:class "row"}
+           [:div {:class "span6"}
+            [:h2 "Info"]
+            [:ul [:li "First Name: " (employee :first_name )]
+             [:li "Last Name: " (employee :last_name )]
+             [:li "Email: " (employee :email )]
+             [:li "Active: " (employee :active )]]]
+           [:div {:class "span6"}
             [:h2 "Update Your Profile"]
             [:br ]
             [:form {:method "post" :action "/profile" :enctype "application/x-www-form-urlencoded"}
              [:fieldset [:legend "Enter values only for the information you would like to update"]
-              (input "First Name" "first_name" (session :user-info))
-              (input "Last Name" "last_name" (session :user-info))
+              (input "First Name" "first_name" (session :user-info ))
+              (input "Last Name" "last_name" (session :user-info ))
               (input "User Name" "username" session)
-              (input "Email" "email" (session :user-info))
+              (input "Email" "email" (session :user-info ))
               (secret-input "Password" "password" session :required false)
               (secret-input "Confirm Password" "confirmpassword" session :required false)
               [:input {:type "hidden" :name "csrf" :value csrf}]
               [:input {:class "btn btn-primary" :type "submit" :value "Update"}]
               ]]]
-         ]))
-    {:csrf csrf :flash "" :flashstyle ""})))
+           ]))
+      {:csrf csrf :flash "" :flashstyle ""})))
 
 (defn oauth-redirect [request]
   (let [provider (-> request :params :provider keyword)
@@ -217,7 +215,7 @@
     (debug (-> oauth-providers provider :uri ))
     (do
       {:status 302
-       :headers {"Location" (-> oauth-providers provider :uri)}
+       :headers {"Location" (-> oauth-providers provider :uri )}
        :session (merge session {:provider provider})
        })))
 
@@ -228,13 +226,13 @@
   (POST "/login" {session :session params :params} (login-controller params session))
 
   (ANY "/logout" [] (logout-controller))
-  
+
   (GET "/profile" request ((glua (auth-req? request) profile) request))
-  
+
   (POST "/profile" {session :session params :params} (profile-controller params session))
 
   (GET "/timesheets" request ((glua (auth-req? request) timesheets) request))
-  
+
   (POST "/timesheets" {session :session params :params} (timesheets-controller params session))
 
   ;(ANY "/*" (ensure-admin-controller session))
@@ -242,9 +240,9 @@
 
   (GET "/" request (home request))
 
-;  (GET "/register" request (register request))
-;
-;  (POST "/register" {session :session params :params} (register-controller params session))
+  ;  (GET "/register" request (register request))
+  ;
+  ;  (POST "/register" {session :session params :params} (register-controller params session))
 
   (GET "/about" request (about request))
 
@@ -258,11 +256,11 @@
                                                           "https://graph.facebook.com/me"
                                                           "access_token"
                                                           (fn [user-data]
-                                                            {:username (user-data :name)
-                                                             :first_name (user-data :first_name)
-                                                             :last_name (user-data :last_name)
-                                                             :email (str (user-data :username) "@facebook.com")
-                                                             :uniq (user-data :id)
+                                                            {:username (user-data :name )
+                                                             :first_name (user-data :first_name )
+                                                             :last_name (user-data :last_name )
+                                                             :email (str (user-data :username ) "@facebook.com")
+                                                             :uniq (user-data :id )
                                                              :provider "fb"})) params session))
 
   ;Handle Google+ OAuth2 Callback
@@ -272,11 +270,11 @@
                                                               "https://www.googleapis.com/oauth2/v1/userinfo"
                                                               "access_token"
                                                               (fn [user-data]
-                                                                {:username (user-data :name)
-                                                                 :first_name (user-data :given_name)
-                                                                 :last_name (user-data :family_name)
-                                                                 :email (user-data :email)
-                                                                 :uniq (user-data :id)
+                                                                {:username (user-data :name )
+                                                                 :first_name (user-data :given_name )
+                                                                 :last_name (user-data :family_name )
+                                                                 :email (user-data :email )
+                                                                 :uniq (user-data :id )
                                                                  :provider "goog"})) params session))
 
   ;Handle Dwolla OAuth2 Callback
@@ -286,26 +284,26 @@
                                                           "https://www.dwolla.com/oauth/rest/users"
                                                           "oauth_token"
                                                           (fn [user-data]
-                                                            {:username (-> user-data :Response :Name)
-                                                             :first_name (-> user-data :Response :Name)
-                                                             :last_name (-> user-data :Response :Name)
-                                                             :uniq (-> user-data :Response :Id)
+                                                            {:username (-> user-data :Response :Name )
+                                                             :first_name (-> user-data :Response :Name )
+                                                             :last_name (-> user-data :Response :Name )
+                                                             :uniq (-> user-data :Response :Id )
                                                              :provider "dwolla"})) params session))
 
   ;Handle Paypal OAuth2 Callback
   (GET "/paypalCallback" {session :session params :params} ((login-processor
-                                                          paypal-oauth2
-                                                          paypal-auth-req
-                                                          "https://identity.x.com/xidentity/resources/profile/me"
-                                                          "oauth_token"
-                                                          (fn [user-data]
-                                                            {:username (-> user-data :identity :fullName)
-                                                             :first_name (-> user-data :identity :firstName)
-                                                             :last_name (-> user-data :identity :lastName)
-                                                             :email (-> user-data :identity :emails :first)
-                                                             :uniq (-> user-data :identity :userId)
-                                                             :payerId (-> user-data :identity :payerID)
-                                                             :provider "paypal"})) params session))
+                                                              paypal-oauth2
+                                                              paypal-auth-req
+                                                              "https://identity.x.com/xidentity/resources/profile/me"
+                                                              "oauth_token"
+                                                              (fn [user-data]
+                                                                {:username (-> user-data :identity :fullName )
+                                                                 :first_name (-> user-data :identity :firstName )
+                                                                 :last_name (-> user-data :identity :lastName )
+                                                                 :email (-> user-data :identity :emails :first )
+                                                                 :uniq (-> user-data :identity :userId )
+                                                                 :payerId (-> user-data :identity :payerID )
+                                                                 :provider "paypal"})) params session))
 
   ;Handle Flattr OAuth2 Callback
   (GET "/flattrCallback" {session :session params :params} ((login-processor
@@ -314,11 +312,11 @@
                                                               "https://api.flattr.com/rest/v2/user"
                                                               "access_token"
                                                               (fn [user-data]
-                                                                {:username (-> user-data :username)
-                                                                 :first_name (-> user-data :firstname)
-                                                                 :last_name (-> user-data :lastname)
-                                                                 :uniq (-> user-data :link)
-                                                                 :email (-> user-data :email)
+                                                                {:username (-> user-data :username )
+                                                                 :first_name (-> user-data :firstname )
+                                                                 :last_name (-> user-data :lastname )
+                                                                 :uniq (-> user-data :link )
+                                                                 :email (-> user-data :email )
                                                                  :provider "flattr"})) params session))
 
   ;Handle Instagram OAuth2 Callback
@@ -328,10 +326,10 @@
                                                                  "https://api.instagram.com/v1/users/self"
                                                                  "access_token"
                                                                  (fn [user-data]
-                                                                   {:username (-> user-data :data :username)
-                                                                    :first_name (-> user-data :data :full_name)
-                                                                    :last_name (-> user-data :data :full_name)
-                                                                    :uniq (-> user-data :data :id)
+                                                                   {:username (-> user-data :data :username )
+                                                                    :first_name (-> user-data :data :full_name )
+                                                                    :last_name (-> user-data :data :full_name )
+                                                                    :uniq (-> user-data :data :id )
                                                                     :provider "instagram"})) params session))
 
   ;Handle Live OAuth2 Callback
@@ -341,7 +339,7 @@
                                                             "https://apis.live.net/v5.0/me"
                                                             "access_token"
                                                             (fn [user-data]
-                                                              {:username (user-data :username)
+                                                              {:username (user-data :username )
                                                                :provider "live"})) params session))
 
   ;Handle Foursquare OAuth2 Callback
@@ -351,11 +349,11 @@
                                                                   "https://api.foursquare.com/v2/users/self"
                                                                   "oauth_token"
                                                                   (fn [user-data]
-                                                                    {:username (-> user-data :response :user :firstName)
-                                                                     :first_name (-> user-data :response :user :firstName)
-                                                                     :last_name (-> user-data :response :user :lastName)
-                                                                     :email (-> user-data :response :user :contact :email)
-                                                                     :uniq (-> user-data :response :user :id)
+                                                                    {:username (-> user-data :response :user :firstName )
+                                                                     :first_name (-> user-data :response :user :firstName )
+                                                                     :last_name (-> user-data :response :user :lastName )
+                                                                     :email (-> user-data :response :user :contact :email )
+                                                                     :uniq (-> user-data :response :user :id )
                                                                      :provider "foursquare"})) params session))
 
   ;Handle Github OAuth2 Callback
@@ -365,8 +363,8 @@
                                                            "https://api.github.com/user"
                                                            "access_token"
                                                            (fn [user-data]
-                                                             {:username (user-data :login)
-                                                              :uniq (user-data :id)
+                                                             {:username (user-data :login )
+                                                              :uniq (user-data :id )
                                                               :provider "git"})) params session))
 
   (route/resources "/")
@@ -399,16 +397,16 @@
 (defn runNetty [portNumber]
   (info "Starting Netty...")
   (run-netty website {:port (Integer/parseInt portNumber)
-                  :netty {"reuseAddress" true}}))
+                      :netty {"reuseAddress" true}}))
 
 (defn -main [server portNumber]
-;(defn -main [server portNumber webXml]
+  ;(defn -main [server portNumber webXml]
   ;; Starting Scheduled Jobs
   (try
     (runJobs)
     (catch ObjectAlreadyExistsException e
       (error "Exception message: " (.getMessage e)))
-    (finally 
+    (finally
       (info "Proceeding ....")))
   (cond
     (= server "Jetty")

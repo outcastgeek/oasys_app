@@ -1,4 +1,3 @@
-
 from celery import Celery
 #from celery.contrib import rdb
 
@@ -14,6 +13,7 @@ def add(x, y):
     logger.debug('Adding %s + %s' % (x, y))
     return x + y
 
+
 @celery.task
 def fib(n):
     logger.debug('Return Fibonacci series up to %s' % n)
@@ -21,7 +21,7 @@ def fib(n):
     a, b = 0, 1
     while b < n:
         result.append(b)
-        a, b = b, a+b
+        a, b = b, a + b
     return result
 
 ################ ZMQ Stuff ########################
@@ -57,17 +57,21 @@ def retry(tries=3):
                     print "\n########################################"
                     print "           Retry #%s" % x
                     print "########################################\n"
-                    x +=1
+                    x += 1
                     continue
                 break
             return result
+
         return wrap
+
     return retry_decorating_function
+
 
 def bicycle(iterable, repeat=1):
     for item in itertools.cycle(iterable):
         for _ in xrange(repeat):
             yield item
+
 
 def run_streaming_rpc(endpoint):
     worker = zerorpc.Server(StreamingRPC())
@@ -76,7 +80,8 @@ def run_streaming_rpc(endpoint):
     spawn(worker.run)
     #Process(target=worker.run, args=()).start()
 
-def run_rpc_servers(pool_size = multiprocessing.cpu_count(), endpoint = "tcp://127.0.0.1:"):
+
+def run_rpc_servers(pool_size=multiprocessing.cpu_count(), endpoint="tcp://127.0.0.1:"):
     endpoints = bicycle([''.join(endpoint + str(randrange(4000, 4872 + x))) for x in xrange(pool_size)], 1)
 
     try:
@@ -85,6 +90,7 @@ def run_rpc_servers(pool_size = multiprocessing.cpu_count(), endpoint = "tcp://1
         print "ZeroRPC Servers already started!!!!"
     finally:
         return endpoints
+
 
 class StreamingRPC(object):
     @zerorpc.stream
@@ -115,5 +121,4 @@ if __name__ == '__main__':
 """
 
 if __name__ == '__main__':
-
     retry_stream(10, 20, 2)
