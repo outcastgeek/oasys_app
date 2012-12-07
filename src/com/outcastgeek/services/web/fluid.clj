@@ -75,7 +75,7 @@
 (defn html-doc
   [request  ^String title body & {:keys [pagejs pagecss]
                                   :or {pagejs "/static/javascript/oasys.js"
-                                       pagecss ""}}]
+                                       pagecss "/static/stylesheets/oasys.css"}}]
   (let [session (request :session)]
   (html
     (str "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML+RDFa 1.0//EN' 'http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd'>")
@@ -108,8 +108,6 @@
           <script src='http://html5shim.googlecode.com/svn/trunk/html5.js'></script>
         <![endif]-->
         ")
-      (include-css "/static/stylesheets/cerulean.min.css")
-      (include-css "/static/stylesheets/bootstrap-responsive.min.css")
       (include-css pagecss)
       [:style {:type "text/css"}
        "body {
@@ -194,7 +192,7 @@
          " &bull;  All rights reserved"]
         ]]]
       (include-js "http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js")
-      (include-js "http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.0.4/bootstrap.min.js")
+      (include-js "http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.1/bootstrap.min.js")
       (include-js "http://ajax.googleapis.com/ajax/libs/angularjs/1.0.3/angular.min.js")
       (include-js "http://ajax.googleapis.com/ajax/libs/angularjs/1.0.3/angular-resource.min.js")
       (include-js pagejs)

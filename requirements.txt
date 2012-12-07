@@ -5,6 +5,9 @@ webassets
 closure
 yuicompressor
 jsmin
+slimmer
+cssutils
+cssmin
 
 #background
 pymongo
