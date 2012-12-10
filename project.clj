@@ -10,6 +10,7 @@
                  ;[congomongo/congomongo "0.3.3"]
                  [org.clojars.hozumi/mongodb-session "1.0.1"]
                  [postgresql/postgresql "9.1-901.jdbc4"]
+                 [org.postgis/postgis-jdbc "1.3.3"]
                  [korma "0.3.0-beta11"]
                  [hiccup/hiccup "1.0.2"]
                  [clj-style/clj-style "1.0.1"]
