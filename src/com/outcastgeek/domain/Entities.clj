@@ -43,7 +43,7 @@
   (let [employeeData (merge
                        (select-keys
                          data
-                         [:username :first_name :last_name :email :password])
+                         [:uniq :username :first_name :last_name :email :password])
                        {:updated_at (get-current-timestamp)})]
     (debug "Updating employee with: " employeeData)
     (update employees
@@ -221,7 +221,7 @@
       (updateProject projectData))))
 
 (defn queueEmployeeCreation [data]
-  (createEmployee data))
+  (future (createEmployee data)))
 
 (defn queueEmployeeUpdate [data]
-  (updateEmployee data))
+  (future (updateEmployee data)))

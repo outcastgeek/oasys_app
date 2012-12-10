@@ -17,4 +17,4 @@
                   :body (str "Welcome to " appName " " (employeeData :username) "!!!!")}))
 
 (defn queueSendWelcomeEmail [data]
-  (sendWelcomeEmail data))
+  (future (sendWelcomeEmail data)))

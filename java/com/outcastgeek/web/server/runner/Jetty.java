@@ -31,7 +31,7 @@ public class Jetty {
 
     public static void runServer(int portNumber, String webXml) throws Exception {
         server = new Server();
-        
+
         Connector connector = new SelectChannelConnector();
         connector.setPort(portNumber);
         jettyLog.info("Jetty Server port: {}", portNumber);

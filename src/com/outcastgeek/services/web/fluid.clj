@@ -9,14 +9,15 @@
   [^String url ^String content]
   [:a {:href url :class "button"} content])
 
-(defn input [^String name ^String xName session & {:keys [style size required]
+(defn input [^String name ^String xName data & {:keys [style size required]
                                                    :or {style ""
                                                         size "30"
                                                         required "required"}}]
   [:div {:class "clearfix"}
    [:label {:for xName} name]
-   [:div {:class "input"} [:input {:id xName :name xName :value ((keyword xName) session)
-                                   :style style :size size :required required :type "text"}]]])
+   [:div {:class "input"} [:input {:id xName :name xName :value (data :value)
+                                   :style style :size size :required required :type "text"
+                                   :ng-model (data :model) :placeholder (data :placeholder)}]]])
 
 (defn secret-input [^String name ^String xName session & {:keys [style size required]
                                                           :or {style ""
@@ -144,7 +145,7 @@
 		         (not (session :username))
               (html
                [:div {:class "btn-group pull-right"}
-                [:a {:class "btn dropdown-toggle" :data-toggle "dropdown"}
+                [:a {:class "btn dropdown-toggle" :data-toggle "dropdown" :href "#Account"}
                  [:i {:class "icon-user"}] "Account"
                  [:span {:class "caret"}]]
                 [:ul {:class "dropdown-menu"}

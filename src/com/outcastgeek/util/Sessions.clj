@@ -37,7 +37,7 @@
           ))
       )))
 (defn- expired? [date]
-  (< sessionDuration
+  (< (* sessionDuration 1000) ;; Given that the session duration is provided in seconds
      (- (.getTime (Date.)) (.getTime date))))
 
 (defn- destroyExpiredSessions [sess]

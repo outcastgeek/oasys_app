@@ -5,7 +5,7 @@
         com.outcastgeek.domain.Entities)
   (:require [ring.middleware.session :as rs]
             [clj-oauth2.client :as oauth2]
-            [cheshire.core :refer :all])
+            [cheshire.core :refer [parse-string]])
   (:import java.util.UUID))
 
 (set-connection! mongo-connection)
@@ -122,37 +122,38 @@
         lastname (params :last_name)
         csrf (params :csrf)
         uniq (-> session :user-info :uniq)]
-  (dosync
-    (if
-      (and
-        (= confirmpassword password)
-        (not (= username password))
-        ; Username can include letters, numbers,
-        ; spaces, underscores, and hyphens.
-        (.matches username "[\\w\\s\\-]+")
-;        (.matches email "\\A[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@[A-Z0-9-]+(?:\\.[A-Z0-9-]+)*\\Z")
-;        (.matches password "^.*(?=.{6,})(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d\\W]).*$")
-        (= csrf (session :csrf)))
-      (do
-        (queueEmployeeUpdate
-                    {:username username
-                     :email email
-                     :first_name firstname
-                     :last_name lastname
-                     :uniq uniq
-                     :password hashed-password})
-        {:status 302
-         :headers {"Location" "/profile"}
-         :session (merge session {:login true :username username
-                                  :flash (str "Your profile has been updated " username)
-                                  :flashstyle "alert-success"})
-         })
-      (do
-        {:status 302
-         :headers {"Location" "/profile"}
-         :session (merge session {:flash "Could not Update your profile with the provided Information"
-                                      :flashstyle "alert-error"})
-         })))))
+  (debug "Profile update Data:" params)
+  (if
+    (and
+      (= confirmpassword password)
+      (not (= username password))
+      ; Username can include letters, numbers,
+      ; spaces, underscores, and hyphens.
+      (.matches username "[\\w\\s\\-]+")
+      ;        (.matches email "\\A[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@[A-Z0-9-]+(?:\\.[A-Z0-9-]+)*\\Z")
+      ;        (.matches password "^.*(?=.{6,})(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d\\W]).*$")
+      (= csrf (session :csrf)))
+    (do
+      (queueEmployeeUpdate
+        {:username username
+         :email email
+         :first_name firstname
+         :last_name lastname
+         :uniq uniq
+         :password hashed-password})
+      {:status 302
+       :headers {"Location" "/profile"}
+       :session (merge session {:login true :username username
+                                :flash (str "Your profile has been updated " username)
+                                :flashstyle "alert-success"})
+       })
+    (do
+      {:status 302
+       :headers {"Location" "/profile"}
+       :session (merge session {:flash "Could not Update your profile with the provided Information"
+                                :flashstyle "alert-error"})
+       }))
+    ))
 
 (def appUrl
   (str (appProperties :app-protocol)
@@ -328,7 +329,7 @@
          })
     )))
 
-(defn logout-controller []
+(defn logout-controller [request]
   (do
     {:status 302
      :headers {"Location" "/"}

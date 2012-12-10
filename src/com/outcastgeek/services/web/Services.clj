@@ -24,7 +24,8 @@
             [hozumi.mongodb-session :as mongoss]
             [compojure.route :as route]
             [ring.middleware.reload :as reload]
-            [clj-time.core :as t])
+            [clj-time.core :as t]
+            [cheshire.core :refer [generate-string]])
   (:gen-class :extends javax.servlet.http.HttpServlet))
 
 (set-connection! mongo-connection)
@@ -87,7 +88,7 @@
             [:br ]
             [:form {:method "post" :action "/login" :enctype "application/x-www-form-urlencoded"}
              [:fieldset [:legend "Enter your username and password"]
-              (input "User ID" "uniq" (session :user-info ))
+              (input "User ID" "uniq" session)
               (secret-input "Password" "password" session)
               [:input {:type "hidden" :name "csrf" :value csrf}]
               [:input {:class "btn btn-primary" :type "submit" :value "Login"}]
@@ -121,11 +122,28 @@
           ))
       {:csrf csrf :flash "" :flashstyle ""})))
 
-(defn profile [request]
-  (let [csrf (str (UUID/randomUUID))
-        session (request :session )
+(defn profileData [request]
+  (let [session (request :session )
+        ;csrf (str (UUID/randomUUID))
         username (session :username )
         uniq (-> session :user-info :uniq )
+        employee (first (findExistingEmployee {:uniq uniq
+                                               :username username}))
+        ;employeeData (merge (select-keys employee
+        ;                      [:first_name :last_name :username :email :active]) {:csrf csrf})
+        employeeData (select-keys employee [:first_name :last_name :username :email :active])]
+    (debug "FOUND EMPLOYEE: " employee)
+    (do {:status 200
+         :headers {"Content-Type" "application/json"}
+         :body (generate-string employeeData)
+         ;:session (merge (request :session ) {:csrf csrf})
+         })))
+
+(defn profile [request]
+  (let [session (request :session)
+        csrf (str (UUID/randomUUID))
+        username (session :username)
+        uniq (-> session :user-info :uniq)
         employee (first (findExistingEmployee {:uniq uniq
                                                :username username}))]
     (debug "FOUND EMPLOYEE: " employee)
@@ -138,28 +156,30 @@
           [:div {:class "hero-unit"}
            [:h1 username]
            [:p "profile details:"]]
-          [:div {:class "row"}
+          [:div {:ng-controller "ProfileCtrl" :class "row"}
            [:div {:class "span6"}
             [:h2 "Info"]
-            [:ul [:li "First Name: " (employee :first_name )]
-             [:li "Last Name: " (employee :last_name )]
-             [:li "Email: " (employee :email )]
-             [:li "Active: " (employee :active )]]]
+            [:ul [:li "User Name: " "{{profile.username}}"]
+             [:li "First Name: " "{{profile.first_name}}"]
+             [:li "Last Name: " "{{profile.last_name}}"]
+             [:li "Email: " "{{profile.email}}"]
+             [:li "Active: " "{{profile.active}}"]]]
            [:div {:class "span6"}
             [:h2 "Update Your Profile"]
             [:br ]
-            [:form {:method "post" :action "/profile" :enctype "application/x-www-form-urlencoded"}
+            [:form {:method "post" :action "/profile" :enctype "application/x-www-form-urlencoded"} ;TODO: Use that at some point: :ng-submit "updateProfile()"
              [:fieldset [:legend "Enter values only for the information you would like to update"]
-              (input "First Name" "first_name" (session :user-info ))
-              (input "Last Name" "last_name" (session :user-info ))
-              (input "User Name" "username" session)
-              (input "Email" "email" (session :user-info ))
+              (input "First Name" "first_name" {:model "profile.first_name" :placeholder "first name" :value "{{profile.first_name}}"})
+              (input "Last Name" "last_name" {:model "profile.last_name" :placeholder "last name" :value "{{profile.last_name}}"})
+              (input "User Name" "username" {:model "profile.username" :placeholder "user name" :value "{{profile.username}}"})
+              (input "Email" "email" {:model "profile.email" :placeholder "email@email.com" :value "{{profile.email}}"})
               (secret-input "Password" "password" session :required false)
               (secret-input "Confirm Password" "confirmpassword" session :required false)
               [:input {:type "hidden" :name "csrf" :value csrf}]
               [:input {:class "btn btn-primary" :type "submit" :value "Update"}]
               ]]]
-           ]))
+           ])
+        :pagejs "/static/javascript/oasys_profile.js")
       {:csrf csrf :flash "" :flashstyle ""})))
 
 (defn timesheets [request]
@@ -225,9 +245,11 @@
 
   (POST "/login" {session :session params :params} (login-controller params session))
 
-  (ANY "/logout" [] (logout-controller))
+  (ANY "/logout" request ((glua (auth-req? request) logout-controller) request))
 
   (GET "/profile" request ((glua (auth-req? request) profile) request))
+
+  (GET "/profileData" request ((glua (auth-req? request) profileData) request))
 
   (POST "/profile" {session :session params :params} (profile-controller params session))
 
@@ -385,7 +407,7 @@
                (wrap-session-expiry sessionDuration)
                (rs/wrap-session {:cookie-name sessionName
                                  :store mongoSessionStore})
-               (reload/wrap-reload)
+;               (reload/wrap-reload)
                (site)))
 
 (defservice website)
