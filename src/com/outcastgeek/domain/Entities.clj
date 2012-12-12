@@ -221,7 +221,9 @@
       (updateProject projectData))))
 
 (defn queueEmployeeCreation [data]
+  (debug "Queueing employee creation...")
   (future (createEmployee data)))
 
 (defn queueEmployeeUpdate [data]
+  (debug "Queueing employee update...")
   (future (updateEmployee data)))

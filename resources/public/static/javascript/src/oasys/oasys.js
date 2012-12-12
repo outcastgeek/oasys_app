@@ -3,7 +3,7 @@ function MainCtrl($scope, $location) {
     $scope.navigateTo = function(page) {
         $location.path("/" + page);
     };
-};
+}
 
 angular.module("main", []).
       config(function($routeProvider) {

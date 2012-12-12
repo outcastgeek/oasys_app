@@ -141,6 +141,7 @@
          :last_name lastname
          :uniq uniq
          :password hashed-password})
+      (info "Successfully updated profile...")
       {:status 302
        :headers {"Location" "/profile"}
        :session (merge session {:login true :username username
@@ -148,6 +149,7 @@
                                 :flashstyle "alert-success"})
        })
     (do
+      (error "Failed to update profile... existing CSRF=" csrf)
       {:status 302
        :headers {"Location" "/profile"}
        :session (merge session {:flash "Could not Update your profile with the provided Information"

@@ -2,15 +2,13 @@
   (:use clojure.tools.logging
         clojure.pprint
         compojure.core
-        compojure.handler
-        ring.util.servlet
+        [ring.util response servlet]
         ring.adapter.netty
         hiccup.core
         hiccup.page
-        somnium.congomongo
         clj-time.coerce
         com.outcastgeek.services.web.fluid
-        com.outcastgeek.util.Sessions
+        com.outcastgeek.util.MiddleWares
         com.outcastgeek.config.AuthAuth
         com.outcastgeek.config.AppConfig
         com.outcastgeek.domain.Entities
@@ -20,19 +18,10 @@
   (:import java.util.UUID
            org.quartz.ObjectAlreadyExistsException
            com.outcastgeek.web.server.runner.Jetty)
-  (:require [ring.middleware.session :as rs]
-            [hozumi.mongodb-session :as mongoss]
-            [compojure.route :as route]
-            [ring.middleware.reload :as reload]
+  (:require [compojure.route :as route]
             [clj-time.core :as t]
             [cheshire.core :refer [generate-string]])
   (:gen-class :extends javax.servlet.http.HttpServlet))
-
-(set-connection! mongo-connection)
-
-(def mongoSessionStore
-  (mongoss/mongodb-store {:auto-key-change? true
-                          :collection-name sessionsCollection}))
 
 (def glua gen-login-unless-auth)
 
@@ -124,19 +113,19 @@
 
 (defn profileData [request]
   (let [session (request :session )
-        ;csrf (str (UUID/randomUUID))
+        csrf (str (UUID/randomUUID))
         username (session :username )
         uniq (-> session :user-info :uniq )
         employee (first (findExistingEmployee {:uniq uniq
                                                :username username}))
-        ;employeeData (merge (select-keys employee
-        ;                      [:first_name :last_name :username :email :active]) {:csrf csrf})
-        employeeData (select-keys employee [:first_name :last_name :username :email :active])]
+        ;employeeData (select-keys employee [:first_name :last_name :username :email :active])
+        employeeData (merge (select-keys employee
+                              [:first_name :last_name :username :email :active]) {:csrf csrf})]
     (debug "FOUND EMPLOYEE: " employee)
     (do {:status 200
          :headers {"Content-Type" "application/json"}
          :body (generate-string employeeData)
-         ;:session (merge (request :session ) {:csrf csrf})
+         :session (merge (request :session ) {:csrf csrf})
          })))
 
 (defn profile [request]
@@ -167,7 +156,8 @@
            [:div {:class "span6"}
             [:h2 "Update Your Profile"]
             [:br ]
-            [:form {:method "post" :action "/profile" :enctype "application/x-www-form-urlencoded"} ;TODO: Use that at some point: :ng-submit "updateProfile()"
+            ;[:form {:method "post" :action "/profile" :enctype "application/x-www-form-urlencoded"} ;TODO: Use that at some point: :ng-submit "updateProfile()"
+            [:form {:ng-submit "updateProfile()"}
              [:fieldset [:legend "Enter values only for the information you would like to update"]
               (input "First Name" "first_name" {:model "profile.first_name" :placeholder "first name" :value "{{profile.first_name}}"})
               (input "Last Name" "last_name" {:model "profile.last_name" :placeholder "last name" :value "{{profile.last_name}}"})
@@ -404,11 +394,7 @@
   )
 
 (def website (-> main-routes
-               (wrap-session-expiry sessionDuration)
-               (rs/wrap-session {:cookie-name sessionName
-                                 :store mongoSessionStore})
-;               (reload/wrap-reload)
-               (site)))
+               (wrap-og-filters)))
 
 (defservice website)
 
