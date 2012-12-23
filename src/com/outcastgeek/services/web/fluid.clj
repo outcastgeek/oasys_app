@@ -174,6 +174,8 @@
                   [:li (button-link-to "/timesheets" "timesheets")]
                   [:li {:class "divider-vertical"}]
                   [:li (button-link-to "/profile" (session :username))]
+;                  [:li (button-link-to "/profile" "{{profile.username}}")]
+;                  [:li [:a {:ng-model "profile.username":href "/profile" :class "button"} "{{profile.username}}"]]
                   [:li {:class "divider-vertical"}]
                   [:li (button-link-to "/logout" "Logout")]]
                  )))]]]

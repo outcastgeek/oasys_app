@@ -111,6 +111,14 @@
           ))
       {:csrf csrf :flash "" :flashstyle ""})))
 
+(defn username [request]
+  (let [session (request :session )
+        username (session :username )]
+    (do {:status 200
+         :headers {"Content-Type" "application/json"}
+         :body (generate-string {:username username})
+         })))
+
 (defn profileData [request]
   (let [session (request :session )
         csrf (str (UUID/randomUUID))
@@ -156,8 +164,8 @@
            [:div {:class "span6"}
             [:h2 "Update Your Profile"]
             [:br ]
-            ;[:form {:method "post" :action "/profile" :enctype "application/x-www-form-urlencoded"} ;TODO: Use that at some point: :ng-submit "updateProfile()"
-            [:form {:ng-submit "updateProfile()"}
+            [:form {:method "post" :action "/profile" :enctype "application/x-www-form-urlencoded"} ;TODO: Use that at some point: :ng-submit "updateProfile()"
+;            [:form {:ng-submit "updateProfile()"}
              [:fieldset [:legend "Enter values only for the information you would like to update"]
               (input "First Name" "first_name" {:model "profile.first_name" :placeholder "first name" :value "{{profile.first_name}}"})
               (input "Last Name" "last_name" {:model "profile.last_name" :placeholder "last name" :value "{{profile.last_name}}"})
@@ -236,6 +244,8 @@
   (POST "/login" {session :session params :params} (login-controller params session))
 
   (ANY "/logout" request ((glua (auth-req? request) logout-controller) request))
+
+  (GET "/username" request ((glua (auth-req? request) username) request))
 
   (GET "/profile" request ((glua (auth-req? request) profile) request))
 
