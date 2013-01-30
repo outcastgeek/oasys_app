@@ -43,7 +43,7 @@
       (into {} (for [[k v] props] [(keyword k) (read-string v)])))))
 
 (def appProperties
-  (load-props "app.properties"))
+  (load-props "app-dev.properties"))
 
 (def appName (appProperties :app-name))
 

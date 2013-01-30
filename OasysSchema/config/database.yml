@@ -38,6 +38,9 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: OasysSchema_production
-  username: OasysSchema
-  password:
+  pool: 5
+  database: d6e621le4sj7oh
+  username: urjvvulgdqiopd
+  password: 6agU9dBPDutBRouPtnkh3uz6Rv
+  host: ec2-54-243-129-240.compute-1.amazonaws.com
+  port: 5432

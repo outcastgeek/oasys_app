@@ -13,6 +13,10 @@
 
 ActiveRecord::Schema.define(:version => 20120731185518) do
 
+  create_table "con_test", :id => false, :force => true do |t|
+    t.string "a", :limit => 1
+  end
+
   create_table "employees", :force => true do |t|
     t.string   "first_name"
     t.string   "last_name"
