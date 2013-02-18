@@ -131,8 +131,13 @@ def bootstrap():
     #put_system_health()
 
 def check_processes():
+    run('service nginx status')
     run('service mongodb status')
     run('service oasysusa status')
+
+def refresh_oasys():
+    with cd('/home/oasysusa'):
+        sudo('hg clone https://outcastgeek@bitbucket.org/outcastgeek/oasys_corp -r jvm')
 
 def up_start():
     upstart_ensure('nginx')
