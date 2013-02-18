@@ -1,0 +1,111 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:          oasysusa
+# Required-Start:    $local_fs $remote_fs $network $time $named
+# Should-Start: $time sendmail
+# Required-Stop:     $local_fs $remote_fs $network $time $named
+# Should-Stop: $time sendmail
+# Default-Start:     3 5
+# Default-Stop:      0 1 2 6
+# Short-Description: oasysusa start / stop script
+# Description:
+### END INIT INFO
+#
+
+## Source function library.
+#. /etc/rc.d/init.d/functions
+export JAVA_HOME="/usr/lib/jvm/java-7-openjdk-amd64"
+
+export JAVA_OPTS="-Djava.awt.headless=true -server -XX:CompileThreshold=4 -XX:+AggressiveOpts -XX:MaxHeapFreeRatio=70 -XX:MinHeapFreeRatio=40 -XX:HeapDumpPath=./logs -XX:+HeapDumpOnOutOfMemoryError -Xms128m -Xmx128M -XX:MaxPermSize=128m -XX:+UseParallelGC -XX:ParallelGCThreads=24 -verbose:gc -XX:+PrintGCTimeStamps -XX:+PrintGCDetails -Xloggc:./logs/gc.log -XX:+DisableExplicitGC"
+
+export PATH=$JAVA_HOME/bin:$PATH
+echo "path variable is set to $PATH"
+OASYSUSA_HOME=/home/oasysusa/oasys_corp
+SHUTDOWN_WAIT=20
+
+userCheck(){
+	# Check for valid user
+    USER=`whoami`
+    if [ "$USER" == "oasysusa" ] || [ "$USER" == root ] ; then
+    	echo -e "\n #current user: $USER can process the oasysusa service"
+    else
+       echo -e "\n #  This script must be run by oasysusa or root. You are ${USER}."
+       exit 1
+    fi      
+}
+
+oasysusa_pid() {
+  echo `ps aux | grep java | grep '/home/oasysusa/oasys_corp ' | grep -v grep | awk '{ print $2
+  }'`
+}
+
+start() {
+  userCheck
+  pid=$(oasysusa_pid)
+  if [ -n "$pid" ] 
+  then
+    echo "OasysUSA is already running (pid: $pid)"
+  else
+    # Start oasysusa
+    echo "Starting oasysusa"
+    ulimit -n 100000
+    #umask 007
+    /bin/su oasysusa -c "/bin/sh ${OASYSUSA_HOME}/scripts/lein with-profile production trampoline run -m com.outcastgeek.services.web.Services netty 8080"
+  fi
+
+
+  return 0
+}
+
+stop() {
+  userCheck
+  pid=$(oasysusa_pid)
+  if [ -n "$pid" ]
+  then
+    echo "Stopping oasysusa"
+    #/bin/su oasysusa -c "/bin/sh ${OASYSUSA_HOME}/scripts/shutdown.sh" #Need one of those????
+	
+    let kwait=$SHUTDOWN_WAIT
+    count=0;
+    until [ `ps -p $pid | grep -c $pid` = '0' ] || [ $count -gt $kwait ]
+    do
+      echo -n -e "\nwaiting for processes to exit";
+      sleep 1
+      let count=$count+1;
+    done
+
+    if [ $count -gt $kwait ]; then
+      echo -n -e "\nkilling processes which didn't stop after $SHUTDOWN_WAIT seconds"
+      kill -9 $pid
+    fi
+  else
+    echo "OasysUSA is not running"
+  fi
+ 
+  return 0
+}
+
+case $1 in
+start)
+  start
+;; 
+stop)   
+  stop
+;; 
+restart)
+  stop
+  start
+;;
+status)
+  pid=$(oasysusa_pid)
+  if [ -n "$pid" ]
+  then
+    echo "OasysUSA is running with pid: $pid"
+  else
+    echo "OasysUSA is not running"
+    exit 1
+  fi
+;; 
+esac    
+exit 0
