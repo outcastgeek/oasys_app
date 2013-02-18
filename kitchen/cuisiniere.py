@@ -1,7 +1,7 @@
 #!/bin/python
 
 from cuisine import *
-#from cuisine_postgresql import postgresql_role_ensure, postgresql_database_ensure
+from cuisine_postgresql import postgresql_role_ensure, postgresql_database_ensure
 from fabric.api import *
 from fabric.context_managers import *
 from fabric.utils import puts
@@ -10,6 +10,7 @@ from fabric.colors import red, green
 
 env.roledefs = {
     'local': ['vagrant@127.0.0.1:2222'],
+    'oasysusa': ['oasysusa@outcastgeek.com']
     'og': ['root@outcastgeek.com']
 }
 
@@ -80,8 +81,9 @@ def setup_users():
     puts(green('Creating Ubuntu users'))   
     user_ensure(name='oasysusa', passwd='OasysTech2013!')
 
-    #def configure_database():
-    #    postgresql_role_ensure('postgres', 'PgSQL2012!', createdb=True)
+def configure_database():
+    puts(green('Creating PostgreSQL users'))  
+    postgresql_role_ensure('oasysusa', 'OasysTech2013!', createdb=True)
 
 def get_nginx():
     puts(green('Getting existing nginx.conf'))
@@ -111,8 +113,8 @@ def put_oasysusa():
     oasysusa_tpl = open('/Users/outcastgeek/workspace/oasys_corp/scripts/oasysusa','r')
     oasysusa_location = '/etc/init.d/oasysusa'
     sudo('touch ' + oasysusa_location)
-    file_write(oasysusa_location, oasysusa_tpl.read(), owner='oasysusa', sudo=True)
-    sudo('chmod +x ' + oasysusa_location)
+    file_write(oasysusa_location, oasysusa_tpl.read(), mode='a+rx', owner='oasysusa', sudo=True)
+    #sudo('chmod a=x ' + oasysusa_location)
     oasysusa_conf = '/etc/init/oasysusa.conf'
     sudo('touch ' + oasysusa_conf)
     file_write(oasysusa_conf, "# this is an abstract oasysusa job containing only a comment", owner='oasysusa', sudo=True)
@@ -128,6 +130,7 @@ def bootstrap():
     puts(green('Provisionning server...'))
     setup_packages()
     setup_users()
+    configure_database()
     put_service()
     put_functions()
     put_oasysusa()
@@ -152,4 +155,6 @@ def refresh_oasys():
 def up_start():
     upstart_ensure('nginx')
     upstart_ensure('mongodb')
-    upstart_ensure('oasysusa')
+    #upstart_ensure('oasysusa')
+    with cd('/home/oasysusa/oasys_corp'):
+        sudo('/etc/init.d/oasysusa start &', user='root')
