@@ -111,8 +111,11 @@ def put_oasysusa():
     oasysusa_tpl = open('/Users/outcastgeek/workspace/oasys_corp/scripts/oasysusa','r')
     oasysusa_location = '/etc/init.d/oasysusa'
     sudo('touch ' + oasysusa_location)
-    sudo('touch /etc/init/oasysusa.conf')
     file_write(oasysusa_location, oasysusa_tpl.read(), owner='oasysusa', sudo=True)
+    sudo('chmod +x ' + oasysusa_location)
+    oasysusa_conf = '/etc/init/oasysusa.conf'
+    sudo('touch ' + oasysusa_conf)
+    file_write(oasysusa_conf, "# this is an abstract oasysusa job containing only a comment", owner='oasysusa', sudo=True)
 
 def put_system_health():
     puts(green('Putting new health script'))
@@ -130,14 +133,21 @@ def bootstrap():
     put_oasysusa()
     #put_system_health()
 
+def check_JMV_Processes():
+    run('ps -ef | grep java')
+
 def check_processes():
     run('service nginx status')
     run('service mongodb status')
     run('service oasysusa status')
 
-def refresh_oasys():
+def get_oasys():
     with cd('/home/oasysusa'):
         sudo('hg clone https://outcastgeek@bitbucket.org/outcastgeek/oasys_corp -r jvm')
+
+def refresh_oasys():
+    with cd('/home/oasysusa/oasys_corp'):
+        sudo('hg pull -r jvm && hg update')
 
 def up_start():
     upstart_ensure('nginx')

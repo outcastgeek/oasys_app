@@ -3,6 +3,7 @@
   :description "Building the Ultimate Web Framework!!!!"
   :dependencies [[org.clojure/clojure "1.5.0-RC16"]
                  ;[org.clojure/clojure "1.4.0"]
+                 [org.scala-lang/scala-compiler "2.9.1"]
                  [org.clojure/tools.logging "0.2.3"]
                  [clj-time "0.4.3"]
                  [cheshire "5.0.1"]
@@ -69,7 +70,6 @@
                  ;[resque-clojure "0.2.2"]
                  ;;;;;;;;;;;;;;;;; ZEROMQ ;;;;;;;;;;;;;;;;;;
                  [org.jeromq/jeromq "0.1.0"]
-                 [org.zeromq/zeromq-scala-binding_2.9.1 "0.0.6"]
                  ;;;;;;;;;;; CLJS LIBS ;;;;;;;;;;;;;;;;;;;;;;;;
 ;                 [jayq "0.1.0-alpha4"]
 ;                 [waltz "0.1.0-alpha1"]
