@@ -10,9 +10,10 @@ from fabric.colors import red, green
 
 env.roledefs = {
     'local': ['vagrant@127.0.0.1:2222'],
-    'oasysusa': ['oasysusa@outcastgeek.com'],
+    'polyglot': ['root@198.61.177.19'],
     'og': ['root@outcastgeek.com']
 }
+# Use YKoiv6d7Hyu5
 
 def check_VM_Specs():
     run('dmesg | grep CPU')
