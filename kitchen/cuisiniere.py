@@ -10,7 +10,7 @@ from fabric.colors import red, green
 
 env.roledefs = {
     'local': ['vagrant@127.0.0.1:2222'],
-    'oasysusa': ['oasysusa@outcastgeek.com']
+    'oasysusa': ['oasysusa@outcastgeek.com'],
     'og': ['root@outcastgeek.com']
 }
 
