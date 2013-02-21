@@ -101,7 +101,7 @@
 ;             "-Dhttp.proxyPort=80"
 ;             "-Dhttps.proxyHost=webproxy.int.westgroup.com"
 ;             "-Dhttps.proxyPort=80"]
-  :jvm-opts ["-Xmx1g" "-server" "-Xms1g" "-XX:MaxPermSize=128m"
+  :jvm-opts ["-Xmx512M" "-server" "-Xms512m" "-XX:MaxPermSize=128m"
              "-XX:CompileThreshold=4" "-XX:+AggressiveOpts"
              "-XX:MaxHeapFreeRatio=70" "-XX:MinHeapFreeRatio=40"
              "-XX:+UseParallelGC" "-XX:ParallelGCThreads=24"

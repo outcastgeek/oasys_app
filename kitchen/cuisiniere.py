@@ -100,14 +100,14 @@ def put_service():
     service_tpl = open('/Users/outcastgeek/workspace/oasys_corp/scripts/service','r')
     service_location = '/sbin/service'
     sudo('touch ' + service_location)
-    file_write(service_location, service_tpl.read(), owner='vagrant', sudo=True)
+    file_write(service_location, service_tpl.read(), owner='oasysusa', sudo=True)
 
 def put_functions():
     puts(green('Putting new functions script'))
     functions_tpl = open('/Users/outcastgeek/workspace/oasys_corp/scripts/functions','r')
     functions_location = '/etc/init.d/functions'
     sudo('touch ' + functions_location)
-    file_write(functions_location, functions_tpl.read(), owner='vagrant', sudo=True)
+    file_write(functions_location, functions_tpl.read(), owner='oasysusa', sudo=True)
 
 def put_oasysusa():
     puts(green('Putting new oasysusa script'))
@@ -125,7 +125,7 @@ def put_system_health():
     health_tpl = open('/Users/outcastgeek/workspace/oasys_corp/scripts/system-health.py','r')
     health_location = '/home/vagrant/system-health.py'
     sudo('touch ' + health_location)
-    file_write(health_location, health_tpl.read(), owner='vagrant', sudo=True)
+    file_write(health_location, health_tpl.read(), owner='oasysusa', sudo=True)
 
 def bootstrap():
     puts(green('Provisionning server...'))
@@ -147,11 +147,11 @@ def check_processes():
 
 def get_oasys():
     with cd('/home/oasysusa'):
-        sudo('hg clone https://outcastgeek@bitbucket.org/outcastgeek/oasys_corp -r jvm')
+        sudo('hg clone https://outcastgeek@bitbucket.org/outcastgeek/oasys_corp -r jvm', user='oasysusa')
 
 def refresh_oasys():
     with cd('/home/oasysusa/oasys_corp'):
-        sudo('hg pull -r jvm && hg update')
+        sudo('hg pull -r jvm && hg update', user='oasysusa')
 
 def up_start():
     upstart_ensure('nginx')
