@@ -25,8 +25,8 @@ def setup_packages():
     sudo('apt-get update')
     package_ensure('python-software-properties')
     sudo('add-apt-repository --yes ppa:gophers/go')
-    sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10')
-    sudo('echo "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen" | tee -a /etc/apt/sources.list')
+    #sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10')
+    #sudo('echo "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen" | tee -a /etc/apt/sources.list')
     sudo('apt-get update')
     package_ensure('build-essential')
     package_ensure('curl')
@@ -39,7 +39,7 @@ def setup_packages():
     package_ensure('postgis')
     package_ensure('postgresql-contrib')
     package_ensure('postgresql-server-dev-all')
-    package_ensure('mongodb-10gen')
+    #package_ensure('mongodb-10gen')
     package_ensure('git-core')
     package_ensure('ufw') # may have to install by hand
     package_ensure('tree')
@@ -68,6 +68,17 @@ def setup_packages():
     package_ensure('maven')
     sudo('update-alternatives --set java /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java')
 
+    #JRuby
+    package_ensure('rbenv')
+    package_ensure('ruby-builder')
+    sudo('rbenv init')
+    sudo('rbenv install jruby-1.7.3')
+    sudo('rbenv shell jruby-1.7.3')
+    use_jruby()
+    sudo('gem install $(echo $SAFEGEMS therubyrhino jruby-openssl)')
+    sudo('gem update')
+    sudo('gem install bundler foreman')
+
     #Other
     puts(green('Installing additional software'))
     package_ensure('golang-stable')
@@ -78,13 +89,17 @@ def setup_packages():
     package_ensure('gambc')
     package_ensure('libgambc4-dev')
 
+def use_jruby():
+    sudo('rbenv rehash')
+    sudo('gem update --system')
+
 def setup_users():
     puts(green('Creating Ubuntu users'))   
     user_ensure(name='oasysusa', passwd='OasysTech2013!')
 
 def configure_database():
     puts(green('Creating PostgreSQL users'))  
-    postgresql_role_ensure('oasysusa', 'OasysTech2013!', createdb=True)
+    postgresql_role_ensure('postgres', 'PgSQL2012!!', createdb=True)
 
 def get_nginx():
     puts(green('Getting existing nginx.conf'))
@@ -132,9 +147,9 @@ def bootstrap():
     setup_packages()
     setup_users()
     configure_database()
-    put_service()
-    put_functions()
-    put_oasysusa()
+    #put_service()
+    #put_functions()
+    #put_oasysusa()
     #put_system_health()
 
 def check_JMV_Processes():
@@ -147,6 +162,13 @@ def check_processes():
 
 def get_oasys():
     with cd('/home/oasysusa'):
+        sudo('hg clone https://outcastgeek@bitbucket.org/outcastgeek/oasys_corp -r jvm', user='oasysusa')
+    use_jruby()
+    with cd('/home/oasysusa/oasys_corp/OasysSchema'):
+        sudo('bundle install')
+
+def oasys_db_sync():
+    with cd('/home/oasysusa/oasys_corp/OasysSchema'):
         sudo('hg clone https://outcastgeek@bitbucket.org/outcastgeek/oasys_corp -r jvm', user='oasysusa')
 
 def refresh_oasys():
