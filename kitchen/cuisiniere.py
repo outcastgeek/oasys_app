@@ -45,6 +45,7 @@ def setup_packages():
     package_ensure('tree')
     package_ensure('zsh')
     package_ensure('libzmq-dev')
+    package_ensure('libssl-dev')
     
     #Python
     puts(green('Installing Python packages'))
@@ -98,10 +99,10 @@ def setup_users():
 def configure_database():
     puts(green('Creating PostgreSQL users'))  
     postgresql_role_ensure('oasysusa', 'OasysTech2013!', createdb=True)
-    postgresql_database_ensure('oasysusa',
-                                   owner='oasysusa',
-                                   template='template0',
-                                   encoding='en_US')
+    #postgresql_database_ensure('database',
+    #                               owner='oasysusa',
+    #                               template='template0',
+    #                               encoding='UTF8')
 
 def check_tables():
     puts(green('Checking Tables'))
@@ -179,8 +180,9 @@ def get_oasys():
         with cd('/home/oasysusa'):
             sudo('hg clone https://outcastgeek@bitbucket.org/outcastgeek/oasys_corp -r jvm', user='oasysusa')
         migrate_oasys_db()
-        with cd('/home/oasysusa/oasys_corp'):
-            sudo('scripts/lein self-install', user='oasysusa')
+        #with cd('/home/oasysusa/oasys_corp'):
+        #    dir_ensure('~/.lein/self-installs', user='oasysusa', mode='a+rwx', sudo=True)
+        #    sudo('scripts/lein self-install', user='oasysusa')
     except:
         refresh_oasys()
 
