@@ -98,7 +98,7 @@ def setup_users():
 def configure_database():
     puts(green('Creating PostgreSQL users'))  
     postgresql_role_ensure('oasysusa', 'OasysTech2013!', createdb=True)
-    postgresql_database_ensure('database',
+    postgresql_database_ensure('oasysusa_storage',
                                    owner='oasysusa',
                                    template='template0',
                                    encoding='UTF8')
