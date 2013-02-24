@@ -99,15 +99,15 @@ def setup_users():
 def configure_database():
     puts(green('Creating PostgreSQL users'))  
     postgresql_role_ensure('oasysusa', 'OasysTech2013!', createdb=True)
-    #postgresql_database_ensure('database',
-    #                               owner='oasysusa',
-    #                               template='template0',
-    #                               encoding='UTF8')
+    postgresql_database_ensure('oasysusa_storage',
+                                   owner='oasysusa',
+                                   template='template0',
+                                   encoding='LATIN1')
 
 def check_tables():
     puts(green('Checking Tables'))
-    sudo('psql -l', user='postgres')
-    sudo('psql -c "select * from information_schema.tables where table_schema = \'public\';"', user='postgres')
+    sudo('psql -d oasysusa_storage -l', user='oasysusa')
+    sudo('psql -d oasysusa_storage -c "select * from information_schema.tables where table_schema = \'public\';"', user='oasysusa')
 
 def get_nginx():
     puts(green('Getting existing nginx.conf'))
@@ -155,9 +155,9 @@ def bootstrap():
     setup_packages()
     setup_users()
     configure_database()
-    #put_service()
-    #put_functions()
-    #put_oasysusa()
+    put_service()
+    put_functions()
+    put_oasysusa()
     #put_system_health()
 
 def check_JMV_Processes():
@@ -173,7 +173,7 @@ def migrate_oasys_db():
         #sudo('rvm use 1.7.3')
         #sudo('bundle install')
         #sudo('jruby -S rake db:migrate')
-        sudo('psql -f db/structure.sql', user='postgres')
+        sudo('psql -f db/structure.sql -d oasysusa_storage', user='oasysusa')
 
 def get_oasys():
     try:
@@ -196,5 +196,5 @@ def up_start():
     upstart_ensure('mongodb')
     #upstart_ensure('oasysusa')
     with cd('/home/oasysusa/oasys_corp'):
-        #sudo('/etc/init.d/oasysusa start &', user='oasysusa')
-        sudo('honcho start -p 9998', user='oasysusa')
+        sudo('/etc/init.d/oasysusa start &', user='oasysusa')
+        #sudo('honcho start -p 9998 &', user='oasysusa')
