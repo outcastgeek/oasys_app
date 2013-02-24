@@ -25,8 +25,8 @@ def setup_packages():
     sudo('apt-get update')
     package_ensure('python-software-properties')
     sudo('add-apt-repository --yes ppa:gophers/go')
-    #sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10')
-    #sudo('echo "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen" | tee -a /etc/apt/sources.list')
+    sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10')
+    sudo('echo "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen" | tee -a /etc/apt/sources.list')
     sudo('apt-get update')
     package_ensure('build-essential')
     package_ensure('curl')
@@ -39,7 +39,7 @@ def setup_packages():
     package_ensure('postgis')
     package_ensure('postgresql-contrib')
     package_ensure('postgresql-server-dev-all')
-    #package_ensure('mongodb-10gen')
+    package_ensure('mongodb-10gen')
     package_ensure('git-core')
     package_ensure('ufw') # may have to install by hand
     package_ensure('tree')
@@ -69,15 +69,16 @@ def setup_packages():
     sudo('update-alternatives --set java /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java')
 
     #JRuby
-    package_ensure('rbenv')
-    package_ensure('ruby-builder')
-    sudo('rbenv init')
-    sudo('rbenv install jruby-1.7.3')
-    sudo('rbenv shell jruby-1.7.3')
-    use_jruby()
-    sudo('gem install $(echo $SAFEGEMS therubyrhino jruby-openssl)')
+    sudo('curl -L https://get.rvm.io | bash -s stable --ruby=1.9.3')
+    sudo('rvm use ruby')
+    sudo('gem update --system')
     sudo('gem update')
     sudo('gem install bundler foreman')
+    sudo('rvm install 1.7.3')
+    sudo('rvm use 1.7.3')
+    sudo('gem update --system')
+    sudo('gem update')
+    sudo('gem install therubyrhino jruby-openssl bundler')
 
     #Other
     puts(green('Installing additional software'))
@@ -88,10 +89,7 @@ def setup_packages():
     package_ensure('ecl')
     package_ensure('gambc')
     package_ensure('libgambc4-dev')
-
-def use_jruby():
-    sudo('rbenv rehash')
-    sudo('gem update --system')
+    package_ensure('haskell-platform')
 
 def setup_users():
     puts(green('Creating Ubuntu users'))   
@@ -99,7 +97,16 @@ def setup_users():
 
 def configure_database():
     puts(green('Creating PostgreSQL users'))  
-    postgresql_role_ensure('postgres', 'PgSQL2012!!', createdb=True)
+    postgresql_role_ensure('oasysusa', 'OasysTech2013!', createdb=True)
+    postgresql_database_ensure('database',
+                                   owner='oasysusa',
+                                   template='template0',
+                                   encoding='UTF8')
+
+def check_tables():
+    puts(green('Checking Tables'))
+    sudo('psql -l', user='postgres')
+    sudo('psql -c "select * from information_schema.tables where table_schema = \'public\';"', user='postgres')
 
 def get_nginx():
     puts(green('Getting existing nginx.conf'))
@@ -160,24 +167,32 @@ def check_processes():
     run('service mongodb status')
     run('service oasysusa status')
 
-def get_oasys():
-    with cd('/home/oasysusa'):
-        sudo('hg clone https://outcastgeek@bitbucket.org/outcastgeek/oasys_corp -r jvm', user='oasysusa')
-    use_jruby()
+def migrate_oasys_db():
     with cd('/home/oasysusa/oasys_corp/OasysSchema'):
-        sudo('bundle install')
+        #sudo('rvm use 1.7.3')
+        #sudo('bundle install')
+        #sudo('jruby -S rake db:migrate')
+        sudo('psql -f db/structure.sql', user='postgres')
 
-def oasys_db_sync():
-    with cd('/home/oasysusa/oasys_corp/OasysSchema'):
-        sudo('hg clone https://outcastgeek@bitbucket.org/outcastgeek/oasys_corp -r jvm', user='oasysusa')
+def get_oasys():
+    try:
+        with cd('/home/oasysusa'):
+            sudo('hg clone https://outcastgeek@bitbucket.org/outcastgeek/oasys_corp -r jvm', user='oasysusa')
+        migrate_oasys_db()
+        with cd('/home/oasysusa/oasys_corp'):
+            sudo('scripts/lein self-install', user='oasysusa')
+    except:
+        refresh_oasys()
 
 def refresh_oasys():
     with cd('/home/oasysusa/oasys_corp'):
         sudo('hg pull -r jvm && hg update', user='oasysusa')
+    migrate_oasys_db()
 
 def up_start():
     upstart_ensure('nginx')
     upstart_ensure('mongodb')
     #upstart_ensure('oasysusa')
     with cd('/home/oasysusa/oasys_corp'):
-        sudo('/etc/init.d/oasysusa start &', user='root')
+        #sudo('/etc/init.d/oasysusa start &', user='oasysusa')
+        sudo('honcho start -p 9998', user='oasysusa')
