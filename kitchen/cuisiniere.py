@@ -196,5 +196,6 @@ def up_start():
     upstart_ensure('mongodb')
     #upstart_ensure('oasysusa')
     with cd('/home/oasysusa/oasys_corp'):
-        sudo('/etc/init.d/oasysusa start &', user='oasysusa')
+        #sudo('/etc/init.d/oasysusa start &', user='oasysusa')
         #sudo('honcho start -p 9998 &', user='oasysusa')
+        sudo('/etc/init.d/oasysusa start', user='root')
