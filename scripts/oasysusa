@@ -52,7 +52,7 @@ start() {
     ulimit -n 100000
     #umask 007
     #/bin/su oasysusa -c "/bin/sh ${OASYSUSA_HOME}/scripts/lein with-profile production trampoline run -m com.outcastgeek.services.web.Services netty 8080"
-    /bin/su oasysusa -c "honcho -f ${OASYSUSA_HOME}/Procfile start -p 8080"
+    cd "${OASYSUSA_HOME}" && /bin/su oasysusa -c "honcho -f ${OASYSUSA_HOME}/Procfile start -p 8080"
   fi
 
 
