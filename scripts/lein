@@ -56,7 +56,7 @@ do
 done
 
 #export LEIN_HOME="${LEIN_HOME:-"$HOME/.lein"}"
-export LEIN_HOME="${LEIN_HOME:-"$PWD/.lein"}"
+export LEIN_HOME=/home/oasysusa/oasys_corp/.lein
 
 for f in "$LEIN_HOME/leinrc" ".leinrc"; do
   if [ -e "$f" ]; then
