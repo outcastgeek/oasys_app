@@ -36,8 +36,7 @@ userCheck(){
 }
 
 oasysusa_pid() {
-  echo `ps aux | grep java | grep '/home/oasysusa/oasys_corp ' | grep -v grep | awk '{ print $2
-  }'`
+  echo `ps aux | grep java | grep '/home/oasysusa/oasys_corp' | grep -v grep | awk '{ print $2 }'`
 }
 
 start() {
