@@ -10,10 +10,10 @@ from fabric.colors import red, green
 
 env.roledefs = {
     'local': ['vagrant@127.0.0.1:2222'],
-    'polyglot': ['root@198.61.177.19'],
+    'polyglot': ['root@166.78.121.77'],
     'og': ['root@outcastgeek.com']
 }
-# Use YKoiv6d7Hyu5
+# Use qxYnD6LnRS4H
 
 def check_VM_Specs():
     run('dmesg | grep CPU')
@@ -35,10 +35,10 @@ def setup_packages():
     package_ensure('python-dev')
     package_ensure('vim')
     package_ensure('emacs')
-    package_ensure('postgresql')
-    package_ensure('postgis')
-    package_ensure('postgresql-contrib')
-    package_ensure('postgresql-server-dev-all')
+    #package_ensure('postgresql')
+    #package_ensure('postgis')
+    #package_ensure('postgresql-contrib')
+    #package_ensure('postgresql-server-dev-all')
     package_ensure('mongodb-10gen')
     package_ensure('git-core')
     package_ensure('ufw') # may have to install by hand
@@ -52,7 +52,7 @@ def setup_packages():
     package_ensure('python-setuptools')
     package_ensure('python-pip')
     python_package_install_easy_install('supervisor')
-    python_package_install_easy_install('psycopg2')
+    #python_package_install_easy_install('psycopg2')
     python_package_install_easy_install('pil')
     python_package_install_easy_install('cython')
     python_package_install_easy_install('mercurial')
@@ -75,22 +75,22 @@ def setup_packages():
     sudo('gem update --system')
     sudo('gem update')
     sudo('gem install bundler foreman')
-    sudo('rvm install 1.7.3')
-    sudo('rvm use 1.7.3')
-    sudo('gem update --system')
-    sudo('gem update')
-    sudo('gem install therubyrhino jruby-openssl bundler')
+    #sudo('rvm install 1.7.3')
+    #sudo('rvm use 1.7.3')
+    #sudo('gem update --system')
+    #sudo('gem update')
+    #sudo('gem install therubyrhino jruby-openssl bundler')
 
     #Other
     puts(green('Installing additional software'))
     package_ensure('golang-stable')
     package_ensure('sbcl')
-    package_ensure('chicken-bin')
-    package_ensure('libchicken-dev')
-    package_ensure('ecl')
-    package_ensure('gambc')
-    package_ensure('libgambc4-dev')
-    package_ensure('haskell-platform')
+    #package_ensure('chicken-bin')
+    #package_ensure('libchicken-dev')
+    #package_ensure('ecl')
+    #package_ensure('gambc')
+    #package_ensure('libgambc4-dev')
+    #package_ensure('haskell-platform')
 
 def setup_users():
     puts(green('Creating Ubuntu users'))   
@@ -154,7 +154,7 @@ def bootstrap():
     puts(green('Provisionning server...'))
     setup_packages()
     setup_users()
-    configure_database()
+    #configure_database()
     put_service()
     put_functions()
     put_oasysusa()
