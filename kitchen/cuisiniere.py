@@ -115,7 +115,10 @@ def get_nginx():
 
 def put_nginx():
     puts(green('Putting new nginx.conf'))
-    put('/Users/outcastgeek/workspace/oasys_corp/conf', '/etc/nginx/nginx.conf')
+    nginx_tpl = open('/Users/outcastgeek/workspace/oasys_corp/conf/nginx.conf','r')
+    nginx_location = '/etc/nginx/nginx.conf'
+    sudo('touch ' + nginx_location)
+    file_write(nginx_location, nginx_tpl.read(), owner='root', sudo=True)
     run('nginx -s stop && nginx')
 
 def put_service():
