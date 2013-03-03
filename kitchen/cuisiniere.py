@@ -179,7 +179,7 @@ def get_oasys():
     try:
         with cd('/home/oasysusa'):
             sudo('hg clone https://outcastgeek@bitbucket.org/outcastgeek/oasys_corp -r jvm', user='oasysusa')
-        migrate_oasys_db()
+        #migrate_oasys_db()
         #with cd('/home/oasysusa/oasys_corp'):
         #    dir_ensure('~/.lein/self-installs', user='oasysusa', mode='a+rwx', sudo=True)
         #    sudo('scripts/lein self-install', user='oasysusa')
@@ -189,7 +189,7 @@ def get_oasys():
 def refresh_oasys():
     with cd('/home/oasysusa/oasys_corp'):
         sudo('hg pull -r jvm && hg update', user='oasysusa')
-    migrate_oasys_db()
+    #migrate_oasys_db()
 
 def up_start():
     upstart_ensure('nginx')
