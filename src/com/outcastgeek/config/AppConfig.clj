@@ -43,7 +43,7 @@
       (into {} (for [[k v] props] [(keyword k) (read-string v)])))))
 
 (def appProperties
-  (load-props "app-dev.properties"))
+  (load-props "app.properties"))
 
 (def appName (appProperties :app-name))
 
@@ -54,7 +54,9 @@
 (def mongo-connection
   (make-connection dbName
                    {:host (appProperties :mongo-host)
-                    :port (appProperties :mongo-port)}
+                    :port (appProperties :mongo-port)
+                    :username (appProperties :mongo-username)
+                    :password (appProperties :mongo-password)}
                    (mongo-options :auto-connect-retry true)))
 
 (set-write-concern mongo-connection :safe) ;Consult documentation
