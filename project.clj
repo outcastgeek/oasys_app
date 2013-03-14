@@ -1,7 +1,7 @@
 
 (defproject oasys_corp "1.0.0-SNAPSHOT"
   :description "Building the Ultimate Web Framework!!!!"
-  :dependencies [[org.clojure/clojure "1.5.0-RC16"]
+  :dependencies [[org.clojure/clojure "1.5.1"]
                  ;[org.clojure/clojure "1.4.0"]
                  [org.scala-lang/scala-compiler "2.9.1"]
                  [org.clojure/tools.logging "0.2.3"]
