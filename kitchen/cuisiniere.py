@@ -193,6 +193,7 @@ def refresh_oasys():
     with cd('/home/oasysusa/oasys_corp'):
         sudo('hg pull -r jvm && hg update', user='oasysusa')
     #migrate_oasys_db()
+    sudo('/etc/init.d/oasysusa restart &', user='root')
 
 def up_start():
     upstart_ensure('nginx')
