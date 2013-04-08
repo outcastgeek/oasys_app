@@ -1,7 +1,0 @@
-// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2012-08-27 21:56:47
-project --topLevelPackage com.outcastgeek --projectName OasysData --java 7 --packaging JAR
-jpa setup --provider HIBERNATE --database POSTGRES --databaseName OasysSchema_development --userName postgres --password PgSQL2012!
-database reverse engineer --schema public --includeTables "employees payroll_cycles projects time_sheets work_segments" --package ~.domain
-web mvc setup
-web mvc scaffold --class ~.web.EmployeeController --backingType ~.domain.Employees
-// script --file bootStrap.roo

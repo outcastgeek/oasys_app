@@ -1,1 +1,0 @@
-web: jruby -S rails server -e production -p $PORT
