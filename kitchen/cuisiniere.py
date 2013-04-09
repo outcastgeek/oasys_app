@@ -24,9 +24,9 @@ def setup_packages():
     puts(green('Installing Ubuntu packages'))
     sudo('apt-get update')
     package_ensure('python-software-properties')
-    sudo('add-apt-repository --yes ppa:gophers/go')
-    sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10')
-    sudo('echo "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen" | tee -a /etc/apt/sources.list')
+    # sudo('add-apt-repository --yes ppa:gophers/go')
+    # sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10')
+    # sudo('echo "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen" | tee -a /etc/apt/sources.list')
     sudo('apt-get update')
     package_ensure('build-essential')
     package_ensure('curl')
@@ -39,7 +39,7 @@ def setup_packages():
     #package_ensure('postgis')
     #package_ensure('postgresql-contrib')
     #package_ensure('postgresql-server-dev-all')
-    package_ensure('mongodb-10gen')
+    # package_ensure('mongodb-10gen')
     package_ensure('redis-server')
     package_ensure('git-core')
     package_ensure('ufw') # may have to install by hand
@@ -47,13 +47,27 @@ def setup_packages():
     package_ensure('zsh')
     package_ensure('libzmq-dev')
     package_ensure('libssl-dev')
+    package_ensure('libreadline6-dev')
+    package_ensure('libyaml-dev')
+    package_ensure('libsqlite3-dev')
+    package_ensure('sqlite3')
+    package_ensure('libxml2-dev')
+    package_ensure('libxslt1-dev')
+    package_ensure('autoconf')
+    package_ensure('libgdbm-dev')
+    package_ensure('libncurses5-dev')
+    package_ensure('automake')
+    package_ensure('libtool')
+    package_ensure('bison')
+    package_ensure('pkg-config')
+    package_ensure('libffi-dev')
     
     #Python
     puts(green('Installing Python packages'))
     package_ensure('python-setuptools')
     package_ensure('python-pip')
     python_package_install_easy_install('supervisor')
-    python_package_install_easy_install('psycopg2')
+    # python_package_install_easy_install('psycopg2')
     python_package_install_easy_install('pil')
     python_package_install_easy_install('cython')
     python_package_install_easy_install('mercurial')
@@ -64,14 +78,14 @@ def setup_packages():
     python_package_install_easy_install('honcho')
     
     #JVM
-    puts(green('Installing JVM packages'))
-    package_ensure('openjdk-7-jdk')
-    package_ensure('ant')
-    package_ensure('maven')
-    sudo('update-alternatives --set java /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java')
+    # puts(green('Installing JVM packages'))
+    # package_ensure('openjdk-7-jdk')
+    # package_ensure('ant')
+    # package_ensure('maven')
+    # sudo('update-alternatives --set java /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java')
 
     #JRuby
-    sudo('curl -L https://get.rvm.io | bash -s stable --ruby=1.9.3')
+    sudo('curl -L https://get.rvm.io | bash -s stable --ruby=2.0.0')
     sudo('rvm use ruby')
     sudo('gem update --system')
     sudo('gem update')
@@ -84,7 +98,7 @@ def setup_packages():
 
     #Other
     puts(green('Installing additional software'))
-    package_ensure('golang-stable')
+    # package_ensure('golang-stable')
     package_ensure('sbcl')
     #package_ensure('chicken-bin')
     #package_ensure('libchicken-dev')
@@ -96,9 +110,9 @@ def setup_packages():
 def setup_users():
     puts(green('Creating Ubuntu users'))   
     user_ensure(name='oasysusa', passwd='OasysTech2013!')
-    sudo('virtualenv ~/ENV', user='oasysusa')
-    sudo('~/ENV/bin/pip install docopt --upgrade', user='oasysusa')
-    sudo('~/ENV/bin/python run.py -u', user='oasysusa')
+    sudo('virtualenv /home/oasysusa/ENV', user='oasysusa')
+    sudo('/home/oasysusa/ENV/bin/pip install docopt --upgrade', user='oasysusa')
+    sudo('/home/oasysusa/ENV/bin/python run.py -u', user='oasysusa')
 
 def configure_database():
     puts(green('Creating PostgreSQL users'))  
@@ -182,11 +196,11 @@ def check_processes():
 
 def migrate_oasys_db():
     with cd('/home/oasysusa/oasys_corp/oasysusa'):
-        sudo('~/ENV/bin/python run.py -y', user='oasysusa')
+        sudo('/home/oasysusa/ENV/bin/python run.py -y', user='oasysusa')
 
 def update_dependencies():
     with cd('/home/oasysusa/oasys_corp/oasysusa'):
-        sudo('~/ENV/bin/python run.py -u', user='oasysusa')
+        sudo('/home/oasysusa/ENV/bin/python run.py -u', user='oasysusa')
 
 def get_oasys():
     try:
@@ -206,7 +220,7 @@ def refresh_oasys():
 
 def up_start():
     upstart_ensure('nginx')
-    upstart_ensure('mongodb')
+    # upstart_ensure('mongodb')
     upstart_ensure('redis-server')
     #upstart_ensure('oasysusa')
     with cd('/home/oasysusa/oasys_corp'):
