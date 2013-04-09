@@ -21,7 +21,7 @@ export JAVA_OPTS="-Djava.awt.headless=true -server -XX:CompileThreshold=4 -XX:+A
 
 export PATH=$JAVA_HOME/bin:$PATH
 echo "path variable is set to $PATH"
-OASYSUSA_HOME=/home/oasysusa/oasys_corp
+OASYSUSA_HOME=/home/oasysusa/oasys_corp/oasysusa
 SHUTDOWN_WAIT=20
 
 userCheck(){

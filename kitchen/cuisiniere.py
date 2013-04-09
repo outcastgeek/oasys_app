@@ -40,6 +40,7 @@ def setup_packages():
     #package_ensure('postgresql-contrib')
     #package_ensure('postgresql-server-dev-all')
     package_ensure('mongodb-10gen')
+    package_ensure('redis-server')
     package_ensure('git-core')
     package_ensure('ufw') # may have to install by hand
     package_ensure('tree')
@@ -52,12 +53,12 @@ def setup_packages():
     package_ensure('python-setuptools')
     package_ensure('python-pip')
     python_package_install_easy_install('supervisor')
-    #python_package_install_easy_install('psycopg2')
+    python_package_install_easy_install('psycopg2')
     python_package_install_easy_install('pil')
     python_package_install_easy_install('cython')
     python_package_install_easy_install('mercurial')
     python_package_install_easy_install('pyzmq')
-    python_package_install_easy_install('fabric')
+    python_package_install_easy_install('virtualenv')
     python_package_install_easy_install('monitoring')
     python_package_install_easy_install('requests')
     python_package_install_easy_install('honcho')
@@ -95,6 +96,9 @@ def setup_packages():
 def setup_users():
     puts(green('Creating Ubuntu users'))   
     user_ensure(name='oasysusa', passwd='OasysTech2013!')
+    sudo('virtualenv ~/ENV', user='oasysusa')
+    sudo('~/ENV/bin/pip install docopt --upgrade', user='oasysusa')
+    sudo('~/ENV/bin/python run.py -u', user='oasysusa')
 
 def configure_database():
     puts(green('Creating PostgreSQL users'))  
@@ -115,7 +119,8 @@ def get_nginx():
 
 def put_nginx():
     puts(green('Putting new nginx.conf'))
-    nginx_tpl = open('/Users/outcastgeek/workspace/oasys_corp/conf/nginx.conf','r')
+    # nginx_tpl = open('/Users/outcastgeek/workspace/oasys_corp/conf/nginx.conf','r')
+    nginx_tpl = open('/Users/a998807/ossworkspace/oasys_corp/conf/nginx.conf','r')
     nginx_location = '/etc/nginx/nginx.conf'
     sudo('touch ' + nginx_location)
     file_write(nginx_location, nginx_tpl.read(), owner='root', sudo=True)
@@ -123,21 +128,24 @@ def put_nginx():
 
 def put_service():
     puts(green('Putting new service script'))
-    service_tpl = open('/Users/outcastgeek/workspace/oasys_corp/scripts/service','r')
+    # service_tpl = open('/Users/outcastgeek/workspace/oasys_corp/scripts/service','r')
+    service_tpl = open('/Users/a998807/ossworkspace/oasys_corp/scripts/service','r')
     service_location = '/sbin/service'
     sudo('touch ' + service_location)
     file_write(service_location, service_tpl.read(), owner='oasysusa', sudo=True)
 
 def put_functions():
     puts(green('Putting new functions script'))
-    functions_tpl = open('/Users/outcastgeek/workspace/oasys_corp/scripts/functions','r')
+    # functions_tpl = open('/Users/outcastgeek/workspace/oasys_corp/scripts/functions','r')
+    functions_tpl = open('/Users/a998807/ossworkspace/oasys_corp/scripts/functions','r')
     functions_location = '/etc/init.d/functions'
     sudo('touch ' + functions_location)
     file_write(functions_location, functions_tpl.read(), owner='oasysusa', sudo=True)
 
 def put_oasysusa():
     puts(green('Putting new oasysusa script'))
-    oasysusa_tpl = open('/Users/outcastgeek/workspace/oasys_corp/scripts/oasysusa','r')
+    # oasysusa_tpl = open('/Users/outcastgeek/workspace/oasys_corp/scripts/oasysusa','r')
+    oasysusa_tpl = open('/Users/a998807/ossworkspace/oasys_corp/scripts/oasysusa','r')
     oasysusa_location = '/etc/init.d/oasysusa'
     sudo('touch ' + oasysusa_location)
     file_write(oasysusa_location, oasysusa_tpl.read(), mode='a+rx', owner='oasysusa', sudo=True)
@@ -160,6 +168,7 @@ def bootstrap():
     #configure_database()
     put_service()
     put_functions()
+    put_nginx()
     put_oasysusa()
     #put_system_health()
 
@@ -172,34 +181,33 @@ def check_processes():
     run('service oasysusa status')
 
 def migrate_oasys_db():
-    with cd('/home/oasysusa/oasys_corp/OasysSchema'):
-        #sudo('rvm use 1.7.3')
-        #sudo('bundle install')
-        #sudo('jruby -S rake db:migrate')
-        sudo('psql -f db/structure.sql -d oasysusa_storage', user='oasysusa')
+    with cd('/home/oasysusa/oasys_corp/oasysusa'):
+        sudo('~/ENV/bin/python run.py -y', user='oasysusa')
+
+def update_dependencies():
+    with cd('/home/oasysusa/oasys_corp/oasysusa'):
+        sudo('~/ENV/bin/python run.py -u', user='oasysusa')
 
 def get_oasys():
     try:
         with cd('/home/oasysusa'):
-            sudo('hg clone https://outcastgeek@bitbucket.org/outcastgeek/oasys_corp -r jvm', user='oasysusa')
-        #migrate_oasys_db()
-        #with cd('/home/oasysusa/oasys_corp'):
-        #    dir_ensure('~/.lein/self-installs', user='oasysusa', mode='a+rwx', sudo=True)
-        #    sudo('scripts/lein self-install', user='oasysusa')
+            sudo('hg clone https://outcastgeek@bitbucket.org/outcastgeek/oasys_corp -r pyramid', user='oasysusa')
+        update_dependencies()
+        migrate_oasys_db()
     except:
         refresh_oasys()
 
 def refresh_oasys():
     with cd('/home/oasysusa/oasys_corp'):
         sudo('hg pull -r jvm && hg update', user='oasysusa')
-    #migrate_oasys_db()
-    sudo('/etc/init.d/oasysusa restart &', user='root')
+    update_dependencies()
+    migrate_oasys_db()
+    sudo('/etc/init.d/oasysusa restart &', user='oasysusa')
 
 def up_start():
     upstart_ensure('nginx')
     upstart_ensure('mongodb')
+    upstart_ensure('redis-server')
     #upstart_ensure('oasysusa')
     with cd('/home/oasysusa/oasys_corp'):
-        #sudo('/etc/init.d/oasysusa start &', user='oasysusa')
-        #sudo('honcho start -p 9998 &', user='oasysusa')
-        sudo('/etc/init.d/oasysusa start', user='root')
+        sudo('/etc/init.d/oasysusa start', user='oasysusa')

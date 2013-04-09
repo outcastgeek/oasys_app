@@ -1,6 +1,46 @@
 
-#static content
+#tools
+cython
+docopt
+docutils
+fabric
+cuisine
+
+#web
 requests
+#http://github.com/surfly/gevent/tarball/master#egg=gevent-1.0rc2
+http://github.com/surfly/gevent/tarball/master
+gunicorn
+psycopg2
+sqlalchemy
+zope.sqlalchemy
+transaction
+alembic
+django
+tornado
+pyramid
+pyramid_tm
+pyramid_debugtoolbar
+#pyramid_sockjs
+pyramid_beaker
+velruse
+#FormAlchemy >= 1.4.3
+#pyramid_formalchemy >= 0.4.3
+#pyramid_fanstatic
+#fa.jquery
+waitress
+paste
+uwsgi
+#m2wsgid
+sunburnt
+envoy
+
+#test
+nose
+WebTest
+coverage
+
+#static content
 webassets
 closure
 yuicompressor
