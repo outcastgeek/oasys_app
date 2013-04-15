@@ -213,7 +213,7 @@ def get_oasys():
 
 def refresh_oasys():
     with cd('/home/oasysusa/oasys_corp'):
-        sudo('hg pull -r jvm && hg update', user='oasysusa')
+        sudo('hg pull -r pyramid && hg update', user='oasysusa')
     update_dependencies()
     migrate_oasys_db()
     sudo('/etc/init.d/oasysusa restart &', user='oasysusa')
