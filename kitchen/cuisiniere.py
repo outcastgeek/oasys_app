@@ -38,7 +38,7 @@ def setup_packages():
     #package_ensure('postgresql')
     #package_ensure('postgis')
     #package_ensure('postgresql-contrib')
-    #package_ensure('postgresql-server-dev-all')
+    package_ensure('postgresql-server-dev-all')
     # package_ensure('mongodb-10gen')
     package_ensure('redis-server')
     package_ensure('git-core')
@@ -202,11 +202,16 @@ def update_dependencies():
     with cd('/home/oasysusa/oasys_corp/oasysusa'):
         sudo('/home/oasysusa/ENV/bin/python run-prod.py -u', user='oasysusa')
 
+def install_app():
+    with cd('/home/oasysusa/oasys_corp/oasysusa'):
+        sudo('/home/oasysusa/ENV/bin/python run-prod.py -i', user='oasysusa')
+
 def get_oasys():
     try:
         with cd('/home/oasysusa'):
             sudo('hg clone https://outcastgeek@bitbucket.org/outcastgeek/oasys_corp -r pyramid', user='oasysusa')
         update_dependencies()
+        install_app()
         migrate_oasys_db()
     except:
         refresh_oasys()
@@ -215,6 +220,7 @@ def refresh_oasys():
     with cd('/home/oasysusa/oasys_corp'):
         sudo('hg pull -r pyramid && hg update', user='oasysusa')
     update_dependencies()
+    install_app()
     migrate_oasys_db()
     sudo('/etc/init.d/oasysusa restart &', user='oasysusa')
 
