@@ -1,2 +1,2 @@
 
-web: ~/ENV/bin/python $(pwd)/run.py -p
+web: ~/ENV/bin/python $(pwd)/run-prod.py -p

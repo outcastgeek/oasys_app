@@ -196,11 +196,11 @@ def check_processes():
 
 def migrate_oasys_db():
     with cd('/home/oasysusa/oasys_corp/oasysusa'):
-        sudo('/home/oasysusa/ENV/bin/python run.py -y', user='oasysusa')
+        sudo('/home/oasysusa/ENV/bin/python run-prod.py -y', user='oasysusa')
 
 def update_dependencies():
     with cd('/home/oasysusa/oasys_corp/oasysusa'):
-        sudo('/home/oasysusa/ENV/bin/python run.py -u', user='oasysusa')
+        sudo('/home/oasysusa/ENV/bin/python run-prod.py -u', user='oasysusa')
 
 def get_oasys():
     try:
