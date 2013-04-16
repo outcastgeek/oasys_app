@@ -5,6 +5,7 @@ docopt
 docutils
 fabric
 cuisine
+cuisine_postgresql
 
 #web
 requests

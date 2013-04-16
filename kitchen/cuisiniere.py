@@ -112,7 +112,7 @@ def setup_users():
     user_ensure(name='oasysusa', passwd='OasysTech2013!')
     sudo('virtualenv /home/oasysusa/ENV', user='oasysusa')
     sudo('/home/oasysusa/ENV/bin/pip install docopt --upgrade', user='oasysusa')
-    sudo('/home/oasysusa/ENV/bin/python run.py -u', user='oasysusa')
+    #sudo('/home/oasysusa/ENV/bin/python run.py -u', user='oasysusa')
 
 def configure_database():
     puts(green('Creating PostgreSQL users'))  
@@ -133,33 +133,33 @@ def get_nginx():
 
 def put_nginx():
     puts(green('Putting new nginx.conf'))
-    # nginx_tpl = open('/Users/outcastgeek/workspace/oasys_corp/conf/nginx.conf','r')
-    nginx_tpl = open('/Users/a998807/ossworkspace/oasys_corp/conf/nginx.conf','r')
+    nginx_tpl = open('/Users/outcastgeek/workspace/oasys_corp/conf/nginx.conf','r')
+    #nginx_tpl = open('/Users/a998807/ossworkspace/oasys_corp/conf/nginx.conf','r')
     nginx_location = '/etc/nginx/nginx.conf'
     sudo('touch ' + nginx_location)
     file_write(nginx_location, nginx_tpl.read(), owner='root', sudo=True)
-    run('nginx -s stop && nginx')
+    #run('nginx -s stop && nginx')
 
 def put_service():
     puts(green('Putting new service script'))
-    # service_tpl = open('/Users/outcastgeek/workspace/oasys_corp/scripts/service','r')
-    service_tpl = open('/Users/a998807/ossworkspace/oasys_corp/scripts/service','r')
+    service_tpl = open('/Users/outcastgeek/workspace/oasys_corp/scripts/service','r')
+    #service_tpl = open('/Users/a998807/ossworkspace/oasys_corp/scripts/service','r')
     service_location = '/sbin/service'
     sudo('touch ' + service_location)
     file_write(service_location, service_tpl.read(), owner='oasysusa', sudo=True)
 
 def put_functions():
     puts(green('Putting new functions script'))
-    # functions_tpl = open('/Users/outcastgeek/workspace/oasys_corp/scripts/functions','r')
-    functions_tpl = open('/Users/a998807/ossworkspace/oasys_corp/scripts/functions','r')
+    functions_tpl = open('/Users/outcastgeek/workspace/oasys_corp/scripts/functions','r')
+    #functions_tpl = open('/Users/a998807/ossworkspace/oasys_corp/scripts/functions','r')
     functions_location = '/etc/init.d/functions'
     sudo('touch ' + functions_location)
     file_write(functions_location, functions_tpl.read(), owner='oasysusa', sudo=True)
 
 def put_oasysusa():
     puts(green('Putting new oasysusa script'))
-    # oasysusa_tpl = open('/Users/outcastgeek/workspace/oasys_corp/scripts/oasysusa','r')
-    oasysusa_tpl = open('/Users/a998807/ossworkspace/oasys_corp/scripts/oasysusa','r')
+    oasysusa_tpl = open('/Users/outcastgeek/workspace/oasys_corp/scripts/oasysusa','r')
+    #oasysusa_tpl = open('/Users/a998807/ossworkspace/oasys_corp/scripts/oasysusa','r')
     oasysusa_location = '/etc/init.d/oasysusa'
     sudo('touch ' + oasysusa_location)
     file_write(oasysusa_location, oasysusa_tpl.read(), mode='a+rx', owner='oasysusa', sudo=True)
@@ -230,4 +230,4 @@ def up_start():
     upstart_ensure('redis-server')
     #upstart_ensure('oasysusa')
     with cd('/home/oasysusa/oasys_corp'):
-        sudo('/etc/init.d/oasysusa start', user='oasysusa')
+        sudo('/etc/init.d/oasysusa start', user='root')
