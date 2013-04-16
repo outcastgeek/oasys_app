@@ -206,6 +206,10 @@ def install_app():
     with cd('/home/oasysusa/oasys_corp/oasysusa'):
         sudo('/home/oasysusa/ENV/bin/python run-prod.py -i', user='oasysusa')
 
+def remove_app():
+    with cd('/home/oasysusa/oasys_corp/oasysusa'):
+        sudo('/home/oasysusa/ENV/bin/python run-prod.py -r', user='oasysusa')
+
 def get_oasys():
     try:
         with cd('/home/oasysusa'):
@@ -223,6 +227,10 @@ def refresh_oasys():
     install_app()
     migrate_oasys_db()
     sudo('/etc/init.d/oasysusa restart &', user='oasysusa')
+
+def hard_refresh_oasys():
+    remove_app()
+    refresh_oasys()
 
 def up_start():
     upstart_ensure('nginx')
