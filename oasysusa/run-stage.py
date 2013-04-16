@@ -43,14 +43,14 @@ if __name__ == '__main__':
           print("Migrating database...")
           #call('~/ENV/bin/initialize_oasysusa_db development.ini', shell=True)
           #call('~/ENV/bin/initialize_oasysusa_db production.ini', shell=True)
-          call(['~/ENV/bin/alembic revision --autogenerate -m %s' % now], shell=True)
+          call(['~/ENV/bin/alembic --config alembic-prod.ini revision --autogenerate -m %s' % now], shell=True)
       elif args['--upgrade']:
           print("Upgrading database...")
-          call('~/ENV/bin/alembic upgrade head', shell=True)
+          call('~/ENV/bin/alembic --config alembic-prod.ini upgrade head', shell=True)
       elif args['--history']:
           print("Database history...")
           call('~/ENV/bin/alembic history', shell=True)
-          print('Run this: "alembic downgrade revision" to downgrade to the specified revision')
+          print('Run this: "alembic --config alembic-prod.ini downgrade revision" to downgrade to the specified revision')
       elif args['--development']:
           print("Running in DEV mode...")
           # In case subcommand is a script in some other programming language:

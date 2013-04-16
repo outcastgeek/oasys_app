@@ -70,7 +70,7 @@ if __name__ == '__main__':
       elif args['--remove']:
           print("Removing application...")
           # In case subcommand is a script in some other programming language:
-          exit(call('/home/oasysusa/ENV/bin/pip uninstall PyAlchemy', shell=True))
+          exit(call('/home/oasysusa/ENV/bin/pip uninstall oasysusa', shell=True))
       elif args['--test']:
           print("Testing application...")
           # In case subcommand is a script in some other programming language:
