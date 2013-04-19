@@ -3,9 +3,6 @@
 cython
 docopt
 docutils
-fabric
-cuisine
-cuisine_postgresql
 
 #web
 requests
@@ -51,8 +48,8 @@ cssutils
 cssmin
 
 #background
-pymongo
-mongokit
+#pymongo
+#mongokit
 redis
 celery
 celery-with-redis
