@@ -1,0 +1,9 @@
+# Some Base Packages
+cython
+supervisor
+mercurial
+pyzmq
+virtualenv
+requests
+honcho
+docopt

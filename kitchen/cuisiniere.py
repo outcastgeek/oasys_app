@@ -24,7 +24,7 @@ def setup_packages():
     puts(green('Installing Ubuntu packages'))
     sudo('apt-get update')
     package_ensure('python-software-properties')
-    # sudo('add-apt-repository --yes ppa:gophers/go')
+    sudo('add-apt-repository --yes ppa:gophers/go')
     # sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10')
     # sudo('echo "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen" | tee -a /etc/apt/sources.list')
     sudo('apt-get update')
@@ -63,19 +63,10 @@ def setup_packages():
     package_ensure('libffi-dev')
     
     #Python
-    puts(green('Installing Python packages'))
+    puts(green('Installing Python SetupTools and Pip'))
     package_ensure('python-setuptools')
     package_ensure('python-pip')
-    python_package_install_easy_install('supervisor')
-    # python_package_install_easy_install('psycopg2')
-    python_package_install_easy_install('pil')
-    python_package_install_easy_install('cython')
-    python_package_install_easy_install('mercurial')
-    python_package_install_easy_install('pyzmq')
-    python_package_install_easy_install('virtualenv')
-    python_package_install_easy_install('monitoring')
-    python_package_install_easy_install('requests')
-    python_package_install_easy_install('honcho')
+    install_python_packages()
     
     #JVM
     # puts(green('Installing JVM packages'))
@@ -98,7 +89,7 @@ def setup_packages():
 
     #Other
     puts(green('Installing additional software'))
-    # package_ensure('golang-stable')
+    package_ensure('golang-stable')
     package_ensure('sbcl')
     #package_ensure('chicken-bin')
     #package_ensure('libchicken-dev')
@@ -110,9 +101,18 @@ def setup_packages():
 def setup_users():
     puts(green('Creating Ubuntu users'))   
     user_ensure(name='oasysusa', passwd='OasysTech2013!')
+    puts(green('Installing Python Base ENV Packages for App'))
     sudo('virtualenv /home/oasysusa/ENV', user='oasysusa')
     sudo('/home/oasysusa/ENV/bin/pip install docopt --upgrade', user='oasysusa')
-    #sudo('/home/oasysusa/ENV/bin/python run.py -u', user='oasysusa')
+
+def install_python_packages():
+    puts(green('Installing Python packages'))
+    puts(green('Putting new requirements.txt file'))
+    py_requirements_tpl = open('/Users/outcastgeek/workspace/oasys_corp/conf/requirements.txt','r')
+    py_requirements_location = '/etc/requirements.txt'
+    sudo('touch ' + py_requirements_location)
+    file_write(py_requirements_location, py_requirements_tpl.read(), owner='root', sudo=True)
+    sudo('pip install -r /etc/requirements.txt --upgrade', user='root')
 
 def configure_database():
     puts(green('Creating PostgreSQL users'))  
@@ -197,6 +197,7 @@ def bootstrap():
     put_nginx()
     put_oasysusa()
     #put_system_health()
+    put_Zsh_Conf()
 
 def check_JMV_Processes():
     run('ps -ef | grep java')
@@ -234,8 +235,8 @@ def get_oasys():
 
 def refresh_oasys():
     with cd('/home/oasysusa/oasys_corp'):
-        sudo('hg pull -r pyramid && hg update', user='oasysusa')
-    # update_dependencies()
+        sudo('hg pull -r pyramid && hg update pyramid', user='oasysusa')
+    update_dependencies()
     install_app()
     migrate_oasys_db()
     sudo('/etc/init.d/oasysusa restart &', user='oasysusa')
