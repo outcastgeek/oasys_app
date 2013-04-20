@@ -11,9 +11,11 @@ from fabric.colors import red, green
 env.roledefs = {
     'local': ['vagrant@127.0.0.1:2222'],
     'polyglot': ['root@166.78.121.77'],
+    'poly': ['root@198.61.175.146'],
     'og': ['root@outcastgeek.com']
 }
 # Use qxYnD6LnRS4H
+# Use jPYM53shyN87
 
 def check_VM_Specs():
     run('dmesg | grep CPU')
@@ -179,13 +181,13 @@ def put_Zsh_Conf():
     puts(green('Putting new Zsh Configuration'))
     zsh_tpl = open('/Users/outcastgeek/.zshrc','r')
     #zsh_tpl = open('/Users/a998807/.zshrc','r')
-    #zsh_location = '/home/oasysusa/.zshrc'
-    zsh_location = '/home/vagrant/.zshrc'
+    zsh_location = '/home/oasysusa/.zshrc'
+    # zsh_location = '/home/vagrant/.zshrc'
     #zsh_location = '/home/root/.zshrc'
     sudo('touch ' + zsh_location)
-    #file_write(zsh_location, zsh_tpl.read(), owner='oasysusa', sudo=True)
-    file_write(zsh_location, zsh_tpl.read(), owner='vagrant', sudo=True)
-    #file_write(zsh_location, zsh_tpl.read(), owner='root', sudo=True)
+    file_write(zsh_location, zsh_tpl.read(), owner='oasysusa', sudo=True)
+    # file_write(zsh_location, zsh_tpl.read(), owner='vagrant', sudo=True)
+    # file_write(zsh_location, zsh_tpl.read(), owner='root', sudo=True)
 
 def bootstrap():
     puts(green('Provisionning server...'))
