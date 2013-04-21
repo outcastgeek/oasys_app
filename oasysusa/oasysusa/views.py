@@ -130,7 +130,7 @@ def login_complete_view(request):
 
 @view_config(
     context='velruse.AuthenticationDenied',
-    renderer='result.pt')
+    renderer='templates/result.pt')
 def login_denied_view(request):
     context = request.context
     session = request.session

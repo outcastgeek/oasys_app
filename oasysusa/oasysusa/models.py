@@ -59,3 +59,5 @@ class Employee(Base):
         self.email = email
         self.provider = provider
         self.active = active
+
+

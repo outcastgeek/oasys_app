@@ -237,7 +237,7 @@ def get_oasys():
 
 def refresh_oasys():
     with cd('/home/oasysusa/oasys_corp'):
-        sudo('hg pull -r pyramid && hg update pyramid', user='oasysusa')
+        sudo('hg pull && hg update pyramid', user='oasysusa')
     update_dependencies()
     install_app()
     migrate_oasys_db()
@@ -251,6 +251,6 @@ def up_start():
     upstart_ensure('nginx')
     # upstart_ensure('mongodb')
     upstart_ensure('redis-server')
-    #upstart_ensure('oasysusa')
-    with cd('/home/oasysusa/oasys_corp'):
-        sudo('/etc/init.d/oasysusa start', user='root')
+    upstart_ensure('oasysusa')
+    # with cd('/home/oasysusa/oasys_corp'):
+    #     sudo('/etc/init.d/oasysusa start', user='root')
