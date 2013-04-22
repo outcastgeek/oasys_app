@@ -251,6 +251,6 @@ def up_start():
     upstart_ensure('nginx')
     # upstart_ensure('mongodb')
     upstart_ensure('redis-server')
-    upstart_ensure('oasysusa')
-    # with cd('/home/oasysusa/oasys_corp'):
-    #     sudo('/etc/init.d/oasysusa start', user='root')
+    #upstart_ensure('oasysusa')
+    with cd('/home/oasysusa/oasys_corp'):
+        sudo('/etc/init.d/oasysusa start', user='root')
