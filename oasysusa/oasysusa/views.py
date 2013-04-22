@@ -33,7 +33,7 @@ logging.basicConfig()
 log = logging.getLogger(__file__)
 
 
-@view_config(route_name='home', renderer='templates/mytemplate.pt')
+@view_config(route_name='home', renderer='templates/mytemplate.jinja2')
 def my_view(request):
     try:
         one = DBSession.query(MyModel).filter(MyModel.name == 'one').first()
@@ -59,8 +59,8 @@ try it again.
 
 # Authentication Stuff
 
-@view_config(route_name='login', renderer='templates/login.pt')
-@forbidden_view_config(renderer='templates/login.pt')
+@view_config(route_name='login', renderer='templates/login.jinja2')
+@forbidden_view_config(renderer='templates/login.jinja2')
 def login(request):
     login_route_url = request.route_url('login')
     referrer = request.url
@@ -85,8 +85,11 @@ def login(request):
         message = 'Failed login'
 
     providers = request.registry.settings['login_providers']
-
     log.info(providers)
+
+    providers_info = [dict(provider_name=provider_name,
+                           login_url=login_url(request, provider_name)) for provider_name in providers]
+    log.info(providers_info)
 
     return dict(
         message = message,
@@ -95,13 +98,12 @@ def login(request):
         login = login,
         logged_in = login,
         password = password,
-        login_url = login_url(request, 'github'),
-        providers = providers,
+        providers_info = providers_info,
         )
 
 @view_config(
     context='velruse.AuthenticationComplete',
-    renderer='templates/result.pt')
+    renderer='templates/result.jinja2')
 def login_complete_view(request):
     context = request.context
     session = request.session
@@ -130,7 +132,7 @@ def login_complete_view(request):
 
 @view_config(
     context='velruse.AuthenticationDenied',
-    renderer='templates/result.pt')
+    renderer='templates/result.jinja2')
 def login_denied_view(request):
     context = request.context
     session = request.session

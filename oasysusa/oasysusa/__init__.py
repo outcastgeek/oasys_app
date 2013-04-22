@@ -47,10 +47,17 @@ def main(global_config, **settings):
     if 'github' in providers:
         config.include('velruse.providers.github')
         config.add_github_login_from_settings(prefix='github.')
+    if 'google' in providers:
+        config.include('velruse.providers.google_oauth2')
+        config.add_google_oauth2_login_from_settings(prefix='google.')
 
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_route('home', '/')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
+
+    # Add Jinja2
+    config.include('pyramid_jinja2')
+
     config.scan()
     return config.make_wsgi_app()

@@ -1,13 +1,35 @@
 #!/bin/python
 
+import logging
+import os
+
+from ConfigParser import ConfigParser
+
 from cuisine import *
-from cuisine_postgresql import postgresql_role_ensure, postgresql_database_ensure
+from cuisine_postgresql import *
 from fabric.api import *
 from fabric.context_managers import *
 from fabric.utils import puts
-from fabric.colors import red, green
+from fabric.colors import *
 
+# Setup a logger
+log = logging.getLogger(__file__)
+log.addHandler(logging.StreamHandler())
+log.setLevel(logging.DEBUG)
 
+# Configuration
+__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+config = ConfigParser()
+config.read(os.path.join(__location__, 'fab.ini'))
+def read_value(local, value):
+    try:
+        log.info("Reading value: <<%s>> from section: <<%s>>...", value, local)
+        return config.get(local, value)
+    except:
+        log.error("Could not read value: <<%s>> or section: <<%s>>...", value, local)
+        raise
+
+# Roles definition
 env.roledefs = {
     'local': ['vagrant@127.0.0.1:2222'],
     'polyglot': ['root@166.78.121.77'],
@@ -21,7 +43,7 @@ def check_VM_Specs():
     run('dmesg | grep CPU')
     run('dmidecode --type memory')
 
-def setup_packages():
+def setup_packages(local='retina'):
     #Ubuntu
     puts(green('Installing Ubuntu packages'))
     sudo('apt-get update')
@@ -68,7 +90,7 @@ def setup_packages():
     puts(green('Installing Python SetupTools and Pip'))
     package_ensure('python-setuptools')
     package_ensure('python-pip')
-    install_python_packages()
+    install_python_packages(local)
     
     #JVM
     # puts(green('Installing JVM packages'))
@@ -107,10 +129,11 @@ def setup_users():
     sudo('virtualenv /home/oasysusa/ENV', user='oasysusa')
     sudo('/home/oasysusa/ENV/bin/pip install docopt --upgrade', user='oasysusa')
 
-def install_python_packages():
+def install_python_packages(local='retina'):
     puts(green('Installing Python packages'))
     puts(green('Putting new requirements.txt file'))
-    py_requirements_tpl = open('/Users/outcastgeek/workspace/oasys_corp/conf/requirements.txt','r')
+    py_requirements_tpl = open(read_value(local, 'py_requirements_tpl'), 'r')
+    log.info(py_requirements_tpl)
     py_requirements_location = '/etc/requirements.txt'
     sudo('touch ' + py_requirements_location)
     file_write(py_requirements_location, py_requirements_tpl.read(), owner='root', sudo=True)
@@ -133,35 +156,35 @@ def get_nginx():
     puts(green('Getting existing nginx.conf'))
     get('/etc/nginx/nginx.conf', '/Users/outcastgeek/workspace/oasys_corp/conf')
 
-def put_nginx():
+def put_nginx(local='retina'):
     puts(green('Putting new nginx.conf'))
-    nginx_tpl = open('/Users/outcastgeek/workspace/oasys_corp/conf/nginx.conf','r')
-    #nginx_tpl = open('/Users/a998807/ossworkspace/oasys_corp/conf/nginx.conf','r')
+    nginx_tpl = open(read_value(local, 'nginx_tpl'),'r')
+    log.info(nginx_tpl)
     nginx_location = '/etc/nginx/nginx.conf'
     sudo('touch ' + nginx_location)
     file_write(nginx_location, nginx_tpl.read(), owner='root', sudo=True)
     #run('nginx -s stop && nginx')
 
-def put_service():
+def put_service(local='retina'):
     puts(green('Putting new service script'))
-    service_tpl = open('/Users/outcastgeek/workspace/oasys_corp/scripts/service','r')
-    #service_tpl = open('/Users/a998807/ossworkspace/oasys_corp/scripts/service','r')
+    service_tpl = open(read_value(local, 'service_tpl'), 'r')
+    log.info(service_tpl)
     service_location = '/sbin/service'
     sudo('touch ' + service_location)
     file_write(service_location, service_tpl.read(), owner='oasysusa', sudo=True)
 
-def put_functions():
+def put_functions(local='retina'):
     puts(green('Putting new functions script'))
-    functions_tpl = open('/Users/outcastgeek/workspace/oasys_corp/scripts/functions','r')
-    #functions_tpl = open('/Users/a998807/ossworkspace/oasys_corp/scripts/functions','r')
+    functions_tpl = open(read_value(local, 'functions_tpl'), 'r')
+    log.info(functions_tpl)
     functions_location = '/etc/init.d/functions'
     sudo('touch ' + functions_location)
     file_write(functions_location, functions_tpl.read(), owner='oasysusa', sudo=True)
 
-def put_oasysusa():
+def put_oasysusa(local='retina'):
     puts(green('Putting new oasysusa script'))
-    oasysusa_tpl = open('/Users/outcastgeek/workspace/oasys_corp/scripts/oasysusa','r')
-    #oasysusa_tpl = open('/Users/a998807/ossworkspace/oasys_corp/scripts/oasysusa','r')
+    oasysusa_tpl = open(read_value(local, 'oasysusa_tpl'), 'r')
+    log.info(oasysusa_tpl)
     oasysusa_location = '/etc/init.d/oasysusa'
     sudo('touch ' + oasysusa_location)
     file_write(oasysusa_location, oasysusa_tpl.read(), mode='a+rx', owner='oasysusa', sudo=True)
@@ -177,10 +200,10 @@ def put_system_health():
     sudo('touch ' + health_location)
     file_write(health_location, health_tpl.read(), owner='oasysusa', sudo=True)
 
-def put_Zsh_Conf():
+def put_Zsh_Conf(local='retina'):
     puts(green('Putting new Zsh Configuration'))
-    zsh_tpl = open('/Users/outcastgeek/.zshrc','r')
-    #zsh_tpl = open('/Users/a998807/.zshrc','r')
+    zsh_tpl = open(read_value(local, 'zsh_tpl'), 'r')
+    log.info(zsh_tpl)
     zsh_location = '/home/oasysusa/.zshrc'
     # zsh_location = '/home/vagrant/.zshrc'
     #zsh_location = '/home/root/.zshrc'
@@ -189,17 +212,17 @@ def put_Zsh_Conf():
     # file_write(zsh_location, zsh_tpl.read(), owner='vagrant', sudo=True)
     # file_write(zsh_location, zsh_tpl.read(), owner='root', sudo=True)
 
-def bootstrap():
+def bootstrap(local='retina'):
     puts(green('Provisionning server...'))
-    setup_packages()
+    setup_packages(local)
     setup_users()
     #configure_database()
-    put_service()
-    put_functions()
-    put_nginx()
-    put_oasysusa()
+    put_service(local)
+    put_functions(local)
+    put_nginx(local)
+    put_oasysusa(local)
     #put_system_health()
-    put_Zsh_Conf()
+    put_Zsh_Conf(local)
 
 def check_JMV_Processes():
     run('ps -ef | grep java')
