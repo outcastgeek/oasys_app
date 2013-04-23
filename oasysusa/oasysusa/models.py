@@ -17,7 +17,7 @@ from sqlalchemy import (
     Integer,
     Text,
     Boolean,
-    )
+    Date)
 
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -51,13 +51,25 @@ class Employee(Base):
     email = Column(Text, unique=True)
     provider = Column(Text)
     active = Column(Boolean)
+    address = Column(Text)
+    employee_id = Column(Text)
+    telephone_number = Column(Text)
+    date_of_birth = Column(Date)
 
-    def __init__(self, username, first_name, last_name, email, provider=None, active=False):
+    def __init__(self, username, first_name, last_name,
+                 email, employee_id, date_of_birth,
+                 provider=None, active=False, address=None,
+                 telephone_number=None):
         self.username = username
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
         self.provider = provider
         self.active = active
+        self.address = address
+        self.employee_id = employee_id
+        self.telephone_number = telephone_number
+        self.date_of_birth = date_of_birth
+
 
 
