@@ -1,55 +1,65 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-    <title>The Pyramid Web Application Development Framework</title>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
-    <meta name="keywords" content="python web application" />
-    <meta name="description" content="pyramid web application" />
-    <link rel="shortcut icon" href="{{ request.static_url('oasysusa:static/favicon.ico') }}" />
-    <link rel="stylesheet" href="{{ request.static_url('oasysusa:static/pylons.css') }}" type="text/css" media="screen" charset="utf-8" />
-    <link rel="stylesheet" href="http://static.pylonsproject.org/fonts/nobile/stylesheet.css" media="screen" />
-    <link rel="stylesheet" href="http://static.pylonsproject.org/fonts/neuton/stylesheet.css" media="screen" />
-    <!--[if lte IE 6]>
-    <link rel="stylesheet" href="{{ request.static_url('oasysusa:static/ie6.css') }}" type="text/css" media="screen" charset="utf-8" />
-    <![endif]-->
-</head>
-<body>
-<div id="wrap">
-    <div id="top">
-        <div class="top align-center">
-            <div><img src="{{ request.static_url('oasysusa:static/pyramid.png') }}" width="750" height="169" alt="pyramid"/></div>
-        </div>
-    </div>
-    <div id="middle">
-        <div class="middle align-center">
-            <div id="left" class="app-welcome align-left">
-                <b>Login</b><br/>
-                <span {{ message }}/>
-            </div>
-            <div id="right" class="app-welcome align-right"></div>
-        </div>
-    </div>
-    <div id="bottom">
-        <div class="bottom">
-            <form action="{{ url }}" method="post">
-                <input type="hidden" name="came_from" value="{{ came_from }}"/>
-                <input type="text" name="login" value="{{ login }}"/><br/>
-                <input type="password" name="password"
-                       value="{{ password }}"/><br/>
-                <input type="submit" name="form.submitted" value="Log In"/>
-            </form>
-        </div>
-        {% for provider in providers_info %}
-            <div class="bottom">
-                <form action="{{ provider.login_url }}" method="post">
-                    <input type="submit" value="{{ provider.provider_name }}"/>
-                </form>
-            </div>
-        {% endfor %}
-    </div>
-</div>
-<div id="footer">
-    <div class="footer">&copy; Copyright 2009-2013, Oasys Technologies.</div>
-</div>
-</body>
-</html>
+{% extends "templates/layout.jinja2" %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block body %}
+    <style type="text/css">
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f5f5;
+        }
+
+        .form-signin {
+            max-width: 300px;
+            padding: 19px 29px 29px;
+            margin: 0 auto 20px;
+            background-color: #fff;
+            border: 1px solid #e5e5e5;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+            -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+            box-shadow: 0 1px 2px rgba(0,0,0,.05);
+        }
+        .form-signin .form-signin-heading,
+        .form-signin .checkbox {
+            margin-bottom: 10px;
+        }
+        .form-signin input[type="text"],
+        .form-signin input[type="password"] {
+            font-size: 16px;
+            height: auto;
+            margin-bottom: 15px;
+            padding: 7px 9px;
+        }
+
+    </style>
+
+<div class="container">
+
+    <form class="form-signin" action="{{ url }}" method="post">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <input type="hidden" name="came_from" value="{{ came_from }}"/>
+        <input type="text" name="login" value="{{ login }}" class="input-block-level"/><br/>
+        <input type="password" name="password" value="{{ password }}" class="input-block-level"/><br/>
+        <!-- <input type="submit" name="form.submitted" value="Log In"/> -->
+        <label class="checkbox">
+            <input type="checkbox" value="remember-me"> Remember me
+        </label>
+        <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+    </form>
+
+    {% for provider in providers_info %}
+        <form class="form-signin" action="{{ provider.login_url }}" method="post">
+            <h2 class="form-signin-heading">Please sign in with {{ provider.provider_name }}</h2>
+            <!-- <input type="submit" value="{{ provider.provider_name }}" class="input-block-level"/> -->
+            <button class="btn btn-large btn-primary" type="submit">{{ provider.provider_name }}</button>
+        </form>
+    {% endfor %}
+
+</div> <!-- /container -->
+{% endblock %}
