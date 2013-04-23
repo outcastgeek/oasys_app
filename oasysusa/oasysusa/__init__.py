@@ -50,6 +50,9 @@ def main(global_config, **settings):
     if 'google' in providers:
         config.include('velruse.providers.google_oauth2')
         config.add_google_oauth2_login_from_settings(prefix='google.')
+    if 'live' in providers:
+        config.include('velruse.providers.live')
+        config.add_live_login_from_settings(prefix='live.')
 
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_route('home', '/')
