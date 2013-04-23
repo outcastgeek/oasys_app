@@ -128,8 +128,11 @@ def login_complete_view(request):
     logged_in = authenticated_userid(request)
     log.info(logged_in)
 
-    return HTTPFound(location = proceed_url,
-                     headers = headers)
+    # return HTTPFound(location = proceed_url,
+    #                  headers = headers)
+    return dict(message = message,
+                location = proceed_url,
+                result = result_string,)
 
 @view_config(
     context='velruse.AuthenticationDenied',

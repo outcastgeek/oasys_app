@@ -267,7 +267,7 @@ def refresh_oasys():
     sudo('/etc/init.d/oasysusa restart &', user='oasysusa')
 
 def hard_refresh_oasys():
-    #remove_app()
+    remove_app()
     refresh_oasys()
 
 def up_start():
