@@ -295,11 +295,11 @@ body {
                         <li><a href="#contact">Contact</a></li>
                         <!-- Read about Bootstrap dropdowns at http://twitter.github.com/bootstrap/javascript.html#dropdowns -->
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ logged_in or "Account" }}<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/login">Login</a></li>
-                                <li><a href="/login">Register</a></li>
-                                <li><a href="#">Something else here</a></li>
+                                <li><a href="/profile">Profile</a></li>
+                                <li><a href="/logout">Logout</a></li>
                                 <li class="divider"></li>
                                 <li class="nav-header">Nav header</li>
                                 <li><a href="#">Separated link</a></li>

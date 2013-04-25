@@ -5,9 +5,17 @@ from pyramid.security import (
     Everyone
     )
 
+from formencode import Schema
+from formencode.validators import (
+    UnicodeString,
+    Email,
+    DateValidator,
+)
+
 class RootFactory(object):
     __acl__ = [(Allow, Everyone, 'view'),
                (Allow, Authenticated, 'edit'),
+               (Allow, Authenticated, 'user'),
                (Allow, 'group:editors', 'edit')]
     def __init__(self, request):
         pass
@@ -56,8 +64,8 @@ class Employee(Base):
     telephone_number = Column(Text)
     date_of_birth = Column(Date)
 
-    def __init__(self, username, first_name, last_name,
-                 email, employee_id, date_of_birth,
+    def __init__(self, username=None, first_name=None, last_name=None,
+                 email=None, employee_id=None, date_of_birth=None,
                  provider=None, active=False, address=None,
                  telephone_number=None):
         self.username = username
@@ -71,5 +79,16 @@ class Employee(Base):
         self.telephone_number = telephone_number
         self.date_of_birth = date_of_birth
 
+    def __repr__(self):
+        return "<Employee('%s','%s', '%s')>" % (self.username, self.first_name, self.last_name, self.provider)
 
+class EmployeeSchema(Schema):
+    allow_extra_fields = True
+    filter_extra_fields = True
+
+    username = UnicodeString(min=2)
+    first_name = UnicodeString(min=2)
+    last_name = UnicodeString(min=2)
+    email = Email()
+    date_of_birth = DateValidator(date_format='mm/dd/yyyy')
 

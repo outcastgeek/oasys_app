@@ -5,24 +5,25 @@
 {% endblock %}
 
 {% block body %}
-    <div id="middle">
-        <div class="middle align-center">
-            <div id="left" class="app-welcome align-left">
-                <b>Result</b><br/>
-                <span {{ message }}/>
-            </div>
-            <div id="right" class="app-welcome align-right"></div>
-        </div>
-    </div>
-    <div id="bottom">
-        <div class="bottom">
-            <pre>
-           {{ result }}
-          </pre>
-            <button>
-                <!-- <a href="{{ proceed_url }}">Proceed</a> -->
-                <a href="/">Proceed</a>
-            </button>
-        </div>
-    </div>
+    {% include "templates/basic_profile_form.jinja2" %}
+{#    <div id="middle">#}
+{#        <div class="middle align-center">#}
+{#            <div id="left" class="app-welcome align-left">#}
+{#                <b>Result</b><br/>#}
+{#                <span {{ message }}/>#}
+{#            </div>#}
+{#            <div id="right" class="app-welcome align-right"></div>#}
+{#        </div>#}
+{#    </div>#}
+{#    <div id="bottom">#}
+{#        <div class="bottom">#}
+{#            <pre>#}
+{#           {{ result }}#}
+{#          </pre>#}
+{#            <button>#}
+{#                <!-- <a href="{{ proceed_url }}">Proceed</a> -->#}
+{#                <a href="/">Proceed</a>#}
+{#            </button>#}
+{#        </div>#}
+{#    </div>#}
 {% endblock %}

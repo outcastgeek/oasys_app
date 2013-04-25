@@ -1,6 +1,8 @@
 import logging
 import json
-import deform
+
+from pyramid_simpleform import Form
+from pyramid_simpleform.renderers import FormRenderer
 
 from pyramid.response import Response
 from pyramid.view import view_config
@@ -26,6 +28,7 @@ from .models import (
     DBSession,
     MyModel,
     Employee,
+    EmployeeSchema,
     )
 
 from velruse import login_url
@@ -125,14 +128,32 @@ def login_complete_view(request):
 
     headers = remember(request, context.profile['preferredUsername'])
     log.info(headers)
-    logged_in = authenticated_userid(request)
-    log.info(logged_in)
+    # logged_in = authenticated_userid(request)
+    # log.info(logged_in)
 
     # return HTTPFound(location = proceed_url,
     #                  headers = headers)
+
+    # return dict(message = message,
+    #             location = proceed_url,
+    #             result = result_string,)
+
+    form = Form(request,
+                schema=EmployeeSchema(),
+                obj=Employee(username=context.profile['accounts'][0]['username'],
+                             email=context.profile['emails'][0]['value'],
+                             provider=context.provider_name,))
+    if form.validate():
+        employee = form.bind(Employee())
+        # persist employee model somewhere...
+        return dict(message = message,
+                    location = proceed_url,
+                    result = result_string,)
     return dict(message = message,
                 location = proceed_url,
-                result = result_string,)
+                result = result_string,
+                logged_in = authenticated_userid(request),
+                renderer=FormRenderer(form))
 
 @view_config(
     context='velruse.AuthenticationDenied',
@@ -152,3 +173,19 @@ def logout(request):
     headers = forget(request)
     return HTTPFound(location = request.route_url('home'),
                      headers = headers)
+
+@view_config(route_name='profile',
+             renderer='templates/profile.jinja2',
+             # request_method='POST',
+             permission='user')
+def profile(request):
+    form = Form(request,
+                schema=EmployeeSchema(),
+                obj=Employee())
+    if form.validate():
+        employee = form.bind(Employee())
+        log.info("Persisting employee model somewhere...")
+        DBSession.save(employee)
+        return HTTPFound(location = request.route_url('home'))
+    return dict(logged_in = authenticated_userid(request),
+                renderer=FormRenderer(form))
