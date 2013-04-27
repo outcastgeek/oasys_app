@@ -299,7 +299,9 @@ body {
                             <ul class="dropdown-menu">
                                 <li><a href="/login">Login</a></li>
                                 <li><a href="/profile">Profile</a></li>
-                                <li><a href="/logout">Logout</a></li>
+                                {% if logged_in %}
+                                    <li><a href="/logout">Logout</a></li>
+                                {% endif %}
                                 <li class="divider"></li>
                                 <li class="nav-header">Nav header</li>
                                 <li><a href="#">Separated link</a></li>

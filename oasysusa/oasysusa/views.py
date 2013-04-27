@@ -39,11 +39,12 @@ log = logging.getLogger(__file__)
 
 @view_config(route_name='home', renderer='templates/mytemplate.jinja2')
 def my_view(request):
+    logged_in = authenticated_userid(request)
     try:
         one = DBSession.query(MyModel).filter(MyModel.name == 'one').first()
     except DBAPIError:
         return Response(conn_err_msg, content_type='text/plain', status_int=500)
-    return {'one': one, 'project': 'oasysusa'}
+    return {'one': one, 'project': 'oasysusa', 'logged_in': logged_in}
 
 conn_err_msg = """\
 Pyramid is having a problem using your SQL database.  The problem
@@ -126,13 +127,17 @@ def login_complete_view(request):
 
     proceed_url = session['came_from']
 
-    headers = remember(request, context.profile['preferredUsername'])
+    display_name = context.profile['displayName'] if context.profile['displayName']\
+                                                        else context.profile['accounts'][0]['username']
+
+    headers = remember(request, display_name)
     log.info(headers)
     # logged_in = authenticated_userid(request)
     # log.info(logged_in)
 
-    # return HTTPFound(location = proceed_url,
-    #                  headers = headers)
+    if display_name == 'outcastgeek':
+        return HTTPFound(location = proceed_url,
+                         headers = headers)
 
     # return dict(message = message,
     #             location = proceed_url,

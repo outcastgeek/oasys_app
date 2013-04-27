@@ -41,17 +41,17 @@
 
 <div class="container">
 
-    <form class="form-signin" action="{{ url }}" method="post">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <input type="hidden" name="came_from" value="{{ came_from }}"/>
-        <input type="text" name="login" value="{{ login }}" class="input-block-level"/><br/>
-        <input type="password" name="password" value="{{ password }}" class="input-block-level"/><br/>
-        <!-- <input type="submit" name="form.submitted" value="Log In"/> -->
-        <label class="checkbox">
-            <input type="checkbox" value="remember-me"> Remember me
-        </label>
-        <button class="btn btn-large btn-primary" type="submit">Sign in</button>
-    </form>
+{#    <form class="form-signin" action="{{ url }}" method="post">#}
+{#        <h2 class="form-signin-heading">Please sign in</h2>#}
+{#        <input type="hidden" name="came_from" value="{{ came_from }}"/>#}
+{#        <input type="text" name="login" value="{{ login }}" class="input-block-level"/><br/>#}
+{#        <input type="password" name="password" value="{{ password }}" class="input-block-level"/><br/>#}
+{#        <!-- <input type="submit" name="form.submitted" value="Log In"/> -->#}
+{#        <label class="checkbox">#}
+{#            <input type="checkbox" value="remember-me"> Remember me#}
+{#        </label>#}
+{#        <button class="btn btn-large btn-primary" type="submit">Sign in</button>#}
+{#    </form>#}
 
     {% for provider in providers_info %}
         <form class="form-signin" action="{{ provider.login_url }}" method="post">
