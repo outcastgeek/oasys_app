@@ -39,27 +39,34 @@
 
     </style>
 
-<div class="container">
-
-{#    <form class="form-signin" action="{{ url }}" method="post">#}
-{#        <h2 class="form-signin-heading">Please sign in</h2>#}
-{#        <input type="hidden" name="came_from" value="{{ came_from }}"/>#}
-{#        <input type="text" name="login" value="{{ login }}" class="input-block-level"/><br/>#}
-{#        <input type="password" name="password" value="{{ password }}" class="input-block-level"/><br/>#}
-{#        <!-- <input type="submit" name="form.submitted" value="Log In"/> -->#}
-{#        <label class="checkbox">#}
-{#            <input type="checkbox" value="remember-me"> Remember me#}
-{#        </label>#}
-{#        <button class="btn btn-large btn-primary" type="submit">Sign in</button>#}
-{#    </form>#}
-
-    {% for provider in providers_info %}
-        <form class="form-signin" action="{{ provider.login_url }}" method="post">
-            <h2 class="form-signin-heading">Please sign in with {{ provider.provider_name }}</h2>
-            <!-- <input type="submit" value="{{ provider.provider_name }}" class="input-block-level"/> -->
-            <button class="btn btn-large btn-primary" type="submit">{{ provider.provider_name }}</button>
+<div class="row">
+    <div class="span6">
+        <form class="form-signin" action="{{ url }}" method="post">
+            <h2 class="form-signin-heading">Please sign in</h2>
+            <input type="hidden" name="came_from" value="{{ came_from }}"/>
+            <input type="text" name="login" value="{{ login }}" class="input-block-level"/><br/>
+            <input type="password" name="password" value="{{ password }}" class="input-block-level"/><br/>
+            <label class="checkbox">
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+            <button class="btn btn-large btn-primary" type="submit">Sign in</button>
         </form>
-    {% endfor %}
+    </div>
+    <div class="span6">
+        <ul class="nav nav-list">
+            <li class="divider"></li>
+            <li class="divider"></li>
+            <li class="nav-header">Third party authentication:</li>
+            <li class="divider"></li>
+            <li>
+                {% for provider in providers_info %}
+                    <form action="{{ provider.login_url }}" method="post">
+                        <button class="btn btn-large btn-primary" type="submit">Sign in with {{ provider.provider_name }}</button>
+                    </form>
+                {% endfor %}
+            </li>
+        </ul>
+    </div>
 
-</div> <!-- /container -->
+</div>
 {% endblock %}

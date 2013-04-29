@@ -17,6 +17,8 @@ requires = [
     'zope.sqlalchemy',
     'alembic',
     'waitress',
+    'velruse',
+    'pyramid_persona',
     ]
 
 setup(name='oasysusa',

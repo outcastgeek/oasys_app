@@ -135,9 +135,10 @@ def login_complete_view(request):
     # logged_in = authenticated_userid(request)
     # log.info(logged_in)
 
-    if display_name == 'outcastgeek':
-        return HTTPFound(location = proceed_url,
-                         headers = headers)
+    # This check should be database driven!!!!
+    # if display_name == 'outcastgeek':
+    #     return HTTPFound(location = proceed_url,
+    #                      headers = headers)
 
     # return dict(message = message,
     #             location = proceed_url,
@@ -145,7 +146,7 @@ def login_complete_view(request):
 
     form = Form(request,
                 schema=EmployeeSchema(),
-                obj=Employee(username=context.profile['accounts'][0]['username'],
+                obj=Employee(username=display_name,
                              email=context.profile['emails'][0]['value'],
                              provider=context.provider_name,))
     if form.validate():
