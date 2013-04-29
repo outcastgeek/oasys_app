@@ -60,7 +60,7 @@ if __name__ == '__main__':
           print("Running in PROD mode...")
           # In case subcommand is a script in some other programming language:
           print("Starting application...")
-          #exit(call('ulimit -u unli˜mited && /home/oasysusa/ENV/bin/uwsgi --ini-paste production.ini', shell=True))
+          #exit(call('ulimit -u unlimited && /home/oasysusa/ENV/bin/uwsgi --ini-paste production.ini', shell=True))
           exit(call('/home/oasysusa/ENV/bin/uwsgi --ini-paste production.ini', shell=True))
           #exit(call('/home/oasysusa/ENV/bin/pserve production.ini', shell=True))
       elif args['--install']:
