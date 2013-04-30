@@ -61,13 +61,14 @@ class Employee(Base):
     active = Column(Boolean)
     address = Column(Text)
     employee_id = Column(Text)
+    uniq_id = Column(Text)
     telephone_number = Column(Text)
     date_of_birth = Column(Date)
 
     def __init__(self, username=None, first_name=None, last_name=None,
-                 email=None, employee_id=None, date_of_birth=None,
-                 provider=None, active=False, address=None,
-                 telephone_number=None):
+                 email=None, employee_id=None, uniq_id=None,
+                 date_of_birth=None, provider=None, active=False,
+                 address=None, telephone_number=None):
         self.username = username
         self.first_name = first_name
         self.last_name = last_name
@@ -76,19 +77,23 @@ class Employee(Base):
         self.active = active
         self.address = address
         self.employee_id = employee_id
+        self.uniq_id = uniq_id
         self.telephone_number = telephone_number
         self.date_of_birth = date_of_birth
 
     def __repr__(self):
-        return "<Employee('%s','%s', '%s')>" % (self.username, self.first_name, self.last_name, self.provider)
+        return "<Employee('%s','%s', '%s', '%s')>" % (self.username, self.first_name, self.last_name, self.provider, self.uniq_id)
 
 class EmployeeSchema(Schema):
     allow_extra_fields = True
     filter_extra_fields = True
 
+    uniq_id = UnicodeString(min=4)
     username = UnicodeString(min=2)
     first_name = UnicodeString(min=2)
     last_name = UnicodeString(min=2)
     email = Email()
     date_of_birth = DateValidator(date_format='mm/dd/yyyy')
 
+def find_employee_by_uniq(unique_identifier):
+    return DBSession.query(Employee).filter_by(uniq_id=unique_identifier).first()

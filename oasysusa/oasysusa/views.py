@@ -29,6 +29,7 @@ from .models import (
     MyModel,
     Employee,
     EmployeeSchema,
+    find_employee_by_uniq,
     )
 
 from velruse import login_url
@@ -129,16 +130,22 @@ def login_complete_view(request):
 
     display_name = context.profile['displayName'] if context.profile['displayName']\
                                                         else context.profile['accounts'][0]['username']
+    unique_identifier=context.profile['accounts'][0]['userid']
 
     headers = remember(request, display_name)
     log.info(headers)
+
+    session['uniq'] = unique_identifier
+
     # logged_in = authenticated_userid(request)
     # log.info(logged_in)
 
-    # This check should be database driven!!!!
-    # if display_name == 'outcastgeek':
-    #     return HTTPFound(location = proceed_url,
-    #                      headers = headers)
+    existing_employee = find_employee_by_uniq(unique_identifier)
+    if existing_employee:
+        log.debug("Found existing employee: \n")
+        log.debug(existing_employee)
+        return HTTPFound(location = proceed_url,
+                         headers = headers)
 
     # return dict(message = message,
     #             location = proceed_url,
@@ -148,10 +155,12 @@ def login_complete_view(request):
                 schema=EmployeeSchema(),
                 obj=Employee(username=display_name,
                              email=context.profile['emails'][0]['value'],
+                             uniq_id=unique_identifier,
                              provider=context.provider_name,))
     if form.validate():
         employee = form.bind(Employee())
-        # persist employee model somewhere...
+        # persist employee model
+        DBSession.add(employee)
         return dict(message = message,
                     location = proceed_url,
                     result = result_string,)
@@ -185,13 +194,23 @@ def logout(request):
              # request_method='POST',
              permission='user')
 def profile(request):
+    try:
+        session = request.session
+        uniq = session['uniq']
+        existing_employee = find_employee_by_uniq(uniq)
+        if existing_employee:
+            return dict(logged_in = authenticated_userid(request),
+                        renderer=FormRenderer(existing_employee))
+    except:
+        return HTTPFound(location=request.route_url('login'))
+
     form = Form(request,
                 schema=EmployeeSchema(),
                 obj=Employee())
     if form.validate():
         employee = form.bind(Employee())
         log.info("Persisting employee model somewhere...")
-        DBSession.save(employee)
+        DBSession.add(employee)
         return HTTPFound(location = request.route_url('home'))
     return dict(logged_in = authenticated_userid(request),
                 renderer=FormRenderer(form))
