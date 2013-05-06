@@ -29,7 +29,7 @@ from .models import (
     MyModel,
     Employee,
     EmployeeSchema,
-    find_employee_by_uniq,
+    find_employee_by_provider_id,
     )
 
 from velruse import login_url
@@ -135,12 +135,12 @@ def login_complete_view(request):
     headers = remember(request, display_name)
     log.info(headers)
 
-    session['uniq'] = unique_identifier
+    session['provider_id'] = unique_identifier
 
     # logged_in = authenticated_userid(request)
     # log.info(logged_in)
 
-    existing_employee = find_employee_by_uniq(unique_identifier)
+    existing_employee = find_employee_by_provider_id(unique_identifier)
     if existing_employee:
         log.debug("Found existing employee: \n")
         log.debug(existing_employee)
@@ -155,7 +155,7 @@ def login_complete_view(request):
                 schema=EmployeeSchema(),
                 obj=Employee(username=display_name,
                              email=context.profile['emails'][0]['value'],
-                             uniq_id=unique_identifier,
+                             provider_id=unique_identifier,
                              provider=context.provider_name,))
     if form.validate():
         employee = form.bind(Employee())
@@ -194,23 +194,23 @@ def logout(request):
              # request_method='POST',
              permission='user')
 def profile(request):
-    try:
-        session = request.session
-        uniq = session['uniq']
-        existing_employee = find_employee_by_uniq(uniq)
-        if existing_employee:
-            return dict(logged_in = authenticated_userid(request),
-                        renderer=FormRenderer(existing_employee))
-    except:
-        return HTTPFound(location=request.route_url('login'))
-
+    session = request.session
+    uniq = session['provider_id']
+    existing_employee = find_employee_by_provider_id(uniq)
     form = Form(request,
                 schema=EmployeeSchema(),
                 obj=Employee())
-    if form.validate():
+    if existing_employee:
+        existing_employee_form = Form(request,
+                                      schema=EmployeeSchema(),
+                                      obj=existing_employee)
+        return dict(logged_in = authenticated_userid(request),
+                    renderer=FormRenderer(existing_employee_form))
+    elif form.validate():
         employee = form.bind(Employee())
         log.info("Persisting employee model somewhere...")
         DBSession.add(employee)
         return HTTPFound(location = request.route_url('home'))
-    return dict(logged_in = authenticated_userid(request),
+    else:
+        return dict(logged_in = authenticated_userid(request),
                 renderer=FormRenderer(form))
