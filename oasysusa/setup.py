@@ -18,6 +18,7 @@ requires = [
     'alembic',
     'waitress',
     'velruse',
+    'cornice',
     'pyramid_persona',
     ]
 

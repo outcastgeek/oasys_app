@@ -63,5 +63,8 @@ def main(global_config, **settings):
     # Add Jinja2
     config.include('pyramid_jinja2')
 
-    config.scan()
+    #Add Cornice
+    config.include('cornice')
+
+    config.scan('oasysusa.views')
     return config.make_wsgi_app()

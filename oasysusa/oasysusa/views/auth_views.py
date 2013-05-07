@@ -1,16 +1,16 @@
+__author__ = 'a998807'
+
 import logging
 import json
 
 from pyramid_simpleform import Form
 from pyramid_simpleform.renderers import FormRenderer
 
-from pyramid.response import Response
 from pyramid.view import view_config
 
-from pyramid.httpexceptions import HTTPNotFound, HTTPFound
+from pyramid.httpexceptions import HTTPFound
 
 from pyramid.view import (
-    view_config,
     forbidden_view_config
     )
 
@@ -20,11 +20,9 @@ from pyramid.security import (
     authenticated_userid,
     )
 
-from .security import USERS
+from ..security import USERS
 
-from sqlalchemy.exc import DBAPIError
-
-from .models import (
+from ..models import (
     DBSession,
     MyModel,
     Employee,
@@ -36,32 +34,6 @@ from velruse import login_url
 
 logging.basicConfig()
 log = logging.getLogger(__file__)
-
-
-@view_config(route_name='home', renderer='templates/home.jinja2')
-def my_view(request):
-    logged_in = authenticated_userid(request)
-    try:
-        one = DBSession.query(MyModel).filter(MyModel.name == 'one').first()
-    except DBAPIError:
-        return Response(conn_err_msg, content_type='text/plain', status_int=500)
-    return {'one': one, 'project': 'oasysusa', 'logged_in': logged_in}
-
-conn_err_msg = """\
-Pyramid is having a problem using your SQL database.  The problem
-might be caused by one of the following things:
-
-1.  You may need to run the "initialize_oasysusa_db" script
-    to initialize your database tables.  Check your virtual 
-    environment's "bin" directory for this script and try to run it.
-
-2.  Your database server may not be running.  Check that the
-    database server referred to by the "sqlalchemy.url" setting in
-    your "development.ini" file is running.
-
-After you fix the problem, please restart the Pyramid application to
-try it again.
-"""
 
 # Authentication Stuff
 
@@ -128,8 +100,8 @@ def login_complete_view(request):
 
     proceed_url = session['came_from']
 
-    display_name = context.profile['displayName'] if context.profile['displayName']\
-                                                        else context.profile['accounts'][0]['username']
+    display_name = context.profile['displayName'] if context.profile['displayName'] \
+        else context.profile['accounts'][0]['username']
     unique_identifier=context.profile['accounts'][0]['userid']
 
     headers = remember(request, display_name)
@@ -213,4 +185,5 @@ def profile(request):
         return HTTPFound(location = request.route_url('home'))
     else:
         return dict(logged_in = authenticated_userid(request),
-                renderer=FormRenderer(form))
+                    renderer=FormRenderer(form))
+
