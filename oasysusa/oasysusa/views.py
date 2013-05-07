@@ -38,7 +38,7 @@ logging.basicConfig()
 log = logging.getLogger(__file__)
 
 
-@view_config(route_name='home', renderer='templates/mytemplate.jinja2')
+@view_config(route_name='home', renderer='templates/home.jinja2')
 def my_view(request):
     logged_in = authenticated_userid(request)
     try:
@@ -109,7 +109,7 @@ def login(request):
 
 @view_config(
     context='velruse.AuthenticationComplete',
-    renderer='templates/result.jinja2')
+    renderer='templates/register.jinja2')
 def login_complete_view(request):
     context = request.context
     session = request.session
@@ -172,7 +172,7 @@ def login_complete_view(request):
 
 @view_config(
     context='velruse.AuthenticationDenied',
-    renderer='templates/result.jinja2')
+    renderer='templates/register.jinja2')
 def login_denied_view(request):
     context = request.context
     session = request.session
