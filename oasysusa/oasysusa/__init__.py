@@ -66,5 +66,6 @@ def main(global_config, **settings):
     #Add Cornice
     config.include('cornice')
 
-    config.scan('oasysusa.views')
+    # config.scan('oasysusa.views')
+    config.scan()
     return config.make_wsgi_app()

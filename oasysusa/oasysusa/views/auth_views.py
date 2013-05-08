@@ -1,4 +1,4 @@
-__author__ = 'a998807'
+__author__ = 'outcastgeek'
 
 import logging
 import json
@@ -24,7 +24,6 @@ from ..security import USERS
 
 from ..models import (
     DBSession,
-    MyModel,
     Employee,
     EmployeeSchema,
     find_employee_by_provider_id,
@@ -186,4 +185,5 @@ def profile(request):
     else:
         return dict(logged_in = authenticated_userid(request),
                     renderer=FormRenderer(form))
+
 
