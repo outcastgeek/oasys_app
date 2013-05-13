@@ -39,8 +39,6 @@ def main(global_config, **settings):
     config = Configurator(settings=settings,
                           root_factory='oasysusa.models.RootFactory')
 
-    config.include('pyramid_beaker')
-
     config.set_authentication_policy(authn_policy)
     config.set_authorization_policy(authz_policy)
 
@@ -59,12 +57,6 @@ def main(global_config, **settings):
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
     config.add_route('profile', '/profile')
-
-    # Add Jinja2
-    config.include('pyramid_jinja2')
-
-    #Add Cornice
-    config.include('cornice')
 
     # config.scan('oasysusa.views')
     config.scan()
