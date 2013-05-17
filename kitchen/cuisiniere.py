@@ -204,9 +204,10 @@ def put_Zsh_Conf(local='retina'):
     puts(green('Putting new Zsh Configuration'))
     zsh_tpl = open(read_value(local, 'zsh_tpl'), 'r')
     log.info(zsh_tpl)
-    zsh_location = '/home/oasysusa/.zshrc'
+    # zsh_location = '/home/oasysusa/.zshrc'
     # zsh_location = '/home/vagrant/.zshrc'
     #zsh_location = '/home/root/.zshrc'
+    zsh_location = '/root/.zshrc'
     sudo('touch ' + zsh_location)
     file_write(zsh_location, zsh_tpl.read(), owner='oasysusa', sudo=True)
     # file_write(zsh_location, zsh_tpl.read(), owner='vagrant', sudo=True)
@@ -276,4 +277,5 @@ def up_start():
     upstart_ensure('redis-server')
     #upstart_ensure('oasysusa')
     with cd('/home/oasysusa/oasys_corp'):
+        sudo('pkill -9 -f /home/oasysusa/ENV/bin/uwsgi')
         sudo('/etc/init.d/oasysusa start', user='root')
