@@ -276,6 +276,9 @@ def up_start():
     # upstart_ensure('mongodb')
     upstart_ensure('redis-server')
     #upstart_ensure('oasysusa')
+    try:
+        run('kill $(ps -ef | grep \'uwsgi\' | awk \'{print $2}\')')
+    except:
+        print 'Oops!!!!'
     with cd('/home/oasysusa/oasys_corp'):
-        sudo('pkill -9 -f /home/oasysusa/ENV/bin/uwsgi')
-        sudo('/etc/init.d/oasysusa start', user='root')
+        sudo('/etc/init.d/oasysusa restart', user='root')

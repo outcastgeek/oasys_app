@@ -18,6 +18,7 @@ requires = [
     'zope.sqlalchemy',
     'alembic',
     'waitress',
+    'tornado',
     'velruse',
     'cornice',
     'pyramid_persona',
