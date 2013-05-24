@@ -42,7 +42,7 @@ if __name__ == '__main__':
       if args['--migrate']:
           print("Migrating database...")
           #call('~/ENV/bin/initialize_oasysusa_db development.ini', shell=True)
-          #call('~/ENV/bin/initialize_oasysusa_db production.ini', shell=True)
+          #call('~/ENV/bin/initialize_oasysusa_db stage.ini', shell=True)
           call(['~/ENV/bin/alembic --config alembic-prod.ini revision --autogenerate -m %s' % now], shell=True)
       elif args['--upgrade']:
           print("Upgrading database...")
@@ -60,9 +60,10 @@ if __name__ == '__main__':
           print("Running in PROD mode...")
           # In case subcommand is a script in some other programming language:
           print("Starting application...")
-          #exit(call('ulimit -u unlimited && ~/ENV/bin/uwsgi --ini-paste production.ini', shell=True))
-          #exit(call('~/ENV/bin/uwsgi --ini-paste production.ini', shell=True))
-          exit(call('~/ENV/bin/pserve production.ini', shell=True))
+          #exit(call('ulimit -u unlimited && ~/ENV/bin/uwsgi --ini-paste stage.ini', shell=True))
+          exit(call('~/ENV/bin/uwsgi --ini-paste stage.ini', shell=True))
+          # exit(call('~/ENV/bin/pserve stage.ini', shell=True))
+          # exit(call('~/ENV/bin/uwsgi --ini-paste-logged stage.ini', shell=True))
       elif args['--install']:
           print("Installing application...")
           # In case subcommand is a script in some other programming language:
