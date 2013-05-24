@@ -281,4 +281,4 @@ def up_start():
     except:
         print 'Oops!!!!'
     with cd('/home/oasysusa/oasys_corp'):
-        sudo('/etc/init.d/oasysusa restart', user='root')
+        sudo('/etc/init.d/oasysusa restart &', user='root')
