@@ -127,7 +127,7 @@ def setup_users():
     user_ensure(name='oasysusa', passwd='OasysTech2013!')
     puts(green('Installing Python Base ENV Packages for App'))
     sudo('virtualenv /home/oasysusa/ENV', user='oasysusa')
-    sudo('/home/oasysusa/ENV/bin/pip install docopt --upgrade', user='oasysusa')
+    sudo('/home/oasysusa/ENV/bin/pip install docopt termcolor --upgrade', user='oasysusa')
 
 def install_python_packages(local='retina'):
     puts(green('Installing Python packages'))
