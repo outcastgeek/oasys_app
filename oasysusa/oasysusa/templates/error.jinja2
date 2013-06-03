@@ -1,0 +1,43 @@
+{% extends "templates/layout.jinja2" %}
+
+{% block title %}
+    Error
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block body %}
+    <style type="text/css">
+        body {
+            padding-top: 120px;
+            padding-bottom: 120px;
+        }
+    </style>
+    <div class="row">
+        <div class="span6">
+            <blockquote class="pull-left">
+                <p>All is for the best in the best of all possible worlds.</p>
+                <small>Voltaire <cite title="Candide">Candide</cite></small>
+            </blockquote>
+        </div>
+        <div class="span6">
+            <blockquote class="pull-right">
+                <p>Tout est pour le mieux dans le meilleur des mondes possibles.</p>
+                <small>Voltaire <cite title="Candide">Candide</cite></small>
+            </blockquote>
+        </div>
+    </div>
+    <div class="row">
+        <div class="offset4">
+            <img class="img-circle" src="{{ request.static_url('oasysusa:static/img/outcastgeeklogo.jpg') }}">
+        </div>
+    </div>
+    <div class="row">
+        <div class="offset5">
+            <p>{{ error }}</p>
+            <p><a class="btn btn-large btn-primary" href="/">Now go home &raquo;</a></p>
+        </div>
+    </div>
+
+{% endblock %}

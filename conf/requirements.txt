@@ -7,3 +7,6 @@ virtualenv
 requests
 honcho
 docopt
+termcolor
+uwsgi
+

@@ -100,11 +100,11 @@ def setup_packages(local='retina'):
     # sudo('update-alternatives --set java /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java')
 
     #JRuby
-    sudo('curl -L https://get.rvm.io | bash -s stable --ruby=2.0.0')
-    sudo('rvm use ruby')
-    sudo('gem update --system')
-    sudo('gem update')
-    sudo('gem install bundler foreman')
+    #sudo('curl -L https://get.rvm.io | bash -s stable --ruby=2.0.0')
+    #sudo('rvm use ruby')
+    #sudo('gem update --system')
+    #sudo('gem update')
+    #sudo('gem install bundler foreman')
     #sudo('rvm install 1.7.3')
     #sudo('rvm use 1.7.3')
     #sudo('gem update --system')
@@ -112,9 +112,9 @@ def setup_packages(local='retina'):
     #sudo('gem install therubyrhino jruby-openssl bundler')
 
     #Other
-    puts(green('Installing additional software'))
-    package_ensure('golang-stable')
-    package_ensure('sbcl')
+    #puts(green('Installing additional software'))
+    #package_ensure('golang-stable')
+    #package_ensure('sbcl')
     #package_ensure('chicken-bin')
     #package_ensure('libchicken-dev')
     #package_ensure('ecl')
@@ -127,7 +127,7 @@ def setup_users():
     user_ensure(name='oasysusa', passwd='OasysTech2013!')
     puts(green('Installing Python Base ENV Packages for App'))
     sudo('virtualenv /home/oasysusa/ENV', user='oasysusa')
-    sudo('/home/oasysusa/ENV/bin/pip install docopt termcolor --upgrade', user='oasysusa')
+    sudo('/home/oasysusa/ENV/bin/pip install -r /etc/requirements.txt --upgrade', user='oasysusa')
 
 def install_python_packages(local='retina'):
     puts(green('Installing Python packages'))
@@ -281,4 +281,4 @@ def up_start():
     except:
         print 'Oops!!!!'
     with cd('/home/oasysusa/oasys_corp'):
-        sudo('/etc/init.d/oasysusa restart &', user='root')
+        sudo('/etc/init.d/oasysusa restart', user='root')

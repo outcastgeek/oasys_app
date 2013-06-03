@@ -96,7 +96,7 @@ class EmployeeSchema(Schema):
     date_of_birth = DateValidator(date_format='mm/dd/yyyy')
 
 def find_employee_by_provider_id(unique_identifier):
-    return DBSession.query(Employee).filter_by(provider_id=unique_identifier).first()
+    return DBSession.query(Employee).filter_by(provider_id=str(unique_identifier)).first()
 
 # def row2dict(row):
 #     d = {}
