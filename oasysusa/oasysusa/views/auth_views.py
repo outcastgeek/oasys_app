@@ -159,31 +159,3 @@ def logout(request):
     headers = forget(request)
     return HTTPFound(location = request.route_url('home'),
                      headers = headers)
-
-@view_config(route_name='profile',
-             renderer='templates/profile.jinja2',
-             # request_method='POST',
-             permission='user')
-def profile(request):
-    session = request.session
-    uniq = session['provider_id']
-    existing_employee = find_employee_by_provider_id(uniq)
-    form = Form(request,
-                schema=EmployeeSchema(),
-                obj=Employee())
-    if existing_employee:
-        existing_employee_form = Form(request,
-                                      schema=EmployeeSchema(),
-                                      obj=existing_employee)
-        return dict(logged_in = authenticated_userid(request),
-                    renderer=FormRenderer(existing_employee_form))
-    elif form.validate():
-        employee = form.bind(Employee())
-        log.info("Persisting employee model somewhere...")
-        DBSession.add(employee)
-        return HTTPFound(location = request.route_url('home'))
-    else:
-        return dict(logged_in = authenticated_userid(request),
-                    renderer=FormRenderer(form))
-
-

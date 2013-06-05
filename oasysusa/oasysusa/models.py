@@ -81,6 +81,21 @@ class Employee(Base):
         self.telephone_number = telephone_number
         self.date_of_birth = date_of_birth
 
+    def __json__(self, request):
+        return {
+            'username': self.username,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'email': self.email,
+            'provider': self.provider,
+            'active': self.active,
+            'address': self.address,
+            'employee_id': self.employee_id,
+            'provider_id': self.provider_id,
+            'telephone_number': self.telephone_number,
+            'date_of_birth': self.date_of_birth
+        }
+
     # def __repr__(self):
     #     return "<Employee('%s','%s', '%s', '%s')>" % (self.username, self.first_name, self.last_name, self.provider, self.email)
 
@@ -107,3 +122,8 @@ def find_employee_by_provider_id(unique_identifier):
 
 row2dict = lambda r: {c.name: getattr(r, c.name) for c in r.__table__.columns}
 
+# See:  http://h3manth.com/content/python-objects-json-string And: http://stackoverflow.com/questions/1958219/convert-sqlalchemy-row-object-to-python-dict
+
+def get_employees(request):
+    all_employees = DBSession.query(Employee).all()
+    return [row2dict(employee) for employee in all_employees]

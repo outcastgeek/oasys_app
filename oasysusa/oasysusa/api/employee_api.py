@@ -1,38 +1,77 @@
 __author__ = 'outcastgeek'
 
-""" OasysUSA Cornice Services
-"""
+import logging
 
-import os
-import binascii
+from pyramid.response import Response
+from pyramid.view import (
+    view_defaults,
+    view_config,
+    )
 
-from cornice.service import Service
+from pyramid_simpleform import Form
+from pyramid_simpleform.renderers import FormRenderer
+
+from pyramid.httpexceptions import HTTPFound
+
+from pyramid.security import authenticated_userid
 
 from ..models import (
     DBSession,
     Employee,
-    row2dict,
+    EmployeeSchema,
+    find_employee_by_provider_id,
     )
 
-employees = Service(name='employees', path='/employees', description='All Employees')
+logging.basicConfig()
+log = logging.getLogger(__file__)
 
-#
-# Helpers
-#
-def _create_token():
-    return binascii.b2a_hex(os.urandom(20))
+@view_defaults(route_name='employeeapi',
+               permission='user',
+               renderer='json')
+class EmployeeApi(object):
 
-#
-# Services
-#
+    def __init__(self, request):
+        self.request = request
 
-#
-# Employee Management
-#
+    @view_config(request_method='GET')
+    def get(self):
+        # return Response('get')
+        session = self.request.session
+        uniq = session['provider_id']
+        existing_employee = find_employee_by_provider_id(uniq)
+        return existing_employee
 
-# See:  http://h3manth.com/content/python-objects-json-string And: http://stackoverflow.com/questions/1958219/convert-sqlalchemy-row-object-to-python-dict
+    @view_config(request_method='POST')
+    def post(self):
+        return Response('post')
 
-@employees.get()
-def get_employees(request):
-    all_employees = DBSession.query(Employee).all()
-    return [row2dict(employee) for employee in all_employees]
+    @view_config(request_method='DELETE')
+    def delete(self):
+        return Response('delete')
+
+@view_config(route_name='profile',
+             renderer='templates/profile.jinja2',
+             # request_method='POST',
+             permission='user')
+def profile(request):
+    session = request.session
+    uniq = session['provider_id']
+    existing_employee = find_employee_by_provider_id(uniq)
+    form = Form(request,
+                schema=EmployeeSchema(),
+                obj=Employee())
+    if existing_employee:
+        existing_employee_form = Form(request,
+                                      schema=EmployeeSchema(),
+                                      obj=existing_employee)
+        return dict(logged_in = authenticated_userid(request),
+                    renderer=FormRenderer(existing_employee_form))
+    elif form.validate():
+        employee = form.bind(Employee())
+        log.info("Persisting employee model somewhere...")
+        DBSession.add(employee)
+        return HTTPFound(location = request.route_url('home'))
+    else:
+        return dict(logged_in = authenticated_userid(request),
+                    renderer=FormRenderer(form))
+
