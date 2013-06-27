@@ -11,6 +11,7 @@ from fabric.api import *
 from fabric.context_managers import *
 from fabric.utils import puts
 from fabric.colors import *
+from fabric.operations import local as lrun
 
 # Setup a logger
 log = logging.getLogger(__file__)
@@ -40,8 +41,11 @@ env.roledefs = {
 # Use jPYM53shyN87
 
 def check_VM_Specs():
-    run('dmesg | grep CPU')
-    run('dmidecode --type memory')
+    sudo('dmesg | grep CPU')
+    sudo('dmidecode --type memory')
+    sudo('df -kP')
+    sudo('cat /proc/meminfo')
+    sudo('cat /proc/stat')
 
 def setup_packages(local='retina'):
     #Ubuntu
@@ -270,6 +274,14 @@ def refresh_oasys():
 def hard_refresh_oasys():
     remove_app()
     refresh_oasys()
+
+def refresh_oasys_from_local(local='retina'):
+    remove_app()
+    app_project = read_value(local, 'app_project')
+    put(app_project, '/tmp')
+    sudo('cd /home/oasysusa/oasys_corp/oasysusa && rm -r * && cp -r /tmp/oasysusa/* .', user='oasysusa')
+    sudo('rm -r /tmp/oasysusa')
+    install_app()
 
 def up_start():
     upstart_ensure('nginx')
