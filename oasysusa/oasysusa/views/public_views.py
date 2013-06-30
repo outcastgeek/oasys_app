@@ -38,3 +38,8 @@ might be caused by one of the following things:
 After you fix the problem, please restart the Pyramid application to
 try it again.
 """
+
+@view_config(route_name='contact', renderer='templates/contact.jinja2')
+def contact_view(request):
+    logged_in = authenticated_userid(request)
+    return {'logged_in': logged_in}
