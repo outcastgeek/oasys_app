@@ -20,8 +20,8 @@ requires = [
     'waitress',
     'tornado',
     'velruse',
-    'cornice',
-    'pyramid_persona',
+    'PyBrowserID',
+    'requests',
     ]
 
 setup(name='oasysusa',

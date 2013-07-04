@@ -5,6 +5,8 @@ from logging.config import fileConfig
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
+from oasysusa.oasysusa.models import employee
+
 config = context.config
 
 # Interpret the config file for Python logging.
@@ -17,8 +19,7 @@ fileConfig(config.config_file_name)
 # target_metadata = mymodel.Base.metadata
 target_metadata = None
 
-from oasysusa import models
-target_metadata = models.Base.metadata
+target_metadata = employee.Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

@@ -3,7 +3,7 @@ import transaction
 
 from pyramid import testing
 
-from .models import DBSession
+from .models.base import DBSession
 
 
 class TestMyView(unittest.TestCase):
@@ -11,7 +11,7 @@ class TestMyView(unittest.TestCase):
         self.config = testing.setUp()
         from sqlalchemy import create_engine
         engine = create_engine('sqlite://')
-        from .models import (
+        from .models.base import (
             Base,
             MyModel,
             )
@@ -26,7 +26,7 @@ class TestMyView(unittest.TestCase):
         testing.tearDown()
 
     def test_it(self):
-        from .views import my_view
+        from .views.public_views import my_view
         request = testing.DummyRequest()
         info = my_view(request)
         self.assertEqual(info['one'].name, 'one')

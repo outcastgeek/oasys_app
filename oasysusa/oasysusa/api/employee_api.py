@@ -15,7 +15,7 @@ from pyramid.httpexceptions import HTTPFound
 
 from pyramid.security import authenticated_userid
 
-from ..models import (
+from ..models.employee import (
     DBSession,
     Employee,
     EmployeeSchema,

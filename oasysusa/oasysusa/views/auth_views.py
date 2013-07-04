@@ -1,3 +1,7 @@
+import browserid
+import pkg_resources
+from pyramid.response import Response
+
 __author__ = 'outcastgeek'
 
 import logging
@@ -8,7 +12,7 @@ from pyramid_simpleform.renderers import FormRenderer
 
 from pyramid.view import view_config
 
-from pyramid.httpexceptions import HTTPFound
+from pyramid.httpexceptions import HTTPFound, HTTPBadRequest
 
 from pyramid.view import (
     forbidden_view_config
@@ -22,7 +26,7 @@ from pyramid.security import (
 
 from ..security import USERS
 
-from ..models import (
+from ..models.employee import (
     DBSession,
     Employee,
     EmployeeSchema,
@@ -159,3 +163,39 @@ def logout(request):
     headers = forget(request)
     return HTTPFound(location = request.route_url('home'),
                      headers = headers)
+
+# Mozilla Persona
+
+def verify_login(request):
+    """Verifies the assertion and the csrf token in the given request.
+
+    Returns the email of the user if everything is valid, otherwise raises
+    a HTTPBadRequest"""
+    verifier = request.registry['persona.verifier']
+    try:
+        data = verifier.verify(request.POST['assertion'])
+    except (ValueError, browserid.errors.TrustError) as e:
+        log.info('Failed persona login: %s (%s)', e, type(e).__name__)
+        raise HTTPBadRequest('Invalid assertion')
+    return data['email']
+
+
+def login(request):
+    """View to check the persona assertion and remember the user"""
+    email = verify_login(request)
+    request.response.headers.extend(remember(request, email))
+    return {'redirect': request.POST['came_from'], 'success': True}
+
+
+def logout(request):
+    """View to forget the user"""
+    request.response.headers.extend(forget(request))
+    return {'redirect': request.POST['came_from']}
+
+
+def forbidden(request):
+    """A basic 403 view, with a login button"""
+    template = pkg_resources.resource_string('pyramid_persona', 'templates/forbidden.html').decode()
+    html = template % {'js': request.persona_js, 'button': request.persona_button}
+    return Response(html, status='403 Forbidden')
+
