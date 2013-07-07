@@ -43,7 +43,7 @@ if __name__ == '__main__':
           print("Migrating database...")
           #call('~/ENV/bin/initialize_oasysusa_db development.ini', shell=True)
           #call('~/ENV/bin/initialize_oasysusa_db production.ini', shell=True)
-          call(['~/ENV/bin/alembic revision --autogenerate -m %s' % now], shell=True)
+          call(['~/ENV/bin/alembic revision --autogenerate -m "%s"' % now], shell=True)
       elif args['--upgrade']:
           print("Upgrading database...")
           call('~/ENV/bin/alembic upgrade head', shell=True)

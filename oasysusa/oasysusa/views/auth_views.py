@@ -11,6 +11,7 @@ from pyramid_simpleform import Form
 from pyramid_simpleform.renderers import FormRenderer
 
 from pyramid.view import view_config
+from pyramid.threadlocal import get_current_registry
 
 from pyramid.httpexceptions import HTTPFound, HTTPBadRequest
 
@@ -26,7 +27,7 @@ from pyramid.security import (
 
 from ..security import USERS
 
-from ..models.employee import (
+from ..models import (
     DBSession,
     Employee,
     EmployeeSchema,
@@ -65,7 +66,8 @@ def login(request):
                              headers = headers)
         message = 'Failed login'
 
-    providers = request.registry.settings['login_providers']
+    # providers = request.registry.settings['login_providers']
+    providers = get_current_registry().settings['login_providers']
     log.info(providers)
 
     providers_info = [dict(provider_name=provider_name,
@@ -166,36 +168,36 @@ def logout(request):
 
 # Mozilla Persona
 
-def verify_login(request):
-    """Verifies the assertion and the csrf token in the given request.
-
-    Returns the email of the user if everything is valid, otherwise raises
-    a HTTPBadRequest"""
-    verifier = request.registry['persona.verifier']
-    try:
-        data = verifier.verify(request.POST['assertion'])
-    except (ValueError, browserid.errors.TrustError) as e:
-        log.info('Failed persona login: %s (%s)', e, type(e).__name__)
-        raise HTTPBadRequest('Invalid assertion')
-    return data['email']
-
-
-def login(request):
-    """View to check the persona assertion and remember the user"""
-    email = verify_login(request)
-    request.response.headers.extend(remember(request, email))
-    return {'redirect': request.POST['came_from'], 'success': True}
-
-
-def logout(request):
-    """View to forget the user"""
-    request.response.headers.extend(forget(request))
-    return {'redirect': request.POST['came_from']}
-
-
-def forbidden(request):
-    """A basic 403 view, with a login button"""
-    template = pkg_resources.resource_string('pyramid_persona', 'templates/forbidden.html').decode()
-    html = template % {'js': request.persona_js, 'button': request.persona_button}
-    return Response(html, status='403 Forbidden')
+# def verify_login(request):
+#     """Verifies the assertion and the csrf token in the given request.
+#
+#     Returns the email of the user if everything is valid, otherwise raises
+#     a HTTPBadRequest"""
+#     verifier = request.registry['persona.verifier']
+#     try:
+#         data = verifier.verify(request.POST['assertion'])
+#     except (ValueError, browserid.errors.TrustError) as e:
+#         log.info('Failed persona login: %s (%s)', e, type(e).__name__)
+#         raise HTTPBadRequest('Invalid assertion')
+#     return data['email']
+#
+#
+# def login(request):
+#     """View to check the persona assertion and remember the user"""
+#     email = verify_login(request)
+#     request.response.headers.extend(remember(request, email))
+#     return {'redirect': request.POST['came_from'], 'success': True}
+#
+#
+# def logout(request):
+#     """View to forget the user"""
+#     request.response.headers.extend(forget(request))
+#     return {'redirect': request.POST['came_from']}
+#
+#
+# def forbidden(request):
+#     """A basic 403 view, with a login button"""
+#     template = pkg_resources.resource_string('pyramid_persona', 'templates/forbidden.html').decode()
+#     html = template % {'js': request.persona_js, 'button': request.persona_button}
+#     return Response(html, status='403 Forbidden')
 

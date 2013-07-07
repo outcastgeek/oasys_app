@@ -8,7 +8,7 @@ from sqlalchemy import engine_from_config
 
 from .security import groupfinder
 
-from .models.base import (
+from .models import (
     DBSession,
     Base,
     )
@@ -37,7 +37,7 @@ def main(global_config, **settings):
     authz_policy = ACLAuthorizationPolicy()
 
     config = Configurator(settings=settings,
-                          root_factory='oasysusa.models.base.RootFactory')
+                          root_factory='oasysusa.models.RootFactory')
 
     config.set_authentication_policy(authn_policy)
     config.set_authorization_policy(authz_policy)

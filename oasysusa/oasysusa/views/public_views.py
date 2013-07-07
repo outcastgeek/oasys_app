@@ -8,7 +8,7 @@ from pyramid.security import (
 
 from sqlalchemy.exc import DBAPIError
 
-from ..models.base import (
+from ..models import (
     DBSession,
     MyModel,
     )
