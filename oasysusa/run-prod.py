@@ -11,7 +11,7 @@ Usage: run.py [-myzdpirtu] [--migrate | --upgrade | --history | --development | 
 -p --production      runs the application in production mode
 -i --install         installs the application
 -r --remove          removes the application
--t --test            tests the application
+-t --test            testsToDelete the application
 -u --update          updates the dependencies
 
 Examples:

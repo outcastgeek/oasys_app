@@ -22,6 +22,7 @@ requires = [
     'velruse',
     'PyBrowserID',
     'requests',
+    'mock',
     ]
 
 setup(name='oasysusa',
