@@ -12,7 +12,10 @@ log = logging.getLogger(__file__)
 
 @view_config(context=Exception, renderer='templates/error.jinja2')
 def error_view(exc, request):
-    log.error("ERROR::::", exc)
+    # If the view has two formal arguments, the first is the context.
+    # The context is always available as ``request.context`` too.
+    msg = exc.args[0] if exc.args else ""
+    log.error("\n\nERROR::::\n%s\n\n" % msg)
     request.response_status = '500 Error'
     return dict(error='Error', message='Things do break you know ...')
 

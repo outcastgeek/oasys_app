@@ -1,5 +1,7 @@
 __author__ = 'outcastgeek'
 
+from datetime import datetime
+
 from pyramid.security import (
     Allow,
     Authenticated,
@@ -49,6 +51,7 @@ from zope.sqlalchemy import ZopeTransactionExtension
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
+DATE_FORMAT = "%d/%m/%Y"
 
 class MyModel(Base):
     __tablename__ = 'models'
@@ -123,9 +126,14 @@ class EmployeeSchema(Schema):
     email = Email()
     date_of_birth = DateValidator(date_format='mm/dd/yyyy')
     telephone_number = USPhoneNumber
+    # address = NotEmpty
 
 def find_employee_by_provider_id(unique_identifier):
     return DBSession.query(Employee).filter_by(provider_id=str(unique_identifier)).first()
+
+def save_employee(employee):
+    employee.date_of_birth = datetime.strptime(employee.date_of_birth, DATE_FORMAT)
+    return DBSession.add(employee)
 
 # def row2dict(row):
 #     d = {}

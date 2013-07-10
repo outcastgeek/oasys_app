@@ -23,6 +23,7 @@ requires = [
     'PyBrowserID',
     'requests',
     'mock',
+    'behave',
     ]
 
 setup(name='oasysusa',

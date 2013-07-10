@@ -16,10 +16,10 @@ from pyramid.httpexceptions import HTTPFound
 from pyramid.security import authenticated_userid
 
 from ..models import (
-    DBSession,
     Employee,
     EmployeeSchema,
     find_employee_by_provider_id,
+    save_employee,
     )
 
 logging.basicConfig()
@@ -69,7 +69,7 @@ def profile(request):
     elif form.validate():
         employee = form.bind(Employee())
         log.info("Persisting employee model somewhere...")
-        DBSession.add(employee)
+        save_employee(employee)
         return HTTPFound(location = request.route_url('home'))
     else:
         return dict(logged_in = authenticated_userid(request),

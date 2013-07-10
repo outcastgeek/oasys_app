@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 """
-Usage: run.py [-myzdpirtu] [--migrate | --upgrade | --history | --development | --production | --install | --remove | --test | --update]
+Usage: run.py [-myzdpirtbu] [--migrate | --upgrade | --history | --development | --production | --install | --remove | --test | --behave | --update]
 
 -h --help            show this help message and exit
 --version            show version and exit
@@ -12,6 +12,7 @@ Usage: run.py [-myzdpirtu] [--migrate | --upgrade | --history | --development | 
 -i --install         installs the application
 -r --remove          removes the application
 -t --test            tests the application
+-b --behave          verifies the application's behavior
 -u --update          updates the dependencies
 
 Examples:
@@ -75,6 +76,10 @@ if __name__ == '__main__':
           print("Testing application...")
           # In case subcommand is a script in some other programming language:
           exit(call('~/ENV/bin/nosetests', shell=True))
+      elif args['--behave']:
+          print("Verifying application's behavior...")
+          # In case subcommand is a script in some other programming language:
+          exit(call('~/ENV/bin/behave oasysusa/tests/features', shell=True))
       elif args['--update']:
           print("Updating dependencies...")
           # In case subcommand is a script in some other programming language:

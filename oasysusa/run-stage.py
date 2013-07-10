@@ -76,6 +76,10 @@ if __name__ == '__main__':
           print("Testing application...")
           # In case subcommand is a script in some other programming language:
           exit(call('~/ENV/bin/nosetests', shell=True))
+      elif args['--behave']:
+          print("Verifying application's behavior...")
+          # In case subcommand is a script in some other programming language:
+          exit(call('~/ENV/bin/behave oasysusa/tests/features', shell=True))
       elif args['--update']:
           print("Updating dependencies...")
           # In case subcommand is a script in some other programming language:

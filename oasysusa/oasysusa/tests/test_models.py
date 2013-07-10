@@ -1,11 +1,12 @@
-from pyramid import testing
-
 __author__ = 'outcastgeek'
 
+from pyramid import testing
 from base_test_case import BaseTestCase
 
 from ..models import (
     Employee,
+    DATE_FORMAT,
+    save_employee,
     find_employee_by_provider_id,
     PayrollCycle,
     )
@@ -15,6 +16,7 @@ class TestEmployee(BaseTestCase):
     USERNAME = 'dummy'
     EMAIL = 'dummy@dummy.com'
     PROVIDER_ID = 'dummy_provider'
+    DATE_OF_BIRTH = '01/01/2001'
 
     def setUp(self):
         self.config = testing.setUp(request=testing.DummyRequest())
@@ -22,8 +24,9 @@ class TestEmployee(BaseTestCase):
 
     def test_find_employee_by_provider_id(self):
         # setup
-        model = Employee(username=self.USERNAME, email=self.EMAIL, provider_id=self.PROVIDER_ID)
-        self.save(model)
+        model = Employee(username=self.USERNAME, email=self.EMAIL,
+                         provider_id=self.PROVIDER_ID, date_of_birth=self.DATE_OF_BIRTH)
+        save_employee(model)
 
         # run
         employee = find_employee_by_provider_id(self.PROVIDER_ID)
@@ -32,6 +35,7 @@ class TestEmployee(BaseTestCase):
         self.assertEqual(employee.username, self.USERNAME)
         self.assertEqual(employee.email, self.EMAIL)
         self.assertEqual(employee.provider_id, self.PROVIDER_ID)
+        self.assertEqual(employee.date_of_birth.strftime(DATE_FORMAT), self.DATE_OF_BIRTH)
 
 class TestPayrollCycle(BaseTestCase):
 
