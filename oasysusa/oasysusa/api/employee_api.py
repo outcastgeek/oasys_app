@@ -18,8 +18,6 @@ from pyramid.security import authenticated_userid
 from ..models import (
     Employee,
     EmployeeSchema,
-    find_employee_by_provider_id,
-    save_employee,
     )
 
 logging.basicConfig()
@@ -38,7 +36,7 @@ class EmployeeApi(object):
         # return Response('get')
         session = self.request.session
         uniq = session['provider_id']
-        existing_employee = find_employee_by_provider_id(uniq)
+        existing_employee = Employee.by_provider_id(uniq)
         return existing_employee
 
     @view_config(request_method='POST')
@@ -56,22 +54,31 @@ class EmployeeApi(object):
 def profile(request):
     session = request.session
     uniq = session['provider_id']
-    existing_employee = find_employee_by_provider_id(uniq)
+    # existing_employee = Employee.by_provider_id(uniq)
+    username = authenticated_userid(request)
+
     form = Form(request,
                 schema=EmployeeSchema(),
                 obj=Employee())
+
+    if 'submit' in request.POST:
+        if form.validate():
+            employee = form.bind(Employee())
+            log.info("Persisting employee model somewhere...")
+            Employee.update(username, employee)
+            return HTTPFound(location = request.route_url('home'))
+        else:
+            log.info('Invalid form...')
+            return dict(logged_in = username,
+                        renderer=FormRenderer(form))
+
+    existing_employee = Employee.by_username(username)
+
     if existing_employee:
         existing_employee_form = Form(request,
                                       schema=EmployeeSchema(),
                                       obj=existing_employee)
-        return dict(logged_in = authenticated_userid(request),
+        return dict(logged_in = username,
                     renderer=FormRenderer(existing_employee_form))
-    elif form.validate():
-        employee = form.bind(Employee())
-        log.info("Persisting employee model somewhere...")
-        save_employee(employee)
-        return HTTPFound(location = request.route_url('home'))
-    else:
-        return dict(logged_in = authenticated_userid(request),
-                    renderer=FormRenderer(form))
+
 

@@ -6,8 +6,6 @@ from base_test_case import BaseTestCase
 from ..models import (
     Employee,
     DATE_FORMAT,
-    save_employee,
-    find_employee_by_provider_id,
     PayrollCycle,
     )
 
@@ -26,10 +24,10 @@ class TestEmployee(BaseTestCase):
         # setup
         model = Employee(username=self.USERNAME, email=self.EMAIL,
                          provider_id=self.PROVIDER_ID, date_of_birth=self.DATE_OF_BIRTH)
-        save_employee(model)
+        Employee.save(model)
 
         # run
-        employee = find_employee_by_provider_id(self.PROVIDER_ID)
+        employee = Employee.by_provider_id(self.PROVIDER_ID) or Employee.by_username(self.USERNAME)
 
         # verify
         self.assertEqual(employee.username, self.USERNAME)

@@ -1,13 +1,17 @@
 __author__ = 'outcastgeek'
 
-USERS = {'editor': 'editor',
-         'viewer': 'viewer',
-         'outcastgeek': 'editor'}
+import logging
 
-GROUPS = {'editor': ['group:editors']}
+from .models import Employee
+
+logging.basicConfig()
+log = logging.getLogger(__file__)
 
 def groupfinder(userid, request):
-    if userid in USERS:
-        return GROUPS.get(userid, [])
+
+    user = Employee.by_username(userid)
+
+    if user:
+        return [g.groupname for g in user.groups]
     else:
         return ['user']

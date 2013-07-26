@@ -1,11 +1,9 @@
-import browserid
-import pkg_resources
-from pyramid.response import Response
-
 __author__ = 'outcastgeek'
 
 import logging
 import json
+import pkg_resources
+from pyramid.response import Response
 
 from pyramid_simpleform import Form
 from pyramid_simpleform.renderers import FormRenderer
@@ -25,13 +23,9 @@ from pyramid.security import (
     authenticated_userid,
     )
 
-from ..security import USERS
-
 from ..models import (
-    DBSession,
     Employee,
     EmployeeSchema,
-    find_employee_by_provider_id,
     )
 
 from velruse import login_url
@@ -57,7 +51,8 @@ def login(request):
     if 'form.submitted' in request.params:
         login = request.params['login']
         password = request.params['password']
-        if USERS.get(login) == password:
+        employee = Employee.by_username(login)
+        if employee  and employee.validate_password(password):
             headers = remember(request, login)
             log.info(headers)
             logged_in = authenticated_userid(request)
@@ -66,7 +61,6 @@ def login(request):
                              headers = headers)
         message = 'Failed login'
 
-    # providers = request.registry.settings['login_providers']
     providers = get_current_registry().settings['login_providers']
     log.info(providers)
 
@@ -109,15 +103,20 @@ def login_complete_view(request):
         else context.profile['accounts'][0]['username']
     unique_identifier=context.profile['accounts'][0]['userid']
 
+    log.debug('Unique Identifier:\n')
+    log.debug(unique_identifier)
+
     headers = remember(request, display_name)
     log.info(headers)
 
     session['provider_id'] = unique_identifier
 
-    # logged_in = authenticated_userid(request)
-    # log.info(logged_in)
+    logged_in = authenticated_userid(request)
+    log.debug('Logged in:\n')
+    log.debug(logged_in)
 
-    existing_employee = find_employee_by_provider_id(unique_identifier)
+    # existing_employee = Employee.by_provider_id(unique_identifier)
+    existing_employee = Employee.by_username(display_name)
     if existing_employee:
         log.debug("Found existing employee: \n")
         log.debug(existing_employee)
@@ -137,10 +136,13 @@ def login_complete_view(request):
     if form.validate():
         employee = form.bind(Employee())
         # persist employee model
-        DBSession.add(employee)
+        log.debug("Saving employee: \n")
+        log.debug(employee)
+        Employee.save(employee)
         return dict(message = message,
                     location = proceed_url,
                     result = result_string,)
+    log.info('Invalid form...')
     return dict(message = message,
                 location = proceed_url,
                 result = result_string,
@@ -165,39 +167,3 @@ def logout(request):
     headers = forget(request)
     return HTTPFound(location = request.route_url('home'),
                      headers = headers)
-
-# Mozilla Persona
-
-# def verify_login(request):
-#     """Verifies the assertion and the csrf token in the given request.
-#
-#     Returns the email of the user if everything is valid, otherwise raises
-#     a HTTPBadRequest"""
-#     verifier = request.registry['persona.verifier']
-#     try:
-#         data = verifier.verify(request.POST['assertion'])
-#     except (ValueError, browserid.errors.TrustError) as e:
-#         log.info('Failed persona login: %s (%s)', e, type(e).__name__)
-#         raise HTTPBadRequest('Invalid assertion')
-#     return data['email']
-#
-#
-# def login(request):
-#     """View to check the persona assertion and remember the user"""
-#     email = verify_login(request)
-#     request.response.headers.extend(remember(request, email))
-#     return {'redirect': request.POST['came_from'], 'success': True}
-#
-#
-# def logout(request):
-#     """View to forget the user"""
-#     request.response.headers.extend(forget(request))
-#     return {'redirect': request.POST['came_from']}
-#
-#
-# def forbidden(request):
-#     """A basic 403 view, with a login button"""
-#     template = pkg_resources.resource_string('pyramid_persona', 'templates/forbidden.html').decode()
-#     html = template % {'js': request.persona_js, 'button': request.persona_button}
-#     return Response(html, status='403 Forbidden')
-

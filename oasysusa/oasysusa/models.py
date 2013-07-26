@@ -1,5 +1,9 @@
 __author__ = 'outcastgeek'
 
+import string
+import random
+import os
+
 from datetime import datetime
 
 from pyramid.security import (
@@ -20,22 +24,22 @@ from sqlalchemy import (
     Column,
     Integer,
     Text,
-    ForeignKey)
+    ForeignKey,
+    Sequence,
+    Unicode,
+    Table,
+    String)
 
 from sqlalchemy.ext.declarative import declarative_base
 
 from sqlalchemy import (
-    Column,
-    Integer,
-    Text,
     Boolean,
     Date)
 
 from sqlalchemy.orm import (
     scoped_session,
     sessionmaker,
-    relationship,
-    backref
+    relationship
     )
 
 from formencode import Schema
@@ -44,14 +48,20 @@ from formencode.validators import (
     UnicodeString,
     Email,
     DateValidator,
-    NotEmpty)
+    NotEmpty,
+    )
 
 from zope.sqlalchemy import ZopeTransactionExtension
+
+from hashlib import sha1
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
-DATE_FORMAT = "%d/%m/%Y"
+def find_methods(obj):
+    return [method for method in dir(obj) if callable(getattr(obj, method))]
+
+DATE_FORMAT = "%m/%d/%Y"
 
 class MyModel(Base):
     __tablename__ = 'models'
@@ -69,11 +79,13 @@ class Employee(Base):
     __tablename__ = 'employees'
     id = Column(Integer, primary_key=True)
     username = Column(Text, unique=True)
+    password = Column(String)
     first_name = Column(Text)
     last_name = Column(Text)
     email = Column(Text, unique=True)
-    provider = Column(Text)
     active = Column(Boolean)
+    groups = relationship("Group", secondary='employee_group', backref="employees")
+    provider = Column(Text)
     address = Column(Text)
     employee_id = Column(Text)
     provider_id = Column(Text)
@@ -81,11 +93,18 @@ class Employee(Base):
     date_of_birth = Column(Date)
     time_sheets = relationship("TimeSheet", backref="employees")
 
-    def __init__(self, username=None, first_name=None, last_name=None,
-                 email=None, employee_id=None, provider_id=None,
-                 date_of_birth=None, provider=None, active=False,
-                 address=None, telephone_number=None):
+    @property
+    def __acl__(self):
+        return [
+            (Allow, self.username, 'user'),
+            ]
+
+    def __init__(self, username=None, password=None, first_name=None,
+                 last_name=None, email=None, employee_id=None,
+                 provider_id=None, date_of_birth=None, provider=None,
+                 active=False, address=None, telephone_number=None, groups=None):
         self.username = username
+        self.password = password if password else self._set_password(self._generate_password(16))
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
@@ -96,6 +115,84 @@ class Employee(Base):
         self.provider_id = provider_id
         self.telephone_number = telephone_number
         self.date_of_birth = date_of_birth
+        self.groups = groups or []
+
+    def update_fields(self, updated_fields={}):
+        for key, value in updated_fields.iteritems():
+            setattr(self, key, value)
+
+
+    # Check this out: http://pyramid.chromaticleaves.com/simpleauth/
+    def _set_password(self, password):
+        hashed_password = password
+
+        if isinstance(password, unicode):
+            password_8bit = password.encode('UTF-8')
+        else:
+            password_8bit = password
+
+        salt = sha1()
+        salt.update(os.urandom(60))
+        hash = sha1()
+        hash.update(password_8bit + salt.hexdigest())
+        hashed_password = salt.hexdigest() + hash.hexdigest()
+
+        if not isinstance(hashed_password, unicode):
+            hashed_password = hashed_password.decode('UTF-8')
+
+        self.password = hashed_password
+
+    def _generate_password(self, length):
+        password_len = length
+
+        password = []
+
+        for group in (string.ascii_letters, string.punctuation, string.digits):
+            password += random.sample(group, 3)
+
+        password += random.sample(
+            string.ascii_letters + string.punctuation + string.digits,
+            password_len - len(password))
+
+        random.shuffle(password)
+        password = ''.join(password)
+
+        return password
+
+    def validate_password(self, password):
+        hashed_pass = sha1()
+        hashed_pass.update(password + self.password[:40])
+        return self.password[40:] == hashed_pass.hexdigest()
+
+    @classmethod
+    def by_id(cls, userid):
+        return DBSession.query(Employee).filter(Employee.id==userid).first()
+
+    @classmethod
+    def by_provider_id(cls, unique_identifier):
+        # DBSession.query(Employee).filter_by(provider_id=unique_identifier).first()
+        DBSession.query(Employee).filter_by(provider_id=str(unique_identifier)).first()
+
+    @classmethod
+    def by_username(cls, username):
+        return DBSession.query(Employee).filter(Employee.username==username).first()
+
+    @classmethod
+    def save(cls, employee):
+        employee.date_of_birth = datetime.strptime(employee.date_of_birth, DATE_FORMAT)
+        employee_group = Group('employee')
+        employee.groups.append(employee_group)
+        return DBSession.add(employee)
+
+    @classmethod
+    def update(cls, username, employee):
+        existing_employee = cls.by_username(username)
+        if existing_employee:
+            employee.date_of_birth = datetime.strptime(employee.date_of_birth, DATE_FORMAT)
+            existing_employee.update_fields(employee.__dict__)
+            DBSession.query(Employee).filter(Employee.username==username).update(existing_employee.__dict__)
+        else:
+            cls.save(employee)
 
     def __json__(self, request):
         return {
@@ -126,14 +223,7 @@ class EmployeeSchema(Schema):
     email = Email()
     date_of_birth = DateValidator(date_format='mm/dd/yyyy')
     telephone_number = USPhoneNumber
-    # address = NotEmpty
-
-def find_employee_by_provider_id(unique_identifier):
-    return DBSession.query(Employee).filter_by(provider_id=str(unique_identifier)).first()
-
-def save_employee(employee):
-    employee.date_of_birth = datetime.strptime(employee.date_of_birth, DATE_FORMAT)
-    return DBSession.add(employee)
+    address = NotEmpty
 
 # def row2dict(row):
 #     d = {}
@@ -151,6 +241,27 @@ def get_employees(request):
     return [row2dict(employee) for employee in all_employees]
 
 ################# END EMPLOYEES #########################
+
+################# GROUPS #################################
+
+class Group(Base):
+    __tablename__ = 'groups'
+    id = Column(Integer, Sequence('groups_seq_id', optional=True), primary_key=True)
+    groupname = Column(Unicode(255), unique=True)
+
+    def __init__(self, groupname):
+        self.groupname = groupname
+
+################# END GROUPS #############################
+
+################# EMPLOYEES-GROUP #################################
+
+user_group_table = Table('employee_group', Base.metadata,
+                         Column('employee_id', Integer, ForeignKey('employees.id')),
+                         Column('group_id', Integer, ForeignKey('groups.id')),
+                         )
+
+################# END EMPLOYEES-GROUP #############################
 
 ################# PAYROLL CYCLES #################################
 
