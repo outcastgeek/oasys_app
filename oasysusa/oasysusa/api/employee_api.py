@@ -2,6 +2,8 @@ __author__ = 'outcastgeek'
 
 import logging
 
+from datetime import datetime
+
 from pyramid.response import Response
 from pyramid.view import (
     view_defaults,
@@ -18,7 +20,7 @@ from pyramid.security import authenticated_userid
 from ..models import (
     Employee,
     EmployeeSchema,
-    )
+    DATE_FORMAT)
 
 logging.basicConfig()
 log = logging.getLogger(__file__)
@@ -65,7 +67,8 @@ def profile(request):
         if form.validate():
             employee = form.bind(Employee())
             log.info("Persisting employee model somewhere...")
-            Employee.update(username, employee)
+            Employee.update_or_insert(username, employee)
+
             return HTTPFound(location = request.route_url('home'))
         else:
             log.info('Invalid form...')
@@ -75,10 +78,13 @@ def profile(request):
     existing_employee = Employee.by_username(username)
 
     if existing_employee:
+        # existing_employee.date_of_birth = datetime.strftime(existing_employee.date_of_birth, DATE_FORMAT)
         existing_employee_form = Form(request,
                                       schema=EmployeeSchema(),
                                       obj=existing_employee)
         return dict(logged_in = username,
                     renderer=FormRenderer(existing_employee_form))
+    else:
+        return HTTPFound(location = request.route_url('register'))
 
 

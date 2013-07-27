@@ -6,20 +6,6 @@ import os
 
 from datetime import datetime
 
-from pyramid.security import (
-    Allow,
-    Authenticated,
-    Everyone
-    )
-
-class RootFactory(object):
-    __acl__ = [(Allow, Everyone, 'view'),
-               (Allow, Authenticated, 'edit'),
-               (Allow, Authenticated, 'user'),
-               (Allow, 'group:editors', 'edit')]
-    def __init__(self, request):
-        pass
-
 from sqlalchemy import (
     Column,
     Integer,
@@ -55,6 +41,20 @@ from zope.sqlalchemy import ZopeTransactionExtension
 
 from hashlib import sha1
 
+from pyramid.security import (
+    Allow,
+    Authenticated,
+    Everyone
+    )
+
+class RootFactory(object):
+    __acl__ = [(Allow, Everyone, 'view'),
+               (Allow, Authenticated, 'edit'),
+               (Allow, Authenticated, 'user'),
+               (Allow, 'group:editors', 'edit')]
+    def __init__(self, request):
+        pass
+
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
@@ -62,6 +62,7 @@ def find_methods(obj):
     return [method for method in dir(obj) if callable(getattr(obj, method))]
 
 DATE_FORMAT = "%m/%d/%Y"
+EARLIEST_DATE = datetime.strptime('01/01/1900', DATE_FORMAT)
 
 class MyModel(Base):
     __tablename__ = 'models'
@@ -92,6 +93,8 @@ class Employee(Base):
     telephone_number = Column(Text)
     date_of_birth = Column(Date)
     time_sheets = relationship("TimeSheet", backref="employees")
+
+    # employees = Table(__tablename__, Base.metadata, autoload=True)
 
     @property
     def __acl__(self):
@@ -179,18 +182,25 @@ class Employee(Base):
 
     @classmethod
     def save(cls, employee):
-        employee.date_of_birth = datetime.strptime(employee.date_of_birth, DATE_FORMAT)
+        employee_dob = datetime.strptime(employee.date_of_birth, DATE_FORMAT)
+        employee.date_of_birth = employee_dob if employee_dob > EARLIEST_DATE else EARLIEST_DATE
         employee_group = Group('employee')
         employee.groups.append(employee_group)
         return DBSession.add(employee)
 
     @classmethod
-    def update(cls, username, employee):
+    def update_or_insert(cls, username, employee):
+        #check
         existing_employee = cls.by_username(username)
         if existing_employee:
-            employee.date_of_birth = datetime.strptime(employee.date_of_birth, DATE_FORMAT)
-            existing_employee.update_fields(employee.__dict__)
-            DBSession.query(Employee).filter(Employee.username==username).update(existing_employee.__dict__)
+            # setup data
+            employee_dob = datetime.strptime(employee.date_of_birth, DATE_FORMAT)
+            employee.date_of_birth = employee_dob if employee_dob > EARLIEST_DATE else EARLIEST_DATE
+            employee_data = employee.__dict__
+            # update
+            employees_table = employee.__table__
+            update_stmt = employees_table.update(employees_table.c.username==username)
+            update_stmt.execute(employee_data)
         else:
             cls.save(employee)
 

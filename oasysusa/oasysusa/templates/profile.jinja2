@@ -10,9 +10,10 @@
     <h2 class="form-signin-heading">Basic Profile</h2>
     {{ renderer.csrf_token() }}
     {{ renderer.hidden_tag("provider_id") }}
-    {{ renderer.label("Username") }}
-    {{ renderer.errorlist("username") }}
-    {{ renderer.text("username", placeholder="username", size=30, class="input-block-level") }}
+    {{ renderer.hidden_tag("username") }}
+{#    {{ renderer.label("Username") }}#}
+{#    {{ renderer.errorlist("username") }}#}
+{#    {{ renderer.text("username", placeholder="username", size=30, class="input-block-level") }}#}
     {{ renderer.label("First Name") }}
     {{ renderer.errorlist("first_name") }}
     {{ renderer.text("first_name", placeholder="first_name", size=30, class="input-block-level") }}

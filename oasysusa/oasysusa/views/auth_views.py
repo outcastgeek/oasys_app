@@ -36,6 +36,7 @@ log = logging.getLogger(__file__)
 # Authentication Stuff
 
 @view_config(route_name='login', renderer='templates/login.jinja2')
+@view_config(route_name='register', renderer='templates/login.jinja2')
 @forbidden_view_config(renderer='templates/login.jinja2')
 def login(request):
     login_route_url = request.route_url('login')
@@ -129,7 +130,7 @@ def login_complete_view(request):
 
     form = Form(request,
                 schema=EmployeeSchema(),
-                obj=Employee(username=display_name,
+                obj=Employee(username=display_name if display_name else logged_in,
                              email=context.profile['emails'][0]['value'],
                              provider_id=unique_identifier,
                              provider=context.provider_name,))
