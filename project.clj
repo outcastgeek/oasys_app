@@ -7,6 +7,7 @@
   :test-paths ["test-clj"]
   :resource-paths ["resource-clj"]
   :dependencies [[org.clojure/clojure "1.5.1"]
+                 [org.clojure/clojurescript "0.0-1889"]
                  [org.clojure/core.async "0.1.0-SNAPSHOT"]
                  [hiccup "1.0.4"]
                  [jayq "2.4.0"]
@@ -16,9 +17,11 @@
               :builds [
               {:id "profile"
                         :source-paths ["src-cljs/profile"]
-                        :externs ["externs/jquery-1.10.2.js" "externs/angular-1.0.7.js" "externs/angular-resource-1.0.7.js"]
+                        :externs ["externs/jquery-2.0.3.js" "externs/angular-1.0.7.js" "externs/angular-resource-1.0.7.js"]
                         :compiler {
+                                   :output-dir "oasysusa/oasysusa/static/js"
                                    :output-to "oasysusa/oasysusa/static/js/profile.js"
+                                   :source-map "oasysusa/oasysusa/static/js/profile.js.map"
                                    :optimizations :simple
                                    :pretty-print true}}
               ]}

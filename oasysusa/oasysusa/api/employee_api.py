@@ -39,7 +39,10 @@ class EmployeeApi(object):
         session = self.request.session
         uniq = session['provider_id']
         existing_employee = Employee.by_provider_id(uniq)
-        return existing_employee
+        # return existing_employee
+        return {
+            "lambert": "lambert"
+        }
 
     @view_config(request_method='POST')
     def post(self):
