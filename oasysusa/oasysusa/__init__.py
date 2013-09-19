@@ -61,6 +61,10 @@ def main(global_config, **settings):
     config.add_route('employeeapi', '/employee')
     config.add_route('contact', '/contact')
 
+    #### trying deform ######
+    config.add_route('try_deform', '/deform')
+    config.add_static_view('deform_static', 'deform:static')
+
     # config.scan('oasysusa.views')
     config.scan()
     return config.make_wsgi_app()

@@ -1,4 +1,5 @@
-
+import colander
+from deform import Form
 from pyramid.response import Response
 from pyramid.view import view_config
 
@@ -43,3 +44,15 @@ try it again.
 def contact_view(request):
     logged_in = authenticated_userid(request)
     return {'logged_in': logged_in}
+
+######## TRYING DEFORM #########
+class Person(colander.MappingSchema):
+    name = colander.SchemaNode(colander.String())
+@view_config(route_name='try_deform', renderer='templates/try_deform.jinja2')
+def try_deform(request):
+    schema = Person()
+    myform = Form(schema, buttons=('submit',))
+
+    return {
+        "form": myform
+    }
