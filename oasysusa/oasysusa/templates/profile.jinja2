@@ -8,7 +8,7 @@
     {% include "templates/profile_form_style.jinja2" %}
     <main ng-app="profile">
     {{ renderer.begin(request.route_url('profile'), name="profile-form", class="form-signin", ngController="oasysusa.profile.controller") }}
-    <h2 class="form-signin-heading">Basic Profile {@ user.first_name @}</h2>
+    <h2 class="form-signin-heading">Basic Profile</h2>
     {{ renderer.csrf_token() }}
     {{ renderer.hidden_tag("provider_id") }}
     {{ renderer.hidden_tag("username") }}
@@ -17,27 +17,41 @@
 {#    {{ renderer.text("username", placeholder="username", size=30, class="input-block-level") }}#}
     {{ renderer.label("First Name") }}
     {{ renderer.errorlist("first_name") }}
-    {{ renderer.text("first_name", placeholder="first_name", size=30, class="input-block-level", ng_model="user.first_name") }}
+    {{ renderer.text("first_name", placeholder="first_name", size=30, class="input-block-level", required="required", ng_model="user.first_name", form_input="form_input") }}
     {{ renderer.label("Last Name") }}
     {{ renderer.errorlist("last_name") }}
-    {{ renderer.text("last_name", placeholder="last_name", size=30, class="input-block-level", ng_model="user.last_name") }}
+    {{ renderer.text("last_name", placeholder="last_name", size=30, class="input-block-level", required="required", ng_model="user.last_name", form_input="form_input") }}
     {{ renderer.label("Email") }}
     {{ renderer.errorlist("email") }}
-    {{ renderer.text("email", size=30, placeholder="email@emailprovider.com", class="input-block-level", ng_model="user.email") }}
-        <div ng-show="profile-form.email.$dirty && profile-form.email.$invalid">Invalid:
-            <span ng-show="profile-form.email.$error.required">Tell us your email.</span>
-            <span ng-show="profile-form.email.$error.email">This is not a valid email.</span>
-        </div>
+    {{ renderer.text("email", size=30, placeholder="email@emailprovider.com", class="input-block-level", required="required", ng_model="user.email", form_input="form_input") }}
+{#        <div ng-show="profile-form.email.$dirty && profile-form.email.$invalid">Invalid:#}
+{#            <span ng-show="profile-form.email.$error.required">Tell us your email.</span>#}
+{#            <span ng-show="profile-form.email.$error.email">This is not a valid email.</span>#}
+{#        </div>#}
     {{ renderer.label("Date Of Birth") }}
     {{ renderer.errorlist("date_of_birth") }}
-    {{ renderer.text("date_of_birth", placeholder="01/01/0001", size=30, class="input-block-level", ng_model="user.date_of_birth") }}
+    {{ renderer.text("date_of_birth", placeholder="01/01/0001", size=30, class="input-block-level", required="required",
+                                      ng_model="user.date_of_birth", form_input="form_input", input_type="date") }}
     {{ renderer.label("Address") }}
     {{ renderer.errorlist("address") }}
-    {{ renderer.text("address", placeholder="23 geeky way, Hacker PL 12345", size=60, class="input-block-level", ng_model="user.address") }}
+    {{ renderer.text("address", placeholder="23 geeky way, Hacker PL 12345", size=60, class="input-block-level", required="required", ng_model="user.address", form_input="form_input") }}
     {{ renderer.label("Telephone Number") }}
     {{ renderer.errorlist("telephone_number") }}
-    {{ renderer.text("telephone_number", placeholder="987-654-3210", size=30, class="input-block-level", ng_model="user.telephone_number") }}
-    {{ renderer.label('Reset', class="btn btn-large", ng_click="reset()", ng_disabled="isUnchanged(user)") }}
+    {{ renderer.text("telephone_number", placeholder="987-654-3210", size=30, class="input-block-level", required="required", ng_model="user.telephone_number", form_input="form_input") }}
+{#    <details>#}
+{#        <summary>Details</summary>#}
+{#        <summary>First Name</summary>#}
+{#        <p>{@ user.first_name @}</p>#}
+{#        <summary>Last Name</summary>#}
+{#        <p>{@ user.last_name @}</p>#}
+{#        <summary>Email</summary>#}
+{#        <p>{@ user.email @}</p>#}
+{#        <summary>Date Of Birth</summary>#}
+{#        <p>{@ user.date_of_birth @}</p>#}
+{#        <summary>Telephone Number</summary>#}
+{#        <p>{@ user.telephone_number @}</p>#}
+{#    </details>#}
+{#    <button class="btn btn-large" ng_click="reset()" ng_disabled="isUnchanged(user)">RESET</button>#}
     {{ renderer.submit('submit', 'Update', class="btn btn-large btn-primary", ng_click="update(user)", ng_disabled="profile-form.$invalid || isUnchanged(user)") }}
     {{ renderer.end() }}
     </main>
