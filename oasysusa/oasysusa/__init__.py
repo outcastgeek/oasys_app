@@ -60,6 +60,7 @@ def main(global_config, **settings):
     config.add_route('profile', '/profile')
     config.add_route('employeeapi', '/employee')
     config.add_route('contact', '/contact')
+    config.add_route('timesheet', '/timesheet')
 
     #### trying deform ######
     config.add_route('try_deform', '/deform')

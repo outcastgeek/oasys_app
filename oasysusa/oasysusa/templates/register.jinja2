@@ -4,32 +4,18 @@
     Result
 {% endblock %}
 
-{% block body %}
-    {% include "templates/profile_form_style.jinja2" %}
-    {{ renderer.begin(request.route_url('profile'), class="form-signin") }}
-    <h2 class="form-signin-heading">Basic Profile</h2>
-    {{ renderer.csrf_token() }}
-    {{ renderer.hidden_tag("provider_id") }}
-    {{ renderer.hidden_tag("username") }}
-{#    {{ renderer.label("username") }}#}
-{#    {{ renderer.errorlist("username") }}#}
-{#    {{ renderer.text("username", placeholder="username", size=30, class="input-block-level") }}#}
-    {{ renderer.label("First Name") }}
-    {{ renderer.errorlist("first_name") }}
-    {{ renderer.text("first_name", placeholder="first_name", size=30, class="input-block-level") }}
-    {{ renderer.label("Last Name") }}
-    {{ renderer.errorlist("last_name") }}
-    {{ renderer.text("last_name", placeholder="last_name", size=30, class="input-block-level") }}
-    {{ renderer.label("Email") }}
-    {{ renderer.errorlist("email") }}
-    {{ renderer.text("email", size=30, placeholder="email@emailprovider.com", class="input-block-level") }}
-    {{ renderer.label("Date Of Birth") }}
-    {{ renderer.errorlist("date_of_birth") }}
-    {{ renderer.text("date_of_birth", placeholder="01/01/0001", size=30, class="input-block-level") }}
-    {{ renderer.label("Telephone Number") }}
-    {{ renderer.errorlist("telephone_number") }}
-    {{ renderer.text("telephone_number", placeholder="987-654-3210", size=30, class="input-block-level") }}
-    {{ renderer.submit('submit', 'Register', class="btn btn-large btn-primary") }}
-    {{ renderer.end() }}
+{% block css %}
+    <style>
+        body {
+            padding-top: 80px;
+        }
+    </style>
+{% endblock %}
 
+{% block body %}
+    {% include "templates/profile_form_partial.jinja2" %}
+{% endblock %}
+
+{% block page_js %}
+    <script src="{{ request.static_url('oasysusa:static/js/profile.js') }}"></script>
 {% endblock %}
