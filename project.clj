@@ -8,12 +8,15 @@
   :resource-paths ["resource-clj"]
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojurescript "0.0-1889"]
+                 [com.cemerick/piggieback "0.1.0"]
                  [org.clojure/core.async "0.1.0-SNAPSHOT"]
                  [com.novemberain/validateur "1.5.0"]
                  [hiccup "1.0.4"]
                  [jayq "2.4.0"]
                  [crate "0.2.4"]]
+  :aot :all
   :plugins [[lein-cljsbuild "0.3.3"]]
+  :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
   :cljsbuild {
               :builds [
               {:id "profile"

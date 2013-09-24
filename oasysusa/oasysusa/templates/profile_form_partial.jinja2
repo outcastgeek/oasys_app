@@ -1,6 +1,6 @@
 
-<main ng-app="profile">
-    {{ renderer.begin(request.route_url('profile'), name="profile-form", class="form-signin", ngController="oasysusa.profile.controller") }}
+<main ng-app="oasysusa.profile">
+    {{ renderer.begin(request.route_url('profile'), name="profile-form", class="form-signin", ng_controller="oasysusa.profile.controller") }}
     <h2 class="form-signin-heading">Basic Profile</h2>
     {{ renderer.csrf_token() }}
     {{ renderer.hidden_tag("provider_id") }}
@@ -44,7 +44,7 @@
     {#        <summary>Telephone Number</summary>#}
     {#        <p>{@ user.telephone_number @}</p>#}
     {#    </details>#}
-    {#    <button class="btn btn-large" ng_click="reset()" ng_disabled="isUnchanged(user)">RESET</button>#}
+        <label class="btn btn-large" ng_click="reset()" ng_disabled="isUnchanged(user)">RESET</label>
     {{ renderer.submit('submit', 'Save', class="btn btn-large btn-primary", ng_click="update(user)", ng_disabled="profile-form.$invalid || isUnchanged(user)") }}
     {{ renderer.end() }}
 </main>

@@ -1,6 +1,9 @@
 (ns oasysusa.profile.core
   (:require [clojure.string :as cljstr]
+            [clojure.browser.repl :as repl]
             [oasysusa.profile :as prfl]))
+
+(repl/connect "http://localhost:8090/repl")
 
 (defn start-symbol [provider start]
   (.startSymbol provider start))
@@ -25,7 +28,7 @@
         (.$setViewValue ng-model value))
       )))
 
-(doto (angular/module "profile" (array))
+(doto (angular/module "oasysusa.profile" (array))
   (.config (array "$interpolateProvider"
              (fn [$interpolateProvider]
                (doto $interpolateProvider
