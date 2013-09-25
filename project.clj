@@ -10,7 +10,6 @@
                  [org.clojure/clojurescript "0.0-1889"]
                  [com.cemerick/piggieback "0.1.0"]
                  [org.clojure/core.async "0.1.0-SNAPSHOT"]
-                 [com.novemberain/validateur "1.5.0"]
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [domina "1.0.1"]
                  [enfocus "2.0.0-beta2"]
