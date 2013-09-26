@@ -25,7 +25,7 @@ from pyramid.security import (
 
 from ..models import (
     Employee,
-    EmployeeSchema,
+    EmployeeSchema
     )
 
 from velruse import login_url
@@ -202,7 +202,7 @@ def profile(request):
         existing_employee_form = Form(request,
                                       schema=EmployeeSchema(),
                                       obj=existing_employee)
-        return dict(logged_in = username,
+        return dict(logged_in = username, cljs_debug = True if request.registry.settings['cljs_debug'] == 'debug' else False,
                     renderer=FormRenderer(existing_employee_form))
     else:
         return HTTPFound(location = request.route_url('register'))

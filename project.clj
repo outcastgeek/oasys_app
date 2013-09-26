@@ -21,6 +21,11 @@
   :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
   :cljsbuild {
               :builds [
+              {:id "brepl"
+               :source-paths ["src-cljs/repls"]
+               :compiler {
+                           :output-to "oasysusa/oasysusa/static/js/repl.js"
+                           :optimizations :simple}}
               {:id "profile"
                         :source-paths ["src-cljs/profile"]
                         :externs ["externs/jquery-2.0.3.js" "externs/angular-1.0.7.js" "externs/angular-resource-1.0.7.js"]

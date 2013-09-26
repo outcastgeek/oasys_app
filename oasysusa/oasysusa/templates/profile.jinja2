@@ -17,5 +17,8 @@
 {% endblock %}
 
 {% block page_js %}
+{#    {% if cljs_debug %}#}
+{#        <script src="{{ request.static_url('oasysusa:static/js/repl.js') }}"></script>#}
+{#    {% endif %}#}
     <script src="{{ request.static_url('oasysusa:static/js/profile.js') }}"></script>
 {% endblock %}
