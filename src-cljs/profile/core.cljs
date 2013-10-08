@@ -1,40 +1,97 @@
 (ns oasysusa.profile.core
   (:require [clojure.string :as cljstr]
-            [clojure.browser.repl :as repl]
-            [oasysusa.profile :as prfl]))
+            [domina :as dom]
+            [domina.events :as ev]
+            [domina.css :as css]))
 
-(repl/connect "http://localhost:8090/repl")
+(def profile-state (atom {:ids ["first_name" "last_name" "email" "date_of_birth" "address" "telephone_number"]}))
 
-(defn start-symbol [provider start]
-  (.startSymbol provider start))
+(defn evt->el [event]
+  (css/sel (ev/target event)))
 
-(defn end-symbol [provider end]
-  (.endSymbol provider end))
+(defn format-date [raw-date-string]
+  (let [new-date (cljstr/join "/" (reverse (cljstr/split raw-date-string #"-")))]
+    ;(dom/log "Formatted Date: " raw-date-string " into Date: " new-date)
+    new-date))
 
-(defn format-date-on-model [ng-model raw-date-string]
-  (let [formated-date (cljstr/join "/" (reverse (cljstr/split raw-date-string #"-")))]
-    (doto ng-model
-      (.$setViewValue formated-date)
-      (.$render))))
+(defn update [event]
+  (let [target-input (evt->el event)
+        attrs (dom/attrs target-input)
+        id (dom/attr target-input "id")
+        val (dom/value target-input)]
+    ;(dom/log "Profile Update KeyVal: " (dom/attr target-input "id") " => " (dom/value target-input))
+    (if (= (attrs :input_type) "date")
+      (swap! profile-state update-in [:profile]
+        merge {(keyword id) (format-date val)})
+      (swap! profile-state update-in [:profile]
+        merge {(keyword id) val}))
+    ;(dom/log @profile-state)
+    ))
 
-(defn formInput [scope element attr ng-model]
-;  (.log js/console scope element attr)
-;  (.log js/console ng-model)
-;  (.log js/console "attr = " attr)
-  (if (not (nil? ng-model))
-    (let [value (.val element)]
-      (if (= "date" (aget attr "inputType"))
-        (format-date-on-model ng-model value)
-        (.$setViewValue ng-model value))
-      )))
+(defn update-input-value [id val]
+  (let [el (dom/by-id id)
+        attrs (dom/attrs el)]
+    ;(dom/log "View Update KeyVal: " id " => " val)
+    (dom/set-value! (dom/by-id id) val)
+    (if (and
+          (= (attrs :required) "required")
+          (cljstr/blank? val))
+      (dom/set-attr! el :class "invalid dirty")
+      (dom/set-attr! el :class "valid dirty"))
+    ))
 
-(doto (angular/module "oasysusa.profile" (array))
-  (.config (array "$interpolateProvider"
-             (fn [$interpolateProvider]
-               (doto $interpolateProvider
-                 (start-symbol "{@")
-                 (end-symbol "@}")))
-             ))
-  (.directive "formInput" (fn []
-                            (clj->js {:require "ngModel"
-                                      :link formInput}))))
+(defn attach-blur-listener [target-id]
+  (ev/listen! (dom/by-id target-id) :blur update)
+  target-id)
+
+(defn attach-change-listener [target-id]
+  (ev/listen! (dom/by-id target-id) :change update)
+  target-id)
+
+(defn attach-keydown-listener [target-id]
+  (ev/listen! (dom/by-id target-id) :keypress update)
+  target-id)
+
+(defn grab-initial-value [target-id]
+  (let [el (dom/by-id target-id)
+        attrs (dom/attrs el)
+        val (dom/value el)]
+    (if (= (attrs :input_type) "date")
+      (swap! profile-state update-in [:profile]
+        merge {(keyword target-id) (format-date val)})
+      (swap! profile-state update-in [:profile]
+        merge {(keyword target-id) val})))
+  target-id)
+
+(defn clear [evt]
+  (ev/prevent-default evt)
+  (let [input_ids (get-in @profile-state [:ids])]
+    (dorun
+      (for [x input_ids]
+        (swap! profile-state update-in [:profile]
+          merge {(keyword x) nil})))
+    (dom/log "Cleared profile state: " @profile-state)
+    ))
+
+(defn bootstrap []
+  (add-watch profile-state :profile
+    (fn [_ _ old new]
+      (let [new-profile (get-in @profile-state [:profile])]
+        (dorun
+          (for [[k v] new-profile]
+            (update-input-value (name k) v)))
+        )))
+  (let [input_ids (get-in @profile-state [:ids])]
+    (dorun
+      (for [x input_ids]
+        (doto x
+          grab-initial-value
+;          attach-keydown-listener
+;          attach-change-listener
+          attach-blur-listener)))
+    (ev/listen! (dom/by-id "clear") :click clear)
+    (dom/log "Initial Profile State: " @profile-state)
+    ))
+
+;; bootstrap
+(bootstrap)

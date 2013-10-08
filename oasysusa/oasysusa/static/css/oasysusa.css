@@ -360,11 +360,11 @@ div.puplebox {
     padding: 7px 9px;
 }
 
-.form-signin input.ng-invalid.ng-dirty {
+.form-signin input.invalid.dirty {
     background-color: #FA787E;
 }
 
-.form-signin input.ng-valid.ng-dirty {
+.form-signin input.valid.dirty {
     background-color: #78FA89;
 }
 

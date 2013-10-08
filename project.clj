@@ -25,16 +25,23 @@
                :source-paths ["src-cljs/repls"]
                :compiler {
                            :output-to "oasysusa/oasysusa/static/js/repl.js"
-                           :optimizations :simple}}
+                           :optimizations :simple
+                           :pretty-print true}}
               {:id "profile"
                         :source-paths ["src-cljs/profile"]
-                        :externs ["externs/jquery-2.0.3.js" "externs/angular-1.0.7.js" "externs/angular-resource-1.0.7.js"]
                         :compiler {
-;                                   :output-dir "oasysusa/oasysusa/static/js"
                                    :output-to "oasysusa/oasysusa/static/js/profile.js"
-;                                   :source-map "oasysusa/oasysusa/static/js/profile.js.map"
-                                   :optimizations :simple
-                                   :pretty-print true}}
+                                   :optimizations :advanced
+                                   :pretty-print false}}
+              {:id "profile-dev"
+               :source-paths ["src-cljs/profile"]
+               :externs ["externs/jquery-2.0.3.js" "externs/angular-1.0.7.js" "externs/angular-resource-1.0.7.js"]
+               :compiler {
+                           ;                                   :output-dir "oasysusa/oasysusa/static/js"
+                           :output-to "oasysusa/oasysusa/static/js/profile-dev.js"
+                           ;                                   :source-map "oasysusa/oasysusa/static/js/profile.js.map"
+                           :optimizations :simple
+                           :pretty-print true}}
               ]}
   :repositories {"clojars.org" "http://clojars.org/repo"
                  "java.net" "http://download.java.net/maven/2"
