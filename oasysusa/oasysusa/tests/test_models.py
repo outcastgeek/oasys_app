@@ -45,6 +45,9 @@ class TestPayrollCycle(BaseTestCase):
     def setUp(self):
         self.config = testing.setUp(request=testing.DummyRequest())
         super(TestPayrollCycle, self).setUp()
+        pcns = [7, 3, 11]
+        pcy = [2013, 2012, 2011]
+        new_payroll_cycle = lambda **kwargs: PayrollCycle(**kwargs)
         for payrollCycle in [PayrollCycle(payroll_cycle_number=7, payroll_cycle_year=2013),
                              PayrollCycle(payroll_cycle_number=3, payroll_cycle_year=2012),
                              PayrollCycle(payroll_cycle_number=11, payroll_cycle_year=2011)]:

@@ -72,7 +72,7 @@ class MyModel(CRUDMixin, Base):
     name = Column(Text, unique=True)
     value = Column(Integer)
 
-    def __init__(self, name, value):
+    def __init__(self, name=None, value=None):
         self.name = name
         self.value = value
         self.session = DBSession

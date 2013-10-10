@@ -4,22 +4,20 @@ from pyramid.response import Response
 from pyramid.view import view_config
 
 from pyramid.security import (
-    authenticated_userid,
-    )
+    authenticated_userid)
 
 from sqlalchemy.exc import DBAPIError
 
-from ..models import (
-    DBSession,
-    MyModel,
-    )
+from ..models import MyModel
+
+from ..mixins.sqla import Q
 
 
 @view_config(route_name='home', renderer='templates/home.jinja2')
 def my_view(request):
     logged_in = authenticated_userid(request)
     try:
-        one = DBSession.query(MyModel).filter(MyModel.name == 'one').first()
+        one = Q(MyModel, MyModel.name == 'one').first()
     except DBAPIError:
         return Response(conn_err_msg, content_type='text/plain', status_int=500)
     return {'one': one, 'project': 'oasysusa', 'logged_in': logged_in}

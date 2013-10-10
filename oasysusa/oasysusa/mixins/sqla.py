@@ -9,7 +9,8 @@ from sqlalchemy import (
     Integer)
 
 def Q(clazz, filters=None, page=0, page_size=None):
-    query = clazz().session.query(clazz)
+    instance = clazz()
+    query = instance.session.query(clazz)
     if filters:
         query = query.filter(**filters)
     if page_size:
