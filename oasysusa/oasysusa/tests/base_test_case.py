@@ -22,9 +22,9 @@ class BaseTestCase(unittest.TestCase):
         DBSession.remove()
         testing.tearDown()
 
-    def save(self, data):
-        with transaction.manager:
-            DBSession.add(data)
+    # def save(self, data):
+    #     with transaction.manager:
+    #         DBSession.add(data)
 
     def find_all(self, modelClass):
         return DBSession.query(modelClass).all()

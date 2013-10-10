@@ -11,13 +11,14 @@ class TestMyView(BaseTestCase):
             MyModel,
             )
         model = MyModel(name='one', value=55)
-        self.save(model)
+        model.save()
 
     def test_it(self):
         from ..views.public_views import my_view
         request = testing.DummyRequest()
         info = my_view(request)
         self.assertEqual(info['one'].name, 'one')
+        self.assertEqual(info['one'].value, 55)
         self.assertEqual(info['project'], 'oasysusa')
 
 class TestAuthView(unittest.TestCase):

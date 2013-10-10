@@ -2,6 +2,7 @@ __author__ = 'outcastgeek'
 
 from pyramid import testing
 from base_test_case import BaseTestCase
+from ..mixins.sqla import Q
 
 from ..models import (
     Employee,
@@ -47,11 +48,11 @@ class TestPayrollCycle(BaseTestCase):
         for payrollCycle in [PayrollCycle(payroll_cycle_number=7, payroll_cycle_year=2013),
                              PayrollCycle(payroll_cycle_number=3, payroll_cycle_year=2012),
                              PayrollCycle(payroll_cycle_number=11, payroll_cycle_year=2011)]:
-            self.save(payrollCycle)
+            payrollCycle.save()
 
     def test_that(self):
         # run
-        payrollCycles = self.find_all(PayrollCycle)
+        payrollCycles = Q(PayrollCycle).all()
 
         # verify
         self.assertEqual(len(payrollCycles), 3)

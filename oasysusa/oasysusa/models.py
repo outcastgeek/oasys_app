@@ -1,3 +1,5 @@
+from oasysusa.oasysusa.mixins.sqla import CRUDMixin
+
 __author__ = 'outcastgeek'
 
 import string
@@ -64,7 +66,7 @@ def find_methods(obj):
 DATE_FORMAT = "%m/%d/%Y"
 EARLIEST_DATE = datetime.strptime('01/01/1900', DATE_FORMAT)
 
-class MyModel(Base):
+class MyModel(CRUDMixin, Base):
     __tablename__ = 'models'
     id = Column(Integer, primary_key=True)
     name = Column(Text, unique=True)
@@ -73,6 +75,7 @@ class MyModel(Base):
     def __init__(self, name, value):
         self.name = name
         self.value = value
+        self.session = DBSession
 
 ################# EMPLOYEES #############################
 
@@ -275,7 +278,7 @@ user_group_table = Table('employee_group', Base.metadata,
 
 ################# PAYROLL CYCLES #################################
 
-class PayrollCycle(Base):
+class PayrollCycle(CRUDMixin, Base):
     __tablename__ = 'payroll_cycles'
     id = Column(Integer, primary_key=True)
     payroll_cycle_number = Column(Integer)
@@ -295,12 +298,13 @@ class PayrollCycle(Base):
         self.direct_deposit_date = direct_deposit_date
         self.start_date = start_date
         self.end_date = end_date
+        self.session = DBSession
 
 ################# END PAYROLL CYCLES #############################
 
 ################# PROJECTS #####################################
 
-class Project(Base):
+class Project(CRUDMixin, Base):
     __tablename__ = 'projects'
     id = Column(Integer, primary_key=True)
     name = Column(Text)
@@ -319,6 +323,7 @@ class Project(Base):
         self.email = email
         self.telephone_number = telephone_number
         self.address = address
+        self.session = DBSession
 
 class ProjectSchema(Schema):
     allow_extra_fields = True
@@ -335,7 +340,7 @@ class ProjectSchema(Schema):
 
 ################# TIME SHEETS #########################################
 
-class TimeSheet(Base):
+class TimeSheet(CRUDMixin, Base):
     __tablename__= 'time_sheets'
     id = Column(Integer, primary_key=True)
     employee_id = Column(Integer, ForeignKey('employees.id'))
@@ -349,6 +354,7 @@ class TimeSheet(Base):
         self.start_date = start_date
         self.end_date = end_date
         self.description = description
+        self.session = DBSession
 
 class TimeSheetSchema(Schema):
     allow_extra_fields = True
@@ -360,7 +366,7 @@ class TimeSheetSchema(Schema):
 
 ################# WORK SEGMENTS #############################################
 
-class WorkSegment(Base):
+class WorkSegment(CRUDMixin, Base):
     __tablename__ = 'work_segments'
     id = Column(Integer, primary_key=True)
     project_id = Column(Integer, ForeignKey('projects.id'))
@@ -373,6 +379,7 @@ class WorkSegment(Base):
     def __init__(self, date=None, hours=None, description=None):
         self.date = date
         self.hours = hours
+        self.session = DBSession
 
 class WorkSegmentSchema(Schema):
     allow_extra_fields = True
