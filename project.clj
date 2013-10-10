@@ -15,9 +15,11 @@
                  [enfocus "2.0.0-beta2"]
                  [hiccup "1.0.4"]
                  [jayq "2.4.0"]
-                 [crate "0.2.4"]]
+                 [crate "0.2.4"]
+                 [org.bodil/cljs-noderepl "0.1.10"]]
   :aot :all
-  :plugins [[lein-cljsbuild "0.3.3"]]
+  :plugins [[lein-cljsbuild "0.3.3"]
+            [org.bodil/lein-noderepl "0.1.10"]]
   :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
   :cljsbuild {
               :builds [
@@ -41,6 +43,22 @@
                            :output-to "oasysusa/oasysusa/static/js/profile-dev.js"
                            ;                                   :source-map "oasysusa/oasysusa/static/js/profile.js.map"
                            :optimizations :simple
+                           :pretty-print true}}
+              {:id "hello"
+               :source-paths ["node-cljs/hello"]
+               :externs []
+               :compiler {
+                           :target :nodejs
+                           :output-to "target/nodejs/hello-node.js"
+                           :optimizations :simple
+                           :pretty-print true}}
+              {:id "phantom"
+               :source-paths ["node-cljs/phantom"]
+               :externs []
+               :compiler {
+                           :target :nodejs
+                           :output-to "target/nodejs/ph-node.js"
+                           :optimizations :whitespace
                            :pretty-print true}}
               ]}
   :repositories {"clojars.org" "http://clojars.org/repo"

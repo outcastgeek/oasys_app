@@ -1,4 +1,4 @@
-import  logging
+import logging
 
 from pyramid.config import Configurator
 from pyramid.authentication import SessionAuthenticationPolicy
