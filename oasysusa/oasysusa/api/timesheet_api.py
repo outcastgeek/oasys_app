@@ -30,6 +30,28 @@ def first_and_last_dow(day):
     sunday = monday + datetime.timedelta(days=6)
     return (monday, sunday)
 
+@view_defaults(route_name='projectapi',
+               permission='user',
+               renderer='json')
+class ProjectApi(object):
+    def __init__(self, request):
+        self.request = request
+
+    @view_config(request_method='GET')
+    def get(self):
+        projects = Q(Project).all()
+        return projects
+
+    @view_config(request_method='POST')
+    def post(self):
+        context = self.request.context
+        log.debug(context)
+        return Response('post')
+
+    @view_config(request_method='DELETE')
+    def delete(self):
+        return Response('delete')
+
 @view_defaults(route_name='weekapi',
                permission='user',
                renderer='json')

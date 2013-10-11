@@ -325,6 +325,16 @@ class Project(CRUDMixin, Base):
         self.address = address
         self.session = DBSession
 
+    def __json__(self, request):
+        return {
+            'name': self.name,
+            'client': self.client,
+            'description': self.description,
+            'email': self.email,
+            'telephone_number': self.telephone_number,
+            'address': self.address
+        }
+
 class ProjectSchema(Schema):
     allow_extra_fields = True
     filter_extra_fields = True
@@ -387,7 +397,7 @@ class WorkSegment(CRUDMixin, Base):
                         .filter(WorkSegment.date >= low) \
                         .filter(WorkSegment.date <= high).all()
 
-    def __json__(self):
+    def __json__(self, request):
         return {
             'date': self.date.strftime(DATE_FORMAT),
             'hours': self.hours
