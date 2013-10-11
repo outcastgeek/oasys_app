@@ -14,8 +14,8 @@ class BaseTestCase(unittest.TestCase):
     def setUp(self):
         self.config = testing.setUp()
         from sqlalchemy import create_engine
-        engine = create_engine('sqlite:///:memory', echo=True, echo_pool=True)
-        # engine = create_engine('sqlite://', echo=True, echo_pool=True)
+        # engine = create_engine('sqlite:///:memory', echo=True, echo_pool=True)
+        engine = create_engine('sqlite://', echo=True, echo_pool=True)
         DBSession.configure(bind=engine)
         Base.metadata.create_all(engine)
 

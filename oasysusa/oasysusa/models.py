@@ -1,5 +1,3 @@
-from oasysusa.oasysusa.mixins.sqla import CRUDMixin
-
 __author__ = 'outcastgeek'
 
 import string
@@ -16,19 +14,19 @@ from sqlalchemy import (
     Sequence,
     Unicode,
     Table,
-    String)
-
-from sqlalchemy.ext.declarative import declarative_base
-
-from sqlalchemy import (
+    String,
     Boolean,
     Date)
+
+from sqlalchemy.ext.declarative import declarative_base
 
 from sqlalchemy.orm import (
     scoped_session,
     sessionmaker,
     relationship
     )
+
+from .mixins.sqla import CRUDMixin
 
 from formencode import Schema
 from formencode.national import USPhoneNumber
@@ -64,6 +62,7 @@ def find_methods(obj):
     return [method for method in dir(obj) if callable(getattr(obj, method))]
 
 DATE_FORMAT = "%m/%d/%Y"
+SQL_DATE_FORMAT = "%Y-%m-%d"
 EARLIEST_DATE = datetime.strptime('01/01/1900', DATE_FORMAT)
 
 class MyModel(CRUDMixin, Base):
@@ -122,6 +121,7 @@ class Employee(Base):
         self.telephone_number = telephone_number
         self.date_of_birth = date_of_birth
         self.groups = groups or []
+        self.session = DBSession
 
     def update_fields(self, updated_fields={}):
         for key, value in updated_fields.iteritems():
@@ -213,13 +213,13 @@ class Employee(Base):
             'first_name': self.first_name,
             'last_name': self.last_name,
             'email': self.email,
-            'provider': self.provider,
-            'active': self.active,
+            # 'provider': self.provider,
+            # 'active': self.active,
             'address': self.address,
-            'employee_id': self.employee_id,
-            'provider_id': self.provider_id,
+            # 'employee_id': self.employee_id,
+            # 'provider_id': self.provider_id,
             'telephone_number': self.telephone_number,
-            'date_of_birth': self.date_of_birth
+            'date_of_birth': self.date_of_birth.strftime(DATE_FORMAT)
         }
 
         # def __repr__(self):
@@ -380,6 +380,18 @@ class WorkSegment(CRUDMixin, Base):
         self.date = date
         self.hours = hours
         self.session = DBSession
+
+    @classmethod
+    def in_range_inc(cls, low, high):
+        return DBSession.query(WorkSegment) \
+                        .filter(WorkSegment.date >= low) \
+                        .filter(WorkSegment.date <= high).all()
+
+    def __json__(self):
+        return {
+            'date': self.date.strftime(DATE_FORMAT),
+            'hours': self.hours
+        }
 
 class WorkSegmentSchema(Schema):
     allow_extra_fields = True
