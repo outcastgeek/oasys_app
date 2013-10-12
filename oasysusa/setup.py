@@ -10,6 +10,8 @@ requires = [
     'pyramid',
     'pyramid_jinja2',
     'pyramid_beaker',
+    'redis',
+    'pyramid_redis_sessions',
     'pyramid_simpleform',
     'pyramid_deform',
     'SQLAlchemy',
