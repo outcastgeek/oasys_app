@@ -24,6 +24,8 @@ tornado==3.1
 pyramid==1.4.3
 pyramid_tm==0.7
 pyramid_beaker==0.8
+python-memcached==1.53
+MemcachedManager==0.2
 pyramid_redis_sessions==0.9b2
 pyramid_debugtoolbar==1.0.6
 pyramid_exclog==0.7
