@@ -1,4 +1,4 @@
-__author__ = 'C148810'
+__author__ = 'outcastgeek'
 
 import logging
 import datetime
@@ -8,21 +8,13 @@ from pyramid.view import (
     view_defaults,
     view_config)
 
-from sqlalchemy import and_
-from sqlalchemy.sql.expression import (
-    bindparam,
-    text)
-
 from ..mixins.sqla import Q
 
 from ..models import (
-    SQL_DATE_FORMAT,
-    PayrollCycle,
     Project,
-    TimeSheet,
-    WorkSegment, DBSession)
+    WorkSegment)
 
-# logging.basicConfig()
+logging.basicConfig()
 log = logging.getLogger(__name__)
 
 def first_and_last_dow(day):
@@ -30,7 +22,7 @@ def first_and_last_dow(day):
     sunday = monday + datetime.timedelta(days=6)
     return (monday, sunday)
 
-@view_defaults(route_name='projectapi',
+@view_defaults(name='project',
                permission='user',
                renderer='json')
 class ProjectApi(object):
@@ -52,7 +44,7 @@ class ProjectApi(object):
     def delete(self):
         return Response('delete')
 
-@view_defaults(route_name='weekapi',
+@view_defaults(name='week',
                permission='user',
                renderer='json')
 class WeekApi(object):

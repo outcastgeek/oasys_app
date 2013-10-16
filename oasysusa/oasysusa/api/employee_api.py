@@ -15,7 +15,7 @@ logging.basicConfig()
 log = logging.getLogger(__file__)
 
 
-@view_defaults(route_name='employeeapi',
+@view_defaults(name='employee',
                permission='user',
                renderer='json')
 class EmployeeApi(object):

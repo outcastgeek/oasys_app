@@ -1,15 +1,8 @@
-__author__ = 'C148810'
+__author__ = 'outcastgeek'
 
 import datetime
 from pyramid import testing
 from base_test_case import BaseTestCase
-from ..mixins.sqla import Q
-
-from ..models import (
-    SQL_DATE_FORMAT,
-    Employee,
-    PayrollCycle,
-    )
 
 from ..api.timesheet_api import (
     first_and_last_dow,
