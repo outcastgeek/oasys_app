@@ -2,7 +2,8 @@
   (:require [clojure.string :as cljstr]
             [domina :as dom]
             [domina.events :as ev]
-            [domina.css :as css]))
+            [domina.css :as css]
+            [oasysusa.ajax :as ajax]))
 
 (def profile-state (atom {:ids ["first_name" "last_name" "email" "date_of_birth" "address" "telephone_number"]}))
 
@@ -73,6 +74,12 @@
     (dom/log "Cleared profile state: " @profile-state)
     ))
 
+(defn initialize-profile-state [state-json]
+  (let [initial-profile-state (js->clj state-json)]
+    (dom/log "Fetched initial state: " state-json)
+    (swap! profile-state update-in [:profile]
+      merge initial-profile-state)))
+
 (defn bootstrap []
   (add-watch profile-state :profile
     (fn [_ _ old new]
@@ -81,17 +88,17 @@
           (for [[k v] new-profile]
             (update-input-value (name k) v)))
         )))
+  (ajax/GET "/employee" initialize-profile-state)
   (let [input_ids (get-in @profile-state [:ids])]
     (dorun
       (for [x input_ids]
         (doto x
-          grab-initial-value
+;          grab-initial-value
 ;          attach-keydown-listener
 ;          attach-change-listener
           attach-blur-listener)))
     (ev/listen! (dom/by-id "clear") :click clear)
-    (dom/log "Initial Profile State: " @profile-state)
-    ))
+    (dom/log "Initial Profile State: " @profile-state)))
 
 ;; bootstrap
 (bootstrap)

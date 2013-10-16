@@ -30,13 +30,13 @@
                            :optimizations :simple
                            :pretty-print true}}
               {:id "profile"
-                        :source-paths ["src-cljs/profile"]
+                        :source-paths ["src-cljs/profile", "src-cljs/utils"]
                         :compiler {
                                    :output-to "oasysusa/oasysusa/static/js/profile.js"
                                    :optimizations :advanced
                                    :pretty-print false}}
               {:id "profile-dev"
-               :source-paths ["src-cljs/profile"]
+               :source-paths ["src-cljs/profile", "src-cljs/utils"]
                :externs ["externs/jquery-2.0.3.js" "externs/angular-1.0.7.js" "externs/angular-resource-1.0.7.js"]
                :compiler {
                            ;                                   :output-dir "oasysusa/oasysusa/static/js"

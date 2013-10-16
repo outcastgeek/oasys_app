@@ -61,7 +61,7 @@ def main(global_config, **settings):
     config.add_route('contact', '/contact')
     config.add_route('timesheet', '/timesheet')
 
-    ###### API Traversal #########
+    ###### API Paths #########
 
     #### trying deform ######
     config.add_route('try_deform', '/deform')
