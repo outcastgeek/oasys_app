@@ -3,7 +3,10 @@
             [domina :as dom]
             [domina.events :as ev]
             [domina.css :as css]
-            [oasysusa.ajax :as ajax]))
+            [cljs.core.async :as async :refer [chan close! >! <!]]
+            [oasysusa.ajax :as ajax])
+  (:require-macros
+    [cljs.core.async.macros :refer [go alt!]]))
 
 (def profile-state (atom {:ids ["first_name" "last_name" "email" "date_of_birth" "address" "telephone_number"]}))
 
@@ -76,9 +79,11 @@
 
 (defn initialize-profile-state [state-json]
   (let [initial-profile-state (js->clj state-json)]
-    (dom/log "Fetched initial state: " state-json)
+;    (dom/log "Fetched initial state: " state-json)
     (swap! profile-state update-in [:profile]
-      merge initial-profile-state)))
+      merge initial-profile-state)
+    (dom/log "Fetched initial state: " @profile-state)
+    ))
 
 (defn bootstrap []
   (add-watch profile-state :profile
@@ -88,12 +93,14 @@
           (for [[k v] new-profile]
             (update-input-value (name k) v)))
         )))
+;  (go
+;    (initialize-profile-state (<! (ajax/GET "/employee"))))
   (ajax/GET "/employee" initialize-profile-state)
   (let [input_ids (get-in @profile-state [:ids])]
     (dorun
       (for [x input_ids]
         (doto x
-;          grab-initial-value
+          grab-initial-value
 ;          attach-keydown-listener
 ;          attach-change-listener
           attach-blur-listener)))
