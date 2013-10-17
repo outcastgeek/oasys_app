@@ -22,13 +22,16 @@
   (jq/val el))
 
 (defn set-value! [el val]
-  (jq/html ($ el) val))
+  (jq/val ($ el) val))
 
 (defn attr [el prop]
   (jq/attr ($ el) prop))
 
 (defn set-attr! [el prop val]
   (jq/attr ($ el) prop val))
+
+(defn prevent-default [evt]
+  (.preventDefault evt))
 
 (defn listen! [el event handler]
   (jq/bind el event handler))

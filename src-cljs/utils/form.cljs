@@ -50,15 +50,14 @@
                                    merge {(keyword target-id) val})))
                              target-id)
 
-        clear (fn [evt input_ids]
+        clear (fn [evt input_ids form-state]
                 (domutil/prevent-default evt)
-                (let [input_ids (get-in @form-state [:ids ])]
-                  (doseq [x input_ids]
-                    (swap! form-state update-in [:state ]
-                      merge {(keyword x) nil}))
-                  (domutil/log "Cleared profile state: " @form-state)
-                  (update-inputs (get-in @form-state [:state ]))
-                  ))]
+                (doseq [x input_ids]
+                  (swap! form-state update-in [:state ]
+                    merge {(keyword x) nil}))
+                (domutil/log "Cleared profile state: " @form-state)
+                (doseq [x input_ids]
+                  (update-input-value x nil)))]
     (doseq [x input_ids]
       (grab-initial-value x))
     (update-inputs (get-in @form-state [:state ]))
@@ -67,5 +66,5 @@
       ;(attach-blur-listener x)
       )
     (domutil/listen! (domutil/by-id "clear") :click (fn [evt]
-                                                      (clear evt input_ids)))
+                                                      (clear evt input_ids form-state)))
     ))
