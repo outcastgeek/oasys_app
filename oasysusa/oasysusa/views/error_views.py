@@ -28,7 +28,7 @@ def error_view(exc, request):
     request.response_status = '500 Error'
     return dict(error='Error', message='We\'re sorry, but something went wrong.')
 
-@notfound_view_config(renderer='templates/error.jinja2')
+@notfound_view_config(renderer='templates/404.jinja2')
 def not_found(request):
     request.response_status = '404 Not Found'
     return dict(error='Not Found', message='Not Found, dude!')
