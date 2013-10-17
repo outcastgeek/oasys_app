@@ -333,9 +333,24 @@ div.puplebox {
 
 }
 
+/******************* place holders *********************/
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #999;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #999;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #999;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    #999;
+}
+
 /************************ profile form *****************/
 
-.form-signin {
+.form-base {
     max-width: 300px;
     padding: 19px 29px 29px;
     margin: 0 auto 20px;
@@ -348,23 +363,23 @@ div.puplebox {
     -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
     box-shadow: 0 1px 2px rgba(0,0,0,.05);
 }
-.form-signin .form-signin-heading,
-.form-signin .checkbox {
+.form-base .form-base-heading,
+.form-base .checkbox {
     margin-bottom: 10px;
 }
-.form-signin input[type="text"],
-.form-signin input[type="password"] {
+.form-base input[type="text"],
+.form-base input[type="password"] {
     font-size: 16px;
     height: auto;
     margin-bottom: 15px;
     padding: 7px 9px;
 }
 
-.form-signin input.invalid.dirty {
+.form-base input.invalid.dirty {
     background-color: #FA787E;
 }
 
-.form-signin input.valid.dirty {
+.form-base input.valid.dirty {
     background-color: #78FA89;
 }
 

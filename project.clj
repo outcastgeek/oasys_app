@@ -47,6 +47,24 @@
                                       ;                                   :source-map "oasysusa/oasysusa/static/js/profile.js.map"
                                       :optimizations :simple
                                       :pretty-print false}}
+                         {:id "project-dev"
+                          :source-paths ["src-cljs/timesheet/project", "src-cljs/utils"]
+                          :externs ["externs/jquery-1.9.js"]
+                          :compiler {
+                                      ;                                   :output-dir "oasysusa/oasysusa/static/js"
+                                      :output-to "oasysusa/oasysusa/static/js/project-dev.js"
+                                      ;                                   :source-map "oasysusa/oasysusa/static/js/profile.js.map"
+                                      :optimizations :simple
+                                      :pretty-print true}}
+                         {:id "project"
+                          :source-paths ["src-cljs/timesheet/project", "src-cljs/utils"]
+                          :externs ["externs/jquery-1.9.js"]
+                          :compiler {
+                                      ;                                   :output-dir "oasysusa/oasysusa/static/js"
+                                      :output-to "oasysusa/oasysusa/static/js/project.js"
+                                      ;                                   :source-map "oasysusa/oasysusa/static/js/profile.js.map"
+                                      :optimizations :simple
+                                      :pretty-print false}}
                          {:id "hello"
                           :source-paths ["node-cljs/hello"]
                           :externs []

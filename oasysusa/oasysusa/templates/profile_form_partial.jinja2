@@ -1,7 +1,7 @@
 
 <main>
-    {{ renderer.begin(request.route_url('profile'), name="profile-form", class="form-signin") }}
-    <h2 class="form-signin-heading">Basic Profile</h2>
+    {{ renderer.begin(request.route_url('profile'), name="profile-form", class="form-base") }}
+    <h2 class="form-base-heading">Basic Profile</h2>
     {{ renderer.csrf_token() }}
     {{ renderer.hidden_tag("provider_id") }}
     {{ renderer.hidden_tag("username") }}

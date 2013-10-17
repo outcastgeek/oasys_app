@@ -8,6 +8,7 @@ import logging
 logging.basicConfig()
 log = logging.getLogger(__file__)
 
+
 @view_config(route_name='timesheet',
              renderer='templates/timesheet.jinja2',
              permission='user')
@@ -16,4 +17,5 @@ def timesheet(request):
     uniq = session['provider_id']
     username = authenticated_userid(request)
 
-    return dict(logged_in = username, request=request)
+    return dict(logged_in=username, request=request,
+                cljs_debug=True if request.registry.settings['cljs_debug'] == 'debug' else False, )
