@@ -3,45 +3,45 @@
             [domina :as dom]
             [domina.events :as ev]
             [domina.css :as css]
-            [cljs.core.async :as async :refer [chan close! >! <!]]
-            [oasysusa.ajax :as ajax])
-  (:require-macros
-    [cljs.core.async.macros :refer [go alt!]]))
+            [cljs.core.async :as async :refer [chan alts! timeout close! put! <!]]
+            [oasysusa.utils.dom :as domutil]
+            [oasysusa.utils.ajax :as ajax])
+  (:require-macros [cljs.core.async.macros :refer [go alt!]]))
 
 (def profile-state (atom {:ids ["first_name" "last_name" "email" "date_of_birth" "address" "telephone_number"]}))
 
-(defn evt->el [event]
-  (css/sel (ev/target event)))
-
-(defn format-date [raw-date-string]
-  (let [new-date (cljstr/join "/" (reverse (cljstr/split raw-date-string #"-")))]
-    ;(dom/log "Formatted Date: " raw-date-string " into Date: " new-date)
-    new-date))
-
-(defn update [event]
-  (let [target-input (evt->el event)
-        attrs (dom/attrs target-input)
-        id (dom/attr target-input "id")
-        val (dom/value target-input)]
-    ;(dom/log "Profile Update KeyVal: " (dom/attr target-input "id") " => " (dom/value target-input))
-    (if (= (attrs :input_type) "date")
-      (swap! profile-state update-in [:profile]
-        merge {(keyword id) (format-date val)})
-      (swap! profile-state update-in [:profile]
-        merge {(keyword id) val}))
-    ;(dom/log @profile-state)
-    ))
-
 (defn update-input-value [id val]
+  (domutil/log "View Update KeyVal: " id " => " val)
   (let [el (dom/by-id id)
         attrs (dom/attrs el)]
-    ;(dom/log "View Update KeyVal: " id " => " val)
     (dom/set-value! (dom/by-id id) val)
     (if (and
-          (= (attrs :required) "required")
+          (= (attrs :required ) "required")
           (cljstr/blank? val))
       (dom/set-attr! el :class "invalid dirty")
       (dom/set-attr! el :class "valid dirty"))
+    ))
+
+(defn update-inputs [new-profile]
+  (domutil/log "Handling profile change: " new-profile)
+  (doseq [[k v] new-profile]
+    (go
+      (update-input-value (name k) v))))
+
+(defn update [event]
+  (let [target-input (domutil/evt->el event)
+        attrs (dom/attrs target-input)
+        id (dom/attr target-input "id")
+        val (dom/value target-input)]
+    (domutil/log "Profile Update KeyVal: " (dom/attr target-input "id") " => " (dom/value target-input))
+    (if (= (attrs :input_type ) "date")
+      (swap! profile-state update-in [:profile ]
+        merge {(keyword id) (domutil/format-date val)})
+      (swap! profile-state update-in [:profile ]
+        merge {(keyword id) val}))
+    (domutil/log "Sending profile update...")
+    (update-inputs (get-in @profile-state [:profile ]))
+    ;(domutil/log @profile-state)
     ))
 
 (defn attach-blur-listener [target-id]
@@ -57,55 +57,48 @@
   target-id)
 
 (defn grab-initial-value [target-id]
+  (domutil/log "Grabbing initial value for: " target-id)
   (let [el (dom/by-id target-id)
         attrs (dom/attrs el)
         val (dom/value el)]
-    (if (= (attrs :input_type) "date")
-      (swap! profile-state update-in [:profile]
-        merge {(keyword target-id) (format-date val)})
-      (swap! profile-state update-in [:profile]
+    (if (= (attrs :input_type ) "date")
+      (swap! profile-state update-in [:profile ]
+        merge {(keyword target-id) (domutil/format-date val)})
+      (swap! profile-state update-in [:profile ]
         merge {(keyword target-id) val})))
   target-id)
 
-(defn clear [evt]
+(defn clear [evt input_ids]
   (ev/prevent-default evt)
-  (let [input_ids (get-in @profile-state [:ids])]
-    (dorun
-      (for [x input_ids]
-        (swap! profile-state update-in [:profile]
-          merge {(keyword x) nil})))
-    (dom/log "Cleared profile state: " @profile-state)
+  (let [input_ids (get-in @profile-state [:ids ])]
+    (doseq [x input_ids]
+      (swap! profile-state update-in [:profile ]
+        merge {(keyword x) nil}))
+    (domutil/log "Cleared profile state: " @profile-state)
+    (update-inputs (get-in @profile-state [:profile ]))
     ))
 
-(defn initialize-profile-state [state-json]
-  (let [initial-profile-state (js->clj state-json)]
-;    (dom/log "Fetched initial state: " state-json)
-    (swap! profile-state update-in [:profile]
-      merge initial-profile-state)
-    (dom/log "Fetched initial state: " @profile-state)
+(defn run [profile-state]
+  (let [input_ids (get-in @profile-state [:ids ])]
+;    (go
+;      (domutil/log "Ajax GET started")
+;      (let [initial-profile (js->clj (<! (ajax/GET "/employee")))]
+;        (swap! profile-state update-in [:profile ]
+;          merge initial-profile)
+;        (domutil/log "Sending profile update...")
+;        (domutil/log "Ajax GET completed...")
+;        ;(<! (timeout 1000))
+;        (domutil/log "Fetched initial state: " initial-profile)
+;        (domutil/log "Initial Profile State: " @profile-state)
+;        (update-inputs (get-in @profile-state [:profile ]))))
+    (doseq [x input_ids]
+      (grab-initial-value x))
+    (update-inputs (get-in @profile-state [:profile ]))
+    (doseq [x input_ids]
+      (attach-blur-listener x))
+    (ev/listen! (dom/by-id "clear") :click (fn [evt]
+                                             (clear evt input_ids)))
     ))
 
-(defn bootstrap []
-  (add-watch profile-state :profile
-    (fn [_ _ old new]
-      (let [new-profile (get-in @profile-state [:profile])]
-        (dorun
-          (for [[k v] new-profile]
-            (update-input-value (name k) v)))
-        )))
-;  (go
-;    (initialize-profile-state (<! (ajax/GET "/employee"))))
-  (ajax/GET "/employee" initialize-profile-state)
-  (let [input_ids (get-in @profile-state [:ids])]
-    (dorun
-      (for [x input_ids]
-        (doto x
-          grab-initial-value
-;          attach-keydown-listener
-;          attach-change-listener
-          attach-blur-listener)))
-    (ev/listen! (dom/by-id "clear") :click clear)
-    (dom/log "Initial Profile State: " @profile-state)))
-
-;; bootstrap
-(bootstrap)
+; run
+(run profile-state)
