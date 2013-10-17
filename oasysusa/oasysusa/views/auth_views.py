@@ -2,33 +2,27 @@ __author__ = 'outcastgeek'
 
 import logging
 import json
-import pkg_resources
-from pyramid.response import Response
 
 from pyramid_simpleform import Form
 from pyramid_simpleform.renderers import FormRenderer
-
 from pyramid.view import view_config
 from pyramid.threadlocal import get_current_registry
-
-from pyramid.httpexceptions import HTTPFound, HTTPBadRequest
-
+from pyramid.httpexceptions import HTTPFound
 from pyramid.view import (
     forbidden_view_config
     )
-
 from pyramid.security import (
     remember,
     forget,
     authenticated_userid,
     )
+from velruse import login_url
 
 from ..models import (
     Employee,
     EmployeeSchema
     )
 
-from velruse import login_url
 
 logging.basicConfig()
 log = logging.getLogger(__file__)

@@ -11,9 +11,9 @@ log = logging.getLogger(__file__)
 @view_config(route_name='timesheet',
              renderer='templates/timesheet.jinja2',
              permission='user')
-def profile(request):
+def timesheet(request):
     session = request.session
     uniq = session['provider_id']
     username = authenticated_userid(request)
 
-    return dict(logged_in = username)
+    return dict(logged_in = username, request=request)
