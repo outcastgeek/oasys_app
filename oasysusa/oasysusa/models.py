@@ -109,7 +109,7 @@ class Employee(Base):
                  provider_id=None, date_of_birth=None, provider=None,
                  active=False, address=None, telephone_number=None, groups=None):
         self.username = username
-        self.password = password if password else self._set_password(self._generate_password(16))
+        self.password = self._set_password(password) if password else self._set_password(self._generate_password(16))
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
@@ -166,9 +166,12 @@ class Employee(Base):
         return password
 
     def validate_password(self, password):
-        hashed_pass = sha1()
-        hashed_pass.update(password + self.password[:40])
-        return self.password[40:] == hashed_pass.hexdigest()
+        if self.password:
+            hashed_pass = sha1()
+            hashed_pass.update(password + self.password[:40])
+            return self.password[40:] == hashed_pass.hexdigest()
+        else:
+            return False
 
     @classmethod
     def by_id(cls, userid):

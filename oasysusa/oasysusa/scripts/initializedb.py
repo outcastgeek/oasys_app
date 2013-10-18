@@ -13,7 +13,8 @@ from ..models import (
     DBSession,
     Base,
     MyModel,
-    Project)
+    Project,
+    Employee)
 
 
 def usage(argv):
@@ -41,3 +42,5 @@ def main(argv=sys.argv):
         project2 = Project(name="Project2", client="Client2", description="Description2",
                            email="Email2", address="Address2", telephone_number="TelephoneNumber2")
         DBSession.add(project2)
+        admin = Employee(username='admin', password='OneAdmin13')
+        DBSession.add(admin)

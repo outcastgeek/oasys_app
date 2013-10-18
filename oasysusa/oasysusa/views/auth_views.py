@@ -43,11 +43,11 @@ def login(request):
     message = ''
     login = ''
     password = ''
-    if 'form.submitted' in request.params:
+    if 'submit' in request.POST:
         login = request.params['login']
         password = request.params['password']
         employee = Employee.by_username(login)
-        if employee  and employee.validate_password(password):
+        if employee and employee.validate_password(password):
             headers = remember(request, login)
             log.info(headers)
             logged_in = authenticated_userid(request)
