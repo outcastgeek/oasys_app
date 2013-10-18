@@ -1,32 +1,26 @@
-{{ renderer.begin(request.route_url('project-form'), name="project-form", class="form-base") }}
-<h2 class="form-base-heading">Create Project</h2>
-{#name = NotEmpty#}
-{#client = NotEmpty#}
-{#description = UnicodeString(min=250)#}
-{#email = Email()#}
-{#telephone_number = USPhoneNumber#}
-{#address = NotEmpty#}
-{{ renderer.csrf_token() }}
-{#{{ renderer.hidden_tag("provider_id") }}#}
-{#{{ renderer.hidden_tag("username") }}#}
-{{ renderer.label("Name") }}
-{{ renderer.errorlist("name") }}
-{{ renderer.text("name", placeholder="name", size=30, class="input-block-level", required="required", form_input="form_input") }}
-{{ renderer.label("Client") }}
-{{ renderer.errorlist("client") }}
-{{ renderer.text("client", placeholder="client", size=30, class="input-block-level", required="required", form_input="client") }}
-{{ renderer.label("Description") }}
-{{ renderer.errorlist("description") }}
-{{ renderer.text("description", size=30, placeholder="description", class="input-block-level", required="required", form_input="form_input") }}
-{{ renderer.label("Email") }}
-{{ renderer.errorlist("email") }}
-{{ renderer.text("email", size=30, placeholder="email@emailprovider.com", class="input-block-level", required="required", form_input="form_input") }}
-{{ renderer.label("Telephone Number") }}
-{{ renderer.errorlist("telephone_number") }}
-{{ renderer.text("telephone_number", placeholder="987-654-3210", size=30, class="input-block-level", required="required", form_input="form_input") }}
-{{ renderer.label("Address") }}
-{{ renderer.errorlist("address") }}
-{{ renderer.text("address", placeholder="23 geeky way, Hacker PL 12345", size=60, class="input-block-level", required="required", form_input="form_input") }}
-<button id="clear" class="btn btn-large">Clear</button>
-{{ renderer.submit('submit', 'Save', class="btn btn-large btn-primary") }}
-{{ renderer.end() }}
+{% extends "templates/layout.jinja2" %}
+
+{% block title %}
+    Project
+{% endblock %}
+
+{% block css %}
+    <style>
+        body {
+            padding-top: 80px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    {{ projectform(request)|safe }}
+{% endblock %}
+
+{% block page_js %}
+    {% if cljs_debug %}
+        <script src="{{ request.static_url('oasysusa:static/js/repl.js') }}"></script>
+        <script src="{{ request.static_url('oasysusa:static/js/project-dev.js') }}"></script>
+    {% else %}
+        <script src="{{ request.static_url('oasysusa:static/js/project.js') }}"></script>
+    {% endif %}
+{% endblock %}

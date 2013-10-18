@@ -60,13 +60,16 @@ def main(global_config, **settings):
     config.add_route('profile', '/profile')
     config.add_route('contact', '/contact')
     config.add_route('timesheet', '/timesheet')
-    config.add_route('project-form', '/project_form')
+    config.add_route('project-form', '/timesheet/project')
 
     ###### API Paths #########
 
     #### trying deform ######
     config.add_route('try_deform', '/deform')
     config.add_static_view('deform_static', 'deform:static')
+
+    # scan for subscribers
+    config.scan('events')
 
     # config.scan('oasysusa.views')
     config.scan()

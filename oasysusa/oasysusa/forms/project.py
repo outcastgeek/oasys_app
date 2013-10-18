@@ -8,8 +8,7 @@ from pyramid_simpleform.renderers import FormRenderer
 
 from ..models import ProjectSchema, Project
 
-
-def form(request):
+def initial_form_data(request):
     session = request.session
     uniq = session['provider_id']
     # existing_employee = Employee.by_provider_id(uniq)
@@ -18,13 +17,20 @@ def form(request):
     form = Form(request,
                 schema=ProjectSchema(),
                 obj=Project())
+    return dict(logged_in =username, renderer=FormRenderer(form), request=request)
 
-    response = render_to_response('templates/admin/project.jinja2', dict(renderer=FormRenderer(form), request=request))
+def form(request):
+    form_response = initial_form_data(request)
+
+    response = render_to_response('templates/admin/project_partial.jinja2', form_response)
     return response.body
 
 @view_config(route_name='project-form',
-             request_method='POST',
+             renderer='templates/admin/project.jinja2',
+             # request_method='POST',
              permission='user')
 def project_submit(request):
-    pass
+    # if 'submit' in request.POST:
+    #     pass
+    return initial_form_data(request)
 

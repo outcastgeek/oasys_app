@@ -52,8 +52,8 @@ def login(request):
             log.info(headers)
             logged_in = authenticated_userid(request)
             log.info(logged_in)
-            return HTTPFound(location = came_from,
-                             headers = headers)
+            return HTTPFound(location=came_from,
+                             headers=headers)
         message = 'Failed login'
 
     providers = get_current_registry().settings['login_providers']
@@ -64,14 +64,15 @@ def login(request):
     log.info(providers_info)
 
     return dict(
-        message = message,
-        url = request.application_url + '/login',
-        came_from = came_from,
-        login = login,
-        logged_in = login,
-        password = password,
-        providers_info = providers_info,
-        )
+        message=message,
+        url=request.application_url + '/login',
+        came_from=came_from,
+        login=login,
+        logged_in=login,
+        password=password,
+        providers_info=providers_info,
+    )
+
 
 @view_config(
     context='velruse.AuthenticationComplete',
@@ -84,7 +85,7 @@ def login_complete_view(request):
         'provider_name': context.provider_name,
         'profile': context.profile,
         'credentials': context.credentials,
-        }
+    }
 
     message = "Successfully logged in with " + context.provider_name + " of type " + context.provider_type + "!!!!"
     log.info(message)
@@ -96,7 +97,7 @@ def login_complete_view(request):
 
     display_name = context.profile['displayName'] if context.profile['displayName'] \
         else context.profile['accounts'][0]['username']
-    unique_identifier=context.profile['accounts'][0]['userid']
+    unique_identifier = context.profile['accounts'][0]['userid']
 
     log.debug('Unique Identifier:\n')
     log.debug(unique_identifier)
@@ -115,8 +116,8 @@ def login_complete_view(request):
     if existing_employee:
         log.debug("Found existing employee: \n")
         log.debug(existing_employee)
-        return HTTPFound(location = proceed_url,
-                         headers = headers)
+        return HTTPFound(location=proceed_url,
+                         headers=headers)
 
     # return dict(message = message,
     #             location = proceed_url,
@@ -127,22 +128,23 @@ def login_complete_view(request):
                 obj=Employee(username=display_name if display_name else logged_in,
                              email=context.profile['emails'][0]['value'],
                              provider_id=unique_identifier,
-                             provider=context.provider_name,))
+                             provider=context.provider_name, ))
     if form.validate():
         employee = form.bind(Employee())
         # persist employee model
         log.debug("Saving employee: \n")
         log.debug(employee)
         Employee.save(employee)
-        return dict(message = message,
-                    location = proceed_url,
-                    result = result_string,)
+        return dict(message=message,
+                    location=proceed_url,
+                    result=result_string, )
     log.info('Invalid form...')
-    return dict(message = message,
-                location = proceed_url,
-                result = result_string,
-                logged_in = authenticated_userid(request),
+    return dict(message=message,
+                location=proceed_url,
+                result=result_string,
+                logged_in=authenticated_userid(request),
                 renderer=FormRenderer(form))
+
 
 @view_config(
     context='velruse.AuthenticationDenied',
@@ -155,13 +157,15 @@ def login_denied_view(request):
         'message': context.reason,
         'result': 'denied',
         'proceed_url': session['came_from'],
-        }
+    }
+
 
 @view_config(route_name='logout')
 def logout(request):
     headers = forget(request)
-    return HTTPFound(location = request.route_url('home'),
-                     headers = headers)
+    return HTTPFound(location=request.route_url('home'),
+                     headers=headers)
+
 
 @view_config(route_name='profile',
              renderer='templates/profile.jinja2',
@@ -183,10 +187,10 @@ def profile(request):
             log.info("Persisting employee model somewhere...")
             Employee.update_or_insert(username, employee)
 
-            return HTTPFound(location = request.route_url('home'))
+            return HTTPFound(location=request.route_url('home'))
         else:
             log.info('Invalid form...')
-            return dict(logged_in = username,
+            return dict(logged_in=username,
                         renderer=FormRenderer(form))
 
     existing_employee = Employee.by_username(username)
@@ -196,7 +200,8 @@ def profile(request):
         existing_employee_form = Form(request,
                                       schema=EmployeeSchema(),
                                       obj=existing_employee)
-        return dict(logged_in = username, cljs_debug = True if request.registry.settings['cljs_debug'] == 'debug' else False,
+        return dict(logged_in=username,
+                    cljs_debug=True if request.registry.settings['cljs_debug'] == 'debug' else False,
                     renderer=FormRenderer(existing_employee_form))
     else:
-        return HTTPFound(location = request.route_url('register'))
+        return HTTPFound(location=request.route_url('register'))
