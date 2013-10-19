@@ -46,8 +46,8 @@ def login(request):
     if 'submit' in request.POST:
         login = request.params['login']
         password = request.params['password']
-        employee = Employee.by_username(login)
-        if employee and employee.validate_password(password):
+        valid_credentials = Employee.check_password(login, password)
+        if valid_credentials:
             headers = remember(request, login)
             log.info(headers)
             logged_in = authenticated_userid(request)
@@ -55,6 +55,7 @@ def login(request):
             return HTTPFound(location=came_from,
                              headers=headers)
         message = 'Failed login'
+        log.debug(message)
 
     providers = get_current_registry().settings['login_providers']
     log.info(providers)

@@ -43,17 +43,15 @@ from hashlib import sha1
 from pyramid.security import (
     Allow,
     Authenticated,
-    Everyone
-    )
+    Everyone,
+    ALL_PERMISSIONS)
 
 class RootFactory(object):
-    __acl__ = [(Allow, Everyone, 'view'),
+    __acl__ = [(Allow, 'admin', ALL_PERMISSIONS),
+               (Allow, Everyone, 'view'),
                (Allow, Authenticated, 'edit'),
                (Allow, Authenticated, 'user'),
-               (Allow, 'group:editors', 'edit'),
-               (Allow, 'group:admin', 'user'),
-               (Allow, 'group:admin', 'edit'),
-               (Allow, 'group:admin', 'admin')]
+    ]
     def __init__(self, request):
         pass
 
@@ -64,6 +62,23 @@ from passlib.hash import sha512_crypt
 
 def hash_password(password):
     return unicode(sha512_crypt.encrypt(password, rounds=4444))
+
+def _generate_password(length):
+    password_len = length
+
+    password = []
+
+    for group in (string.ascii_letters, string.punctuation, string.digits):
+        password += random.sample(group, 3)
+
+    password += random.sample(
+        string.ascii_letters + string.punctuation + string.digits,
+        password_len - len(password))
+
+    random.shuffle(password)
+    password = ''.join(password)
+
+    return password
 
 def find_methods(obj):
     return [method for method in dir(obj) if callable(getattr(obj, method))]
@@ -126,7 +141,7 @@ class Employee(Base):
                  provider_id=None, date_of_birth=None, provider=None,
                  active=False, address=None, telephone_number=None, groups=None):
         self.username = username
-        self.password = password
+        self.password = password if password else _generate_password(16)
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
