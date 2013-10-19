@@ -60,10 +60,10 @@ class RootFactory(object):
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
-crypt = cryptacular.bcrypt.BCRYPTPasswordManager()
+from passlib.hash import sha512_crypt
 
 def hash_password(password):
-    return unicode(crypt.encode(password))
+    return unicode(sha512_crypt.encrypt(password, rounds=4444))
 
 def find_methods(obj):
     return [method for method in dir(obj) if callable(getattr(obj, method))]
@@ -154,7 +154,7 @@ class Employee(Base):
         user = cls.get_by_username(username)
         if not user:
             return False
-        return crypt.check(user.password, password)
+        return sha512_crypt.verify(password, user.password)
 
     @classmethod
     def by_id(cls, userid):
