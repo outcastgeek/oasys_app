@@ -28,7 +28,7 @@ def form(request):
 @view_config(route_name='project-form',
              renderer='templates/admin/project.jinja2',
              # request_method='POST',
-             permission='user')
+             permission='admin')
 def project_submit(request):
     # if 'submit' in request.POST:
     #     pass

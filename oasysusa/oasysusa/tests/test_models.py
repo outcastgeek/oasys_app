@@ -6,6 +6,7 @@ from ..mixins.sqla import Q
 
 from ..models import (
     Employee,
+    Group,
     DATE_FORMAT,
     PayrollCycle,
     )
@@ -23,7 +24,11 @@ class TestEmployee(BaseTestCase):
 
     def test_find_employee_by_provider_id(self):
         # setup
-        model = Employee(username=self.USERNAME, email=self.EMAIL,
+        password = "password"
+        admin_group = Group(groupname="admin")
+        user_group = Group(groupname="user")
+        groups = [user_group, admin_group]
+        model = Employee(username=self.USERNAME, email=self.EMAIL, groups=groups, password=password,
                          provider_id=self.PROVIDER_ID, date_of_birth=self.DATE_OF_BIRTH)
         Employee.save(model)
 
@@ -35,6 +40,9 @@ class TestEmployee(BaseTestCase):
         self.assertEqual(employee.email, self.EMAIL)
         self.assertEqual(employee.provider_id, self.PROVIDER_ID)
         self.assertEqual(employee.date_of_birth.strftime(DATE_FORMAT), self.DATE_OF_BIRTH)
+        matches = set(employee.groups) & set(groups)
+        self.assertEqual(len(matches), len(groups))
+        self.assertTrue(Employee.check_password(self.USERNAME, password), "Passwords should match")
 
 class TestPayrollCycle(BaseTestCase):
 

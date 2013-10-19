@@ -23,6 +23,8 @@ requires = [
     'waitress',
     'tornado',
     'velruse',
+    'cryptacular',
+    'pycrypto',
     'requests',
     'mock',
     'behave',

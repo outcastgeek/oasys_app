@@ -14,6 +14,7 @@ from ..models import (
     Base,
     MyModel,
     Project,
+    Group,
     Employee)
 
 
@@ -42,5 +43,8 @@ def main(argv=sys.argv):
         project2 = Project(name="Project2", client="Client2", description="Description2",
                            email="Email2", address="Address2", telephone_number="TelephoneNumber2")
         DBSession.add(project2)
-        admin = Employee(username='admin', password='OneAdmin13')
+        admin_group = Group(groupname="admin")
+        user_group = Group(groupname="user")
+        groups = [user_group, admin_group]
+        admin = Employee(username='admin', password='OneAdmin13', groups=groups)
         DBSession.add(admin)

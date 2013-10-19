@@ -14,7 +14,6 @@ from sqlalchemy import (
     Sequence,
     Unicode,
     Table,
-    String,
     Boolean,
     Date)
 
@@ -23,8 +22,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import (
     scoped_session,
     sessionmaker,
-    relationship
-    )
+    relationship,
+    synonym)
 
 from .mixins.sqla import CRUDMixin
 
@@ -51,12 +50,20 @@ class RootFactory(object):
     __acl__ = [(Allow, Everyone, 'view'),
                (Allow, Authenticated, 'edit'),
                (Allow, Authenticated, 'user'),
-               (Allow, 'group:editors', 'edit')]
+               (Allow, 'group:editors', 'edit'),
+               (Allow, 'group:admin', 'user'),
+               (Allow, 'group:admin', 'edit'),
+               (Allow, 'group:admin', 'admin')]
     def __init__(self, request):
         pass
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
+
+crypt = cryptacular.bcrypt.BCRYPTPasswordManager()
+
+def hash_password(password):
+    return unicode(crypt.encode(password))
 
 def find_methods(obj):
     return [method for method in dir(obj) if callable(getattr(obj, method))]
@@ -82,7 +89,8 @@ class Employee(Base):
     __tablename__ = 'employees'
     id = Column(Integer, primary_key=True)
     username = Column(Text, unique=True)
-    password = Column(String)
+    # password = Column(String)
+    _password = Column('password', Unicode(60))
     first_name = Column(Text)
     last_name = Column(Text)
     email = Column(Text, unique=True)
@@ -104,12 +112,21 @@ class Employee(Base):
             (Allow, self.username, 'user'),
             ]
 
+    def _get_password(self):
+        return self._password
+
+    def _set_password(self, password):
+        self._password = hash_password(password)
+
+    password = property(_get_password, _set_password)
+    password = synonym('_password', descriptor=password)
+
     def __init__(self, username=None, password=None, first_name=None,
                  last_name=None, email=None, employee_id=None,
                  provider_id=None, date_of_birth=None, provider=None,
                  active=False, address=None, telephone_number=None, groups=None):
         self.username = username
-        self.password = self._set_password(password) if password else self._set_password(self._generate_password(16))
+        self.password = password
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
@@ -127,51 +144,17 @@ class Employee(Base):
         for key, value in updated_fields.iteritems():
             setattr(self, key, value)
 
+    @classmethod
+    def get_by_username(cls, username):
+        return DBSession.query(cls).filter(cls.username == username).first()
 
-    # Check this out: http://pyramid.chromaticleaves.com/simpleauth/
-    def _set_password(self, password):
-        hashed_password = password
-
-        if isinstance(password, unicode):
-            password_8bit = password.encode('UTF-8')
-        else:
-            password_8bit = password
-
-        salt = sha1()
-        salt.update(os.urandom(60))
-        hash = sha1()
-        hash.update(password_8bit + salt.hexdigest())
-        hashed_password = salt.hexdigest() + hash.hexdigest()
-
-        if not isinstance(hashed_password, unicode):
-            hashed_password = hashed_password.decode('UTF-8')
-
-        self.password = hashed_password
-
-    def _generate_password(self, length):
-        password_len = length
-
-        password = []
-
-        for group in (string.ascii_letters, string.punctuation, string.digits):
-            password += random.sample(group, 3)
-
-        password += random.sample(
-            string.ascii_letters + string.punctuation + string.digits,
-            password_len - len(password))
-
-        random.shuffle(password)
-        password = ''.join(password)
-
-        return password
-
-    def validate_password(self, password):
-        if self.password:
-            hashed_pass = sha1()
-            hashed_pass.update(password + self.password[:40])
-            return self.password[40:] == hashed_pass.hexdigest()
-        else:
+    # https://github.com/Pylons/shootout/blob/master/shootout/models.py
+    @classmethod
+    def check_password(cls, username, password):
+        user = cls.get_by_username(username)
+        if not user:
             return False
+        return crypt.check(user.password, password)
 
     @classmethod
     def by_id(cls, userid):
