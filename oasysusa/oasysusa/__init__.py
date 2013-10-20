@@ -39,6 +39,10 @@ def main(global_config, **settings):
     config = Configurator(settings=settings,
                           root_factory='oasysusa.models.RootFactory')
 
+    # scan for config
+    config.include('.api', route_prefix='/api')
+    config.include('.forms')
+
     config.set_authentication_policy(authn_policy)
     config.set_authorization_policy(authz_policy)
 
@@ -60,13 +64,6 @@ def main(global_config, **settings):
     config.add_route('profile', '/profile')
     config.add_route('contact', '/contact')
     config.add_route('timesheet', '/timesheet')
-    config.add_route('project-form', '/timesheet/project')
-
-    ###### API Paths #########
-
-    #### trying deform ######
-    config.add_route('try_deform', '/deform')
-    config.add_static_view('deform_static', 'deform:static')
 
     # scan for subscribers
     config.scan('events')

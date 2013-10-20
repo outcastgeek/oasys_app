@@ -1,8 +1,15 @@
 __author__ = 'outcastgeek'
 
 from pyramid.events import subscriber, BeforeRender
+from pyramid.security import authenticated_userid
 
 @subscriber(BeforeRender)
 def add_globals(event):
-    event['project'] = 'oasysusa'
+    # request = event['request']
+    # userID = authenticated_userid(request)
+    project = 'oasysusa'
+    event.update(dict(
+        # USER_ID=userID,
+        project=project
+    ))
 

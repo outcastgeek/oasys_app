@@ -22,7 +22,7 @@ def first_and_last_dow(day):
     sunday = monday + datetime.timedelta(days=6)
     return (monday, sunday)
 
-@view_defaults(name='project',
+@view_defaults(route_name='project',
                permission='user',
                renderer='json')
 class ProjectApi(object):
@@ -44,7 +44,7 @@ class ProjectApi(object):
     def delete(self):
         return Response('delete')
 
-@view_defaults(name='week',
+@view_defaults(route_name='week',
                permission='user',
                renderer='json')
 class WeekApi(object):
