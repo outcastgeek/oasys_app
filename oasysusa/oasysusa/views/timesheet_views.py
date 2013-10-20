@@ -17,5 +17,4 @@ def timesheet(request):
     uniq = session['provider_id']
     username = authenticated_userid(request)
 
-    return dict(logged_in=username, request=request,
-                cljs_debug=True if request.registry.settings['cljs_debug'] == 'debug' else False, )
+    return dict(logged_in=username, request=request)

@@ -66,7 +66,7 @@ def main(global_config, **settings):
     config.add_route('timesheet', '/timesheet')
 
     # scan for subscribers
-    config.scan('events')
+    config.scan('.events')
 
     # config.scan('oasysusa.views')
     config.scan()

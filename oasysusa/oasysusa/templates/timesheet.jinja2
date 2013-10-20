@@ -18,9 +18,9 @@
 
 {% block page_js %}
     {% if cljs_debug %}
-        <script src="{{ request.static_url('oasysusa:static/js/repl.js') }}"></script>
-        <script src="{{ request.static_url('oasysusa:static/js/project-dev.js') }}"></script>
+{#        <script src="{{ request.static_url('oasysusa:static/js/repl.js') }}"></script>#}
+{#        <script src="{{ request.static_url('oasysusa:static/js/project-dev.js') }}"></script>#}
     {% else %}
-        <script src="{{ request.static_url('oasysusa:static/js/project.js') }}"></script>
+{#        <script src="{{ request.static_url('oasysusa:static/js/project.js') }}"></script>#}
     {% endif %}
 {% endblock %}

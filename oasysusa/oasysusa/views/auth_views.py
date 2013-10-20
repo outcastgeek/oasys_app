@@ -202,7 +202,6 @@ def profile(request):
                                       schema=EmployeeSchema(),
                                       obj=existing_employee)
         return dict(logged_in=username,
-                    cljs_debug=True if request.registry.settings['cljs_debug'] == 'debug' else False,
                     renderer=FormRenderer(existing_employee_form))
     else:
         return HTTPFound(location=request.route_url('register'))
