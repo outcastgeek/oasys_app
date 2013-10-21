@@ -52,6 +52,9 @@ def main(global_config, **settings):
     if 'google' in providers:
         config.include('velruse.providers.google_oauth2')
         config.add_google_oauth2_login_from_settings(prefix='google.')
+    if 'bitbucket' in providers:
+        config.include('velruse.providers.bitbucket')
+        config.add_bitbucket_login_from_settings(prefix='bitbucket.')
     # if 'live' in providers:
     #     config.include('velruse.providers.live')
     #     config.add_live_login_from_settings(prefix='live.')

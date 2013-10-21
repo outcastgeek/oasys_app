@@ -2,6 +2,7 @@ __author__ = 'outcastgeek'
 
 import logging
 import json
+import uuid
 
 from pyramid_simpleform import Form
 from pyramid_simpleform.renderers import FormRenderer
@@ -92,9 +93,10 @@ def login_complete_view(request):
 
     proceed_url = session['came_from']
 
-    display_name = context.profile['displayName'] if context.profile['displayName'] \
-        else context.profile['accounts'][0]['username']
-    unique_identifier = context.profile['accounts'][0]['userid']
+    display_name = context.profile.get('displayName') if context.profile.get('displayName') \
+        else context.profile.get('accounts')[0].get('username')
+    unique_identifier = context.profile.get('accounts')[0].get('userid') if context.profile.get('accounts')[0].get('userid') \
+        else uuid.uuid5(uuid.NAMESPACE_DNS, context.profile.get('accounts')[0].get('domain'))
 
     log.debug('Unique Identifier:\n')
     log.debug(unique_identifier)

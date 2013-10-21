@@ -24,6 +24,7 @@ requires = [
     'tornado',
     'passlib',
     'velruse',
+    'pyramid_persona',
     'requests',
     'mock',
     'behave',
