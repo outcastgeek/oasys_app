@@ -30,7 +30,7 @@ MemcachedManager==0.2
 pyramid_redis_sessions==0.9b2
 pyramid_debugtoolbar==1.0.6
 pyramid_exclog==0.7
-Jinja2==2.7.1
+jinja2==2.7.1
 pyramid_jinja2==1.8
 pyramid_simpleform==0.6.1
 pyramid_deform==0.2a5
@@ -41,7 +41,7 @@ pyramid_persona==1.5
 waitress==0.8.5
 paste==1.7.5.1
 pyzmq==13.1.0
-uWSGI==1.9.18.2
+uwsgi==1.9.18.2
 m2wsgid==0.7.1
 sunburnt==0.6
 envoy==0.0.2
