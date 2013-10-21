@@ -292,11 +292,12 @@ def up_start():
     upstart_ensure('nginx')
     # upstart_ensure('mongodb')
     upstart_ensure('redis-server')
-    upstart_ensure('memcached')
+    # upstart_ensure('memcached')
     #upstart_ensure('oasysusa')
     try:
         run('kill -9 $(ps -ef | grep uwsgi | awk \'{print $2}\')')
     except:
         print 'Oops!!!!'
     with cd('/home/oasysusa/oasys_corp'):
+        sudo('memcached &', user='oasysusa')
         sudo('/etc/init.d/oasysusa restart', user='root')
