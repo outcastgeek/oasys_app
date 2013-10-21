@@ -69,6 +69,8 @@ def setup_packages(local='retina'):
     package_ensure('postgresql-server-dev-all')
     # package_ensure('mongodb-10gen')
     package_ensure('redis-server')
+    package_ensure('libmemcached-dev')
+    package_ensure('memcached')
     package_ensure('git-core')
     package_ensure('ufw') # may have to install by hand
     package_ensure('tree')
@@ -287,6 +289,7 @@ def up_start():
     upstart_ensure('nginx')
     # upstart_ensure('mongodb')
     upstart_ensure('redis-server')
+    upstart_ensure('memcached')
     #upstart_ensure('oasysusa')
     try:
         run('kill -9 $(ps -ef | grep uwsgi | awk \'{print $2}\')')
