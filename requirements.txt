@@ -23,9 +23,10 @@ alembic==0.6.0
 tornado==3.1
 pyramid==1.4.3
 pyramid_tm==0.7
-pyramid_beaker==0.8
 dogpile.cache==0.5.1
-pylibmc==1.2.3
+#pylibmc==1.2.3
+python-memcached==1.53
+pyramid_beaker==0.8
 MemcachedManager==0.2
 pyramid_redis_sessions==0.9b2
 pyramid_debugtoolbar==1.0.6

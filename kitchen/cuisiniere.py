@@ -143,6 +143,7 @@ def install_python_packages(local='retina'):
     py_requirements_location = '/etc/requirements.txt'
     sudo('touch ' + py_requirements_location)
     file_write(py_requirements_location, py_requirements_tpl.read(), owner='root', sudo=True)
+    sudo('pip install --upgrade setuptools', user='root')
     sudo('pip install -r /etc/requirements.txt --upgrade', user='root')
 
 def configure_database():
