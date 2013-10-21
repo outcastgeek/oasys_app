@@ -50,8 +50,6 @@ def login(request):
         if valid_credentials:
             headers = remember(request, login)
             log.info(headers)
-            logged_in = authenticated_userid(request)
-            log.info(logged_in)
             return HTTPFound(location=came_from,
                              headers=headers)
         message = 'Failed login'
@@ -68,8 +66,6 @@ def login(request):
         message=message,
         url=request.application_url + '/login',
         came_from=came_from,
-        login=login,
-        logged_in=login,
         password=password,
         providers_info=providers_info,
     )
@@ -108,10 +104,6 @@ def login_complete_view(request):
 
     session['provider_id'] = unique_identifier
 
-    logged_in = authenticated_userid(request)
-    log.debug('Logged in:\n')
-    log.debug(logged_in)
-
     # existing_employee = Employee.by_provider_id(unique_identifier)
     existing_employee = Employee.by_username(display_name)
     if existing_employee:
@@ -126,7 +118,7 @@ def login_complete_view(request):
 
     form = Form(request,
                 schema=EmployeeSchema(),
-                obj=Employee(username=display_name if display_name else logged_in,
+                obj=Employee(username=display_name,
                              email=context.profile['emails'][0]['value'],
                              provider_id=unique_identifier,
                              provider=context.provider_name, ))
@@ -143,7 +135,6 @@ def login_complete_view(request):
     return dict(message=message,
                 location=proceed_url,
                 result=result_string,
-                logged_in=authenticated_userid(request),
                 renderer=FormRenderer(form))
 
 
@@ -191,8 +182,7 @@ def profile(request):
             return HTTPFound(location=request.route_url('home'))
         else:
             log.info('Invalid form...')
-            return dict(logged_in=username,
-                        renderer=FormRenderer(form))
+            return dict(renderer=FormRenderer(form))
 
     existing_employee = Employee.by_username(username)
 
@@ -201,7 +191,6 @@ def profile(request):
         existing_employee_form = Form(request,
                                       schema=EmployeeSchema(),
                                       obj=existing_employee)
-        return dict(logged_in=username,
-                    renderer=FormRenderer(existing_employee_form))
+        return dict(renderer=FormRenderer(existing_employee_form))
     else:
         return HTTPFound(location=request.route_url('register'))

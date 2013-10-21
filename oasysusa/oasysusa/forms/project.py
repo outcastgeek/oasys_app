@@ -1,7 +1,6 @@
 __author__ = 'C148810'
 
 from pyramid.view import view_config
-from pyramid.security import authenticated_userid
 from pyramid.renderers import render_to_response
 from pyramid_simpleform import Form
 from pyramid_simpleform.renderers import FormRenderer
@@ -9,15 +8,10 @@ from pyramid_simpleform.renderers import FormRenderer
 from ..models import ProjectSchema, Project
 
 def initial_form_data(request):
-    session = request.session
-    uniq = session['provider_id']
-    # existing_employee = Employee.by_provider_id(uniq)
-    username = authenticated_userid(request)
-
     form = Form(request,
                 schema=ProjectSchema(),
                 obj=Project())
-    return dict(logged_in =username, renderer=FormRenderer(form), request=request)
+    return dict(renderer=FormRenderer(form), request=request)
 
 def form(request):
     form_response = initial_form_data(request)

@@ -1,7 +1,6 @@
 __author__ = 'outcastgeek'
 
 from pyramid.view import view_config
-from pyramid.security import authenticated_userid
 
 import logging
 
@@ -13,8 +12,4 @@ log = logging.getLogger(__file__)
              renderer='templates/timesheet.jinja2',
              permission='user')
 def timesheet(request):
-    session = request.session
-    uniq = session['provider_id']
-    username = authenticated_userid(request)
-
-    return dict(logged_in=username, request=request)
+    return dict(request=request)
