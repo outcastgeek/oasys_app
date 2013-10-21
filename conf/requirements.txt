@@ -1,5 +1,5 @@
 # Some Base Packages
-Cython==0.19.2
+cython==0.19.2
 supervisor==3.0
 Mercurial==2.7.2
 pyzmq==13.1.0
