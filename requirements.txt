@@ -1,7 +1,7 @@
 #requirements.txt
 
 #tools
-cython==0.19.1
+cython==0.19.2
 pexpect==2.4
 docopt==0.6.1
 termcolor==1.1.0
