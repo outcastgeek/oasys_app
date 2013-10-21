@@ -1,12 +1,13 @@
 # Some Base Packages
-cython
-supervisor
-mercurial
-pyzmq
-virtualenv
-requests
-honcho
-docopt
-termcolor
-uwsgi
+Cython==0.19.2
+supervisor==3.0
+Mercurial==2.7.2
+pyzmq==13.1.0
+virtualenv==1.10.1
+requests==2.0.0
+Jinja2==2.7.1
+honcho==0.4.2
+docopt==0.6.1
+termcolor==1.1.0
+uWSGI==1.9.18.2
 
