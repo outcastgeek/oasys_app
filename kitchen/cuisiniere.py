@@ -244,8 +244,10 @@ def migrate_oasys_db():
         sudo('/home/oasysusa/ENV/bin/python run-prod.py -y', user='oasysusa')
 
 def update_dependencies():
-    with cd('/home/oasysusa/oasys_corp/oasysusa'):
-        sudo('/home/oasysusa/ENV/bin/python run-prod.py -u', user='oasysusa')
+    # with cd('/home/oasysusa/oasys_corp/oasysusa'):
+    #     sudo('/home/oasysusa/ENV/bin/python run-prod.py -u', user='oasysusa')
+    with cd('/home/oasysusa/oasys_corp'):
+        sudo('/home/oasysusa/ENV/bin/pip install -r requirements.txt --upgrade', user='oasysusa')
 
 def install_app():
     with cd('/home/oasysusa/oasys_corp/oasysusa'):
@@ -268,7 +270,7 @@ def get_oasys():
 def refresh_oasys():
     with cd('/home/oasysusa/oasys_corp'):
         sudo('hg pull && hg update pyramid', user='oasysusa')
-    # update_dependencies()
+    update_dependencies()
     install_app()
     migrate_oasys_db()
     sudo('/etc/init.d/oasysusa restart &', user='oasysusa')
