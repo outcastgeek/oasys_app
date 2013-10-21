@@ -30,6 +30,7 @@ MemcachedManager==0.2
 pyramid_redis_sessions==0.9b2
 pyramid_debugtoolbar==1.0.6
 pyramid_exclog==0.7
+Jinja2==2.7.1
 pyramid_jinja2==1.8
 pyramid_simpleform==0.6.1
 pyramid_deform==0.2a5
