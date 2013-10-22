@@ -165,6 +165,8 @@ def login_denied_view(request):
 @view_config(route_name='logout')
 def logout(request):
     headers = forget(request)
+    username = authenticated_userid(request)
+    request.session.flash("Goodbye %s!" % username)
     return HTTPFound(location=request.route_url('home'),
                      headers=headers)
 
