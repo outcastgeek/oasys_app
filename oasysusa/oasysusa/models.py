@@ -34,7 +34,7 @@ from formencode.validators import (
     Email,
     DateValidator,
     NotEmpty,
-    )
+    String)
 
 from zope.sqlalchemy import ZopeTransactionExtension
 
@@ -230,6 +230,7 @@ class EmployeeSchema(Schema):
     allow_extra_fields = True
     filter_extra_fields = True
 
+    provider = String()
     provider_id = NotEmpty
     username = UnicodeString(min=2)
     first_name = UnicodeString(min=2)
