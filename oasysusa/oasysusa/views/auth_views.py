@@ -106,13 +106,14 @@ def login_complete_view(request):
 
     session['provider_id'] = unique_identifier
 
+    headers = remember(request, display_name)
+    log.info(headers)
+
     existing_employee = Employee.by_username(display_name)
     if existing_employee:
         if existing_employee.provider_id == unique_identifier:
             log.debug("Found existing employee: \n")
             log.debug(existing_employee)
-            headers = remember(request, display_name)
-            log.info(headers)
             return HTTPFound(location=proceed_url,
                              headers=headers)
 
@@ -125,7 +126,7 @@ def login_complete_view(request):
                 obj=Employee(username=display_name,
                              email=context.profile['emails'][0]['value'],
                              provider_id=unique_identifier,
-                             provider=context.provider_name, ))
+                             provider=context.provider_name))
     if form.validate():
         employee = form.bind(Employee())
         # persist employee model
