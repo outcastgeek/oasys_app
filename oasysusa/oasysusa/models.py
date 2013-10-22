@@ -259,7 +259,7 @@ def get_employees(request):
 
 ################# GROUPS #################################
 
-class Group(Base):
+class Group(CRUDMixin, Base):
     __tablename__ = 'groups'
     id = Column(Integer, Sequence('groups_seq_id', optional=True), primary_key=True)
     groupname = Column(Unicode(255), unique=True)
