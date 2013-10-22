@@ -19,6 +19,8 @@ from pyramid.security import (
     )
 from velruse import login_url
 
+from ..mixins.sqla import Q
+
 from ..models import (
     Employee,
     EmployeeSchema
@@ -95,7 +97,8 @@ def login_complete_view(request):
 
     display_name = context.profile.get('displayName') if context.profile.get('displayName') \
         else context.profile.get('accounts')[0].get('username')
-    unique_identifier = context.profile.get('accounts')[0].get('userid') if context.profile.get('accounts')[0].get('userid') \
+    unique_identifier = context.profile.get('accounts')[0].get('userid') if context.profile.get('accounts')[0].get(
+        'userid') \
         else uuid.uuid5(uuid.NAMESPACE_DNS, context.profile.get('accounts')[0].get('domain'))
 
     log.debug('Unique Identifier:\n')
@@ -106,9 +109,8 @@ def login_complete_view(request):
 
     session['provider_id'] = unique_identifier
 
-    # existing_employee = Employee.by_provider_id(unique_identifier)
-    existing_employee = Employee.by_username(display_name)
-    if existing_employee:
+    existing_employee = Q(Employee, Employee.username == display_name).first()
+    if existing_employee.provider_id == unique_identifier:
         log.debug("Found existing employee: \n")
         log.debug(existing_employee)
         return HTTPFound(location=proceed_url,
