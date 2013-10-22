@@ -53,9 +53,11 @@ def login(request):
         if valid_credentials:
             headers = remember(request, login)
             log.info(headers)
+            request.session.flash("Welcome %s!" % login)
             return HTTPFound(location=came_from,
                              headers=headers)
         message = 'Failed login'
+        request.session.flash("Failed login!")
         log.debug(message)
 
     providers = get_current_registry().settings['login_providers']
@@ -114,6 +116,7 @@ def login_complete_view(request):
         if existing_employee.provider_id == unique_identifier:
             log.debug("Found existing employee: \n")
             log.debug(existing_employee)
+            request.session.flash("Welcome %s!" % display_name)
             return HTTPFound(location=proceed_url,
                              headers=headers)
 
@@ -133,10 +136,12 @@ def login_complete_view(request):
         log.debug("Saving employee: \n")
         log.debug(employee)
         Employee.save(employee)
+        request.session.flash("Your information was successfully updated, %s!" % display_name)
         return dict(message=message,
                     location=proceed_url,
                     result=result_string, )
     log.info('Invalid form...')
+    request.session.flash("Invalid form!")
     return dict(message=message,
                 location=proceed_url,
                 result=result_string,

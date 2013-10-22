@@ -32,12 +32,14 @@ def application_created_subscriber(event):
 def add_globals(event):
     # request = event['request']
     request = get_current_request()
+    session = request.session
     userID = authenticated_userid(request)
     settings = get_current_registry().settings
     cljs_debug = True if settings['cljs_debug'] == 'debug' else False
     project = 'oasysusa'
     event.update(dict(
         USER_ID=userID,
+        USER_SESSION=session,
         project=project,
         cljs_debug=cljs_debug
     ))

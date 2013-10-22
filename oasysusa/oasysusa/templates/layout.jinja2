@@ -91,6 +91,13 @@
     </div> <!-- /.container -->
 </div><!-- /.navbar-wrapper -->
 
+{% for flash_msg in USER_SESSION.pop_flash() %}
+    <div class="alert">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Msg:</strong> {{ flash_msg }}
+    </div>
+{% endfor %}
+
 {% block header %}
 {% endblock %}
 
