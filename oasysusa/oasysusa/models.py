@@ -2,8 +2,8 @@ __author__ = 'outcastgeek'
 
 import string
 import random
-import os
 
+from beaker.cache import cache_region
 from datetime import datetime
 
 from sqlalchemy import (
@@ -269,6 +269,7 @@ class Group(CRUDMixin, Base):
         self.session = DBSession
 
     @classmethod
+    @cache_region('long_term', 'groups')
     def by_name(cls, groupname):
         return DBSession.query(cls).filter(cls.groupname == groupname).first()
 

@@ -2,6 +2,7 @@ __author__ = 'outcastgeek'
 
 import logging
 
+from beaker.cache import cache_region
 from pyramid.events import (
     subscriber,
     BeforeRender,
@@ -15,6 +16,11 @@ from ..models import Group
 
 logging.basicConfig()
 log = logging.getLogger(__file__)
+
+@cache_region('long_term', 'settings')
+def get_settings():
+    settings = get_current_registry().settings
+    return settings
 
 def check_before_insert_group(groupname):
     existing_group = Group.by_name(groupname)
@@ -34,7 +40,7 @@ def add_globals(event):
     request = get_current_request()
     session = request.session
     userID = authenticated_userid(request)
-    settings = get_current_registry().settings
+    settings = get_settings()
     cljs_debug = True if settings['cljs_debug'] == 'debug' else False
     project = 'oasysusa'
     event.update(dict(

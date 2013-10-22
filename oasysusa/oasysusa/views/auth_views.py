@@ -4,6 +4,9 @@ import logging
 import json
 import uuid
 
+from beaker.cache import (
+    cache_region)
+
 from pyramid_simpleform import Form
 from pyramid_simpleform.renderers import FormRenderer
 from pyramid.view import view_config
@@ -31,6 +34,22 @@ logging.basicConfig()
 log = logging.getLogger(__file__)
 
 # Authentication Stuff
+
+@cache_region('long_term', 'providers')
+def get_providers():
+    providers = get_current_registry().settings['login_providers']
+    log.info(providers)
+    return providers
+
+@cache_region('long_term', 'providers_info')
+def get_providers_info(request):
+    providers = get_providers()
+
+    providers_info = [dict(provider_name=provider_name,
+                           login_url=login_url(request, provider_name)) for provider_name in providers]
+    log.info(providers_info)
+
+    return providers_info
 
 @view_config(route_name='login', renderer='templates/login.jinja2')
 @view_config(route_name='register', renderer='templates/login.jinja2')
@@ -62,12 +81,7 @@ def login(request):
         request.session.flash("Failed login!")
         log.debug(message)
 
-    providers = get_current_registry().settings['login_providers']
-    log.info(providers)
-
-    providers_info = [dict(provider_name=provider_name,
-                           login_url=login_url(request, provider_name)) for provider_name in providers]
-    log.info(providers_info)
+    providers_info = get_providers_info(request)
 
     return dict(
         message=message,
