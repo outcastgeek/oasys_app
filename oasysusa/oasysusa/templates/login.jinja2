@@ -37,7 +37,7 @@
                     {% for provider in providers_info %}
                         <form action="{{ provider.login_url }}" method="post">
                             <button class="btn btn-large btn-primary" type="submit">{{ provider.provider_name }}</button>
-                        </orm>
+                        </form>
                     {% endfor %}
                 </li>
             </ul>
