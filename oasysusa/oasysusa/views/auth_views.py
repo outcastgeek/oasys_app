@@ -41,6 +41,8 @@ def login(request):
     session = request.session
     if referrer == login_route_url:
         referrer = '/' # never use the login form itself as came_from
+    else:
+        request.session.flash("You lack the credentials!")
     came_from = request.params.get('came_from', referrer)
     session['came_from'] = came_from
     message = ''
@@ -113,7 +115,7 @@ def login_complete_view(request):
 
     existing_employee = Employee.by_username(display_name)
     if existing_employee:
-        if existing_employee.provider_id == unique_identifier:
+        if existing_employee.provider_id == unique_identifier or existing_employee.provider == context.provider_name:
             log.debug("Found existing employee: \n")
             log.debug(existing_employee)
             request.session.flash("Welcome %s!" % display_name)
@@ -164,9 +166,9 @@ def login_denied_view(request):
 
 @view_config(route_name='logout')
 def logout(request):
-    headers = forget(request)
     username = authenticated_userid(request)
     request.session.flash("Goodbye %s!" % username)
+    headers = forget(request)
     return HTTPFound(location=request.route_url('home'),
                      headers=headers)
 
