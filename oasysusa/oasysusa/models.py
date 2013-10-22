@@ -266,6 +266,7 @@ class Group(CRUDMixin, Base):
 
     def __init__(self, groupname):
         self.groupname = groupname
+        self.session = DBSession
 
     @classmethod
     def by_name(cls, groupname):
