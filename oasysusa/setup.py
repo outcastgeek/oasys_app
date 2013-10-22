@@ -10,6 +10,7 @@ requires = [
     'pyramid',
     'pyramid_jinja2',
     'pyramid_beaker',
+    'dogpile.cache',
     'pyramid_simpleform',
     'pyramid_deform',
     'SQLAlchemy',

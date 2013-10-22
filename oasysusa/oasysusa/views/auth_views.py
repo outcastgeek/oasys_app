@@ -104,17 +104,17 @@ def login_complete_view(request):
     log.debug('Unique Identifier:\n')
     log.debug(unique_identifier)
 
-    headers = remember(request, display_name)
-    log.info(headers)
-
     session['provider_id'] = unique_identifier
 
-    existing_employee = Q(Employee, Employee.username == display_name).first()
-    if existing_employee.provider_id == unique_identifier:
-        log.debug("Found existing employee: \n")
-        log.debug(existing_employee)
-        return HTTPFound(location=proceed_url,
-                         headers=headers)
+    existing_employee = Employee.by_username(display_name)
+    if existing_employee:
+        if existing_employee.provider_id == unique_identifier:
+            log.debug("Found existing employee: \n")
+            log.debug(existing_employee)
+            headers = remember(request, display_name)
+            log.info(headers)
+            return HTTPFound(location=proceed_url,
+                             headers=headers)
 
     # return dict(message = message,
     #             location = proceed_url,
