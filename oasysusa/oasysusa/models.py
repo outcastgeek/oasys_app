@@ -188,7 +188,7 @@ class Employee(Base):
     def save(cls, employee):
         employee_dob = datetime.strptime(employee.date_of_birth, DATE_FORMAT)
         employee.date_of_birth = employee_dob if employee_dob > EARLIEST_DATE else EARLIEST_DATE
-        employee_group = Group('employee')
+        employee_group = Group.by_name('employee')
         employee.groups.append(employee_group)
         return DBSession.add(employee)
 
@@ -266,6 +266,10 @@ class Group(Base):
 
     def __init__(self, groupname):
         self.groupname = groupname
+
+    @classmethod
+    def by_name(cls, groupname):
+        return DBSession.query(cls).filter(cls.groupname == groupname).first()
 
 ################# END GROUPS #############################
 

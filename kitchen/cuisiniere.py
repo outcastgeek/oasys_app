@@ -271,7 +271,7 @@ def get_oasys():
 def refresh_oasys():
     with cd('/home/oasysusa/oasys_corp'):
         sudo('hg pull && hg update pyramid', user='oasysusa')
-    update_dependencies()
+    # update_dependencies()
     install_app()
     migrate_oasys_db()
     sudo('/etc/init.d/oasysusa restart &', user='oasysusa')
