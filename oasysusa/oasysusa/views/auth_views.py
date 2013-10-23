@@ -22,8 +22,6 @@ from pyramid.security import (
     )
 from velruse import login_url
 
-from ..mixins.sqla import Q
-
 from ..models import (
     Employee,
     EmployeeSchema
@@ -192,9 +190,6 @@ def logout(request):
              # request_method='POST',
              permission='user')
 def profile(request):
-    session = request.session
-    uniq = session['provider_id']
-    # existing_employee = Employee.by_provider_id(uniq)
     username = authenticated_userid(request)
 
     form = Form(request,
@@ -215,7 +210,6 @@ def profile(request):
     existing_employee = Employee.by_username(username)
 
     if existing_employee:
-        # existing_employee.date_of_birth = datetime.strftime(existing_employee.date_of_birth, DATE_FORMAT)
         existing_employee_form = Form(request,
                                       schema=EmployeeSchema(),
                                       obj=existing_employee)

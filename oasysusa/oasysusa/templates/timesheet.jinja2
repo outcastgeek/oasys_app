@@ -14,6 +14,33 @@
 
 {% block body %}
 {#    {{ projectform(request)|safe }}#}
+{#    <select name="Projects">#}
+{#        {% for project in projects %}#}
+{#            <option  value="{{ project.name }} by {{ project.client }}">{{ project.name }} by {{ project.client }}</option>#}
+{#        {% endfor %}#}
+{#    </select>#}
+    <main>
+        {{ renderer.begin(request.route_url('timesheet'), name="timesheet-form", class="form-base") }}
+        <h2 class="form-base-heading">Timesheet</h2>
+        {{ renderer.csrf_token() }}
+        {{ renderer.label("Monday") }}
+        {{ renderer.select("project_1", projects, selected_value=None, id="project1") }} {{ renderer.text("Day1", placeholder="Enter the number of hours like  8.0", size=30, class="input-block-level", required="required", form_input="form_input") }}
+        {{ renderer.label("Tuesday") }}
+        {{ renderer.select("project_2", projects, selected_value=None, id="project2") }} {{ renderer.text("Day2", placeholder="Enter the number of hours like  8.0", size=30, class="input-block-level", required="required", form_input="form_input") }}
+        {{ renderer.label("Wednesday") }}
+        {{ renderer.select("project_3", projects, selected_value=None, id="project3") }} {{ renderer.text("Day3", placeholder="Enter the number of hours like  8.0", size=30, class="input-block-level", required="required", form_input="form_input") }}
+        {{ renderer.label("Thursday") }}
+        {{ renderer.select("project_4", projects, selected_value=None, id="project4") }} {{ renderer.text("Day4", placeholder="Enter the number of hours like  8.0", size=30, class="input-block-level", required="required", form_input="form_input") }}
+        {{ renderer.label("Friday") }}
+        {{ renderer.select("project_5", projects, selected_value=None, id="project5") }} {{ renderer.text("Day5", placeholder="Enter the number of hours like  8.0", size=30, class="input-block-level", required="required", form_input="form_input") }}
+        {{ renderer.label("Saturday") }}
+        {{ renderer.select("project_6", projects, selected_value=None, id="project6") }} {{ renderer.text("Day6", placeholder="Enter the number of hours like  8.0", size=30, class="input-block-level", required="required", form_input="form_input") }}
+        {{ renderer.label("Sunday") }}
+        {{ renderer.select("project_7", projects, selected_value=None, id="project7") }} {{ renderer.text("Day7", placeholder="Enter the number of hours like  8.0", size=30, class="input-block-level", required="required", form_input="form_input") }}
+        <button id="clear" class="btn btn-large">Clear</button>
+        {{ renderer.submit('submit', 'Save', class="btn btn-large btn-primary") }}
+        {{ renderer.end() }}
+    </main>
 {% endblock %}
 
 {% block page_js %}

@@ -13,7 +13,8 @@
 {% endblock %}
 
 {% block body %}
-    {{ projectform(request)|safe }}
+    {% include "templates/admin/project_partial.jinja2" %}
+{#    {{ projectform(request)|safe }}#}
 {% endblock %}
 
 {% block page_js %}

@@ -37,12 +37,6 @@ def main(argv=sys.argv):
     with transaction.manager:
         model = MyModel(name='one', value=1)
         DBSession.add(model)
-        project1 = Project(name="Project1", client="Client1", description="Description1",
-                           email="Email1", address="Address1", telephone_number="TelephoneNumber1")
-        DBSession.add(project1)
-        project2 = Project(name="Project2", client="Client2", description="Description2",
-                           email="Email2", address="Address2", telephone_number="TelephoneNumber2")
-        DBSession.add(project2)
         admin_group = Group(groupname="admin")
         user_group = Group(groupname="user")
         groups = [user_group, admin_group]
