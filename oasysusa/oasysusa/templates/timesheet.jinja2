@@ -13,30 +13,54 @@
 {% endblock %}
 
 {% block body %}
-{#    {{ projectform(request)|safe }}#}
-{#    <select name="Projects">#}
-{#        {% for project in projects %}#}
-{#            <option  value="{{ project.name }} by {{ project.client }}">{{ project.name }} by {{ project.client }}</option>#}
-{#        {% endfor %}#}
-{#    </select>#}
+    {#    {{ projectform(request)|safe }}#}
+    {#    <select name="Projects">#}
+    {#        {% for project in projects %}#}
+    {#            <option  value="{{ project.name }} by {{ project.client }}">{{ project.name }} by {{ project.client }}</option>#}
+    {#        {% endfor %}#}
+    {#    </select>#}
     <main>
-        {{ renderer.begin(request.route_url('timesheet'), name="timesheet-form", class="form-base") }}
+        {{ renderer.begin(request.route_url('timesheet'), name="timesheet-form", class="form-inline timesheet-form") }}
         <h2 class="form-base-heading">Timesheet</h2>
-        {{ renderer.csrf_token() }}
-        {{ renderer.label("Monday") }}
-        {{ renderer.select("project_1", projects, selected_value=None, id="project1") }} {{ renderer.text("Day1", placeholder="Enter the number of hours like  8.0", size=30, class="input-block-level", required="required", form_input="form_input") }}
-        {{ renderer.label("Tuesday") }}
-        {{ renderer.select("project_2", projects, selected_value=None, id="project2") }} {{ renderer.text("Day2", placeholder="Enter the number of hours like  8.0", size=30, class="input-block-level", required="required", form_input="form_input") }}
-        {{ renderer.label("Wednesday") }}
-        {{ renderer.select("project_3", projects, selected_value=None, id="project3") }} {{ renderer.text("Day3", placeholder="Enter the number of hours like  8.0", size=30, class="input-block-level", required="required", form_input="form_input") }}
-        {{ renderer.label("Thursday") }}
-        {{ renderer.select("project_4", projects, selected_value=None, id="project4") }} {{ renderer.text("Day4", placeholder="Enter the number of hours like  8.0", size=30, class="input-block-level", required="required", form_input="form_input") }}
-        {{ renderer.label("Friday") }}
-        {{ renderer.select("project_5", projects, selected_value=None, id="project5") }} {{ renderer.text("Day5", placeholder="Enter the number of hours like  8.0", size=30, class="input-block-level", required="required", form_input="form_input") }}
-        {{ renderer.label("Saturday") }}
-        {{ renderer.select("project_6", projects, selected_value=None, id="project6") }} {{ renderer.text("Day6", placeholder="Enter the number of hours like  8.0", size=30, class="input-block-level", required="required", form_input="form_input") }}
-        {{ renderer.label("Sunday") }}
-        {{ renderer.select("project_7", projects, selected_value=None, id="project7") }} {{ renderer.text("Day7", placeholder="Enter the number of hours like  8.0", size=30, class="input-block-level", required="required", form_input="form_input") }}
+        <fieldset>
+            <legend>{{ monday }} to {{ sunday }}</legend>
+            {{ renderer.csrf_token() }}
+            <div class="row">
+                {{ renderer.label("Monday", class="span1") }}
+                {{ renderer.select("project_1", projects, selected_value=None, id="project1", class="span2") }}
+                {{ renderer.text("Day1", placeholder="8.0", required="required", form_input="form_input", class="span1") }}
+            </div>
+            <div class="row">
+                {{ renderer.label("Tuesday", class="span1") }}
+                {{ renderer.select("project_2", projects, selected_value=None, id="project2", class="span2") }}
+                {{ renderer.text("Day2", placeholder="8.0", class="span1", required="required", form_input="form_input") }}
+            </div>
+            <div class="row">
+                {{ renderer.label("Wednesday", class="span1") }}
+                {{ renderer.select("project_3", projects, selected_value=None, id="project3", class="span2") }}
+                {{ renderer.text("Day3", placeholder="8.0", class="span1", required="required", form_input="form_input") }}
+            </div>
+            <div class="row">
+                {{ renderer.label("Thursday", class="span1") }}
+                {{ renderer.select("project_4", projects, selected_value=None, id="project4", class="span2") }}
+                {{ renderer.text("Day4", placeholder="8.0", class="span1", required="required", form_input="form_input") }}
+            </div>
+            <div class="row">
+                {{ renderer.label("Friday", class="span1") }}
+                {{ renderer.select("project_5", projects, selected_value=None, id="project5", class="span2") }}
+                {{ renderer.text("Day5", placeholder="8.0", class="span1", required="required", form_input="form_input") }}
+            </div>
+            <div class="row">
+                {{ renderer.label("Saturday", class="span1") }}
+                {{ renderer.select("project_6", projects, selected_value=None, id="project6", class="span2") }}
+                {{ renderer.text("Day6", placeholder="8.0", class="span1", required="required", form_input="form_input") }}
+            </div>
+            <div class="row">
+                {{ renderer.label("Sunday", class="span1") }}
+                {{ renderer.select("project_7", projects, selected_value=None, id="project7", class="span2") }}
+                {{ renderer.text("Day7", placeholder="8.0", class="span1", required="required", form_input="form_input") }}
+            </div>
+        </fieldset>
         <button id="clear" class="btn btn-large">Clear</button>
         {{ renderer.submit('submit', 'Save', class="btn btn-large btn-primary") }}
         {{ renderer.end() }}
@@ -45,9 +69,9 @@
 
 {% block page_js %}
     {% if cljs_debug %}
-{#        <script src="{{ request.static_url('oasysusa:static/js/repl.js') }}"></script>#}
-{#        <script src="{{ request.static_url('oasysusa:static/js/project-dev.js') }}"></script>#}
+        {#        <script src="{{ request.static_url('oasysusa:static/js/repl.js') }}"></script>#}
+        {#        <script src="{{ request.static_url('oasysusa:static/js/project-dev.js') }}"></script>#}
     {% else %}
-{#        <script src="{{ request.static_url('oasysusa:static/js/project.js') }}"></script>#}
+        {#        <script src="{{ request.static_url('oasysusa:static/js/project.js') }}"></script>#}
     {% endif %}
 {% endblock %}

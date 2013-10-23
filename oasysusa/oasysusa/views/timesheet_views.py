@@ -4,7 +4,9 @@ import calendar
 import logging
 import sys
 
-from datetime import date
+from datetime import (
+    date,
+    timedelta)
 from formencode import Schema
 from beaker.cache import cache_region
 from pyramid.httpexceptions import HTTPFound
@@ -18,7 +20,7 @@ from ..mixins.sqla import Q
 from ..models import (
     PayrollCycle,
     Project,
-    WorkSegment)
+    WorkSegment, DATE_FORMAT)
 
 logging.basicConfig()
 log = logging.getLogger(__file__)
@@ -52,6 +54,13 @@ class TimesheetSchema(Schema):
     project_7 = NotEmpty
 
 
+def first_and_last_dow():
+    today = date.today()
+    monday = today - timedelta(days=today.weekday())
+    sunday = monday + timedelta(days=6)
+    return (monday, sunday)
+
+
 def get_first_and_last_d_o_m():
     today = date.today()
     year = today.year
@@ -62,8 +71,7 @@ def get_first_and_last_d_o_m():
     return (first, last)
 
 
-def ensure_payroll_cycle():
-    first_o_m, last_o_m = get_first_and_last_d_o_m()
+def ensure_payroll_cycle(first_o_m, last_o_m):
     existing_payroll_cycle = Q(PayrollCycle, PayrollCycle.payroll_cycle_number == first_o_m.month).first()
     if existing_payroll_cycle:
         return existing_payroll_cycle
@@ -94,6 +102,9 @@ def get_all_projects():
              permission='user')
 def timesheet(request):
     projects = get_all_projects()
+    monday, sunday = first_and_last_dow()
+    monday_s = monday.strftime(DATE_FORMAT)
+    sunday_s = sunday.strftime(DATE_FORMAT)
     project_names = map(lambda project: [project.name, "%s by %s" % (project.name, project.client)], projects)
     form = Form(request,
                 schema=TimesheetSchema(),
@@ -111,9 +122,10 @@ def timesheet(request):
             except: # catch *all* exceptions
                 e = sys.exc_info()[0]
                 request.session.flash("<p>Error: %s</p>" % e)
-            return HTTPFound(location=request.route_url('timesheet'), projects=project_names)
+            return HTTPFound(location=request.route_url('timesheet'), projects=project_names, monday=monday_s,
+                             sunday=sunday_s)
         else:
             log.info('Invalid form...')
             request.session.flash("Invalid Project Information...")
-            return dict(renderer=FormRenderer(form), projects=project_names)
-    return dict(renderer=FormRenderer(form), projects=project_names)
+            return dict(renderer=FormRenderer(form), projects=project_names, monday=monday_s, sunday=sunday_s)
+    return dict(renderer=FormRenderer(form), projects=project_names, monday=monday_s, sunday=sunday_s)
