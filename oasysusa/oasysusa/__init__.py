@@ -67,6 +67,7 @@ def main(global_config, **settings):
     config.add_route('profile', '/profile')
     config.add_route('contact', '/contact')
     config.add_route('timesheet', '/timesheet')
+    config.add_route('current_day', '/timesheet/{direction}')
 
     # scan for subscribers
     config.scan('.events')

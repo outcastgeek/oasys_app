@@ -20,6 +20,16 @@
     {#        {% endfor %}#}
     {#    </select>#}
     <main>
+        <div class="row">
+            {{ prev_renderer.begin(request.route_url('current_day', direction='prev'), class="span4 pull-left") }}
+            {{ renderer.csrf_token() }}
+            {{ prev_renderer.submit('submit', '<< Previous', class="btn btn-inverse") }}
+            {{ prev_renderer.end() }}
+            {{ next_renderer.begin(request.route_url('current_day', direction='next'), class="span4 pull-right") }}
+            {{ renderer.csrf_token() }}
+            {{ next_renderer.submit('submit', 'Next >>', class="btn btn-inverse") }}
+            {{ next_renderer.end() }}
+        </div>
         {{ renderer.begin(request.route_url('timesheet'), name="timesheet-form", class="form-inline timesheet-form") }}
         <h2 class="form-base-heading">Timesheet</h2>
         <fieldset>
@@ -28,36 +38,50 @@
             <div class="row">
                 {{ renderer.label("Monday", class="span1") }}
                 {{ renderer.select("project_1", projects, selected_value=None, id="project1", class="span2") }}
+                {{ renderer.label("Hours", class="span1 pull-right") }}
+                {{ renderer.errorlist("Day1") }}
                 {{ renderer.text("Day1", placeholder="8.0", required="required", form_input="form_input", class="span1") }}
             </div>
             <div class="row">
                 {{ renderer.label("Tuesday", class="span1") }}
                 {{ renderer.select("project_2", projects, selected_value=None, id="project2", class="span2") }}
+                {{ renderer.label("Hours", class="span1 pull-right") }}
+                {{ renderer.errorlist("Day2") }}
                 {{ renderer.text("Day2", placeholder="8.0", class="span1", required="required", form_input="form_input") }}
             </div>
             <div class="row">
                 {{ renderer.label("Wednesday", class="span1") }}
                 {{ renderer.select("project_3", projects, selected_value=None, id="project3", class="span2") }}
+                {{ renderer.label("Hours", class="span1 pull-right") }}
+                {{ renderer.errorlist("Day3") }}
                 {{ renderer.text("Day3", placeholder="8.0", class="span1", required="required", form_input="form_input") }}
             </div>
             <div class="row">
                 {{ renderer.label("Thursday", class="span1") }}
                 {{ renderer.select("project_4", projects, selected_value=None, id="project4", class="span2") }}
+                {{ renderer.label("Hours", class="span1 pull-right") }}
+                {{ renderer.errorlist("Day4") }}
                 {{ renderer.text("Day4", placeholder="8.0", class="span1", required="required", form_input="form_input") }}
             </div>
             <div class="row">
                 {{ renderer.label("Friday", class="span1") }}
                 {{ renderer.select("project_5", projects, selected_value=None, id="project5", class="span2") }}
+                {{ renderer.label("Hours", class="span1 pull-right") }}
+                {{ renderer.errorlist("Day5") }}
                 {{ renderer.text("Day5", placeholder="8.0", class="span1", required="required", form_input="form_input") }}
             </div>
             <div class="row">
                 {{ renderer.label("Saturday", class="span1") }}
                 {{ renderer.select("project_6", projects, selected_value=None, id="project6", class="span2") }}
+                {{ renderer.label("Hours", class="span1 pull-right") }}
+                {{ renderer.errorlist("Day6") }}
                 {{ renderer.text("Day6", placeholder="8.0", class="span1", required="required", form_input="form_input") }}
             </div>
             <div class="row">
                 {{ renderer.label("Sunday", class="span1") }}
                 {{ renderer.select("project_7", projects, selected_value=None, id="project7", class="span2") }}
+                {{ renderer.label("Hours", class="span1 pull-right") }}
+                {{ renderer.errorlist("Day7") }}
                 {{ renderer.text("Day7", placeholder="8.0", class="span1", required="required", form_input="form_input") }}
             </div>
         </fieldset>
