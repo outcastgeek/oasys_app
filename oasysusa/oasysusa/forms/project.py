@@ -6,7 +6,7 @@ import sys
 from beaker.cache import region_invalidate
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
-from pyramid.renderers import render_to_response
+from pyramid.renderers import render
 from pyramid_simpleform import Form
 from pyramid_simpleform.renderers import FormRenderer
 
@@ -23,7 +23,7 @@ def form(request):
     form = Form(request,
                 schema=ProjectSchema(),
                 obj=Project())
-    response = render_to_response('templates/admin/project_partial.jinja2',
+    response = render('templates/admin/project_partial.jinja2',
                                   dict(renderer=FormRenderer(form), request=request))
     return response.body
 

@@ -24,8 +24,7 @@ from ..models import (
     PayrollCycle,
     Project,
     TimeSheet,
-    WorkSegment,
-    DATE_FORMAT)
+    WorkSegment)
 
 logging.basicConfig()
 log = logging.getLogger(__file__)
@@ -150,8 +149,6 @@ def timesheet_form(request):
         current_day = date.today()
         session['current_day'] = current_day
     monday, sunday = first_and_last_dow(current_day)
-    monday_s = monday.strftime(DATE_FORMAT)
-    sunday_s = sunday.strftime(DATE_FORMAT)
     form = Form(request,
                 schema=TimesheetDataSchema(),
                 obj=TimesheetData())
@@ -177,7 +174,7 @@ def timesheet_form(request):
             request.session.flash("Invalid Timesheet...")
             return dict(renderer=FormRenderer(form), prev_renderer=FormRenderer(Form(request)),
                         next_renderer=FormRenderer(Form(request)),
-                        projects=project_names, monday=monday_s, sunday=sunday_s)
+                        projects=project_names, monday=monday, sunday=sunday)
     return dict(renderer=FormRenderer(form), prev_renderer=FormRenderer(Form(request)),
                 next_renderer=FormRenderer(Form(request)),
-                projects=project_names, monday=monday_s, sunday=sunday_s)
+                projects=project_names, monday=monday, sunday=sunday)

@@ -12,10 +12,24 @@ from pyramid.threadlocal import (
     get_current_registry,
     get_current_request)
 
-from ..models import Group
+from ..models import (
+    Group,
+    DATE_FORMAT)
 
 logging.basicConfig()
 log = logging.getLogger(__file__)
+
+class TemplateUtils(object):
+    def __init__(self):
+        pass
+    def format_date(self, some_date):
+        date_string = some_date.strftime(DATE_FORMAT)
+        return date_string
+
+@cache_region('long_term', 'template_utils')
+def get_template_utils():
+    template_utils = TemplateUtils()
+    return template_utils
 
 @cache_region('long_term', 'settings')
 def get_settings():
@@ -43,10 +57,12 @@ def add_globals(event):
     settings = get_settings()
     cljs_debug = True if settings['cljs_debug'] == 'debug' else False
     project = 'oasysusa'
+    template_utils = get_template_utils()
     event.update(dict(
         USER_ID=userID,
         USER_SESSION=session,
         project=project,
-        cljs_debug=cljs_debug
+        cljs_debug=cljs_debug,
+        TUTILS=template_utils,
     ))
 

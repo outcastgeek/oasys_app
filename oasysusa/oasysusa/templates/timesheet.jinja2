@@ -33,7 +33,7 @@
         {{ renderer.begin(request.route_url('timesheet'), name="timesheet-form", class="form-inline timesheet-form") }}
         <h2 class="form-base-heading">Timesheet</h2>
         <fieldset>
-            <legend>{{ monday }} to {{ sunday }}</legend>
+            <legend>{{ TUTILS.format_date(monday) }} to {{ TUTILS.format_date(sunday) }}</legend>
             {{ renderer.csrf_token() }}
             <div class="row">
                 {{ renderer.label("Monday", class="span1") }}
