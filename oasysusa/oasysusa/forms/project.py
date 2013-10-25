@@ -45,7 +45,7 @@ def project(request):
                 request.session.flash("You successfully created project %s" % project.name)
             except: # catch *all* exceptions
                 e = sys.exc_info()[0]
-                request.session.flash("<p>Error: %s</p>" % e)
+                request.session.flash("Error: %s" % e)
             return HTTPFound(location=request.route_url('timesheet'))
         else:
             log.info('Invalid form...')
