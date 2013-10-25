@@ -1,5 +1,6 @@
 __author__ = 'outcastgeek'
 
+import itertools
 import logging
 import sys
 
@@ -7,6 +8,7 @@ from beaker.cache import region_invalidate
 
 from datetime import (
     date,
+    datetime,
     timedelta)
 
 from functools import partial
@@ -17,14 +19,21 @@ from pyramid.security import authenticated_userid
 from pyramid.view import view_config
 from pyramid_simpleform import Form
 from pyramid_simpleform.renderers import FormRenderer
-from formencode.validators import NotEmpty
+from formencode.validators import NotEmpty, DateValidator
 
 from ..models import (
     Employee,
-    WorkSegment)
+    DATE_FORMAT)
 
 from ..api.timesheet_api import (
-    get_all_projects, first_and_last_dow, get_first_and_last_d_o_m, ensure_payroll_cycle, ensure_time_sheet, save_work_segment, get_all_work_segments_in_range)
+    get_all_projects,
+    first_and_last_dow,
+    get_first_and_last_d_o_m,
+    ensure_payroll_cycle,
+    ensure_time_sheet,
+    save_work_segment,
+    get_all_work_segments_in_range,
+    get_week_dates)
 
 logging.basicConfig()
 log = logging.getLogger(__file__)
@@ -60,8 +69,9 @@ def timesheet_form(request):
         current_day = date.today()
         session['current_day'] = current_day
     monday, sunday = first_and_last_dow(current_day)
-    existing_timesheet = get_timesheet(monday, sunday)
+    defaults_for_week = get_defaults(current_day, monday, sunday)
     form = Form(request,
+                defaults=defaults_for_week,
                 schema=TimesheetDataSchema(),
                 obj=TimesheetData())
     if 'submit' in request.POST:
@@ -95,6 +105,53 @@ def timesheet_form(request):
 
 ################# UTILITIES ########################
 
+def get_defaults(current_day, monday, sunday):
+    existing_timesheet = get_timesheet(monday, sunday)
+    if len(existing_timesheet) == 0:
+        week_dates_map = get_week_dates_map(current_day)
+        return week_dates_map
+    else:
+        default_s_week_projects = map(lambda work_segment: get_project_by_id(work_segment.project_id), existing_timesheet)
+        default_for_week = dict(Hours1=existing_timesheet[0].hours,
+                                Day1=existing_timesheet[0].date.strftime(DATE_FORMAT),
+                                project_1 = default_s_week_projects[0].name,
+                                Hours2=existing_timesheet[1].hours,
+                                Day2=existing_timesheet[1].date.strftime(DATE_FORMAT),
+                                project_2 = default_s_week_projects[1].name,
+                                Hours3=existing_timesheet[2].hours,
+                                Day3=existing_timesheet[2].date.strftime(DATE_FORMAT),
+                                project_3 = default_s_week_projects[2].name,
+                                Hours4=existing_timesheet[3].hours,
+                                Day4=existing_timesheet[3].date.strftime(DATE_FORMAT),
+                                project_4 = default_s_week_projects[3].name,
+                                Hours5=existing_timesheet[4].hours,
+                                Day5=existing_timesheet[4].date.strftime(DATE_FORMAT),
+                                project_5 = default_s_week_projects[4].name,
+                                Hours6=existing_timesheet[5].hours,
+                                Day6=existing_timesheet[5].date.strftime(DATE_FORMAT),
+                                project_6 = default_s_week_projects[5].name,
+                                Hours7=existing_timesheet[6].hours,
+                                Day7=existing_timesheet[6].date.strftime(DATE_FORMAT),
+                                project_7 = default_s_week_projects[6].name)
+        return default_for_week
+
+
+def date_string_to_date(date_string):
+    dt = datetime.strptime(date_string, DATE_FORMAT) if date_string else None
+    return dt
+
+
+def get_week_dates_map(day):
+    week_dates = get_week_dates(day)
+    week_dates_string = map(lambda dt: dt.strftime(DATE_FORMAT), week_dates)
+    week_dates_map = dict(Day1=week_dates_string[0], Day2=week_dates_string[1], Day3=week_dates_string[2],
+                          Day4=week_dates_string[3],
+                          Day5=week_dates_string[4], Day6=week_dates_string[5], Day7=week_dates_string[6])
+    return week_dates_map
+
+def get_project_by_id(project_id):
+    project = itertools.ifilter(lambda project: project.id == project_id, get_all_projects()).next()
+    return project
 
 def get_project_names():
     projects = get_all_projects()
@@ -104,31 +161,43 @@ def get_project_names():
 
 def get_timesheet(monday, sunday):
     work_segments = get_all_work_segments_in_range(monday, sunday)
-
     return work_segments
 
 
 class TimesheetData():
-    def __init__(self, Day1=None, Day2=None, Day3=None, Day4=None,
+    def __init__(self, Hours1=None, Hours2=None, Hours3=None, Hours4=None,
+                 Hours5=None, Hours6=None,
+                 Hours7=None, Day1=None, Day2=None, Day3=None, Day4=None,
                  Day5=None, Day6=None,
                  Day7=None, project_1=None, project_2=None, project_3=None, project_4=None, project_5=None,
                  project_6=None,
                  project_7=None):
-        self.work_segments = [(Day1, project_1), (Day2, project_2), (Day3, project_3),
-                              (Day4, project_4), (Day5, project_5),
-                              (Day6, project_6), (Day7, project_7)]
+        self.work_segments = [(Hours1, date_string_to_date(Day1), project_1),
+                              (Hours2, date_string_to_date(Day2), project_2),
+                              (Hours3, date_string_to_date(Day3), project_3),
+                              (Hours4, date_string_to_date(Day4), project_4),
+                              (Hours5, date_string_to_date(Day5), project_5),
+                              (Hours6, date_string_to_date(Day6), project_6),
+                              (Hours7, date_string_to_date(Day7), project_7)]
 
 
 class TimesheetDataSchema(Schema):
     allow_extra_fields = True
     filter_extra_fields = True
-    Day1 = NotEmpty
-    Day2 = NotEmpty
-    Day3 = NotEmpty
-    Day4 = NotEmpty
-    Day5 = NotEmpty
-    Day6 = NotEmpty
-    Day7 = NotEmpty
+    Hours1 = NotEmpty
+    Hours2 = NotEmpty
+    Hours3 = NotEmpty
+    Hours4 = NotEmpty
+    Hours5 = NotEmpty
+    Hours6 = NotEmpty
+    Hours7 = NotEmpty
+    Day1 = DateValidator(date_format='mm/dd/yyyy')
+    Day2 = DateValidator(date_format='mm/dd/yyyy')
+    Day3 = DateValidator(date_format='mm/dd/yyyy')
+    Day4 = DateValidator(date_format='mm/dd/yyyy')
+    Day5 = DateValidator(date_format='mm/dd/yyyy')
+    Day6 = DateValidator(date_format='mm/dd/yyyy')
+    Day7 = DateValidator(date_format='mm/dd/yyyy')
     project_1 = NotEmpty
     project_2 = NotEmpty
     project_3 = NotEmpty

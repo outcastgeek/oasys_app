@@ -6,7 +6,7 @@ from base_test_case import BaseTestCase
 
 from ..api.timesheet_api import (
     first_and_last_dow,
-    WeekApi)
+    WeekApi, get_week_dates)
 
 class TestTimesheetAPI(BaseTestCase):
 
@@ -39,6 +39,28 @@ class TestTimesheetAPI(BaseTestCase):
         self.assertEqual(sunday_s_date, sunday3)
         self.assertEqual(monday_s_date, monday4)
         self.assertEqual(sunday_s_date, sunday4)
+
+    def test_get_week_dates(self):
+        # setup
+        monday = datetime.date(2013, 10, 21)
+        tuesday = datetime.date(2013, 10, 22)
+        wednesday = datetime.date(2013, 10, 23)
+        thursday = datetime.date(2013, 10, 24)
+        friday = datetime.date(2013, 10, 25)
+        saturday = datetime.date(2013, 10, 26)
+        sunday = datetime.date(2013, 10, 27)
+
+        # run
+        week_dates = get_week_dates(friday)
+
+        # verify
+        self.assertEqual(monday, week_dates[0])
+        self.assertEqual(tuesday, week_dates[1])
+        self.assertEqual(wednesday, week_dates[2])
+        self.assertEqual(thursday, week_dates[3])
+        self.assertEqual(friday, week_dates[4])
+        self.assertEqual(saturday, week_dates[5])
+        self.assertEqual(sunday, week_dates[6])
 
     def test_empty_week(self):
         week_api = WeekApi(self.request)

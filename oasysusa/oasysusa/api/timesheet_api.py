@@ -80,10 +80,9 @@ def get_all_projects():
     projects = Q(Project).all()
     return projects
 
-# @cache_region('long_term', 'work_segments')
+@cache_region('long_term', 'work_segments')
 def get_all_work_segments_in_range(start, finish):
-    work_segments = Q(TimeSheet, TimeSheet.start_date == start, TimeSheet.end_date == finish).all()
-    # work_segments = WorkSegment.in_range_inc(start, finish)
+    work_segments = WorkSegment.in_range_inc(start, finish)
     return work_segments
 
 def first_and_last_dow(day):
@@ -96,6 +95,11 @@ def first_and_last_dow(day):
     monday = day - timedelta(days=day.weekday())
     sunday = monday + timedelta(days=6)
     return monday, sunday
+
+def get_week_dates(day):
+    monday = day - timedelta(days=day.weekday())
+    week_dates = [monday + timedelta(days=x) for x in range(7)]
+    return week_dates
 
 
 def get_first_and_last_d_o_m(day):
@@ -129,9 +133,9 @@ def ensure_time_sheet(employee, payroll_cycle, monday, sunday):
 
 
 def save_work_segment(time_sheet, payroll_cycle, employee, work_segment_tuple):
-    hours, project_name = work_segment_tuple
+    hours, date_input, project_name = work_segment_tuple
     project = itertools.ifilter(lambda project: project.name == project_name, get_all_projects()).next()
-    work_segment = WorkSegment(hours=hours)
+    work_segment = WorkSegment(date=date_input, hours=hours)
     work_segment.project_id = project.id
     work_segment.time_sheet_id = time_sheet.id
     work_segment.payroll_cycle_id = payroll_cycle.id

@@ -105,7 +105,7 @@ class Employee(Base):
     id = Column(Integer, primary_key=True)
     username = Column(Text, unique=True)
     # password = Column(String)
-    _password = Column('password', Unicode(60))
+    _password = Column('password', Unicode(120))
     first_name = Column(Text)
     last_name = Column(Text)
     email = Column(Text, unique=True)
