@@ -321,6 +321,11 @@ class Project(CRUDMixin, Base):
     email = Column(Text, unique=True)
     telephone_number = Column(Text)
     address = Column(Text)
+
+    manager = Column(Text)
+    manager_telephone_number = Column(Text)
+    manager_email = Column(Text, unique=True)
+
     work_segments = relationship("WorkSegment", backref="projects")
 
     def __init__(self, name=None, client=None, description=None,

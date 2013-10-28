@@ -48,6 +48,7 @@ def application_created_subscriber(event):
     log.warn('Provisioning the database...')
     map(check_before_insert_group, ['employee', 'admin'])
 
+
 @subscriber(BeforeRender)
 def add_globals(event):
     # request = event['request']
