@@ -1,4 +1,4 @@
-{{ renderer.begin(request.route_url('project-form'), name="project-form", class="form-base") }}
+{{ renderer.begin(request.route_url('project-form'), name="project-form", class="form-inline form-base") }}
 <h2 class="form-base-heading">Create Project</h2>
 {#name = NotEmpty#}
 {#client = NotEmpty#}
@@ -9,24 +9,56 @@
 {{ renderer.csrf_token() }}
 {#{{ renderer.hidden_tag("provider_id") }}#}
 {#{{ renderer.hidden_tag("username") }}#}
-{{ renderer.label("Name") }}
+<div class="form-group">
+{{ renderer.label("Name",  class="sr-only") }}
 {{ renderer.errorlist("name") }}
-{{ renderer.text("name", placeholder="name", size=30, class="input-block-level", required="required", form_input="form_input") }}
-{{ renderer.label("Client") }}
+{{ renderer.text("name", placeholder="name", size=30, class="form-control input-block-level", required="required", form_input="form_input") }}
+</div>
+<div class="form-group">
+{{ renderer.label("Client",  class="sr-only") }}
 {{ renderer.errorlist("client") }}
-{{ renderer.text("client", placeholder="client", size=30, class="input-block-level", required="required", form_input="client") }}
-{{ renderer.label("Description") }}
+{{ renderer.text("client", placeholder="client", size=30, class="form-control input-block-level", required="required", form_input="form_input") }}
+</div>
+<div class="form-group">
+{#{{ renderer.label("Description") }}#}
+{#{{ renderer.errorlist("description") }}#}
+{#{{ renderer.textarea("description", size=30, placeholder="description", class="input-block-level", required="required", form_input="form_input") }}#}
+
+{{ renderer.label("Description",  class="sr-only") }}
 {{ renderer.errorlist("description") }}
-{{ renderer.textarea("description", size=30, placeholder="description", class="input-block-level", required="required", form_input="form_input") }}
-{{ renderer.label("Email") }}
+{{ renderer.textarea("description", placeholder="description", class="form-control input-block-level", rows="4", cols="50",
+                                                    required="required", form_input="form_input", class="form-control") }}
+</div>
+<div class="form-group">
+{{ renderer.label("Email",  class="sr-only") }}
 {{ renderer.errorlist("email") }}
-{{ renderer.text("email", size=30, placeholder="email@emailprovider.com", class="input-block-level", required="required", form_input="form_input") }}
-{{ renderer.label("Telephone Number") }}
+{{ renderer.text("email", size=30, placeholder="email@emailprovider.com", class="form-control input-block-level", required="required", form_input="form_input") }}
+</div>
+<div class="form-group">
+{{ renderer.label("Telephone Number",  class="sr-only") }}
 {{ renderer.errorlist("telephone_number") }}
-{{ renderer.text("telephone_number", placeholder="987-654-3210", size=30, class="input-block-level", required="required", form_input="form_input") }}
-{{ renderer.label("Address") }}
+{{ renderer.text("telephone_number", placeholder="987-654-3210", size=30, class="form-control input-block-level", required="required", form_input="form_input") }}
+</div>
+<div class="form-group">
+{{ renderer.label("Address",  class="sr-only") }}
 {{ renderer.errorlist("address") }}
-{{ renderer.text("address", placeholder="23 geeky way, Hacker PL 12345", size=60, class="input-block-level", required="required", form_input="form_input") }}
+{{ renderer.text("address", placeholder="23 geeky way, Hacker PL 12345", size=60, class="form-control input-block-level", required="required", form_input="form_input") }}
+</div>
+<div class="form-group">
+{{ renderer.label("Manager",  class="sr-only") }}
+{{ renderer.errorlist("manager") }}
+{{ renderer.text("manager", placeholder="manager", size=30, class="form-control input-block-level", required="required", form_input="manager") }}
+</div>
+<div class="form-group">
+{{ renderer.label("Manager's Telephone Number",  class="sr-only") }}
+{{ renderer.errorlist("manager_telephone_number") }}
+{{ renderer.text("manager_telephone_number", placeholder="987-654-3210", size=30, class="form-control input-block-level", required="required", form_input="form_input") }}
+</div>
+<div class="form-group">
+{{ renderer.label("Manager's Email",  class="sr-only") }}
+{{ renderer.errorlist("manager_email") }}
+{{ renderer.text("manager_email", size=30, placeholder="manager@somwhere.com", class="form-control input-block-level", required="required", form_input="form_input") }}
+</div>
 <button id="clear" class="btn btn-large">Clear</button>
 {{ renderer.submit('submit', 'Save', class="btn btn-large btn-primary") }}
 {{ renderer.end() }}

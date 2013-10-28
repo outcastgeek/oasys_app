@@ -377,6 +377,13 @@ goog.base = function(a, b, c) {
 goog.scope = function(a) {
   a.call(goog.global)
 };
+goog.debug = {};
+goog.debug.Error = function(a) {
+  Error.captureStackTrace ? Error.captureStackTrace(this, goog.debug.Error) : this.stack = Error().stack || "";
+  a && (this.message = String(a))
+};
+goog.inherits(goog.debug.Error, Error);
+goog.debug.Error.prototype.name = "CustomError";
 goog.string = {};
 goog.string.Unicode = {NBSP:"\u00a0"};
 goog.string.startsWith = function(a, b) {
@@ -708,13 +715,6 @@ goog.string.parseInt = function(a) {
   isFinite(a) && (a = String(a));
   return goog.isString(a) ? /^\s*-?0x/i.test(a) ? parseInt(a, 16) : parseInt(a, 10) : NaN
 };
-goog.debug = {};
-goog.debug.Error = function(a) {
-  Error.captureStackTrace ? Error.captureStackTrace(this, goog.debug.Error) : this.stack = Error().stack || "";
-  a && (this.message = String(a))
-};
-goog.inherits(goog.debug.Error, Error);
-goog.debug.Error.prototype.name = "CustomError";
 goog.asserts = {};
 goog.asserts.ENABLE_ASSERTS = goog.DEBUG;
 goog.asserts.AssertionError = function(a, b) {
@@ -19619,5 +19619,5 @@ oasysusa.utils.form.run = function(a) {
 };
 oasysusa.timesheet = {};
 oasysusa.timesheet.project = {};
-oasysusa.timesheet.project.project_state = cljs.core.atom.call(null, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "ids", "ids", 1014008362), cljs.core.PersistentVector.fromArray("name client description email telephone_number address".split(" "), !0)], !0));
+oasysusa.timesheet.project.project_state = cljs.core.atom.call(null, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "ids", "ids", 1014008362), cljs.core.PersistentVector.fromArray("name client description email telephone_number address manager manager_telephone_number manager_email".split(" "), !0)], !0));
 oasysusa.utils.form.run.call(null, oasysusa.timesheet.project.project_state);

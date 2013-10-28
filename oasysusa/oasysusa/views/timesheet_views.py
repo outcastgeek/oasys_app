@@ -19,11 +19,13 @@ from pyramid.security import authenticated_userid
 from pyramid.view import view_config
 from pyramid_simpleform import Form
 from pyramid_simpleform.renderers import FormRenderer
-from formencode.validators import NotEmpty, DateValidator
+from formencode.validators import NotEmpty, DateValidator, UnicodeString, String
 
 from ..models import (
+    DATE_FORMAT,
     Employee,
-    DATE_FORMAT)
+    TimeSheet,
+    WorkSegment)
 
 from ..api.timesheet_api import (
     get_all_projects,
@@ -83,10 +85,12 @@ def timesheet_form(request):
                 employee = Employee.by_username(username)
                 first_o_m, last_o_m = get_first_and_last_d_o_m(current_day)
                 payroll_cycle = ensure_payroll_cycle(first_o_m, last_o_m)
-                time_sheet = ensure_time_sheet(employee, payroll_cycle, monday, sunday)
+                time_sheet = ensure_time_sheet(employee, payroll_cycle, monday, sunday, time_sheet_data.description)
                 partial_save_work_segment = partial(save_work_segment, time_sheet, payroll_cycle, employee)
+                # work_segments = map(partial_save_work_segment, time_sheet_data.work_segments)
+                # WorkSegment.add_all(work_segments)
                 map(partial_save_work_segment, time_sheet_data.work_segments)
-                region_invalidate(get_all_work_segments_in_range, 'long_term', 'work_segments')
+                # region_invalidate(get_all_work_segments_in_range, 'long_term', 'work_segments')
                 request.session.flash("You successfully updated your time this week!")
             except: # catch *all* exceptions
                 e = sys.exc_info()[0]
@@ -111,28 +115,26 @@ def get_defaults(current_day, monday, sunday):
         week_dates_map = get_week_dates_map(current_day)
         return week_dates_map
     else:
-        default_s_week_projects = map(lambda work_segment: get_project_by_id(work_segment.project_id), existing_timesheet)
+        timesheet = TimeSheet.by_id(existing_timesheet[0].time_sheet_id)
+        # default_s_week_projects = map(lambda work_segment: get_project_by_id(work_segment.project_id),
+        #                               existing_timesheet)
+        project = get_project_by_id(existing_timesheet[0].project_id)
         default_for_week = dict(Hours1=existing_timesheet[0].hours,
                                 Day1=existing_timesheet[0].date.strftime(DATE_FORMAT),
-                                project_1 = default_s_week_projects[0].name,
                                 Hours2=existing_timesheet[1].hours,
                                 Day2=existing_timesheet[1].date.strftime(DATE_FORMAT),
-                                project_2 = default_s_week_projects[1].name,
                                 Hours3=existing_timesheet[2].hours,
                                 Day3=existing_timesheet[2].date.strftime(DATE_FORMAT),
-                                project_3 = default_s_week_projects[2].name,
                                 Hours4=existing_timesheet[3].hours,
                                 Day4=existing_timesheet[3].date.strftime(DATE_FORMAT),
-                                project_4 = default_s_week_projects[3].name,
                                 Hours5=existing_timesheet[4].hours,
                                 Day5=existing_timesheet[4].date.strftime(DATE_FORMAT),
-                                project_5 = default_s_week_projects[4].name,
                                 Hours6=existing_timesheet[5].hours,
                                 Day6=existing_timesheet[5].date.strftime(DATE_FORMAT),
-                                project_6 = default_s_week_projects[5].name,
                                 Hours7=existing_timesheet[6].hours,
                                 Day7=existing_timesheet[6].date.strftime(DATE_FORMAT),
-                                project_7 = default_s_week_projects[6].name)
+                                project=project.name,
+                                description=timesheet.description if timesheet else None)
         return default_for_week
 
 
@@ -149,9 +151,11 @@ def get_week_dates_map(day):
                           Day5=week_dates_string[4], Day6=week_dates_string[5], Day7=week_dates_string[6])
     return week_dates_map
 
+
 def get_project_by_id(project_id):
     project = itertools.ifilter(lambda project: project.id == project_id, get_all_projects()).next()
     return project
+
 
 def get_project_names():
     projects = get_all_projects()
@@ -165,25 +169,24 @@ def get_timesheet(monday, sunday):
 
 
 class TimesheetData():
-    def __init__(self, Hours1=None, Hours2=None, Hours3=None, Hours4=None,
+    def __init__(self, project=None, Hours1=None, Hours2=None, Hours3=None, Hours4=None,
                  Hours5=None, Hours6=None,
                  Hours7=None, Day1=None, Day2=None, Day3=None, Day4=None,
-                 Day5=None, Day6=None,
-                 Day7=None, project_1=None, project_2=None, project_3=None, project_4=None, project_5=None,
-                 project_6=None,
-                 project_7=None):
-        self.work_segments = [(Hours1, date_string_to_date(Day1), project_1),
-                              (Hours2, date_string_to_date(Day2), project_2),
-                              (Hours3, date_string_to_date(Day3), project_3),
-                              (Hours4, date_string_to_date(Day4), project_4),
-                              (Hours5, date_string_to_date(Day5), project_5),
-                              (Hours6, date_string_to_date(Day6), project_6),
-                              (Hours7, date_string_to_date(Day7), project_7)]
+                 Day5=None, Day6=None, Day7=None, description=None):
+        self.work_segments = [(Hours1, date_string_to_date(Day1), project),
+                              (Hours2, date_string_to_date(Day2), project),
+                              (Hours3, date_string_to_date(Day3), project),
+                              (Hours4, date_string_to_date(Day4), project),
+                              (Hours5, date_string_to_date(Day5), project),
+                              (Hours6, date_string_to_date(Day6), project),
+                              (Hours7, date_string_to_date(Day7), project)]
+        self.description = description
 
 
 class TimesheetDataSchema(Schema):
     allow_extra_fields = True
     filter_extra_fields = True
+    project = NotEmpty
     Hours1 = NotEmpty
     Hours2 = NotEmpty
     Hours3 = NotEmpty
@@ -198,11 +201,5 @@ class TimesheetDataSchema(Schema):
     Day5 = DateValidator(date_format='mm/dd/yyyy')
     Day6 = DateValidator(date_format='mm/dd/yyyy')
     Day7 = DateValidator(date_format='mm/dd/yyyy')
-    project_1 = NotEmpty
-    project_2 = NotEmpty
-    project_3 = NotEmpty
-    project_4 = NotEmpty
-    project_5 = NotEmpty
-    project_6 = NotEmpty
-    project_7 = NotEmpty
+    description = UnicodeString(min=250)
 

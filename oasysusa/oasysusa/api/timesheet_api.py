@@ -27,6 +27,7 @@ from ..models import (
 logging.basicConfig()
 log = logging.getLogger(__name__)
 
+
 @view_defaults(route_name='project',
                permission='user',
                renderer='json')
@@ -48,6 +49,7 @@ class ProjectApi(object):
     @view_config(request_method='DELETE')
     def delete(self):
         return Response('delete')
+
 
 @view_defaults(route_name='week',
                permission='user',
@@ -80,10 +82,11 @@ def get_all_projects():
     projects = Q(Project).all()
     return projects
 
-@cache_region('long_term', 'work_segments')
+# @cache_region('long_term', 'work_segments')
 def get_all_work_segments_in_range(start, finish):
     work_segments = WorkSegment.in_range_inc(start, finish)
     return work_segments
+
 
 def first_and_last_dow(day):
     monday = day - timedelta(days=day.weekday())
@@ -95,6 +98,7 @@ def first_and_last_dow(day):
     monday = day - timedelta(days=day.weekday())
     sunday = monday + timedelta(days=6)
     return monday, sunday
+
 
 def get_week_dates(day):
     monday = day - timedelta(days=day.weekday())
@@ -121,10 +125,11 @@ def ensure_payroll_cycle(first_o_m, last_o_m):
                                      direct_deposit_date=last_o_m, start_date=first_o_m, end_date=last_o_m)
         return payroll_cycle.save()
 
-def ensure_time_sheet(employee, payroll_cycle, monday, sunday):
+
+def ensure_time_sheet(employee, payroll_cycle, monday, sunday, description):
     existing_time_sheet = Q(TimeSheet, TimeSheet.start_date == monday, TimeSheet.end_date == sunday).first()
     if existing_time_sheet:
-        return existing_time_sheet
+        return existing_time_sheet.update(description=description)
     else:
         time_sheet = TimeSheet(start_date=monday, end_date=sunday)
         time_sheet.employee_id = employee.id

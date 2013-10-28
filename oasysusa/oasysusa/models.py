@@ -2,10 +2,9 @@ __author__ = 'outcastgeek'
 
 import string
 import random
-
-from beaker.cache import cache_region
 from datetime import datetime
 
+from beaker.cache import cache_region
 from sqlalchemy import (
     Column,
     Integer,
@@ -16,17 +15,12 @@ from sqlalchemy import (
     Table,
     Boolean,
     Date)
-
 from sqlalchemy.ext.declarative import declarative_base
-
 from sqlalchemy.orm import (
     scoped_session,
     sessionmaker,
     relationship,
     synonym)
-
-from .mixins.sqla import CRUDMixin
-
 from formencode import Schema
 from formencode.national import USPhoneNumber
 from formencode.validators import (
@@ -35,11 +29,7 @@ from formencode.validators import (
     DateValidator,
     NotEmpty,
     String)
-
 from zope.sqlalchemy import ZopeTransactionExtension
-
-from hashlib import sha1
-
 from pyramid.security import (
     Allow,
     Authenticated,
@@ -86,6 +76,45 @@ def find_methods(obj):
 DATE_FORMAT = "%m/%d/%Y"
 SQL_DATE_FORMAT = "%Y-%m-%d"
 EARLIEST_DATE = datetime.strptime('01/01/1900', DATE_FORMAT)
+
+######## CRUD Mixin #################
+
+class CRUDMixin(object):
+    __table_args__ = {'extend_existing': True}
+
+    id = Column(Integer, primary_key=True)
+
+    @classmethod
+    def get_by_id(cls, id):
+        if any(
+                (isinstance(id, basestring) and id.isdigit(),
+                 isinstance(id, (int, float))),
+                ):
+            return cls.query.get(int(id))
+        return None
+
+    @classmethod
+    def create(cls, **kwargs):
+        instance = cls(**kwargs)
+        return instance.save()
+
+    @classmethod
+    def add_all(cls, **instances):
+        return DBSession.add_all(instances)
+
+    def update(self, **kwargs):
+        for attr, value in kwargs.iteritems():
+            setattr(self, attr, value)
+        return self.save() or self
+
+    def save(self):
+        DBSession.add(self)
+        return self
+
+    def delete(self):
+        DBSession.delete(self)
+
+############ END CRUD Mixin ##############
 
 class MyModel(CRUDMixin, Base):
     __tablename__ = 'models'
@@ -354,10 +383,13 @@ class ProjectSchema(Schema):
 
     name = NotEmpty
     client = NotEmpty
-    description = UnicodeString(min=250)
-    email = Email()
+    description = String(min=140)
+    email = Email
     telephone_number = USPhoneNumber
     address = NotEmpty
+    manager = NotEmpty
+    manager_telephone_number = USPhoneNumber
+    manager_email = Email
 
 ################# END PROJECTS #################################
 
@@ -370,7 +402,7 @@ class TimeSheet(CRUDMixin, Base):
     payroll_cycle_id = Column(Integer, ForeignKey('payroll_cycles.id'))
     start_date = Column(Date)
     end_date = Column(Date)
-    description = Column(Text)
+    description = Column('description', Unicode(250))
     work_segments = relationship("WorkSegment", backref="time_sheets")
 
     def __init__(self, start_date=None, end_date=None, description=None):
@@ -378,6 +410,10 @@ class TimeSheet(CRUDMixin, Base):
         self.end_date = end_date
         self.description = description
         self.session = DBSession
+
+    @classmethod
+    def by_id(cls, time_sheet_id):
+        return DBSession.query(TimeSheet).filter(TimeSheet.id==time_sheet_id).first()
 
 class TimeSheetSchema(Schema):
     allow_extra_fields = True

@@ -20,7 +20,7 @@
     {#        {% endfor %}#}
     {#    </select>#}
     <main>
-        <div class="row">
+        <div class="form-group">
             {{ prev_renderer.begin(request.route_url('current_day', direction='prev'), class="span4 pull-left") }}
             {{ renderer.csrf_token() }}
             {{ prev_renderer.submit('submit', '<< Previous', class="btn btn-inverse") }}
@@ -35,62 +35,64 @@
         <fieldset>
             <legend>{{ TUTILS.format_date(monday) }} to {{ TUTILS.format_date(sunday) }}</legend>
             {{ renderer.csrf_token() }}
-            <div class="row">
-                {{ renderer.label("Monday", class="span1") }}
-                {{ renderer.select("project_1", projects, selected_value=None, id="project1", class="span2") }}
+            {{ renderer.select("project", projects, selected_value=None, id="project", class="form-control") }}
+            <div class="form-group">
+                {{ renderer.label("Monday",  class="sr-only") }}
                 {{ renderer.label("Hours", class="span1 pull-right") }}
                 {{ renderer.errorlist("Hours1") }}
-                {{ renderer.text("Hours1", placeholder="8.0", required="required", form_input="form_input", class="span1") }}
+                {{ renderer.text("Hours1", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
                 {{ renderer.hidden_tag("Day1") }}
             </div>
-            <div class="row">
-                {{ renderer.label("Tuesday", class="span1") }}
-                {{ renderer.select("project_2", projects, selected_value=None, id="project2", class="span2") }}
+            <div class="form-group">
+                {{ renderer.label("Tuesday",  class="sr-only") }}
                 {{ renderer.label("Hours", class="span1 pull-right") }}
                 {{ renderer.errorlist("Hours2") }}
-                {{ renderer.text("Hours2", placeholder="8.0", class="span1", required="required", form_input="form_input") }}
+                {{ renderer.text("Hours2", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
                 {{ renderer.hidden_tag("Day2") }}
             </div>
-            <div class="row">
-                {{ renderer.label("Wednesday", class="span1") }}
-                {{ renderer.select("project_3", projects, selected_value=None, id="project3", class="span2") }}
+            <div class="form-group">
+                {{ renderer.label("Wednesday",  class="sr-only") }}
                 {{ renderer.label("Hours", class="span1 pull-right") }}
                 {{ renderer.errorlist("Hours3") }}
-                {{ renderer.text("Hours3", placeholder="8.0", class="span1", required="required", form_input="form_input") }}
+                {{ renderer.text("Hours3", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
                 {{ renderer.hidden_tag("Day3") }}
             </div>
-            <div class="row">
-                {{ renderer.label("Thursday", class="span1") }}
-                {{ renderer.select("project_4", projects, selected_value=None, id="project4", class="span2") }}
+            <div class="form-group">
+                {{ renderer.label("Thursday",  class="sr-only") }}
                 {{ renderer.label("Hours", class="span1 pull-right") }}
                 {{ renderer.errorlist("Hours4") }}
-                {{ renderer.text("Hours4", placeholder="8.0", class="span1", required="required", form_input="form_input") }}
+                {{ renderer.text("Hours4", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
                 {{ renderer.hidden_tag("Day4") }}
             </div>
-            <div class="row">
-                {{ renderer.label("Friday", class="span1") }}
-                {{ renderer.select("project_5", projects, selected_value=None, id="project5", class="span2") }}
+            <div class="form-group">
+                {{ renderer.label("Friday",  class="sr-only") }}
                 {{ renderer.label("Hours", class="span1 pull-right") }}
                 {{ renderer.errorlist("Hours5") }}
-                {{ renderer.text("Hours5", placeholder="8.0", class="span1", required="required", form_input="form_input") }}
+                {{ renderer.text("Hours5", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
                 {{ renderer.hidden_tag("Day5") }}
             </div>
-            <div class="row">
-                {{ renderer.label("Saturday", class="span1") }}
-                {{ renderer.select("project_6", projects, selected_value=None, id="project6", class="span2") }}
+            <div class="form-group">
+                {{ renderer.label("Saturday",  class="sr-only") }}
                 {{ renderer.label("Hours", class="span1 pull-right") }}
                 {{ renderer.errorlist("Hours6") }}
-                {{ renderer.text("Hours6", placeholder="8.0", class="span1", required="required", form_input="form_input") }}
+                {{ renderer.text("Hours6", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
                 {{ renderer.hidden_tag("Day6") }}
             </div>
-            <div class="row">
-                {{ renderer.label("Sunday", class="span1") }}
-                {{ renderer.select("project_7", projects, selected_value=None, id="project7", class="span2") }}
+            <div class="form-group">
+                {{ renderer.label("Sunday",  class="sr-only") }}
                 {{ renderer.label("Hours", class="span1 pull-right") }}
                 {{ renderer.errorlist("Hours7") }}
-                {{ renderer.text("Hours7", placeholder="8.0", class="span1", required="required", form_input="form_input") }}
+                {{ renderer.text("Hours7", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
                 {{ renderer.hidden_tag("Day7") }}
             </div>
+            <hr>
+            <div class="form-group">
+                {{ renderer.label("Description",  class="sr-only") }}
+                {{ renderer.errorlist("description") }}
+                {{ renderer.textarea("description", placeholder="description", class="form-control", rows="4", cols="50",
+                                                    required="required", form_input="form_input", class="form-control") }}
+            </div>
+            <hr>
         </fieldset>
         <button id="clear" class="btn btn-large">Clear</button>
         {{ renderer.submit('submit', 'Save', class="btn btn-large btn-primary") }}
