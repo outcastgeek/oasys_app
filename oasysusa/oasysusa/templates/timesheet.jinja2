@@ -32,8 +32,9 @@
         </div>
         {{ jump_to_date_renderer.begin(request.route_url('current_day', direction='new_date'), class="form-inline timesheet-form") }}
         {{ jump_to_date_renderer.csrf_token() }}
-        {{ jump_to_date_renderer.submit('submit', 'Current Day', class="btn btn-inverse") }}
+        {{ jump_to_date_renderer.label("Current Day",  class="sr-only") }}
         {{ jump_to_date_renderer.text("new_date", placeholder="01/01/0001", size=20 , required="required", form_input="form_input", class="form-control") }}
+        {{ jump_to_date_renderer.submit('submit', 'Go', class="btn btn-inverse") }}
         {{ jump_to_date_renderer.end() }}
         <hr>
         {{ renderer.begin(request.route_url('timesheet'), name="timesheet-form", class="form-inline timesheet-form") }}
