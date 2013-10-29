@@ -22,14 +22,20 @@
     <main>
         <div class="form-group">
             {{ prev_renderer.begin(request.route_url('current_day', direction='prev'), class="span4 pull-left") }}
-            {{ renderer.csrf_token() }}
+            {{ prev_renderer.csrf_token() }}
             {{ prev_renderer.submit('submit', '<< Previous', class="btn btn-inverse") }}
             {{ prev_renderer.end() }}
             {{ next_renderer.begin(request.route_url('current_day', direction='next'), class="span4 pull-right") }}
-            {{ renderer.csrf_token() }}
+            {{ next_renderer.csrf_token() }}
             {{ next_renderer.submit('submit', 'Next >>', class="btn btn-inverse") }}
             {{ next_renderer.end() }}
         </div>
+        {{ jump_to_date_renderer.begin(request.route_url('current_day', direction='new_date'), class="form-inline timesheet-form") }}
+        {{ jump_to_date_renderer.csrf_token() }}
+        {{ jump_to_date_renderer.submit('submit', 'Current Day', class="btn btn-inverse") }}
+        {{ jump_to_date_renderer.text("new_date", placeholder="01/01/0001", size=20 , required="required", form_input="form_input", class="form-control") }}
+        {{ jump_to_date_renderer.end() }}
+        <hr>
         {{ renderer.begin(request.route_url('timesheet'), name="timesheet-form", class="form-inline timesheet-form") }}
         <h2 class="form-base-heading">Timesheet</h2>
         <fieldset>

@@ -23,6 +23,7 @@ from formencode.validators import NotEmpty, DateValidator, UnicodeString, String
 
 from ..models import (
     DATE_FORMAT,
+    EARLIEST_DATE,
     Employee,
     TimeSheet,
     WorkSegment)
@@ -46,16 +47,21 @@ log = logging.getLogger(__file__)
              permission='user')
 def current_day(request):
     session = request.session
+    new_date = request.params.get('new_date')
     direction = request.matchdict['direction']
-    current_day = session.get('current_day')
-    if not current_day:
-        current_day = date.today()
-    monday, sunday = first_and_last_dow(current_day)
+    if 'new_date' == direction and new_date:
+        current_day = datetime.strptime(new_date, DATE_FORMAT)
+        current_day = current_day if current_day > EARLIEST_DATE else EARLIEST_DATE
+    else:
+        current_day = session.get('current_day')
+        if not current_day:
+            current_day = date.today()
+        monday, sunday = first_and_last_dow(current_day)
 
-    if 'prev' == direction:
-        current_day = monday + timedelta(days=-1)
-    if 'next' == direction:
-        current_day = sunday + timedelta(days=1)
+        if 'prev' == direction:
+            current_day = monday + timedelta(days=-1)
+        if 'next' == direction:
+            current_day = sunday + timedelta(days=1)
     session['current_day'] = current_day
     return HTTPFound(location=request.route_url('timesheet'))
 
@@ -70,6 +76,7 @@ def timesheet_form(request):
     if not current_day:
         current_day = date.today()
         session['current_day'] = current_day
+    current_day_str = current_day.strftime(DATE_FORMAT)
     monday, sunday = first_and_last_dow(current_day)
     defaults_for_week = get_defaults(current_day, monday, sunday)
     form = Form(request,
@@ -80,29 +87,27 @@ def timesheet_form(request):
         if form.validate():
             time_sheet_data = TimesheetData(**form.data)
             log.info("Persisting timesheet somewhere...")
-            try:
-                username = authenticated_userid(request)
-                employee = Employee.by_username(username)
-                first_o_m, last_o_m = get_first_and_last_d_o_m(current_day)
-                payroll_cycle = ensure_payroll_cycle(first_o_m, last_o_m)
-                time_sheet = ensure_time_sheet(employee, payroll_cycle, monday, sunday, time_sheet_data.description)
-                partial_save_work_segment = partial(save_work_segment, time_sheet, payroll_cycle, employee)
-                # work_segments = map(partial_save_work_segment, time_sheet_data.work_segments)
-                # WorkSegment.add_all(work_segments)
-                map(partial_save_work_segment, time_sheet_data.work_segments)
-                # region_invalidate(get_all_work_segments_in_range, 'long_term', 'work_segments')
-                request.session.flash("You successfully updated your time this week!")
-            except: # catch *all* exceptions
-                e = sys.exc_info()[0]
-                request.session.flash("Error: %s" % e.message)
+            username = authenticated_userid(request)
+            employee = Employee.retrieve(Employee.username == username).first()
+            first_o_m, last_o_m = get_first_and_last_d_o_m(current_day)
+            payroll_cycle = ensure_payroll_cycle(first_o_m, last_o_m)
+            time_sheet = ensure_time_sheet(employee, payroll_cycle, monday, sunday, time_sheet_data.description)
+            partial_save_work_segment = partial(save_work_segment, time_sheet, payroll_cycle, employee)
+            # work_segments = map(partial_save_work_segment, time_sheet_data.work_segments)
+            # WorkSegment.add_all(work_segments)
+            map(partial_save_work_segment, time_sheet_data.work_segments)
+            # region_invalidate(get_all_work_segments_in_range, 'long_term', 'work_segments')
+            request.session.flash("You successfully updated your time this week!")
             return HTTPFound(location=request.route_url('timesheet'))
         else:
             log.info('Invalid form...')
             request.session.flash("Invalid Timesheet...")
             return dict(renderer=FormRenderer(form), prev_renderer=FormRenderer(Form(request)),
+                        jump_to_date_renderer=FormRenderer(Form(request, defaults=dict(new_date=current_day_str))),
                         next_renderer=FormRenderer(Form(request)),
                         projects=project_names, monday=monday, sunday=sunday)
     return dict(renderer=FormRenderer(form), prev_renderer=FormRenderer(Form(request)),
+                jump_to_date_renderer=FormRenderer(Form(request, defaults=dict(new_date=current_day_str))),
                 next_renderer=FormRenderer(Form(request)),
                 projects=project_names, monday=monday, sunday=sunday)
 
@@ -111,30 +116,24 @@ def timesheet_form(request):
 
 def get_defaults(current_day, monday, sunday):
     existing_timesheet = get_timesheet(monday, sunday)
+    week_dates_map = get_week_dates_map(current_day)
     if len(existing_timesheet) == 0:
-        week_dates_map = get_week_dates_map(current_day)
         return week_dates_map
     else:
-        timesheet = TimeSheet.by_id(existing_timesheet[0].time_sheet_id)
+        timesheet = TimeSheet.get_by_id(existing_timesheet[0].time_sheet_id)
         # default_s_week_projects = map(lambda work_segment: get_project_by_id(work_segment.project_id),
         #                               existing_timesheet)
         project = get_project_by_id(existing_timesheet[0].project_id)
-        default_for_week = dict(Hours1=existing_timesheet[0].hours,
-                                Day1=existing_timesheet[0].date.strftime(DATE_FORMAT),
-                                Hours2=existing_timesheet[1].hours,
-                                Day2=existing_timesheet[1].date.strftime(DATE_FORMAT),
-                                Hours3=existing_timesheet[2].hours,
-                                Day3=existing_timesheet[2].date.strftime(DATE_FORMAT),
-                                Hours4=existing_timesheet[3].hours,
-                                Day4=existing_timesheet[3].date.strftime(DATE_FORMAT),
-                                Hours5=existing_timesheet[4].hours,
-                                Day5=existing_timesheet[4].date.strftime(DATE_FORMAT),
-                                Hours6=existing_timesheet[5].hours,
-                                Day6=existing_timesheet[5].date.strftime(DATE_FORMAT),
-                                Hours7=existing_timesheet[6].hours,
-                                Day7=existing_timesheet[6].date.strftime(DATE_FORMAT),
+        timesheet_metadata = dict(Hours1=existing_timesheet[0].hours if len(existing_timesheet) > 0 else 0,
+                                Hours2=existing_timesheet[1].hours if len(existing_timesheet) > 1 else 0,
+                                Hours3=existing_timesheet[2].hours if len(existing_timesheet) > 2 else 0,
+                                Hours4=existing_timesheet[3].hours if len(existing_timesheet) > 3 else 0,
+                                Hours5=existing_timesheet[4].hours if len(existing_timesheet) > 4 else 0,
+                                Hours6=existing_timesheet[5].hours if len(existing_timesheet) > 5 else 0,
+                                Hours7=existing_timesheet[6].hours if len(existing_timesheet) > 6 else 0,
                                 project=project.name,
                                 description=timesheet.description if timesheet else None)
+        default_for_week = dict(week_dates_map.items() + timesheet_metadata.items())
         return default_for_week
 
 

@@ -15,8 +15,6 @@ from pyramid.view import (
     view_defaults,
     view_config)
 
-from ..mixins.sqla import Q
-
 from ..models import (
     Employee,
     PayrollCycle,
@@ -37,7 +35,7 @@ class ProjectApi(object):
 
     @view_config(request_method='GET')
     def get(self):
-        projects = Q(Project).all()
+        projects = Project.retrieve().all()
         return projects
 
     @view_config(request_method='POST')
@@ -79,7 +77,7 @@ class WeekApi(object):
 
 @cache_region('long_term', 'projects')
 def get_all_projects():
-    projects = Q(Project).all()
+    projects = Project.retrieve().all()
     return projects
 
 # @cache_region('long_term', 'work_segments')
@@ -116,7 +114,7 @@ def get_first_and_last_d_o_m(day):
 
 
 def ensure_payroll_cycle(first_o_m, last_o_m):
-    existing_payroll_cycle = Q(PayrollCycle, PayrollCycle.payroll_cycle_number == first_o_m.month).first()
+    existing_payroll_cycle = PayrollCycle.retrieve(PayrollCycle.payroll_cycle_number == first_o_m.month).first()
     if existing_payroll_cycle:
         return existing_payroll_cycle
     else:
@@ -127,7 +125,7 @@ def ensure_payroll_cycle(first_o_m, last_o_m):
 
 
 def ensure_time_sheet(employee, payroll_cycle, monday, sunday, description):
-    existing_time_sheet = Q(TimeSheet, TimeSheet.start_date == monday, TimeSheet.end_date == sunday).first()
+    existing_time_sheet = TimeSheet.retrieve(TimeSheet.start_date == monday, TimeSheet.end_date == sunday).first()
     if existing_time_sheet:
         return existing_time_sheet.update(description=description)
     else:

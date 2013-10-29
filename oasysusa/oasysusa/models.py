@@ -208,7 +208,7 @@ class Employee(CRUDMixin, Base):
     # https://github.com/Pylons/shootout/blob/master/shootout/models.py
     @classmethod
     def check_password(cls, username, password):
-        user = cls.get_by_username(username)
+        user = cls.retrieve(Employee.username == username).first()
         if not user:
             return False
         return sha512_crypt.verify(password, user.password)
