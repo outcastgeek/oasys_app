@@ -60,6 +60,7 @@ def add_globals(event):
     project = 'oasysusa'
     template_utils = get_template_utils()
     event.update(dict(
+        request=request,
         USER_ID=userID,
         USER_SESSION=session,
         project=project,

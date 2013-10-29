@@ -1,4 +1,4 @@
-__author__ = 'C148810'
+__author__ = 'outcastgeek'
 
 import logging
 import sys
@@ -25,7 +25,7 @@ def form(request):
                 obj=Project())
     response = render('templates/admin/project_partial.jinja2',
                                   dict(renderer=FormRenderer(form), request=request))
-    return response.body
+    return response
 
 
 @view_config(route_name='project-form',
