@@ -114,6 +114,19 @@ class CRUDMixin(object):
     def delete(self):
         DBSession.delete(self)
 
+    @classmethod
+    def retrieve(cls, filters=None, page=0, page_size=None):
+        query = DBSession.query(cls)
+        if filters:
+            query = query.filter(**filters)
+        if page_size:
+            query = query.limit(page_size)
+        if page:
+            query = query.offset(page*page_size)
+        return query
+
+
+
 ############ END CRUD Mixin ##############
 
 class MyModel(CRUDMixin, Base):
@@ -125,11 +138,11 @@ class MyModel(CRUDMixin, Base):
     def __init__(self, name=None, value=None):
         self.name = name
         self.value = value
-        self.session = DBSession
+        # self.session = DBSession
 
 ################# EMPLOYEES #############################
 
-class Employee(Base):
+class Employee(CRUDMixin, Base):
     __tablename__ = 'employees'
     id = Column(Integer, primary_key=True)
     username = Column(Text, unique=True)
@@ -182,15 +195,15 @@ class Employee(Base):
         self.telephone_number = telephone_number
         self.date_of_birth = date_of_birth
         self.groups = groups or []
-        self.session = DBSession
-
-    def update_fields(self, updated_fields={}):
-        for key, value in updated_fields.iteritems():
-            setattr(self, key, value)
-
-    @classmethod
-    def get_by_username(cls, username):
-        return DBSession.query(cls).filter(cls.username == username).first()
+    #     self.session = DBSession
+    #
+    # def update_fields(self, updated_fields={}):
+    #     for key, value in updated_fields.iteritems():
+    #         setattr(self, key, value)
+    #
+    # @classmethod
+    # def get_by_username(cls, username):
+    #     return DBSession.query(cls).filter(cls.username == username).first()
 
     # https://github.com/Pylons/shootout/blob/master/shootout/models.py
     @classmethod
@@ -200,26 +213,27 @@ class Employee(Base):
             return False
         return sha512_crypt.verify(password, user.password)
 
-    @classmethod
-    def by_id(cls, userid):
-        return DBSession.query(Employee).filter(Employee.id==userid).first()
-
-    @classmethod
-    def by_provider_id(cls, unique_identifier):
-        # DBSession.query(Employee).filter_by(provider_id=unique_identifier).first()
-        DBSession.query(Employee).filter_by(provider_id=str(unique_identifier)).first()
-
-    @classmethod
-    def by_username(cls, username):
-        return DBSession.query(Employee).filter(Employee.username==username).first()
-
-    @classmethod
-    def save(cls, employee):
+    # @classmethod
+    # def by_id(cls, userid):
+    #     return DBSession.query(Employee).filter(Employee.id==userid).first()
+    #
+    # @classmethod
+    # def by_provider_id(cls, unique_identifier):
+    #     # DBSession.query(Employee).filter_by(provider_id=unique_identifier).first()
+    #     DBSession.query(Employee).filter_by(provider_id=str(unique_identifier)).first()
+    #
+    # @classmethod
+    # def by_username(cls, username):
+    #     return DBSession.query(Employee).filter(Employee.username==username).first()
+    #
+    # @classmethod
+    # def save(cls, employee):
+    def save(self, employee):
         employee_dob = datetime.strptime(employee.date_of_birth, DATE_FORMAT)
         employee.date_of_birth = employee_dob if employee_dob > EARLIEST_DATE else EARLIEST_DATE
         employee_group = Group.by_name('employee')
         employee.groups.append(employee_group)
-        return DBSession.add(employee)
+        return super(Employee, self).save(employee)
 
     @classmethod
     def update_or_insert(cls, username, employee):
@@ -295,12 +309,12 @@ class Group(CRUDMixin, Base):
 
     def __init__(self, groupname):
         self.groupname = groupname
-        self.session = DBSession
-
-    @classmethod
-    @cache_region('long_term', 'groups')
-    def by_name(cls, groupname):
-        return DBSession.query(cls).filter(cls.groupname == groupname).first()
+    #     self.session = DBSession
+    #
+    # @classmethod
+    # @cache_region('long_term', 'groups')
+    # def by_name(cls, groupname):
+    #     return DBSession.query(cls).filter(cls.groupname == groupname).first()
 
 ################# END GROUPS #############################
 
@@ -411,9 +425,9 @@ class TimeSheet(CRUDMixin, Base):
         self.description = description
         self.session = DBSession
 
-    @classmethod
-    def by_id(cls, time_sheet_id):
-        return DBSession.query(TimeSheet).filter(TimeSheet.id==time_sheet_id).first()
+    # @classmethod
+    # def by_id(cls, time_sheet_id):
+    #     return DBSession.query(TimeSheet).filter(TimeSheet.id==time_sheet_id).first()
 
 class TimeSheetSchema(Schema):
     allow_extra_fields = True

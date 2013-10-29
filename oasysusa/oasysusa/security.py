@@ -9,7 +9,7 @@ log = logging.getLogger(__file__)
 
 def groupfinder(userid, request):
 
-    user = Employee.by_username(userid)
+    user = Employee.retrieve(Employee.username == userid).first()
 
     if user:
         return [g.groupname for g in user.groups]

@@ -207,7 +207,7 @@ def profile(request):
             log.info('Invalid form...')
             return dict(renderer=FormRenderer(form))
 
-    existing_employee = Employee.by_username(username)
+    existing_employee = Employee.retrieve(Employee.username == username).first()
 
     if existing_employee:
         existing_employee_form = Form(request,

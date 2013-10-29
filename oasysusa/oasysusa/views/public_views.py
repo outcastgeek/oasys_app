@@ -7,13 +7,11 @@ from sqlalchemy.exc import DBAPIError
 
 from ..models import MyModel
 
-from ..mixins.sqla import Q
-
 
 @view_config(route_name='home', renderer='templates/home.jinja2')
 def my_view(request):
     try:
-        one = Q(MyModel, MyModel.name == 'one').first()
+        one = MyModel.retrieve(MyModel.name == 'one').first()
     except DBAPIError:
         return Response(conn_err_msg, content_type='text/plain', status_int=500)
     return {'one': one}

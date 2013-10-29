@@ -37,7 +37,7 @@ def get_settings():
     return settings
 
 def check_before_insert_group(groupname):
-    existing_group = Group.by_name(groupname)
+    existing_group = Group.retrieve(Group.groupname == groupname)
     if not existing_group:
         log.info("Adding group %s" % groupname)
         group = Group(groupname)
