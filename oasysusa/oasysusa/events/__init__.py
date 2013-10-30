@@ -1,6 +1,7 @@
 __author__ = 'outcastgeek'
 
 import logging
+import transaction
 
 from beaker.cache import cache_region
 from pyramid.events import (
@@ -37,7 +38,7 @@ def get_settings():
     return settings
 
 def check_before_insert_group(groupname):
-    existing_group = Group.query().filter(Group.groupname == groupname)
+    existing_group = Group.query().filter(Group.groupname == groupname).first()
     if not existing_group:
         log.info("Adding group %s" % groupname)
         group = Group(groupname)
@@ -46,7 +47,8 @@ def check_before_insert_group(groupname):
 @subscriber(ApplicationCreated)
 def application_created_subscriber(event):
     log.warn('Provisioning the database...')
-    map(check_before_insert_group, ['employee', 'admin'])
+    with transaction.manager:
+        map(check_before_insert_group, ['user', 'employee', 'admin'])
 
 
 @subscriber(BeforeRender)

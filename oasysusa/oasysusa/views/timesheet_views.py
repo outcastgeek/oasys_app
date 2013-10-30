@@ -53,7 +53,12 @@ def timesheet_form(request):
         current_day = date.today()
         session['current_day'] = current_day
     monday, sunday = first_and_last_dow(current_day)
-    time_sheet_data = get_timesheet_data(current_day, monday, sunday)
+    username = authenticated_userid(request)
+    employee = Employee.query().filter(Employee.username == username).first()
+    if not employee:
+        request.session.flash("You need to register first!")
+        return HTTPFound(location=request.route_url('register'))
+    time_sheet_data = get_timesheet_data(employee, current_day, monday, sunday)
     form = Form(request,
                 schema=TimesheetDataSchema(),
                 obj=time_sheet_data)
@@ -61,8 +66,6 @@ def timesheet_form(request):
         if form.validate():
             time_sheet_data = form.bind(TimesheetData())
             log.info("Persisting timesheet somewhere...")
-            username = authenticated_userid(request)
-            employee = Employee.query().filter(Employee.username == username).first()
             first_o_m, last_o_m = get_first_and_last_d_o_m(current_day)
             payroll_cycle = ensure_payroll_cycle(first_o_m, last_o_m)
             time_sheet = ensure_time_sheet(employee, payroll_cycle, monday, sunday, time_sheet_data.description)
@@ -79,23 +82,24 @@ def timesheet_form(request):
 
 ################# UTILITIES ########################
 
-def get_timesheet_data(current_day, monday, sunday):
-    existing_timesheet = get_timesheet(monday, sunday)
+def get_timesheet_data(employee, current_day, monday, sunday):
+    existing_timesheet = get_timesheet(employee, monday, sunday)
     week_dates_map = get_week_dates_map(current_day)
     if len(existing_timesheet) == 0:
         return TimesheetData(**week_dates_map)
     else:
-        timesheet = TimeSheet.query().filter(TimeSheet.id == existing_timesheet[0].time_sheet_id).first()
+        timesheet = TimeSheet.query().filter(TimeSheet.id == existing_timesheet[0].time_sheet_id,
+                                             TimeSheet.employee_id == employee.id).first()
         project = get_project_by_id(existing_timesheet[0].project_id)
         timesheet_metadata = dict(Hours1=existing_timesheet[0].hours if len(existing_timesheet) > 0 else 0,
-                                Hours2=existing_timesheet[1].hours if len(existing_timesheet) > 1 else 0,
-                                Hours3=existing_timesheet[2].hours if len(existing_timesheet) > 2 else 0,
-                                Hours4=existing_timesheet[3].hours if len(existing_timesheet) > 3 else 0,
-                                Hours5=existing_timesheet[4].hours if len(existing_timesheet) > 4 else 0,
-                                Hours6=existing_timesheet[5].hours if len(existing_timesheet) > 5 else 0,
-                                Hours7=existing_timesheet[6].hours if len(existing_timesheet) > 6 else 0,
-                                project=project.name,
-                                description=timesheet.description if timesheet else None)
+                                  Hours2=existing_timesheet[1].hours if len(existing_timesheet) > 1 else 0,
+                                  Hours3=existing_timesheet[2].hours if len(existing_timesheet) > 2 else 0,
+                                  Hours4=existing_timesheet[3].hours if len(existing_timesheet) > 3 else 0,
+                                  Hours5=existing_timesheet[4].hours if len(existing_timesheet) > 4 else 0,
+                                  Hours6=existing_timesheet[5].hours if len(existing_timesheet) > 5 else 0,
+                                  Hours7=existing_timesheet[6].hours if len(existing_timesheet) > 6 else 0,
+                                  project=project.name,
+                                  description=timesheet.description if timesheet else None)
         default_for_week = dict(week_dates_map.items() + timesheet_metadata.items())
         return TimesheetData(**default_for_week)
 
@@ -125,8 +129,8 @@ def get_project_names():
     return project_names
 
 
-def get_timesheet(monday, sunday):
-    work_segments = get_all_work_segments_in_range(monday, sunday)
+def get_timesheet(employee, monday, sunday):
+    work_segments = get_all_work_segments_in_range(employee, monday, sunday)
     return work_segments
 
 
@@ -161,7 +165,6 @@ class TimesheetData():
                 (self.Hours5, date_string_to_date(self.Day5), self.project),
                 (self.Hours6, date_string_to_date(self.Day6), self.project),
                 (self.Hours7, date_string_to_date(self.Day7), self.project)]
-
 
 
 class TimesheetDataSchema(Schema):

@@ -195,17 +195,17 @@ class Employee(CRUDMixin, Base):
             return False
         return sha512_crypt.verify(password, user.password)
 
-    def save(self, employee):
-        employee_dob = datetime.strptime(employee.date_of_birth, DATE_FORMAT)
-        employee.date_of_birth = employee_dob if employee_dob > EARLIEST_DATE else EARLIEST_DATE
-        employee_group = Group.by_name('employee')
-        employee.groups.append(employee_group)
-        return super(Employee, self).save(employee)
+    # def save(self, employee):
+    #     employee_dob = datetime.strptime(employee.date_of_birth, DATE_FORMAT)
+    #     employee.date_of_birth = employee_dob if employee_dob > EARLIEST_DATE else EARLIEST_DATE
+    #     employee_group = Group.by_name('employee')
+    #     employee.groups.append(employee_group)
+    #     return super(Employee, self).save(employee)
 
     @classmethod
     def update_or_insert(cls, username, employee):
         #check
-        existing_employee = cls.by_username(username)
+        existing_employee = cls.query().filter(Employee.username == username).first()
         if existing_employee:
             # setup data
             employee_dob = datetime.strptime(employee.date_of_birth, DATE_FORMAT)
@@ -216,7 +216,11 @@ class Employee(CRUDMixin, Base):
             update_stmt = employees_table.update(employees_table.c.username == username)
             update_stmt.execute(employee_data)
         else:
-            cls.save(employee)
+            employee_dob = datetime.strptime(employee.date_of_birth, DATE_FORMAT)
+            employee.date_of_birth = employee_dob if employee_dob > EARLIEST_DATE else EARLIEST_DATE
+            employee_group = Group.query().filter(Group.groupname == 'employee').first()
+            employee.groups.append(employee_group)
+            return employee.save()
 
     def __json__(self, request):
         return {
@@ -413,12 +417,6 @@ class WorkSegment(CRUDMixin, Base):
     def __init__(self, date=None, hours=None, description=None):
         self.date = date
         self.hours = hours
-
-    @classmethod
-    def in_range_inc(cls, low, high):
-        return DBSession.query(WorkSegment) \
-            .filter(WorkSegment.date >= low) \
-            .filter(WorkSegment.date <= high).all()
 
     def __json__(self, request):
         return {

@@ -81,8 +81,9 @@ def get_all_projects():
     return projects
 
 # @cache_region('long_term', 'work_segments')
-def get_all_work_segments_in_range(start, finish):
-    work_segments = WorkSegment.in_range_inc(start, finish)
+def get_all_work_segments_in_range(employee, start, finish):
+    work_segments = WorkSegment.query().filter(WorkSegment.employee_id == employee.id, WorkSegment.date >= start,
+                                               WorkSegment.date <= finish).all()
     return work_segments
 
 
