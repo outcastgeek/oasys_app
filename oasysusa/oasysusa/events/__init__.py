@@ -51,16 +51,12 @@ def application_created_subscriber(event):
         map(check_before_insert_group, ['user', 'employee', 'admin'])
 
 
-def get_user_id(request):
-    with transaction.manager:
-        return authenticated_userid(request)
-
 @subscriber(BeforeRender)
 def add_globals(event):
     # request = event['request']
     request = get_current_request()
     session = request.session
-    userID = get_user_id(request)
+    userID = session.get('auth.userid')
     settings = get_settings()
     cljs_debug = True if settings['cljs_debug'] == 'debug' else False
     project = 'oasysusa'
