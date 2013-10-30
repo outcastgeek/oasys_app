@@ -78,9 +78,11 @@
                                     <li><a href="/login">Login</a></li>
                                 {% endif %}
                                 {% if USER_ID %}
-                                    <li class="divider"></li>
-                                    <li class="nav-header">Time Management</li>
-                                    <li><a href="/timesheet/project">Project</a></li>
+                                    {% if has_cred('admin', request) %}
+                                        <li class="divider"></li>
+                                        <li class="nav-header">Time Management</li>
+                                        <li><a href="/timesheet/project">Project</a></li>
+                                    {% endif %}
                                 {% endif %}
                                 <li class="divider"></li>
                                 <li class="nav-header">Nav header</li>

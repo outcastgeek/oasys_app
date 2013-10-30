@@ -125,7 +125,7 @@ def login_complete_view(request):
     headers = remember(request, display_name)
     log.info(headers)
 
-    existing_employee = Employee.by_username(display_name)
+    existing_employee = Employee.query().filter(Employee.username == display_name).first()
     if existing_employee:
         if existing_employee.provider_id == unique_identifier or existing_employee.provider == context.provider_name:
             log.debug("Found existing employee: \n")
