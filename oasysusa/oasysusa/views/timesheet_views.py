@@ -2,31 +2,24 @@ __author__ = 'outcastgeek'
 
 import itertools
 import logging
-import sys
-
-from beaker.cache import region_invalidate
 
 from datetime import (
     date,
-    datetime,
-    timedelta)
+    datetime )
 
 from functools import partial
 
 from formencode import Schema
 from pyramid.httpexceptions import HTTPFound
-from pyramid.security import authenticated_userid
 from pyramid.view import view_config
 from pyramid_simpleform import Form
 from pyramid_simpleform.renderers import FormRenderer
-from formencode.validators import NotEmpty, DateValidator, UnicodeString, String
+from formencode.validators import NotEmpty, DateValidator, UnicodeString
 
 from ..models import (
     DATE_FORMAT,
-    EARLIEST_DATE,
     Employee,
-    TimeSheet,
-    WorkSegment)
+    TimeSheet )
 
 from ..api.timesheet_api import (
     get_all_projects,
@@ -53,7 +46,7 @@ def timesheet_form(request):
         current_day = date.today()
         session['current_day'] = current_day
     monday, sunday = first_and_last_dow(current_day)
-    username = authenticated_userid(request)
+    username = session.get('auth.userid')
     employee = Employee.query().filter(Employee.username == username).first()
     if not employee:
         request.session.flash("You need to register first!")

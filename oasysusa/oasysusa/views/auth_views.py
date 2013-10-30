@@ -18,7 +18,6 @@ from pyramid.view import (
 from pyramid.security import (
     remember,
     forget,
-    authenticated_userid,
     )
 from velruse import login_url
 
@@ -39,6 +38,7 @@ def get_providers():
     log.info(providers)
     return providers
 
+
 @cache_region('long_term', 'providers_info')
 def get_providers_info(request):
     providers = get_providers()
@@ -48,6 +48,7 @@ def get_providers_info(request):
     log.info(providers_info)
 
     return providers_info
+
 
 @view_config(route_name='login', renderer='templates/login.jinja2')
 @view_config(route_name='register', renderer='templates/login.jinja2')
@@ -178,7 +179,8 @@ def login_denied_view(request):
 
 @view_config(route_name='logout')
 def logout(request):
-    username = authenticated_userid(request)
+    session = request.session
+    username = session.get('auth.userid')
     request.session.flash("Goodbye %s!" % username)
     headers = forget(request)
     return HTTPFound(location=request.route_url('home'),
@@ -190,7 +192,8 @@ def logout(request):
              # request_method='POST',
              permission='user')
 def profile(request):
-    username = authenticated_userid(request)
+    session = request.session
+    username = session.get('auth.userid')
 
     form = Form(request,
                 schema=EmployeeSchema(),
