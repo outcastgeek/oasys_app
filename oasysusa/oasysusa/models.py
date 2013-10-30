@@ -36,22 +36,27 @@ from pyramid.security import (
     Everyone,
     ALL_PERMISSIONS)
 
+
 class RootFactory(object):
     __acl__ = [(Allow, 'admin', ALL_PERMISSIONS),
                (Allow, Everyone, 'view'),
                (Allow, Authenticated, 'edit'),
                (Allow, Authenticated, 'user'),
     ]
+
     def __init__(self, request):
         pass
+
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
 from passlib.hash import sha512_crypt
 
+
 def hash_password(password):
     return unicode(sha512_crypt.encrypt(password, rounds=4444))
+
 
 def _generate_password(length):
     password_len = length
@@ -70,8 +75,10 @@ def _generate_password(length):
 
     return password
 
+
 def find_methods(obj):
     return [method for method in dir(obj) if callable(getattr(obj, method))]
+
 
 DATE_FORMAT = "%m/%d/%Y"
 SQL_DATE_FORMAT = "%Y-%m-%d"
@@ -81,17 +88,6 @@ EARLIEST_DATE = datetime.strptime('01/01/1900', DATE_FORMAT)
 
 class CRUDMixin(object):
     __table_args__ = {'extend_existing': True}
-
-    id = Column(Integer, primary_key=True)
-
-    @classmethod
-    def get_by_id(cls, id):
-        if any(
-                (isinstance(id, basestring) and id.isdigit(),
-                 isinstance(id, (int, float))),
-                ):
-            return cls.query.get(int(id))
-        return None
 
     @classmethod
     def create(cls, **kwargs):
@@ -115,16 +111,13 @@ class CRUDMixin(object):
         DBSession.delete(self)
 
     @classmethod
-    def retrieve(cls, filters=None, page=0, page_size=None):
-        query = DBSession.query(cls)
-        if filters:
-            query = query.filter(**filters)
-        if page_size:
-            query = query.limit(page_size)
-        if page:
-            query = query.offset(page*page_size)
-        return query
+    def session(cls):
+        return DBSession
 
+    @classmethod
+    def query(cls):
+        query = DBSession.query(cls)
+        return query
 
 
 ############ END CRUD Mixin ##############
@@ -138,7 +131,6 @@ class MyModel(CRUDMixin, Base):
     def __init__(self, name=None, value=None):
         self.name = name
         self.value = value
-        # self.session = DBSession
 
 ################# EMPLOYEES #############################
 
@@ -167,7 +159,7 @@ class Employee(CRUDMixin, Base):
     def __acl__(self):
         return [
             (Allow, self.username, 'user'),
-            ]
+        ]
 
     def _get_password(self):
         return self._password
@@ -195,39 +187,14 @@ class Employee(CRUDMixin, Base):
         self.telephone_number = telephone_number
         self.date_of_birth = date_of_birth
         self.groups = groups or []
-    #     self.session = DBSession
-    #
-    # def update_fields(self, updated_fields={}):
-    #     for key, value in updated_fields.iteritems():
-    #         setattr(self, key, value)
-    #
-    # @classmethod
-    # def get_by_username(cls, username):
-    #     return DBSession.query(cls).filter(cls.username == username).first()
 
-    # https://github.com/Pylons/shootout/blob/master/shootout/models.py
     @classmethod
     def check_password(cls, username, password):
-        user = cls.retrieve(Employee.username == username).first()
+        user = cls.query().filter(Employee.username == username).first()
         if not user:
             return False
         return sha512_crypt.verify(password, user.password)
 
-    # @classmethod
-    # def by_id(cls, userid):
-    #     return DBSession.query(Employee).filter(Employee.id==userid).first()
-    #
-    # @classmethod
-    # def by_provider_id(cls, unique_identifier):
-    #     # DBSession.query(Employee).filter_by(provider_id=unique_identifier).first()
-    #     DBSession.query(Employee).filter_by(provider_id=str(unique_identifier)).first()
-    #
-    # @classmethod
-    # def by_username(cls, username):
-    #     return DBSession.query(Employee).filter(Employee.username==username).first()
-    #
-    # @classmethod
-    # def save(cls, employee):
     def save(self, employee):
         employee_dob = datetime.strptime(employee.date_of_birth, DATE_FORMAT)
         employee.date_of_birth = employee_dob if employee_dob > EARLIEST_DATE else EARLIEST_DATE
@@ -246,7 +213,7 @@ class Employee(CRUDMixin, Base):
             employee_data = employee.__dict__
             # update
             employees_table = employee.__table__
-            update_stmt = employees_table.update(employees_table.c.username==username)
+            update_stmt = employees_table.update(employees_table.c.username == username)
             update_stmt.execute(employee_data)
         else:
             cls.save(employee)
@@ -268,6 +235,7 @@ class Employee(CRUDMixin, Base):
 
         # def __repr__(self):
         #     return "<Employee('%s','%s', '%s', '%s')>" % (self.username, self.first_name, self.last_name, self.provider, self.email)
+
 
 class EmployeeSchema(Schema):
     allow_extra_fields = True
@@ -309,12 +277,6 @@ class Group(CRUDMixin, Base):
 
     def __init__(self, groupname):
         self.groupname = groupname
-    #     self.session = DBSession
-    #
-    # @classmethod
-    # @cache_region('long_term', 'groups')
-    # def by_name(cls, groupname):
-    #     return DBSession.query(cls).filter(cls.groupname == groupname).first()
 
 ################# END GROUPS #############################
 
@@ -323,7 +285,7 @@ class Group(CRUDMixin, Base):
 user_group_table = Table('employee_group', Base.metadata,
                          Column('employee_id', Integer, ForeignKey('employees.id')),
                          Column('group_id', Integer, ForeignKey('groups.id')),
-                         )
+)
 
 ################# END EMPLOYEES-GROUP #############################
 
@@ -349,7 +311,6 @@ class PayrollCycle(CRUDMixin, Base):
         self.direct_deposit_date = direct_deposit_date
         self.start_date = start_date
         self.end_date = end_date
-        self.session = DBSession
 
 ################# END PAYROLL CYCLES #############################
 
@@ -379,7 +340,6 @@ class Project(CRUDMixin, Base):
         self.email = email
         self.telephone_number = telephone_number
         self.address = address
-        self.session = DBSession
 
     def __json__(self, request):
         return {
@@ -390,6 +350,7 @@ class Project(CRUDMixin, Base):
             'telephone_number': self.telephone_number,
             'address': self.address
         }
+
 
 class ProjectSchema(Schema):
     allow_extra_fields = True
@@ -410,7 +371,7 @@ class ProjectSchema(Schema):
 ################# TIME SHEETS #########################################
 
 class TimeSheet(CRUDMixin, Base):
-    __tablename__= 'time_sheets'
+    __tablename__ = 'time_sheets'
     id = Column(Integer, primary_key=True)
     employee_id = Column(Integer, ForeignKey('employees.id'))
     payroll_cycle_id = Column(Integer, ForeignKey('payroll_cycles.id'))
@@ -423,11 +384,11 @@ class TimeSheet(CRUDMixin, Base):
         self.start_date = start_date
         self.end_date = end_date
         self.description = description
-        self.session = DBSession
 
-    # @classmethod
-    # def by_id(cls, time_sheet_id):
-    #     return DBSession.query(TimeSheet).filter(TimeSheet.id==time_sheet_id).first()
+        # @classmethod
+        # def by_id(cls, time_sheet_id):
+        #     return DBSession.query(TimeSheet).filter(TimeSheet.id==time_sheet_id).first()
+
 
 class TimeSheetSchema(Schema):
     allow_extra_fields = True
@@ -452,13 +413,12 @@ class WorkSegment(CRUDMixin, Base):
     def __init__(self, date=None, hours=None, description=None):
         self.date = date
         self.hours = hours
-        self.session = DBSession
 
     @classmethod
     def in_range_inc(cls, low, high):
         return DBSession.query(WorkSegment) \
-                        .filter(WorkSegment.date >= low) \
-                        .filter(WorkSegment.date <= high).all()
+            .filter(WorkSegment.date >= low) \
+            .filter(WorkSegment.date <= high).all()
 
     def __json__(self, request):
         return {
@@ -466,10 +426,11 @@ class WorkSegment(CRUDMixin, Base):
             'hours': self.hours
         }
 
+
 class WorkSegmentSchema(Schema):
     allow_extra_fields = True
     filter_extra_fields = True
 
     hours = NotEmpty
 
-################# END WORK SEGMENTS #########################################
+    ################# END WORK SEGMENTS #########################################

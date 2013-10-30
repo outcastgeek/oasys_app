@@ -35,7 +35,7 @@ class ProjectApi(object):
 
     @view_config(request_method='GET')
     def get(self):
-        projects = Project.retrieve().all()
+        projects = Project.query().all()
         return projects
 
     @view_config(request_method='POST')
@@ -77,7 +77,7 @@ class WeekApi(object):
 
 @cache_region('long_term', 'projects')
 def get_all_projects():
-    projects = Project.retrieve().all()
+    projects = Project.query().all()
     return projects
 
 # @cache_region('long_term', 'work_segments')
@@ -114,7 +114,7 @@ def get_first_and_last_d_o_m(day):
 
 
 def ensure_payroll_cycle(first_o_m, last_o_m):
-    existing_payroll_cycle = PayrollCycle.retrieve(PayrollCycle.payroll_cycle_number == first_o_m.month).first()
+    existing_payroll_cycle = PayrollCycle.query().filter(PayrollCycle.payroll_cycle_number == first_o_m.month).first()
     if existing_payroll_cycle:
         return existing_payroll_cycle
     else:
@@ -125,7 +125,7 @@ def ensure_payroll_cycle(first_o_m, last_o_m):
 
 
 def ensure_time_sheet(employee, payroll_cycle, monday, sunday, description):
-    existing_time_sheet = TimeSheet.retrieve(TimeSheet.start_date == monday, TimeSheet.end_date == sunday).first()
+    existing_time_sheet = TimeSheet.query().filter(TimeSheet.start_date == monday, TimeSheet.end_date == sunday).first()
     if existing_time_sheet:
         return existing_time_sheet.update(description=description)
     else:
@@ -138,10 +138,14 @@ def ensure_time_sheet(employee, payroll_cycle, monday, sunday, description):
 def save_work_segment(time_sheet, payroll_cycle, employee, work_segment_tuple):
     hours, date_input, project_name = work_segment_tuple
     project = itertools.ifilter(lambda project: project.name == project_name, get_all_projects()).next()
-    work_segment = WorkSegment(date=date_input, hours=hours)
-    work_segment.project_id = project.id
-    work_segment.time_sheet_id = time_sheet.id
-    work_segment.payroll_cycle_id = payroll_cycle.id
-    work_segment.employee_id = employee.id
-    work_segment.save()
+    work_segment = WorkSegment.query().filter(WorkSegment.date == date_input).first()
+    if work_segment:
+        return work_segment.update(date=date_input, hours=hours)
+    else:
+        work_segment = WorkSegment(date=date_input, hours=hours)
+        work_segment.project_id = project.id
+        work_segment.time_sheet_id = time_sheet.id
+        work_segment.payroll_cycle_id = payroll_cycle.id
+        work_segment.employee_id = employee.id
+        work_segment.save()
 

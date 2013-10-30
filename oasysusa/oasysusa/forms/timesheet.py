@@ -57,5 +57,6 @@ def current_day(request):
         if 'next' == direction:
             current_day = sunday + timedelta(days=1)
     session['current_day'] = current_day
+    request.session.flash("The current day was changed to %s!!!!" % current_day.strftime(DATE_FORMAT))
     return HTTPFound(location=request.route_url('timesheet'))
 
