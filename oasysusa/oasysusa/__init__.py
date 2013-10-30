@@ -19,7 +19,7 @@ log = logging.getLogger(__file__)
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
-    engine = engine_from_config(settings, 'sqlalchemy.', echo=True)
+    engine = engine_from_config(settings, 'sqlalchemy.', pool_size=24, max_overflow=0, echo_pool=True, echo=True)
     DBSession.configure(bind=engine)
     Base.metadata.bind = engine
 
