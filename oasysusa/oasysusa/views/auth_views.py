@@ -194,6 +194,7 @@ def logout(request):
 def profile(request):
     session = request.session
     username = session.get('auth.userid')
+    provider_id = session.get('provider_id')
 
     form = Form(request,
                 schema=EmployeeSchema(),
@@ -210,7 +211,7 @@ def profile(request):
             log.info('Invalid form...')
             return dict(renderer=FormRenderer(form))
 
-    existing_employee = Employee.query().filter(Employee.username == username).first()
+    existing_employee = Employee.query().filter(Employee.username == username, Employee.provider_id == provider_id).first()
 
     if existing_employee:
         existing_employee_form = Form(request,
