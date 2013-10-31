@@ -1,0 +1,29 @@
+{% extends "templates/layout.jinja2" %}
+
+{% block title %}
+    Employees
+{% endblock %}
+
+{% block css %}
+    <style>
+        body {
+            padding-top: 80px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    {% if paginator.items %}
+        {{ paginator.pager() }}
+        <h2>Employees</h2>
+        <ul>
+            {% for employee in paginator.items %}
+                <li>{{ employee.first_name }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
+
+{% block page_js %}
+    {#    <script src="{{ request.persona_js }}" type="text/javascript"></script>#}
+{% endblock %}

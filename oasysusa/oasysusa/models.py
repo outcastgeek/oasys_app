@@ -3,8 +3,10 @@ __author__ = 'outcastgeek'
 import string
 import random
 from datetime import datetime
+from webhelpers.paginate import PageURL_WebOb, Page
 
 from beaker.cache import cache_region
+import sqlalchemy as sa
 from sqlalchemy import (
     Column,
     Integer,
@@ -118,6 +120,15 @@ class CRUDMixin(object):
     def query(cls):
         query = DBSession.query(cls)
         return query
+
+    @classmethod
+    def all(cls, sort_field):
+        return DBSession.query(cls).order_by(sa.desc(sort_field))
+
+    @classmethod
+    def get_paginator(cls, request, sort_field, page=1, items_per_page=5):
+        page_url = PageURL_WebOb(request)
+        return Page(cls.all(sort_field), page, url=page_url, items_per_page=items_per_page)
 
 
 ############ END CRUD Mixin ##############
