@@ -295,7 +295,8 @@ def up_start():
     # upstart_ensure('memcached')
     #upstart_ensure('oasysusa')
     try:
-        run('kill -9 $(ps -ef | grep uwsgi | awk \'{print $2}\')')
+        #run('kill -9 $(ps -ef | grep uwsgi | awk \'{print $2}\')')
+        run('kill -9 $(ps -ef | grep oasysusa | awk \'{print $2}\')')
     except:
         print 'Oops!!!!'
     with cd('/home/oasysusa/oasys_corp'):
