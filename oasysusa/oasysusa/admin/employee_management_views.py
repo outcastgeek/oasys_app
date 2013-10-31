@@ -25,5 +25,5 @@ log = logging.getLogger(__file__)
              permission='admin')
 def employees(request):
     current_page = request.matchdict.get('page') or 1
-    paginator = Employee.get_paginator(request, Employee.last_name, page=int(current_page), items_per_page=2)
-    return dict(paginator=paginator)
+    employees = Employee.get_paginator(request, Employee.last_name, page=int(current_page), items_per_page=1)
+    return dict(employees=employees)

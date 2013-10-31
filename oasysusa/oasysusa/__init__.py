@@ -1,3 +1,8 @@
+
+import pyximport
+
+pyximport.install(pyimport=True)
+
 import logging
 
 from pyramid.config import Configurator

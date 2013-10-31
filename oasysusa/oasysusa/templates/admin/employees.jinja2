@@ -13,14 +13,19 @@
 {% endblock %}
 
 {% block body %}
-    {% if paginator.items %}
-        {{ paginator.pager() }}
+    {% if employees.items %}
         <h2>Employees</h2>
+        {{ employees.pager(link_attr={"class": "btn small"},
+                           curpage_attr={"class": "btn primary small disabled"},
+                           dotdot_attr={"class": "btn small disabled"}) }}
         <ul>
-            {% for employee in paginator.items %}
+            {% for employee in employees.items %}
                 <li>{{ employee.first_name }}</li>
             {% endfor %}
         </ul>
+        {{ employees.pager(link_attr={"class": "btn small"},
+                           curpage_attr={"class": "btn primary small disabled"},
+                           dotdot_attr={"class": "btn small disabled"}) }}
     {% endif %}
 {% endblock %}
 
