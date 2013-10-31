@@ -11,14 +11,16 @@ def get_workers():
 
 workers = get_workers()
 #workers = 8
-worker_class = tornado
+worker_class = 'tornado'
 
 backlog = 2048
 timeout = 30
 keepalive = 2
 debug = False
 spew = False
-accesslog = /home/oasysusa/oasys_corp/logs/oasysusa.log
+proc_name = 'oasysusa'
+accesslog = '/home/oasysusa/oasys_corp/logs/oasysusa.log'
+pidfile = '/home/oasysusa/oasys_corp/logs/pid_5000.pid'
 
 
 
