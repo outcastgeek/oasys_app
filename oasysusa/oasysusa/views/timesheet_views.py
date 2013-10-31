@@ -47,7 +47,7 @@ def timesheet_form(request):
         session['current_day'] = current_day
     monday, sunday = first_and_last_dow(current_day)
     username = session.get('auth.userid')
-    employee = Employee.query().filter(Employee.username == username).first()
+    employee = Employee.query().filter(Employee.username == username, Employee.active == True).first()
     if not employee:
         request.session.flash("You need to register first!")
         return HTTPFound(location=request.route_url('register'))
