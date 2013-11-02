@@ -75,6 +75,7 @@ def setup_packages(local='retina'):
     package_ensure('ufw') # may have to install by hand
     package_ensure('tree')
     package_ensure('zsh')
+    package_ensure('libevent-dev')
     package_ensure('libzmq-dev')
     package_ensure('libssl-dev')
     package_ensure('libreadline6-dev')
