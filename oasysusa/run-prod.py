@@ -32,7 +32,7 @@ def numCPUs():
         raise RuntimeError("No sysconf detected.")
     return os.sysconf("SC_NPROCESSORS_ONLN")
 
-cpus = numCPUs() * 4 + 1
+cpus = numCPUs() * 2 + 1
 
 from subprocess import call
 
