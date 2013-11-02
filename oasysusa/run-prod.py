@@ -70,7 +70,7 @@ if __name__ == '__main__':
           print("Running in PROD mode...")
           # In case subcommand is a script in some other programming language:
           print("Starting application...")
-          exit(call('ulimit -u unlimited && /home/oasysusa/ENV/bin/gunicorn --paste --worker-class=gevent --workers=%d production.ini' % cpus, shell=True))
+          exit(call('-n 4096 && /home/oasysusa/ENV/bin/gunicorn --paste --worker-class=gevent --workers=%d production.ini' % cpus, shell=True))
       elif args['--install']:
           print("Installing application...")
           # In case subcommand is a script in some other programming language:
