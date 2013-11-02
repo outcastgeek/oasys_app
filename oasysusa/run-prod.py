@@ -63,8 +63,8 @@ if __name__ == '__main__':
           print("Starting application...")
           #exit(call('ulimit -u unlimited && /home/oasysusa/ENV/bin/uwsgi --ini-paste production.ini', shell=True))
           #exit(call('/home/oasysusa/ENV/bin/uwsgi --ini-paste production.ini', shell=True))
-          #exit(call('/home/oasysusa/ENV/bin/pserve production.ini', shell=True))
-          exit(call('/home/oasysusa/ENV/bin/gunicorn_paster production.ini', shell=True))
+          exit(call('/home/oasysusa/ENV/bin/pserve production.ini', shell=True))
+          # exit(call('/home/oasysusa/ENV/bin/gunicorn_paster production.ini', shell=True))
           # exit(call('/home/oasysusa/ENV/bin/gunicorn_paster --workers=8 production.ini', shell=True))
       elif args['--install']:
           print("Installing application...")
