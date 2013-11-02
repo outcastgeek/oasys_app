@@ -70,7 +70,8 @@ if __name__ == '__main__':
           print("Running in PROD mode...")
           # In case subcommand is a script in some other programming language:
           print("Starting application...")
-          exit(call('ulimit -n 16384 && /home/oasysusa/ENV/bin/python gevent_server.py', shell=True))
+          # exit(call('ulimit -n 16384 && /home/oasysusa/ENV/bin/python gevent_server.py', shell=True))
+          exit(call('ulimit -n 16384 && /home/oasysusa/ENV/bin/python tornado_server.py', shell=True))
           # exit(call('ulimit -n 16384 && /home/oasysusa/ENV/bin/pserve production.ini', shell=True))
           # exit(call('ulimit -n 16384 && /home/oasysusa/ENV/bin/gunicorn_paster --backlog=2048 --worker-class=gevent --workers=%d production.ini' % cpus, shell=True))
       elif args['--install']:
