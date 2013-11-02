@@ -15,6 +15,7 @@ pytz==2013.7
 #web
 requests==2.0.0
 gunicorn==18.0
+py-postgresql==1.1.0
 psycopg2==2.5.1
 sqlalchemy==0.8.2
 zope.sqlalchemy==0.7.2
