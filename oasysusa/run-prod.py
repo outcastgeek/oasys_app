@@ -63,9 +63,11 @@ if __name__ == '__main__':
           print("Starting application...")
           #exit(call('ulimit -u unlimited && /home/oasysusa/ENV/bin/uwsgi --ini-paste production.ini', shell=True))
           #exit(call('/home/oasysusa/ENV/bin/uwsgi --ini-paste production.ini', shell=True))
-          exit(call('/home/oasysusa/ENV/bin/pserve production.ini', shell=True))
+          # exit(call('/home/oasysusa/ENV/bin/pserve production.ini', shell=True))
           # exit(call('/home/oasysusa/ENV/bin/gunicorn_paster production.ini', shell=True))
-          # exit(call('/home/oasysusa/ENV/bin/gunicorn_paster --workers=8 production.ini', shell=True))
+          cmd = '/home/oasysusa/ENV/bin/gunicorn_paster --worker_class=gevent --workers=8 production.ini'
+          print("Running: %s" % cmd)
+          exit(call(cmd, shell=True))
       elif args['--install']:
           print("Installing application...")
           # In case subcommand is a script in some other programming language:
