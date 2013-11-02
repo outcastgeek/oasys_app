@@ -135,14 +135,17 @@ def setup_users():
     puts(green('Installing Python Base ENV Packages for App'))
     create_virtual_env()
 
-def install_python_packages(local='retina'):
-    puts(green('Installing Python packages'))
+def put_py_requirements(local='retina'):
     puts(green('Putting new requirements.txt file'))
     py_requirements_tpl = open(read_value(local, 'py_requirements_tpl'), 'r')
     log.info(py_requirements_tpl)
     py_requirements_location = '/etc/requirements.txt'
     sudo('touch ' + py_requirements_location)
     file_write(py_requirements_location, py_requirements_tpl.read(), owner='root', sudo=True)
+
+def install_python_packages(local='retina'):
+    puts(green('Installing Python packages'))
+    put_py_requirements()
     sudo('pip install --upgrade setuptools', user='root')
     sudo('pip install -r /etc/requirements.txt --upgrade', user='root')
 
@@ -249,11 +252,18 @@ def migrate_oasys_db():
         sudo('/home/oasysusa/ENV/bin/python run-prod.py -y', user='oasysusa')
 
 def drop_and_reinstall():
-    run('kill -9 $(ps -ef | grep oasysusa | awk \'{print $2}\')')
+    run('ps -ef | grep gunicorn')
+    run('pkill gunicorn')
     sudo('rm -r /home/oasysusa/ENV /home/oasysusa/oasys_corp')
     create_virtual_env()
     get_oasys()
     up_start()
+
+def tail_nginx():
+    run('tail -f /home/oasysusa/oasys_corp/logs/nginx.access.log')
+
+def tail_oasysusa():
+    run('tail -f /home/oasysusa/oasys_corp/logs/oasysusa.log')
 
 def update_dependencies():
     # with cd('/home/oasysusa/oasys_corp/oasysusa'):
@@ -300,6 +310,8 @@ def refresh_oasys_from_local(local='retina'):
     install_app()
 
 def up_start():
+    # run('tree /home/oasysusa/oasys_corp/oasysusa/oasysusa/static')
+    run('nginx -s reload')
     upstart_ensure('nginx')
     # upstart_ensure('mongodb')
     upstart_ensure('redis-server')
@@ -307,7 +319,8 @@ def up_start():
     #upstart_ensure('oasysusa')
     try:
         #run('kill -9 $(ps -ef | grep uwsgi | awk \'{print $2}\')')
-        run('kill -9 $(ps -ef | grep oasysusa | awk \'{print $2}\')')
+        # run('kill -9 $(ps -ef | grep oasysusa | awk \'{print $2}\')')
+        run('pkill gunicorn')
     except:
         print 'Oops!!!!'
     with cd('/home/oasysusa/oasys_corp'):
