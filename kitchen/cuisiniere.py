@@ -317,6 +317,10 @@ def refresh_oasys_from_local(local='retina'):
     sudo('rm -r /tmp/oasysusa')
     install_app()
 
+def clean_logs():
+    with cd('/home/oasysusa/oasys_corp/logs'):
+        run('rm -r *.log')
+
 def up_start():
     # run('tree /home/oasysusa/oasys_corp/oasysusa/oasysusa/static')
     run('nginx -s reload')
