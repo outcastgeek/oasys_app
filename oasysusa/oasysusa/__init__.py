@@ -1,4 +1,6 @@
 
+from gevent import monkey; monkey.patch_all()
+
 # import pyximport
 #
 # pyximport.install(pyimport=True)
