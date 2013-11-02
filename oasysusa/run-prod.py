@@ -25,6 +25,15 @@ import datetime
 
 now = datetime.datetime.now().strftime("%Y-%m-%d_%Hh%Mm%Ss")
 
+import os
+
+def numCPUs():
+    if not hasattr(os, "sysconf"):
+        raise RuntimeError("No sysconf detected.")
+    return os.sysconf("SC_NPROCESSORS_ONLN")
+
+cpus = numCPUs() * 2 + 1
+
 from subprocess import call
 
 from docopt import docopt
@@ -61,12 +70,7 @@ if __name__ == '__main__':
           print("Running in PROD mode...")
           # In case subcommand is a script in some other programming language:
           print("Starting application...")
-          #exit(call('ulimit -u unlimited && /home/oasysusa/ENV/bin/uwsgi --ini-paste production.ini', shell=True))
-          #exit(call('/home/oasysusa/ENV/bin/uwsgi --ini-paste production.ini', shell=True))
-          #exit(call('/home/oasysusa/ENV/bin/pserve production.ini', shell=True))
-          # exit(call('/home/oasysusa/ENV/bin/gunicorn_paster production.ini', shell=True))
-          # exit(call('/home/oasysusa/ENV/bin/gunicorn_paster --worker-class=gevent --workers=8 production.ini', shell=True))
-          exit(call('/home/oasysusa/ENV/bin/gunicorn --paste production.ini', shell=True))
+          exit(call('ulimit -u unlimited && /home/oasysusa/ENV/bin/gunicorn --paste --worker-class=gevent --workers=%d production.ini' % cpus, shell=True))
       elif args['--install']:
           print("Installing application...")
           # In case subcommand is a script in some other programming language:
