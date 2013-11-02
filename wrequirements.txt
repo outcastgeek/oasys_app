@@ -17,6 +17,7 @@ requests==2.0.0
 gunicorn==18.0
 #py-postgresql==1.1.0
 psycopg2==2.5.1
+psycogreen==1.0
 sqlalchemy==0.8.2
 zope.sqlalchemy==0.7.2
 transaction==1.4.1
