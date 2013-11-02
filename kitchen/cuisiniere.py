@@ -251,9 +251,17 @@ def migrate_oasys_db():
     with cd('/home/oasysusa/oasys_corp/oasysusa'):
         sudo('/home/oasysusa/ENV/bin/python run-prod.py -y', user='oasysusa')
 
+def kill_webapp():
+    try:
+        run('ps -ef | grep gunicorn')
+        #run('kill -9 $(ps -ef | grep uwsgi | awk \'{print $2}\')')
+        # run('kill -9 $(ps -ef | grep oasysusa | awk \'{print $2}\')')
+        run('pkill gunicorn')
+    except:
+        print 'Oops!!!!'
+
 def drop_and_reinstall():
-    run('ps -ef | grep gunicorn')
-    run('pkill gunicorn')
+    kill_webapp()
     sudo('rm -r /home/oasysusa/ENV /home/oasysusa/oasys_corp')
     create_virtual_env()
     get_oasys()
@@ -317,12 +325,7 @@ def up_start():
     upstart_ensure('redis-server')
     # upstart_ensure('memcached')
     #upstart_ensure('oasysusa')
-    try:
-        #run('kill -9 $(ps -ef | grep uwsgi | awk \'{print $2}\')')
-        # run('kill -9 $(ps -ef | grep oasysusa | awk \'{print $2}\')')
-        run('pkill gunicorn')
-    except:
-        print 'Oops!!!!'
+    kill_webapp()
     with cd('/home/oasysusa/oasys_corp'):
         sudo('memcached &', user='oasysusa')
         sudo('/etc/init.d/oasysusa restart', user='root')
