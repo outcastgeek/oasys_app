@@ -133,8 +133,7 @@ def setup_users():
     puts(green('Creating Ubuntu users'))   
     user_ensure(name='oasysusa', passwd='OasysTech2013!')
     puts(green('Installing Python Base ENV Packages for App'))
-    sudo('virtualenv /home/oasysusa/ENV', user='oasysusa')
-    sudo('/home/oasysusa/ENV/bin/pip install -r /etc/requirements.txt --upgrade', user='oasysusa')
+    create_virtual_env()
 
 def install_python_packages(local='retina'):
     puts(green('Installing Python packages'))
@@ -146,6 +145,10 @@ def install_python_packages(local='retina'):
     file_write(py_requirements_location, py_requirements_tpl.read(), owner='root', sudo=True)
     sudo('pip install --upgrade setuptools', user='root')
     sudo('pip install -r /etc/requirements.txt --upgrade', user='root')
+
+def create_virtual_env():
+    sudo('virtualenv /home/oasysusa/ENV', user='oasysusa')
+    sudo('/home/oasysusa/ENV/bin/pip install -r /etc/requirements.txt --upgrade', user='oasysusa')
 
 def configure_database():
     puts(green('Creating PostgreSQL users'))  
@@ -244,6 +247,13 @@ def check_processes():
 def migrate_oasys_db():
     with cd('/home/oasysusa/oasys_corp/oasysusa'):
         sudo('/home/oasysusa/ENV/bin/python run-prod.py -y', user='oasysusa')
+
+def drop_and_reinstall():
+    run('kill -9 $(ps -ef | grep oasysusa | awk \'{print $2}\')')
+    sudo('rm -r /home/oasysusa/ENV /home/oasysusa/oasys_corp')
+    create_virtual_env()
+    get_oasys()
+    up_start()
 
 def update_dependencies():
     # with cd('/home/oasysusa/oasys_corp/oasysusa'):

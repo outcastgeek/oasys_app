@@ -9,5 +9,5 @@ jinja2==2.7.1
 honcho==0.4.2
 docopt==0.6.1
 termcolor==1.1.0
-uwsgi==1.9.18.2
+#uwsgi==1.9.18.2
 
