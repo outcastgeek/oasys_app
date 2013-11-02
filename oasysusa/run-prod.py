@@ -21,6 +21,9 @@ Examples:
 
 """
 
+import gevent
+gevent.monkey.patch_all()
+
 import datetime
 
 now = datetime.datetime.now().strftime("%Y-%m-%d_%Hh%Mm%Ss")
@@ -32,7 +35,15 @@ def numCPUs():
         raise RuntimeError("No sysconf detected.")
     return os.sysconf("SC_NPROCESSORS_ONLN")
 
-cpus = numCPUs() * 2 + 1
+cpus = numCPUs() * 4 + 1
+
+def start_prod_server(prop_ini):
+    print("Starting application...")
+    # exit(call('ulimit -n 16384 && /home/oasysusa/ENV/bin/python gevent_server.py', shell=True))
+    # exit(call('ulimit -n 16384 && /home/oasysusa/ENV/bin/python tornado_server.py', shell=True))
+    # exit(call('ulimit -n 16384 && /home/oasysusa/ENV/bin/pserve production.ini', shell=True))
+    # exit(call('ulimit -n 16384 && /home/oasysusa/ENV/bin/gunicorn_paster --backlog=2048 --worker-class=gevent --workers=%d production.ini' % cpus, shell=True))
+    exit(call('ulimit -n 16384 && /home/oasysusa/ENV/bin/gunicorn_paster --backlog=2048 --worker-class=tornado --workers=%d %s' % (cpus, prop_ini), shell=True))
 
 from subprocess import call
 
@@ -69,12 +80,8 @@ if __name__ == '__main__':
       elif args['--production']:
           print("Running in PROD mode...")
           # In case subcommand is a script in some other programming language:
-          print("Starting application...")
-          # exit(call('ulimit -n 16384 && /home/oasysusa/ENV/bin/python gevent_server.py', shell=True))
-          # exit(call('ulimit -n 16384 && /home/oasysusa/ENV/bin/python tornado_server.py', shell=True))
-          # exit(call('ulimit -n 16384 && /home/oasysusa/ENV/bin/pserve production.ini', shell=True))
-          # exit(call('ulimit -n 16384 && /home/oasysusa/ENV/bin/gunicorn_paster --backlog=2048 --worker-class=gevent --workers=%d production.ini' % cpus, shell=True))
-          exit(call('ulimit -n 16384 && /home/oasysusa/ENV/bin/gunicorn_paster --backlog=2048 --worker-class=tornado --workers=%d production.ini' % cpus, shell=True))
+          gevent.joinall(map(lambda prop_ini : gevent.spawn(start_prod_server, prop_ini),
+                             ['production0.ini', 'production1.ini', 'production2.ini', 'production3.ini']))
       elif args['--install']:
           print("Installing application...")
           # In case subcommand is a script in some other programming language:
