@@ -23,8 +23,8 @@ from pyramid.paster import (
     get_appsettings,
 )
 
-# define("props", default='development.ini', help="specify properties file", type=str)
-define("props", default='production.ini', help="specify properties file", type=str)
+define("props", default='development.ini', help="specify properties file", type=str)
+# define("props", default='production.ini', help="specify properties file", type=str)
 
 def main():
     parse_command_line()

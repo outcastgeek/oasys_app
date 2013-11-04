@@ -21,9 +21,12 @@ Examples:
 
 """
 
-from gevent import monkey; monkey.patch_all()
+import gevent
+# from gevent import monkey; monkey.patch_all()
 
 import datetime
+
+from multiprocessing import Pool, Process
 
 now = datetime.datetime.now().strftime("%Y-%m-%d_%Hh%Mm%Ss")
 
@@ -43,6 +46,7 @@ def start_prod_server(prop_ini):
     # exit(call('ulimit -n 16384 && /home/oasysusa/ENV/bin/pserve production.ini', shell=True))
     # exit(call('ulimit -n 16384 && /home/oasysusa/ENV/bin/gunicorn_paster --backlog=2048 --worker-class=gevent --workers=%d production.ini' % cpus, shell=True))
     exit(call('ulimit -n 16384 && /home/oasysusa/ENV/bin/gunicorn_paster --backlog=2048 --worker-class=tornado --workers=%d %s' % (cpus, prop_ini), shell=True))
+    # exit(call('ulimit -n 16384 && /home/oasysusa/ENV/bin/gunicorn_paster --backlog=2048 --worker-class=gevent --workers=%d %s' % (cpus, prop_ini), shell=True))
 
 from subprocess import call
 
@@ -79,8 +83,12 @@ if __name__ == '__main__':
       elif args['--production']:
           print("Running in PROD mode...")
           # In case subcommand is a script in some other programming language:
-          gevent.joinall(map(lambda prop_ini : gevent.spawn(start_prod_server, prop_ini),
-                             ['production0.ini', 'production1.ini', 'production2.ini', 'production3.ini']))
+          # gevent.joinall(map(lambda prop_ini : gevent.spawn(start_prod_server, prop_ini),
+          #                    ['production0.ini', 'production1.ini', 'production2.ini', 'production3.ini']))
+          # props = [['production0.ini'], ['production1.ini'], ['production2.ini'], ['production3.ini']]
+          # pool = Pool(processes=len(props))
+          # pool.map(lambda prop_ini : start_prod_server(prop_ini), props)
+          start_prod_server('production.ini')
       elif args['--install']:
           print("Installing application...")
           # In case subcommand is a script in some other programming language:
