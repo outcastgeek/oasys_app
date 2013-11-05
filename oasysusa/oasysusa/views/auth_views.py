@@ -1,5 +1,3 @@
-from adodbapi import DatabaseError, IntegrityError
-
 __author__ = 'outcastgeek'
 
 import logging
@@ -28,6 +26,7 @@ from ..models import (
     EmployeeSchema
     )
 
+from ..errors import ConflictingProfileException
 
 logging.basicConfig()
 log = logging.getLogger(__file__)
@@ -208,13 +207,16 @@ def profile(request):
             log.info("Persisting employee model somewhere...")
             try:
                 Employee.update_or_insert(username, employee)
-            except IntegrityError, e:
-                request.session.flash("Invalid form!")
-                existing_employee_form = Form(request,
-                                              schema=EmployeeSchema(),
-                                              obj=employee)
-                return dict(renderer=FormRenderer(existing_employee_form))
-
+            except ConflictingProfileException, e:
+                log.info('Conflicting profile detected...')
+                request.session.flash(e.message)
+                employee.username = None
+                employee.email = None
+                conflict_form = Form(request,
+                                     schema=EmployeeSchema(),
+                                     obj=employee)
+                return dict(renderer=FormRenderer(conflict_form))
+            request.session.flash('Your profile was successfully updated.')
             return HTTPFound(location=request.route_url('home'))
         else:
             log.info('Invalid form...')

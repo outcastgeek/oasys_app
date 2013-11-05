@@ -1,6 +1,3 @@
-from adodbapi.adodbapi import IntegrityError
-import transaction
-
 __author__ = 'outcastgeek'
 
 import string
@@ -19,7 +16,7 @@ from sqlalchemy import (
     Unicode,
     Table,
     Boolean,
-    Date)
+    Date, and_, or_)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import (
     scoped_session,
@@ -40,6 +37,8 @@ from pyramid.security import (
     Authenticated,
     Everyone,
     ALL_PERMISSIONS)
+
+from .errors import ConflictingProfileException
 
 
 class RootFactory(object):
@@ -221,31 +220,32 @@ class Employee(CRUDMixin, Base):
     @classmethod
     def update_or_insert(cls, username, employee):
         #check
-        existing_employee = cls.query().filter(cls.username == username,
-                                               cls.provider_id == str(employee.provider_id)).first()
+        existing_employee = cls.query().filter(or_(and_(cls.username == username,
+                                                        cls.provider_id == str(employee.provider_id)),
+                                                   cls.email == employee.email)).first()
         if existing_employee:
-            # setup data
-            employee_dob = datetime.strptime(employee.date_of_birth, DATE_FORMAT)
-            employee.date_of_birth = employee_dob if employee_dob > EARLIEST_DATE else EARLIEST_DATE
-            employee_data = employee.__dict__
-            # update
-            employees_table = employee.__table__
-            update_stmt = employees_table.update(employees_table.c.username == username)
-            update_stmt.execute(employee_data)
+            if existing_employee.provider == employee.provider:
+                # setup data
+                employee_dob = datetime.strptime(employee.date_of_birth, DATE_FORMAT)
+                employee.date_of_birth = employee_dob if employee_dob > EARLIEST_DATE else EARLIEST_DATE
+                employee_data = employee.__dict__
+                # update
+                employees_table = employee.__table__
+                update_stmt = employees_table.update(employees_table.c.username == username)
+                update_stmt.execute(employee_data)
+            else:
+                err_msg = ' already exist'
+                if existing_employee.email == employee.email:
+                    err_msg = employee.email + ', ' + err_msg
+                if existing_employee.username == employee.username:
+                    err_msg = employee.username + ', ' + err_msg
+                raise ConflictingProfileException(err_msg)
         else:
             employee_dob = datetime.strptime(employee.date_of_birth, DATE_FORMAT)
             employee.date_of_birth = employee_dob if employee_dob > EARLIEST_DATE else EARLIEST_DATE
             employee_group = Group.query().filter(Group.groupname == 'employee').first()
             employee.groups.append(employee_group)
-            # return employee.save()
-            transaction.savepoint().rollback()
-            sp = transaction.savepoint()
-            try:
-                DBSession.add(employee)
-                DBSession.flush()
-            except IntegrityError, e:
-                sp.rollback()
-                raise e
+            return employee.save()
 
     def __json__(self, request):
         return {
@@ -383,9 +383,9 @@ class Project(CRUDMixin, Base):
 ################# EMPLOYEES-PROJECT #################################
 
 user_project_table = Table('employee_project', Base.metadata,
-                         Column('employee_id', Integer, ForeignKey('employees.id')),
-                         Column('project_id', Integer, ForeignKey('projects.id')),
-                         )
+                           Column('employee_id', Integer, ForeignKey('employees.id')),
+                           Column('project_id', Integer, ForeignKey('projects.id')),
+)
 
 ################# END EMPLOYEES-PROJECT #############################
 
