@@ -7,7 +7,7 @@
   :test-paths ["test-clj"]
   :resource-paths ["resource-clj"]
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-1934"]
+                 [org.clojure/clojurescript "0.0-1978"]
                  [com.cemerick/piggieback "0.1.0"]
                  [org.clojure/core.async "0.1.0-SNAPSHOT"]
                  [shoreleave/shoreleave-remote "0.3.0"]
