@@ -1,3 +1,5 @@
+from adodbapi import DatabaseError, IntegrityError
+
 __author__ = 'outcastgeek'
 
 import logging
@@ -204,7 +206,14 @@ def profile(request):
         if form.validate():
             employee = form.bind(Employee())
             log.info("Persisting employee model somewhere...")
-            Employee.update_or_insert(username, employee)
+            try:
+                Employee.update_or_insert(username, employee)
+            except IntegrityError, e:
+                request.session.flash("Invalid form!")
+                existing_employee_form = Form(request,
+                                              schema=EmployeeSchema(),
+                                              obj=employee)
+                return dict(renderer=FormRenderer(existing_employee_form))
 
             return HTTPFound(location=request.route_url('home'))
         else:

@@ -50,40 +50,40 @@ if __name__ == '__main__':
           call('alembic.exe upgrade head', shell=True)
       elif args['--history']:
           print("Database history...")
-          call('~/ENV/bin/alembic history', shell=True)
+          call('alembic.exe history', shell=True)
           print('Run this: "alembic downgrade revision" to downgrade to the specified revision')
       elif args['--development']:
           print("Running in DEV mode...")
           # In case subcommand is a script in some other programming language:
           print("Starting application...")
-          exit(call('~/ENV/bin/pserve development.ini', shell=True))
+          exit(call('pserve.exe development.ini', shell=True))
       elif args['--production']:
           print("Running in PROD mode...")
           # In case subcommand is a script in some other programming language:
           print("Starting application...")
           #exit(call('ulimit -u unlimited && ~/ENV/bin/uwsgi --ini-paste production.ini', shell=True))
-          exit(call('~/ENV/bin/uwsgi --ini-paste production.ini', shell=True))
+          exit(call('uwsgi.exe --ini-paste production.ini', shell=True))
           #exit(call('~/ENV/bin/pserve production.ini', shell=True))
       elif args['--install']:
           print("Installing application...")
           # In case subcommand is a script in some other programming language:
-          exit(call('~/ENV/bin/pip install -e .', shell=True))
+          exit(call('pip.exe install -e .', shell=True))
       elif args['--remove']:
           print("Removing application...")
           # In case subcommand is a script in some other programming language:
-          exit(call('~/ENV/bin/pip uninstall oasysusa', shell=True))
+          exit(call('pip.exe uninstall oasysusa', shell=True))
       elif args['--test']:
           print("Testing application...")
           # In case subcommand is a script in some other programming language:
-          exit(call('~/ENV/bin/nosetests', shell=True))
+          exit(call('nosetests.exe', shell=True))
       elif args['--behave']:
           print("Verifying application's behavior...")
           # In case subcommand is a script in some other programming language:
-          exit(call('~/ENV/bin/behave oasysusa/tests/features', shell=True))
+          exit(call('behave.exe oasysusa/tests/features', shell=True))
       elif args['--update']:
           print("Updating dependencies...")
           # In case subcommand is a script in some other programming language:
-          exit(call('~/ENV/bin/pip install -r ../requirements.txt --upgrade', shell=True))
+          exit(call('pip.exe install -r ../requirements.txt --upgrade', shell=True))
       else:
           print("See run.py --help")
     except KeyboardInterrupt:

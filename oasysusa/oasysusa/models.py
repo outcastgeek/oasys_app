@@ -1,3 +1,6 @@
+from adodbapi.adodbapi import IntegrityError
+import transaction
+
 __author__ = 'outcastgeek'
 
 import string
@@ -156,6 +159,7 @@ class Employee(CRUDMixin, Base):
     email = Column(Text, unique=True)
     active = Column(Boolean)
     groups = relationship("Group", secondary='employee_group', backref="employees")
+    projects = relationship("Project", secondary='employee_project', backref="employees")
     provider = Column(Text)
     address = Column(Text)
     employee_id = Column(Text)
@@ -184,7 +188,7 @@ class Employee(CRUDMixin, Base):
     def __init__(self, username=None, password=None, first_name=None,
                  last_name=None, email=None, employee_id=None,
                  provider_id=None, date_of_birth=None, provider=None,
-                 active=False, address=None, telephone_number=None, groups=None):
+                 active=False, address=None, telephone_number=None, groups=None, projects=None):
         self.username = username
         self.password = password if password else _generate_password(16)
         self.first_name = first_name
@@ -198,6 +202,7 @@ class Employee(CRUDMixin, Base):
         self.telephone_number = telephone_number
         self.date_of_birth = date_of_birth
         self.groups = groups or []
+        self.projects = projects or []
 
     @classmethod
     def check_password(cls, username, password):
@@ -216,7 +221,8 @@ class Employee(CRUDMixin, Base):
     @classmethod
     def update_or_insert(cls, username, employee):
         #check
-        existing_employee = cls.query().filter(Employee.username == username).first()
+        existing_employee = cls.query().filter(cls.username == username,
+                                               cls.provider_id == str(employee.provider_id)).first()
         if existing_employee:
             # setup data
             employee_dob = datetime.strptime(employee.date_of_birth, DATE_FORMAT)
@@ -231,7 +237,15 @@ class Employee(CRUDMixin, Base):
             employee.date_of_birth = employee_dob if employee_dob > EARLIEST_DATE else EARLIEST_DATE
             employee_group = Group.query().filter(Group.groupname == 'employee').first()
             employee.groups.append(employee_group)
-            return employee.save()
+            # return employee.save()
+            transaction.savepoint().rollback()
+            sp = transaction.savepoint()
+            try:
+                DBSession.add(employee)
+                DBSession.flush()
+            except IntegrityError, e:
+                sp.rollback()
+                raise e
 
     def __json__(self, request):
         return {
@@ -333,7 +347,7 @@ class PayrollCycle(CRUDMixin, Base):
 
 class Project(CRUDMixin, Base):
     __tablename__ = 'projects'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, Sequence('projects_seq_id'), primary_key=True)
     name = Column(Text)
     client = Column(Text)
     description = Column(Text)
@@ -365,6 +379,15 @@ class Project(CRUDMixin, Base):
             'telephone_number': self.telephone_number,
             'address': self.address
         }
+
+################# EMPLOYEES-PROJECT #################################
+
+user_project_table = Table('employee_project', Base.metadata,
+                         Column('employee_id', Integer, ForeignKey('employees.id')),
+                         Column('project_id', Integer, ForeignKey('projects.id')),
+                         )
+
+################# END EMPLOYEES-PROJECT #############################
 
 
 class ProjectSchema(Schema):

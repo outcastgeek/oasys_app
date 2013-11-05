@@ -14,7 +14,7 @@ from pyramid.threadlocal import (
 
 from ..models import (
     Group,
-    DATE_FORMAT)
+    DATE_FORMAT, Employee)
 
 logging.basicConfig()
 log = logging.getLogger(__file__)
@@ -48,12 +48,22 @@ def check_before_insert_group(groupname):
         group = Group(groupname)
         group.save()
 
+def check_before_insert_admin(username, password):
+    existing_admin = Employee.query().filter(Employee.username == username).first()
+    if not existing_admin:
+        log.info("Adding admin (%s, ********)" % username)
+        admin_group = Group.query().filter(Group.groupname =="admin").first()
+        groups = [admin_group]
+        admin = Employee(username=username, password=password, groups=groups)
+        admin.save()
+
 
 @subscriber(ApplicationCreated)
 def application_created_subscriber(event):
     log.warn('Provisioning the database...')
     with transaction.manager:
         map(check_before_insert_group, ['user', 'employee', 'admin'])
+        map(lambda admin_creds:check_before_insert_admin(**admin_creds), [dict(username='admin', password='OneAdmin13')])
 
 
 @subscriber(BeforeRender)
