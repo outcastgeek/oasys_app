@@ -332,4 +332,4 @@ def up_start():
     # kill_webapp()
     with cd('/home/oasysusa/oasys_corp'):
         sudo('memcached &', user='oasysusa')
-        sudo('/etc/init.d/oasysusa restart', user='root')
+        sudo('/etc/init.d/oasysusa restart &', user='root')
