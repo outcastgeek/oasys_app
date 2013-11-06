@@ -47,7 +47,8 @@ def start_prod_server(prop_ini):
     # exit(call('ulimit -n 16384 && /home/oasysusa/ENV/bin/gunicorn_paster --backlog=2048 --worker-class=gevent --workers=%d production.ini' % cpus, shell=True))
     # exit(call('ulimit -n 16384 && /home/oasysusa/ENV/bin/gunicorn_paster --backlog=2048 --worker-class=tornado --workers=%d %s' % (cpus, prop_ini), shell=True))
     # exit(call('ulimit -n 16384 && /home/oasysusa/ENV/bin/gunicorn_paster --backlog=2048 --worker-class=gevent --workers=%d %s' % (cpus, prop_ini), shell=True))
-    exit(call('ulimit -n 16384 && /home/oasysusa/ENV/bin/pserve %s' % prop_ini, shell=True))
+    pid = '/home/oasysusa/oasys_corp/logs/oasysusa.pid'
+    exit(call('ulimit -n 16384 && /home/oasysusa/ENV/bin/pserve --monitor-restart --pid-file=%s %s' % (pid, prop_ini), shell=True))
 
 from subprocess import call
 

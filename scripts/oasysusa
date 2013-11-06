@@ -22,6 +22,7 @@ export JAVA_OPTS="-Djava.awt.headless=true -server -XX:CompileThreshold=4 -XX:+A
 export PATH=$JAVA_HOME/bin:$PATH
 echo "path variable is set to $PATH"
 OASYSUSA_HOME=/home/oasysusa/oasys_corp/oasysusa
+OASYSUSA_LOGS=/home/oasysusa/oasys_corp/logs
 SHUTDOWN_WAIT=20
 
 userCheck(){
@@ -36,7 +37,8 @@ userCheck(){
 }
 
 oasysusa_pid() {
-  echo `ps aux | grep java | grep '/home/oasysusa/oasys_corp' | grep -v grep | awk '{ print $2 }'`
+  #echo `ps aux | grep java | grep '/home/oasysusa/oasys_corp' | grep -v grep | awk '{ print $2 }'`
+  echo `cat ${OASYSUSA_LOGS}/oasysusa.pid`
 }
 
 start() {
