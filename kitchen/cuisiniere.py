@@ -329,7 +329,7 @@ def up_start():
     upstart_ensure('redis-server')
     # upstart_ensure('memcached')
     #upstart_ensure('oasysusa')
-    kill_webapp()
+    # kill_webapp()
     with cd('/home/oasysusa/oasys_corp'):
         sudo('memcached &', user='oasysusa')
         sudo('/etc/init.d/oasysusa restart', user='root')
