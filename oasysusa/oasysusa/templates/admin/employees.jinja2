@@ -20,7 +20,7 @@
                            dotdot_attr={"class": "btn small disabled"}) }}
         <ul>
             {% for employee in employees.items %}
-                <li>{{ employee.first_name }}</li>
+                <li>{{ employee.first_name or employee.username }}</li>
             {% endfor %}
         </ul>
         {{ employees.pager(link_attr={"class": "btn small"},

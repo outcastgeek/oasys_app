@@ -24,6 +24,7 @@ log = logging.getLogger(__file__)
              renderer='templates/admin/employees.jinja2',
              permission='admin')
 def employees(request):
-    current_page = request.matchdict.get('page') or 1
-    employees = Employee.get_paginator(request, Employee.last_name, page=int(current_page), items_per_page=1)
+    current_page = int(request.params.get('page', 1))
+    # employees = Employee.get_paginator(request, Employee.last_name, page=int(current_page), items_per_page=1)
+    employees = Employee.get_paginator(request, Employee.last_name, page=int(current_page))
     return dict(employees=employees)
