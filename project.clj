@@ -7,12 +7,12 @@
   :test-paths ["test-clj"]
   :resource-paths ["resource-clj"]
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-1978"]
-                 [com.cemerick/piggieback "0.1.0"]
+                 [org.clojure/clojurescript "0.0-2014"]
+                 [com.cemerick/piggieback "0.1.2"]
                  [org.clojure/core.async "0.1.0-SNAPSHOT"]
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [org.clojure/google-closure-library-third-party "0.0-2029-2"]
-                 [domina "1.0.1"]
+                 [domina "1.0.2"]
                  [enfocus "2.0.0-beta2"]
                  [hiccup "1.0.4"]
                  [jayq "2.4.0"]
@@ -33,37 +33,33 @@
                           :source-paths ["src-cljs/profile", "src-cljs/utils"]
                           :externs ["externs/jquery-1.9.js"]
                           :compiler {
-                                      ;                                   :output-dir "oasysusa/oasysusa/static/js"
                                       :output-to "oasysusa/oasysusa/static/js/profile-dev.js"
-                                      ;                                   :source-map "oasysusa/oasysusa/static/js/profile.js.map"
                                       :optimizations :simple
                                       :pretty-print true}}
                          {:id "profile"
                           :source-paths ["src-cljs/profile", "src-cljs/utils"]
                           :externs ["externs/jquery-1.9.js"]
                           :compiler {
-                                      ;                                   :output-dir "oasysusa/oasysusa/static/js"
+;                                      :output-dir "oasysusa/oasysusa/static/js"
                                       :output-to "oasysusa/oasysusa/static/js/profile.js"
-                                      ;                                   :source-map "oasysusa/oasysusa/static/js/profile.js.map"
-                                      :optimizations :simple
+                                      :source-map "oasysusa/oasysusa/static/js/profile.js.map"
+                                      :optimizations :advanced
                                       :pretty-print false}}
                          {:id "project-dev"
                           :source-paths ["src-cljs/timesheet/project", "src-cljs/utils"]
                           :externs ["externs/jquery-1.9.js"]
                           :compiler {
-                                      ;                                   :output-dir "oasysusa/oasysusa/static/js"
                                       :output-to "oasysusa/oasysusa/static/js/project-dev.js"
-                                      ;                                   :source-map "oasysusa/oasysusa/static/js/profile.js.map"
                                       :optimizations :simple
                                       :pretty-print true}}
                          {:id "project"
                           :source-paths ["src-cljs/timesheet/project", "src-cljs/utils"]
                           :externs ["externs/jquery-1.9.js"]
                           :compiler {
-                                      ;                                   :output-dir "oasysusa/oasysusa/static/js"
+;                                      :output-dir "oasysusa/oasysusa/static/js"
                                       :output-to "oasysusa/oasysusa/static/js/project.js"
-                                      ;                                   :source-map "oasysusa/oasysusa/static/js/profile.js.map"
-                                      :optimizations :simple
+                                      :source-map "oasysusa/oasysusa/static/js/project.js.map"
+                                      :optimizations :advanced
                                       :pretty-print false}}
                          {:id "hello"
                           :source-paths ["node-cljs/hello"]

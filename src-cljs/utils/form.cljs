@@ -26,9 +26,9 @@
 
         update (fn [event]
                  (let [target-input (domutil/evt->el event)
-                       id (domutil/attr target-input "id")
+                       id (domutil/attr target-input :id)
                        val (domutil/value target-input)]
-                   (domutil/log "Profile Update KeyVal: " (domutil/attr target-input "id") " => " (domutil/value target-input))
+                   (domutil/log "Profile Update KeyVal: " (domutil/attr target-input :id) " => " (domutil/value target-input))
                    (if (= (domutil/attr target-input :input_type ) "date")
                      (swap! form-state update-in [:state ]
                        merge {(keyword id) (domutil/format-date val)})

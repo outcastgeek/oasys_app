@@ -2,9 +2,9 @@
 # from gevent import monkey; monkey.patch_all()
 # from psycogreen import gevent; gevent.patch_psycopg()
 
-import pyximport
-
-pyximport.install(pyimport=True)
+# import pyximport
+#
+# pyximport.install(pyimport=True)
 
 import logging
 

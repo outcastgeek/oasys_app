@@ -1382,6 +1382,7 @@ goog.string.StringBuffer.prototype.toString = function() {
   return this.buffer_
 };
 var cljs = {core:{}};
+cljs.core._STAR_clojurescript_version_STAR_ = "0.0-2014";
 cljs.core._STAR_unchecked_if_STAR_ = !1;
 cljs.core._STAR_print_fn_STAR_ = function(a) {
   throw Error("No *print-fn* fn set for evaluation environment");
@@ -1418,7 +1419,7 @@ cljs.core.not = function(a) {
 cljs.core.string_QMARK_ = function(a) {
   return goog.isString(a)
 };
-cljs.core.type_satisfies_ = function(a, b) {
+cljs.core.native_satisfies_QMARK_ = function(a, b) {
   return a[goog.typeOf(null == b ? null : b)] ? !0 : a._ ? !0 : new cljs.core.Keyword(null, "else", "else", 1017020587) ? !1 : null
 };
 cljs.core.is_proto_ = function(a) {
@@ -2662,7 +2663,7 @@ cljs.core.seq = function(a) {
   if(a instanceof Array || "string" === typeof a) {
     return 0 === a.length ? null : new cljs.core.IndexedSeq(a, 0)
   }
-  if(cljs.core.type_satisfies_.call(null, cljs.core.ISeqable, a)) {
+  if(cljs.core.native_satisfies_QMARK_.call(null, cljs.core.ISeqable, a)) {
     return cljs.core._seq.call(null, a)
   }
   if(new cljs.core.Keyword(null, "else", "else", 1017020587)) {
@@ -2941,10 +2942,10 @@ cljs.core.array_reduce = function() {
   return a
 }();
 cljs.core.counted_QMARK_ = function(a) {
-  return a ? a.cljs$lang$protocol_mask$partition0$ & 2 || a.cljs$core$ICounted$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.type_satisfies_.call(null, cljs.core.ICounted, a) : cljs.core.type_satisfies_.call(null, cljs.core.ICounted, a)
+  return a ? a.cljs$lang$protocol_mask$partition0$ & 2 || a.cljs$core$ICounted$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.ICounted, a) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.ICounted, a)
 };
 cljs.core.indexed_QMARK_ = function(a) {
-  return a ? a.cljs$lang$protocol_mask$partition0$ & 16 || a.cljs$core$IIndexed$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.type_satisfies_.call(null, cljs.core.IIndexed, a) : cljs.core.type_satisfies_.call(null, cljs.core.IIndexed, a)
+  return a ? a.cljs$lang$protocol_mask$partition0$ & 16 || a.cljs$core$IIndexed$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IIndexed, a) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IIndexed, a)
 };
 cljs.core.IndexedSeq = function(a, b) {
   this.arr = a;
@@ -3183,7 +3184,7 @@ cljs.core.accumulating_seq_count = function(a) {
   }
 };
 cljs.core.count = function(a) {
-  return null != a ? a && (a.cljs$lang$protocol_mask$partition0$ & 2 || a.cljs$core$ICounted$) ? cljs.core._count.call(null, a) : a instanceof Array ? a.length : "string" === typeof a ? a.length : cljs.core.type_satisfies_.call(null, cljs.core.ICounted, a) ? cljs.core._count.call(null, a) : new cljs.core.Keyword(null, "else", "else", 1017020587) ? cljs.core.accumulating_seq_count.call(null, a) : null : 0
+  return null != a ? a && (a.cljs$lang$protocol_mask$partition0$ & 2 || a.cljs$core$ICounted$) ? cljs.core._count.call(null, a) : a instanceof Array ? a.length : "string" === typeof a ? a.length : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.ICounted, a) ? cljs.core._count.call(null, a) : new cljs.core.Keyword(null, "else", "else", 1017020587) ? cljs.core.accumulating_seq_count.call(null, a) : null : 0
 };
 cljs.core.linear_traversal_nth = function() {
   var a = null, b = function(a, b) {
@@ -3252,11 +3253,11 @@ cljs.core.nth = function() {
     if(a instanceof Array || "string" === typeof a) {
       return b < a.length ? a[b] : null
     }
-    if(cljs.core.type_satisfies_.call(null, cljs.core.IIndexed, a)) {
+    if(cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IIndexed, a)) {
       return cljs.core._nth.call(null, a, b)
     }
     if(new cljs.core.Keyword(null, "else", "else", 1017020587)) {
-      if(a ? a.cljs$lang$protocol_mask$partition0$ & 64 || a.cljs$core$ISeq$ || (a.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.type_satisfies_.call(null, cljs.core.ISeq, a)) : cljs.core.type_satisfies_.call(null, cljs.core.ISeq, a)) {
+      if(a ? a.cljs$lang$protocol_mask$partition0$ & 64 || a.cljs$core$ISeq$ || (a.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.ISeq, a)) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.ISeq, a)) {
         return cljs.core.linear_traversal_nth.call(null, a, b)
       }
       throw Error([cljs.core.str("nth not supported on this type "), cljs.core.str(cljs.core.type__GT_str.call(null, cljs.core.type.call(null, a)))].join(""));
@@ -3270,11 +3271,11 @@ cljs.core.nth = function() {
       if(a instanceof Array || "string" === typeof a) {
         return b < a.length ? a[b] : c
       }
-      if(cljs.core.type_satisfies_.call(null, cljs.core.IIndexed, a)) {
+      if(cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IIndexed, a)) {
         return cljs.core._nth.call(null, a, b)
       }
       if(new cljs.core.Keyword(null, "else", "else", 1017020587)) {
-        if(a ? a.cljs$lang$protocol_mask$partition0$ & 64 || a.cljs$core$ISeq$ || (a.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.type_satisfies_.call(null, cljs.core.ISeq, a)) : cljs.core.type_satisfies_.call(null, cljs.core.ISeq, a)) {
+        if(a ? a.cljs$lang$protocol_mask$partition0$ & 64 || a.cljs$core$ISeq$ || (a.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.ISeq, a)) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.ISeq, a)) {
           return cljs.core.linear_traversal_nth.call(null, a, b, c)
         }
         throw Error([cljs.core.str("nth not supported on this type "), cljs.core.str(cljs.core.type__GT_str.call(null, cljs.core.type.call(null, a)))].join(""));
@@ -3306,13 +3307,13 @@ cljs.core.get = function() {
     if(a instanceof Array || "string" === typeof a) {
       return b < a.length ? a[b] : null
     }
-    if(cljs.core.type_satisfies_.call(null, cljs.core.ILookup, a)) {
+    if(cljs.core.native_satisfies_QMARK_.call(null, cljs.core.ILookup, a)) {
       return cljs.core._lookup.call(null, a, b)
     }
     new cljs.core.Keyword(null, "else", "else", 1017020587);
     return null
   }, c = function(a, b, c) {
-    return null != a ? a && (a.cljs$lang$protocol_mask$partition0$ & 256 || a.cljs$core$ILookup$) ? cljs.core._lookup.call(null, a, b, c) : a instanceof Array ? b < a.length ? a[b] : c : "string" === typeof a ? b < a.length ? a[b] : c : cljs.core.type_satisfies_.call(null, cljs.core.ILookup, a) ? cljs.core._lookup.call(null, a, b, c) : new cljs.core.Keyword(null, "else", "else", 1017020587) ? c : null : c
+    return null != a ? a && (a.cljs$lang$protocol_mask$partition0$ & 256 || a.cljs$core$ILookup$) ? cljs.core._lookup.call(null, a, b, c) : a instanceof Array ? b < a.length ? a[b] : c : "string" === typeof a ? b < a.length ? a[b] : c : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.ILookup, a) ? cljs.core._lookup.call(null, a, b, c) : new cljs.core.Keyword(null, "else", "else", 1017020587) ? c : null : c
   }, a = function(a, e, f) {
     switch(arguments.length) {
       case 2:
@@ -3419,20 +3420,20 @@ cljs.core.dissoc = function() {
 }();
 cljs.core.fn_QMARK_ = function(a) {
   var b = goog.isFunction(a);
-  return b ? b : a ? cljs.core.truth_(cljs.core.truth_(null) ? null : a.cljs$core$Fn$) ? !0 : a.cljs$lang$protocol_mask$partition$ ? !1 : cljs.core.type_satisfies_.call(null, cljs.core.Fn, a) : cljs.core.type_satisfies_.call(null, cljs.core.Fn, a)
+  return b ? b : a ? cljs.core.truth_(cljs.core.truth_(null) ? null : a.cljs$core$Fn$) ? !0 : a.cljs$lang$protocol_mask$partition$ ? !1 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.Fn, a) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.Fn, a)
 };
 cljs.core.with_meta = function with_meta(b, c) {
-  return cljs.core.fn_QMARK_.call(null, b) && !(b ? b.cljs$lang$protocol_mask$partition0$ & 262144 || b.cljs$core$IWithMeta$ || (b.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.type_satisfies_.call(null, cljs.core.IWithMeta, b)) : cljs.core.type_satisfies_.call(null, cljs.core.IWithMeta, b)) ? with_meta.call(null, function() {
-    "undefined" === typeof cljs.core.t5075 && (cljs.core.t5075 = {}, cljs.core.t5075 = function(b, c, f, g) {
+  return cljs.core.fn_QMARK_.call(null, b) && !(b ? b.cljs$lang$protocol_mask$partition0$ & 262144 || b.cljs$core$IWithMeta$ || (b.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IWithMeta, b)) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IWithMeta, b)) ? with_meta.call(null, function() {
+    "undefined" === typeof cljs.core.t5241 && (cljs.core.t5241 = function(b, c, f, g) {
       this.meta = b;
       this.o = c;
       this.with_meta = f;
-      this.meta5076 = g;
+      this.meta5242 = g;
       this.cljs$lang$protocol_mask$partition1$ = 0;
       this.cljs$lang$protocol_mask$partition0$ = 393217
-    }, cljs.core.t5075.cljs$lang$type = !0, cljs.core.t5075.cljs$lang$ctorStr = "cljs.core/t5075", cljs.core.t5075.cljs$lang$ctorPrWriter = function(b, c, f) {
-      return cljs.core._write.call(null, c, "cljs.core/t5075")
-    }, cljs.core.t5075.prototype.call = function() {
+    }, cljs.core.t5241.cljs$lang$type = !0, cljs.core.t5241.cljs$lang$ctorStr = "cljs.core/t5241", cljs.core.t5241.cljs$lang$ctorPrWriter = function(b, c, f) {
+      return cljs.core._write.call(null, c, "cljs.core/t5241")
+    }, cljs.core.t5241.prototype.call = function() {
       var b = function(b, c) {
         return cljs.core.apply.call(null, b.o, c)
       }, c = function(c, e) {
@@ -3449,9 +3450,9 @@ cljs.core.with_meta = function with_meta(b, c) {
       };
       c.cljs$core$IFn$_invoke$arity$variadic = b;
       return c
-    }(), cljs.core.t5075.prototype.apply = function(b, c) {
+    }(), cljs.core.t5241.prototype.apply = function(b, c) {
       return this.call.apply(this, [this].concat(c.slice()))
-    }, cljs.core.t5075.prototype.cljs$core$IFn$_invoke$arity$2 = function() {
+    }, cljs.core.t5241.prototype.cljs$core$IFn$_invoke$arity$2 = function() {
       var b = function(b) {
         return cljs.core.apply.call(null, self__.o, b)
       }, c = function(c) {
@@ -3466,18 +3467,18 @@ cljs.core.with_meta = function with_meta(b, c) {
       };
       c.cljs$core$IFn$_invoke$arity$variadic = b;
       return c
-    }(), cljs.core.t5075.prototype.cljs$core$Fn$ = !0, cljs.core.t5075.prototype.cljs$core$IMeta$_meta$arity$1 = function(b) {
-      return this.meta5076
-    }, cljs.core.t5075.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(b, c) {
-      return new cljs.core.t5075(this.meta, this.o, this.with_meta, c)
-    }, cljs.core.__GT_t5075 = function(b, c, f, g) {
-      return new cljs.core.t5075(b, c, f, g)
+    }(), cljs.core.t5241.prototype.cljs$core$Fn$ = !0, cljs.core.t5241.prototype.cljs$core$IMeta$_meta$arity$1 = function(b) {
+      return this.meta5242
+    }, cljs.core.t5241.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(b, c) {
+      return new cljs.core.t5241(this.meta, this.o, this.with_meta, c)
+    }, cljs.core.__GT_t5241 = function(b, c, f, g) {
+      return new cljs.core.t5241(b, c, f, g)
     });
-    return new cljs.core.t5075(c, b, with_meta, null)
+    return new cljs.core.t5241(c, b, with_meta, null)
   }(), c) : cljs.core._with_meta.call(null, b, c)
 };
 cljs.core.meta = function(a) {
-  return(a ? a.cljs$lang$protocol_mask$partition0$ & 131072 || a.cljs$core$IMeta$ || (a.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.type_satisfies_.call(null, cljs.core.IMeta, a)) : cljs.core.type_satisfies_.call(null, cljs.core.IMeta, a)) ? cljs.core._meta.call(null, a) : null
+  return(a ? a.cljs$lang$protocol_mask$partition0$ & 131072 || a.cljs$core$IMeta$ || (a.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IMeta, a)) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IMeta, a)) ? cljs.core._meta.call(null, a) : null
 };
 cljs.core.peek = function(a) {
   return cljs.core._peek.call(null, a)
@@ -3552,25 +3553,25 @@ cljs.core.empty_QMARK_ = function(a) {
   return null == a || cljs.core.not.call(null, cljs.core.seq.call(null, a))
 };
 cljs.core.coll_QMARK_ = function(a) {
-  return null == a ? !1 : a ? a.cljs$lang$protocol_mask$partition0$ & 8 || a.cljs$core$ICollection$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.type_satisfies_.call(null, cljs.core.ICollection, a) : cljs.core.type_satisfies_.call(null, cljs.core.ICollection, a)
+  return null == a ? !1 : a ? a.cljs$lang$protocol_mask$partition0$ & 8 || a.cljs$core$ICollection$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.ICollection, a) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.ICollection, a)
 };
 cljs.core.set_QMARK_ = function(a) {
-  return null == a ? !1 : a ? a.cljs$lang$protocol_mask$partition0$ & 4096 || a.cljs$core$ISet$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.type_satisfies_.call(null, cljs.core.ISet, a) : cljs.core.type_satisfies_.call(null, cljs.core.ISet, a)
+  return null == a ? !1 : a ? a.cljs$lang$protocol_mask$partition0$ & 4096 || a.cljs$core$ISet$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.ISet, a) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.ISet, a)
 };
 cljs.core.associative_QMARK_ = function(a) {
-  return a ? a.cljs$lang$protocol_mask$partition0$ & 512 || a.cljs$core$IAssociative$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.type_satisfies_.call(null, cljs.core.IAssociative, a) : cljs.core.type_satisfies_.call(null, cljs.core.IAssociative, a)
+  return a ? a.cljs$lang$protocol_mask$partition0$ & 512 || a.cljs$core$IAssociative$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IAssociative, a) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IAssociative, a)
 };
 cljs.core.sequential_QMARK_ = function(a) {
-  return a ? a.cljs$lang$protocol_mask$partition0$ & 16777216 || a.cljs$core$ISequential$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.type_satisfies_.call(null, cljs.core.ISequential, a) : cljs.core.type_satisfies_.call(null, cljs.core.ISequential, a)
+  return a ? a.cljs$lang$protocol_mask$partition0$ & 16777216 || a.cljs$core$ISequential$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.ISequential, a) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.ISequential, a)
 };
 cljs.core.reduceable_QMARK_ = function(a) {
-  return a ? a.cljs$lang$protocol_mask$partition0$ & 524288 || a.cljs$core$IReduce$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.type_satisfies_.call(null, cljs.core.IReduce, a) : cljs.core.type_satisfies_.call(null, cljs.core.IReduce, a)
+  return a ? a.cljs$lang$protocol_mask$partition0$ & 524288 || a.cljs$core$IReduce$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IReduce, a) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IReduce, a)
 };
 cljs.core.map_QMARK_ = function(a) {
-  return null == a ? !1 : a ? a.cljs$lang$protocol_mask$partition0$ & 1024 || a.cljs$core$IMap$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.type_satisfies_.call(null, cljs.core.IMap, a) : cljs.core.type_satisfies_.call(null, cljs.core.IMap, a)
+  return null == a ? !1 : a ? a.cljs$lang$protocol_mask$partition0$ & 1024 || a.cljs$core$IMap$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IMap, a) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IMap, a)
 };
 cljs.core.vector_QMARK_ = function(a) {
-  return a ? a.cljs$lang$protocol_mask$partition0$ & 16384 || a.cljs$core$IVector$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.type_satisfies_.call(null, cljs.core.IVector, a) : cljs.core.type_satisfies_.call(null, cljs.core.IVector, a)
+  return a ? a.cljs$lang$protocol_mask$partition0$ & 16384 || a.cljs$core$IVector$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IVector, a) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IVector, a)
 };
 cljs.core.chunked_seq_QMARK_ = function(a) {
   return a ? a.cljs$lang$protocol_mask$partition1$ & 512 || a.cljs$core$IChunkedSeq$ ? !0 : !1 : !1
@@ -3652,17 +3653,17 @@ cljs.core.undefined_QMARK_ = function(a) {
   return void 0 === a
 };
 cljs.core.seq_QMARK_ = function(a) {
-  return null == a ? !1 : a ? a.cljs$lang$protocol_mask$partition0$ & 64 || a.cljs$core$ISeq$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.type_satisfies_.call(null, cljs.core.ISeq, a) : cljs.core.type_satisfies_.call(null, cljs.core.ISeq, a)
+  return null == a ? !1 : a ? a.cljs$lang$protocol_mask$partition0$ & 64 || a.cljs$core$ISeq$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.ISeq, a) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.ISeq, a)
 };
 cljs.core.seqable_QMARK_ = function(a) {
-  return a ? a.cljs$lang$protocol_mask$partition0$ & 8388608 || a.cljs$core$ISeqable$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.type_satisfies_.call(null, cljs.core.ISeqable, a) : cljs.core.type_satisfies_.call(null, cljs.core.ISeqable, a)
+  return a ? a.cljs$lang$protocol_mask$partition0$ & 8388608 || a.cljs$core$ISeqable$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.ISeqable, a) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.ISeqable, a)
 };
 cljs.core.boolean$ = function(a) {
   return cljs.core.truth_(a) ? !0 : !1
 };
 cljs.core.ifn_QMARK_ = function(a) {
   var b = cljs.core.fn_QMARK_.call(null, a);
-  return b ? b : a ? a.cljs$lang$protocol_mask$partition0$ & 1 || a.cljs$core$IFn$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.type_satisfies_.call(null, cljs.core.IFn, a) : cljs.core.type_satisfies_.call(null, cljs.core.IFn, a)
+  return b ? b : a ? a.cljs$lang$protocol_mask$partition0$ & 1 || a.cljs$core$IFn$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IFn, a) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IFn, a)
 };
 cljs.core.integer_QMARK_ = function(a) {
   return"number" === typeof a && !isNaN(a) && Infinity !== a && parseFloat(a) === parseInt(a, 10)
@@ -3859,9 +3860,9 @@ cljs.core.shuffle = function(a) {
 };
 cljs.core.reduce = function() {
   var a = null, b = function(a, b) {
-    return b && (b.cljs$lang$protocol_mask$partition0$ & 524288 || b.cljs$core$IReduce$) ? cljs.core._reduce.call(null, b, a) : b instanceof Array ? cljs.core.array_reduce.call(null, b, a) : "string" === typeof b ? cljs.core.array_reduce.call(null, b, a) : cljs.core.type_satisfies_.call(null, cljs.core.IReduce, b) ? cljs.core._reduce.call(null, b, a) : new cljs.core.Keyword(null, "else", "else", 1017020587) ? cljs.core.seq_reduce.call(null, a, b) : null
+    return b && (b.cljs$lang$protocol_mask$partition0$ & 524288 || b.cljs$core$IReduce$) ? cljs.core._reduce.call(null, b, a) : b instanceof Array ? cljs.core.array_reduce.call(null, b, a) : "string" === typeof b ? cljs.core.array_reduce.call(null, b, a) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IReduce, b) ? cljs.core._reduce.call(null, b, a) : new cljs.core.Keyword(null, "else", "else", 1017020587) ? cljs.core.seq_reduce.call(null, a, b) : null
   }, c = function(a, b, c) {
-    return c && (c.cljs$lang$protocol_mask$partition0$ & 524288 || c.cljs$core$IReduce$) ? cljs.core._reduce.call(null, c, a, b) : c instanceof Array ? cljs.core.array_reduce.call(null, c, a, b) : "string" === typeof c ? cljs.core.array_reduce.call(null, c, a, b) : cljs.core.type_satisfies_.call(null, cljs.core.IReduce, c) ? cljs.core._reduce.call(null, c, a, b) : new cljs.core.Keyword(null, "else", "else", 1017020587) ? cljs.core.seq_reduce.call(null, a, b, c) : null
+    return c && (c.cljs$lang$protocol_mask$partition0$ & 524288 || c.cljs$core$IReduce$) ? cljs.core._reduce.call(null, c, a, b) : c instanceof Array ? cljs.core.array_reduce.call(null, c, a, b) : "string" === typeof c ? cljs.core.array_reduce.call(null, c, a, b) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IReduce, c) ? cljs.core._reduce.call(null, c, a, b) : new cljs.core.Keyword(null, "else", "else", 1017020587) ? cljs.core.seq_reduce.call(null, a, b, c) : null
   }, a = function(a, e, f) {
     switch(arguments.length) {
       case 2:
@@ -5155,7 +5156,7 @@ cljs.core.__GT_EmptyList = function(a) {
 };
 cljs.core.List.EMPTY = new cljs.core.EmptyList(null);
 cljs.core.reversible_QMARK_ = function(a) {
-  return a ? a.cljs$lang$protocol_mask$partition0$ & 134217728 || a.cljs$core$IReversible$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.type_satisfies_.call(null, cljs.core.IReversible, a) : cljs.core.type_satisfies_.call(null, cljs.core.IReversible, a)
+  return a ? a.cljs$lang$protocol_mask$partition0$ & 134217728 || a.cljs$core$IReversible$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IReversible, a) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IReversible, a)
 };
 cljs.core.rseq = function(a) {
   return cljs.core._rseq.call(null, a)
@@ -5264,7 +5265,7 @@ cljs.core.cons = function(a, b) {
   return c ? new cljs.core.Cons(null, a, b, null) : new cljs.core.Cons(null, a, cljs.core.seq.call(null, b), null)
 };
 cljs.core.list_QMARK_ = function(a) {
-  return a ? a.cljs$lang$protocol_mask$partition0$ & 33554432 || a.cljs$core$IList$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.type_satisfies_.call(null, cljs.core.IList, a) : cljs.core.type_satisfies_.call(null, cljs.core.IList, a)
+  return a ? a.cljs$lang$protocol_mask$partition0$ & 33554432 || a.cljs$core$IList$ ? !0 : a.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IList, a) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IList, a)
 };
 cljs.core.Keyword = function(a, b, c, d) {
   this.ns = a;
@@ -7818,7 +7819,7 @@ cljs.core.get_in = function() {
     for(b = cljs.core.seq.call(null, b);;) {
       if(b) {
         var h = a;
-        if(h ? h.cljs$lang$protocol_mask$partition0$ & 256 || h.cljs$core$ILookup$ || (h.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.type_satisfies_.call(null, cljs.core.ILookup, h)) : cljs.core.type_satisfies_.call(null, cljs.core.ILookup, h)) {
+        if(h ? h.cljs$lang$protocol_mask$partition0$ & 256 || h.cljs$core$ILookup$ || (h.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.ILookup, h)) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.ILookup, h)) {
           a = cljs.core.get.call(null, a, cljs.core.first.call(null, b), g);
           if(g === a) {
             return c
@@ -9253,7 +9254,7 @@ cljs.core.TransientArrayMap.prototype.cljs$core$ITransientAssociative$_assoc_BAN
 };
 cljs.core.TransientArrayMap.prototype.cljs$core$ITransientCollection$_conj_BANG_$arity$2 = function(a, b) {
   if(cljs.core.truth_(this.editable_QMARK_)) {
-    if(b ? b.cljs$lang$protocol_mask$partition0$ & 2048 || b.cljs$core$IMapEntry$ || (b.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.type_satisfies_.call(null, cljs.core.IMapEntry, b)) : cljs.core.type_satisfies_.call(null, cljs.core.IMapEntry, b)) {
+    if(b ? b.cljs$lang$protocol_mask$partition0$ & 2048 || b.cljs$core$IMapEntry$ || (b.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IMapEntry, b)) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IMapEntry, b)) {
       return cljs.core._assoc_BANG_.call(null, this, cljs.core.key.call(null, b), cljs.core.val.call(null, b))
     }
     for(var c = cljs.core.seq.call(null, b), d = this;;) {
@@ -9691,7 +9692,7 @@ cljs.core.HashCollisionNode.prototype.inode_without = function(a, b, c) {
   return-1 === a ? this : 1 === this.cnt ? null : new cljs.core.Keyword(null, "else", "else", 1017020587) ? new cljs.core.HashCollisionNode(null, this.collision_hash, this.cnt - 1, cljs.core.remove_pair.call(null, this.arr, cljs.core.quot.call(null, a, 2))) : null
 };
 cljs.core.HashCollisionNode.prototype.inode_assoc = function(a, b, c, d, e) {
-  return b === this.collision_hash ? (a = cljs.core.hash_collision_node_find_index.call(null, this.arr, this.cnt, c), -1 === a ? (a = this.arr.length, b = Array(a + 2), cljs.core.array_copy.call(null, this.arr, 0, b, 0, a), b[a] = c, b[a + 1] = d, e.val = !0, new cljs.core.HashCollisionNode(null, this.collision_hash, this.cnt + 1, b)) : cljs.core._EQ_.call(null, this.arr[a], d) ? this : new cljs.core.HashCollisionNode(null, this.collision_hash, this.cnt, cljs.core.clone_and_set.call(null, this.arr, 
+  return b === this.collision_hash ? (a = cljs.core.hash_collision_node_find_index.call(null, this.arr, this.cnt, c), -1 === a ? (a = 2 * this.cnt, b = Array(a + 2), cljs.core.array_copy.call(null, this.arr, 0, b, 0, a), b[a] = c, b[a + 1] = d, e.val = !0, new cljs.core.HashCollisionNode(null, this.collision_hash, this.cnt + 1, b)) : cljs.core._EQ_.call(null, this.arr[a], d) ? this : new cljs.core.HashCollisionNode(null, this.collision_hash, this.cnt, cljs.core.clone_and_set.call(null, this.arr, 
   a + 1, d))) : (new cljs.core.BitmapIndexedNode(null, 1 << (this.collision_hash >>> a & 31), [null, this])).inode_assoc(a, b, c, d, e)
 };
 cljs.core.HashCollisionNode.prototype.inode_lookup = function(a, b, c, d) {
@@ -10061,7 +10062,7 @@ cljs.core.TransientHashMap.prototype.cljs$core$ICounted$_count$arity$1 = functio
 };
 cljs.core.TransientHashMap.prototype.conj_BANG_ = function(a) {
   if(this.edit) {
-    if(a ? a.cljs$lang$protocol_mask$partition0$ & 2048 || a.cljs$core$IMapEntry$ || (a.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.type_satisfies_.call(null, cljs.core.IMapEntry, a)) : cljs.core.type_satisfies_.call(null, cljs.core.IMapEntry, a)) {
+    if(a ? a.cljs$lang$protocol_mask$partition0$ & 2048 || a.cljs$core$IMapEntry$ || (a.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IMapEntry, a)) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IMapEntry, a)) {
       return this.assoc_BANG_(cljs.core.key.call(null, a), cljs.core.val.call(null, a))
     }
     a = cljs.core.seq.call(null, a);
@@ -10823,7 +10824,7 @@ cljs.core.KeySeq.prototype.cljs$core$IHash$_hash$arity$1 = function(a) {
   return cljs.core.hash_coll.call(null, this)
 };
 cljs.core.KeySeq.prototype.cljs$core$INext$_next$arity$1 = function(a) {
-  a = ((a = this.mseq) ? a.cljs$lang$protocol_mask$partition0$ & 128 || a.cljs$core$INext$ || (a.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.type_satisfies_.call(null, cljs.core.INext, a)) : cljs.core.type_satisfies_.call(null, cljs.core.INext, a)) ? cljs.core._next.call(null, this.mseq) : cljs.core.next.call(null, this.mseq);
+  a = ((a = this.mseq) ? a.cljs$lang$protocol_mask$partition0$ & 128 || a.cljs$core$INext$ || (a.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.INext, a)) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.INext, a)) ? cljs.core._next.call(null, this.mseq) : cljs.core.next.call(null, this.mseq);
   return null == a ? null : new cljs.core.KeySeq(a, this._meta)
 };
 cljs.core.KeySeq.prototype.cljs$core$ICollection$_conj$arity$2 = function(a, b) {
@@ -10846,7 +10847,7 @@ cljs.core.KeySeq.prototype.cljs$core$ISeq$_first$arity$1 = function(a) {
   return cljs.core._key.call(null, a)
 };
 cljs.core.KeySeq.prototype.cljs$core$ISeq$_rest$arity$1 = function(a) {
-  a = ((a = this.mseq) ? a.cljs$lang$protocol_mask$partition0$ & 128 || a.cljs$core$INext$ || (a.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.type_satisfies_.call(null, cljs.core.INext, a)) : cljs.core.type_satisfies_.call(null, cljs.core.INext, a)) ? cljs.core._next.call(null, this.mseq) : cljs.core.next.call(null, this.mseq);
+  a = ((a = this.mseq) ? a.cljs$lang$protocol_mask$partition0$ & 128 || a.cljs$core$INext$ || (a.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.INext, a)) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.INext, a)) ? cljs.core._next.call(null, this.mseq) : cljs.core.next.call(null, this.mseq);
   return null != a ? new cljs.core.KeySeq(a, this._meta) : cljs.core.List.EMPTY
 };
 cljs.core.KeySeq.prototype.cljs$core$IEquiv$_equiv$arity$2 = function(a, b) {
@@ -10885,7 +10886,7 @@ cljs.core.ValSeq.prototype.cljs$core$IHash$_hash$arity$1 = function(a) {
   return cljs.core.hash_coll.call(null, this)
 };
 cljs.core.ValSeq.prototype.cljs$core$INext$_next$arity$1 = function(a) {
-  a = ((a = this.mseq) ? a.cljs$lang$protocol_mask$partition0$ & 128 || a.cljs$core$INext$ || (a.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.type_satisfies_.call(null, cljs.core.INext, a)) : cljs.core.type_satisfies_.call(null, cljs.core.INext, a)) ? cljs.core._next.call(null, this.mseq) : cljs.core.next.call(null, this.mseq);
+  a = ((a = this.mseq) ? a.cljs$lang$protocol_mask$partition0$ & 128 || a.cljs$core$INext$ || (a.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.INext, a)) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.INext, a)) ? cljs.core._next.call(null, this.mseq) : cljs.core.next.call(null, this.mseq);
   return null == a ? null : new cljs.core.ValSeq(a, this._meta)
 };
 cljs.core.ValSeq.prototype.cljs$core$ICollection$_conj$arity$2 = function(a, b) {
@@ -10908,7 +10909,7 @@ cljs.core.ValSeq.prototype.cljs$core$ISeq$_first$arity$1 = function(a) {
   return cljs.core._val.call(null, a)
 };
 cljs.core.ValSeq.prototype.cljs$core$ISeq$_rest$arity$1 = function(a) {
-  a = ((a = this.mseq) ? a.cljs$lang$protocol_mask$partition0$ & 128 || a.cljs$core$INext$ || (a.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.type_satisfies_.call(null, cljs.core.INext, a)) : cljs.core.type_satisfies_.call(null, cljs.core.INext, a)) ? cljs.core._next.call(null, this.mseq) : cljs.core.next.call(null, this.mseq);
+  a = ((a = this.mseq) ? a.cljs$lang$protocol_mask$partition0$ & 128 || a.cljs$core$INext$ || (a.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.INext, a)) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.INext, a)) ? cljs.core._next.call(null, this.mseq) : cljs.core.next.call(null, this.mseq);
   return null != a ? new cljs.core.ValSeq(a, this._meta) : cljs.core.List.EMPTY
 };
 cljs.core.ValSeq.prototype.cljs$core$IEquiv$_equiv$arity$2 = function(a, b) {
@@ -12092,7 +12093,7 @@ cljs.core.pr_writer = function pr_writer(b, c, d) {
   if(new cljs.core.Keyword(null, "else", "else", 1017020587)) {
     cljs.core.truth_(function() {
       var c = cljs.core.get.call(null, d, new cljs.core.Keyword(null, "meta", "meta", 1017252215));
-      return cljs.core.truth_(c) ? (c = b ? b.cljs$lang$protocol_mask$partition0$ & 131072 || b.cljs$core$IMeta$ ? !0 : b.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.type_satisfies_.call(null, cljs.core.IMeta, b) : cljs.core.type_satisfies_.call(null, cljs.core.IMeta, b)) ? cljs.core.meta.call(null, b) : c : c
+      return cljs.core.truth_(c) ? (c = b ? b.cljs$lang$protocol_mask$partition0$ & 131072 || b.cljs$core$IMeta$ ? !0 : b.cljs$lang$protocol_mask$partition0$ ? !1 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IMeta, b) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IMeta, b)) ? cljs.core.meta.call(null, b) : c : c
     }()) && (cljs.core._write.call(null, c, "^"), pr_writer.call(null, cljs.core.meta.call(null, b), c, d), cljs.core._write.call(null, c, " "));
     if(null == b) {
       return cljs.core._write.call(null, c, "nil")
@@ -12127,8 +12128,8 @@ cljs.core.pr_writer = function pr_writer(b, c, d) {
       };
       return cljs.core.write_all.call(null, c, '#inst "', "" + cljs.core.str(b.getUTCFullYear()), "-", e.call(null, b.getUTCMonth() + 1, 2), "-", e.call(null, b.getUTCDate(), 2), "T", e.call(null, b.getUTCHours(), 2), ":", e.call(null, b.getUTCMinutes(), 2), ":", e.call(null, b.getUTCSeconds(), 2), ".", e.call(null, b.getUTCMilliseconds(), 3), "-", '00:00"')
     }
-    return cljs.core.truth_(cljs.core.regexp_QMARK_.call(null, b)) ? cljs.core.write_all.call(null, c, '#"', b.source, '"') : (b ? b.cljs$lang$protocol_mask$partition0$ & 2147483648 || b.cljs$core$IPrintWithWriter$ || (b.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.type_satisfies_.call(null, cljs.core.IPrintWithWriter, b)) : cljs.core.type_satisfies_.call(null, cljs.core.IPrintWithWriter, b)) ? cljs.core._pr_writer.call(null, b, c, d) : new cljs.core.Keyword(null, "else", "else", 1017020587) ? 
-    cljs.core.write_all.call(null, c, "#\x3c", "" + cljs.core.str(b), "\x3e") : null
+    return cljs.core.truth_(cljs.core.regexp_QMARK_.call(null, b)) ? cljs.core.write_all.call(null, c, '#"', b.source, '"') : (b ? b.cljs$lang$protocol_mask$partition0$ & 2147483648 || b.cljs$core$IPrintWithWriter$ || (b.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IPrintWithWriter, b)) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IPrintWithWriter, b)) ? cljs.core._pr_writer.call(null, b, c, d) : new cljs.core.Keyword(null, "else", "else", 
+    1017020587) ? cljs.core.write_all.call(null, c, "#\x3c", "" + cljs.core.str(b), "\x3e") : null
   }
   return null
 };
@@ -12701,13 +12702,13 @@ cljs.core._key__GT_js = function(a) {
   return b.call(null, a)
 };
 cljs.core.key__GT_js = function(a) {
-  return(a ? cljs.core.truth_(cljs.core.truth_(null) ? null : a.cljs$core$IEncodeJS$) || (a.cljs$lang$protocol_mask$partition$ ? 0 : cljs.core.type_satisfies_.call(null, cljs.core.IEncodeJS, a)) : cljs.core.type_satisfies_.call(null, cljs.core.IEncodeJS, a)) ? cljs.core._clj__GT_js.call(null, a) : "string" === typeof a || "number" === typeof a || a instanceof cljs.core.Keyword || a instanceof cljs.core.Symbol ? cljs.core.clj__GT_js.call(null, a) : cljs.core.pr_str.call(null, a)
+  return(a ? cljs.core.truth_(cljs.core.truth_(null) ? null : a.cljs$core$IEncodeJS$) || (a.cljs$lang$protocol_mask$partition$ ? 0 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IEncodeJS, a)) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IEncodeJS, a)) ? cljs.core._clj__GT_js.call(null, a) : "string" === typeof a || "number" === typeof a || a instanceof cljs.core.Keyword || a instanceof cljs.core.Symbol ? cljs.core.clj__GT_js.call(null, a) : cljs.core.pr_str.call(null, a)
 };
 cljs.core.clj__GT_js = function clj__GT_js(b) {
   if(null == b) {
     return null
   }
-  if(b ? cljs.core.truth_(cljs.core.truth_(null) ? null : b.cljs$core$IEncodeJS$) || (b.cljs$lang$protocol_mask$partition$ ? 0 : cljs.core.type_satisfies_.call(null, cljs.core.IEncodeJS, b)) : cljs.core.type_satisfies_.call(null, cljs.core.IEncodeJS, b)) {
+  if(b ? cljs.core.truth_(cljs.core.truth_(null) ? null : b.cljs$core$IEncodeJS$) || (b.cljs$lang$protocol_mask$partition$ ? 0 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IEncodeJS, b)) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IEncodeJS, b)) {
     return cljs.core._clj__GT_js.call(null, b)
   }
   if(b instanceof cljs.core.Keyword) {
@@ -12753,7 +12754,7 @@ cljs.core.js__GT_clj = function() {
     return a.call(null, b, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "keywordize-keys", "keywordize-keys", 4191781672), !1], !0))
   }, c = function() {
     var a = function(a, b) {
-      if(a ? cljs.core.truth_(cljs.core.truth_(null) ? null : a.cljs$core$IEncodeClojure$) || (a.cljs$lang$protocol_mask$partition$ ? 0 : cljs.core.type_satisfies_.call(null, cljs.core.IEncodeClojure, a)) : cljs.core.type_satisfies_.call(null, cljs.core.IEncodeClojure, a)) {
+      if(a ? cljs.core.truth_(cljs.core.truth_(null) ? null : a.cljs$core$IEncodeClojure$) || (a.cljs$lang$protocol_mask$partition$ ? 0 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IEncodeClojure, a)) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IEncodeClojure, a)) {
         return cljs.core._js__GT_clj.call(null, a, cljs.core.apply.call(null, cljs.core.array_map, b))
       }
       if(cljs.core.seq.call(null, b)) {
