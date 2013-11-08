@@ -9,7 +9,7 @@
         <img src="http://placehold.it/1200x480&text=WEEKLY_TIMESHEET." alt="">
     </div>
     <hr style="margin: 3em 0;"/>
-    <b>Current Time Period: {{ TUTILS.format_date(monday) }} to {{ TUTILS.format_date(sunday) }}</b>
+    <b>Time Period: {{ TUTILS.format_date(monday) }} to {{ TUTILS.format_date(sunday) }}</b>
     <hr style="margin: 3em 0;"/>
     <table width="100%" cellpadding="4" cellspacing="0">
         {% for work_segment in timesheet_data.work_segments %}
