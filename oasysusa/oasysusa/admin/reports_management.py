@@ -21,7 +21,7 @@ def timesheet_report(request):
         session['current_day'] = current_day
     monday, sunday = first_and_last_dow(current_day)
     username = request.POST.get('username')
-    employee = Employee.query().filter(Employee.username == username).get()
+    employee = Employee.query().filter(Employee.username == username).first()
     timesheet_data = get_timesheet_data(employee, current_day, monday, sunday)
     response = render('templates/admin/timesheet_report.jinja2',
                       dict(employee=employee, monday=monday, sunday=sunday, timesheet_data=timesheet_data))

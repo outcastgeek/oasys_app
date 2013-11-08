@@ -23,9 +23,14 @@ def form(request, employee, current_page):
     form = Form(request,
                 schema=EmployeeAttributesSchema(),
                 obj=employee)
+    timesheet_report_form = Form(request,
+                                 schema=EmployeeAttributesSchema(),
+                                 obj=employee)
     project_names = get_project_names()
     response = render('templates/admin/employee_attributes.jinja2',
-                      dict(renderer=FormRenderer(form), employee=employee,
+                      dict(renderer=FormRenderer(form),
+                           timesheet_report_renderer=FormRenderer(timesheet_report_form),
+                           employee=employee,
                            projects=project_names,
                            current_page=current_page))
     return response
