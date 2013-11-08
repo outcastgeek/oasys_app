@@ -12,7 +12,8 @@ from ..api.timesheet_api import get_timesheet_data, first_and_last_dow
 
 @view_config(route_name='timesheet_report',
              renderer='pdf',
-             request_method='POST')
+             request_method='POST',
+             permission='admin')
 def timesheet_report(request):
     session = request.session
     current_day = session.get('current_day')
