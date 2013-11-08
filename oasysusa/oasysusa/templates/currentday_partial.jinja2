@@ -2,16 +2,23 @@
 <div class="form-group">
     {{ prev_renderer.begin(request.route_url('current_day', direction='prev'), class="span4 pull-left") }}
     {{ prev_renderer.csrf_token() }}
+    {{ prev_renderer.hidden_tag("return_to") }}
     {{ prev_renderer.submit('submit', '<< Previous', class="btn btn-inverse") }}
     {{ prev_renderer.end() }}
     {{ next_renderer.begin(request.route_url('current_day', direction='next'), class="span4 pull-right") }}
     {{ next_renderer.csrf_token() }}
+    {{ next_renderer.hidden_tag("return_to") }}
     {{ next_renderer.submit('submit', 'Next >>', class="btn btn-inverse") }}
     {{ next_renderer.end() }}
 </div>
 {{ jump_to_date_renderer.begin(request.route_url('current_day', direction='new_date'), class="form-inline timesheet-form") }}
 {{ jump_to_date_renderer.csrf_token() }}
+{{ jump_to_date_renderer.hidden_tag("return_to") }}
 {{ jump_to_date_renderer.label("Current Day",  class="sr-only") }}
 {{ jump_to_date_renderer.text("new_date", placeholder="01/01/0001", size=20 , required="required", form_input="form_input", class="form-control") }}
 {{ jump_to_date_renderer.submit('submit', 'Go', class="btn btn-inverse") }}
+{% if display_range %}
+    <hr>
+    <b>Current Time Period: {{ TUTILS.format_date(monday) }} to {{ TUTILS.format_date(sunday) }}</b>
+{% endif %}
 {{ jump_to_date_renderer.end() }}

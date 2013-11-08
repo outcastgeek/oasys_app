@@ -53,6 +53,7 @@ def main(global_config, **settings):
 
     # scan for config
     config.include('.forms')
+    config.include('.renderers')
     config.include('.api', route_prefix='/api')
     config.include('.admin', route_prefix='/admin')
 

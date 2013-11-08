@@ -1,3 +1,5 @@
+from celery.loaders import default
+
 __author__ = 'outcastgeek'
 
 import logging
@@ -22,17 +24,21 @@ from ..api.timesheet_api import first_and_last_dow
 logging.basicConfig()
 log = logging.getLogger(__file__)
 
-def currentday(request):
+
+def currentday(request, display_range=False):
     session = request.session
     current_day = session.get('current_day')
     if not current_day:
         current_day = date.today()
         session['current_day'] = current_day
+    monday, sunday = first_and_last_dow(current_day)
     current_day_str = current_day.strftime(DATE_FORMAT)
     response = render('templates/currentday_partial.jinja2',
-                                  dict(prev_renderer=FormRenderer(Form(request)),
-                                       jump_to_date_renderer=FormRenderer(Form(request, defaults=dict(new_date=current_day_str))),
-                                       next_renderer=FormRenderer(Form(request))))
+                      dict(prev_renderer=FormRenderer(Form(request, defaults=dict(return_to=request.url))),
+                           jump_to_date_renderer=FormRenderer(Form(request, defaults=dict(new_date=current_day_str,
+                                                                                          return_to=request.url))),
+                           next_renderer=FormRenderer(Form(request, defaults=dict(return_to=request.url))),
+                           display_range=display_range, monday=monday, sunday=sunday))
     return response
 
 
@@ -41,6 +47,7 @@ def currentday(request):
              permission='employee')
 def current_day(request):
     session = request.session
+    return_to = request.POST.get('return_to')
     new_date = request.params.get('new_date')
     direction = request.matchdict['direction']
     if 'new_date' == direction and new_date:
@@ -58,5 +65,5 @@ def current_day(request):
             current_day = sunday + timedelta(days=1)
     session['current_day'] = current_day
     request.session.flash("The current day was changed to %s!!!!" % current_day.strftime(DATE_FORMAT))
-    return HTTPFound(location=request.route_url('timesheet'))
+    return HTTPFound(location=return_to)
 

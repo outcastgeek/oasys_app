@@ -13,6 +13,7 @@
 {% endblock %}
 
 {% block body %}
+    {{ currentdayform(request, True)|safe }}
     {% if employees.items %}
         <div class="pagination">
             <h2>Employees</h2>

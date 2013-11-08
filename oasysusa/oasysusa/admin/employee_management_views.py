@@ -2,6 +2,8 @@ __author__ = 'outcastgeek'
 
 import logging
 
+from datetime import date
+
 from pyramid.view import (
     view_config,
     view_defaults)

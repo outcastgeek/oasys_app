@@ -1,0 +1,30 @@
+<html>
+<head>
+</head>
+<body>
+{% block body %}
+    <h2>{{ employee.first_name }}, {{ employee.last_name }}</h2>
+    <hr>
+    <b>Current Time Period: {{ TUTILS.format_date(monday) }} to {{ TUTILS.format_date(sunday) }}</b>
+    <hr>
+    <table width="100%" cellpadding="4" cellspacing="0">
+        <tbody>
+        <tr>
+            <td width="100%">Some text.</td>
+        </tr>
+        </tbody>
+        <tbody>
+        <tr style="border: 1px solid #000000;">
+            <td width="100%">
+                <h3 style="text-align: center;">Some subtitle</h3>
+                <div>{{ hello(USER_ID) | safe }}</div>
+                <p>{{ stuff }}</p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <hr style="margin: 3em 0;"/>
+    <img src="http://placehold.it/1200x480&text=INC." alt="">
+{% endblock %}
+</body>
+</html>
