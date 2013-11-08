@@ -42,7 +42,9 @@ def get_settings():
 
 @subscriber(ApplicationCreated)
 def application_created_subscriber(event):
-    bootstrap_data()
+    settings = get_settings()
+    if "sqlite" or "localhost" in settings.get('sqlalchemy.url'):
+        bootstrap_data()
 
 
 @subscriber(BeforeRender)

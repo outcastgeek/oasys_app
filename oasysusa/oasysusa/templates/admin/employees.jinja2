@@ -14,18 +14,23 @@
 
 {% block body %}
     {% if employees.items %}
-        <h2>Employees</h2>
-        {{ employees.pager(link_attr={"class": "btn small"},
+        <div class="pagination">
+            <h2>Employees</h2>
+            <hr>
+            {{ employees.pager(link_attr={"class": "btn small"},
                            curpage_attr={"class": "btn primary small disabled"},
                            dotdot_attr={"class": "btn small disabled"}) }}
-        <ul>
-            {% for employee in employees.items %}
-                <li>{{ employee.first_name or employee.username }}</li>
-            {% endfor %}
-        </ul>
-        {{ employees.pager(link_attr={"class": "btn small"},
+        </div>
+
+        {% for employee in employees.items %}
+            {{ ea_attrs_form(request, employee, current_page) | safe }}
+        {% endfor %}
+
+        <div class="pagination">
+            {{ employees.pager(link_attr={"class": "btn small"},
                            curpage_attr={"class": "btn primary small disabled"},
                            dotdot_attr={"class": "btn small disabled"}) }}
+        </div>
     {% endif %}
 {% endblock %}
 

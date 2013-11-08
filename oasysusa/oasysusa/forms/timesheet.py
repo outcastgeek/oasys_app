@@ -38,7 +38,7 @@ def currentday(request):
 
 @view_config(route_name='current_day',
              request_method='POST',
-             permission='user')
+             permission='employee')
 def current_day(request):
     session = request.session
     new_date = request.params.get('new_date')

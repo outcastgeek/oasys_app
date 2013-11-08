@@ -1,6 +1,5 @@
 __author__ = 'outcastgeek'
 
-import itertools
 import logging
 
 from datetime import (
@@ -22,14 +21,15 @@ from ..models import (
     TimeSheet )
 
 from ..api.timesheet_api import (
-    get_all_projects,
     first_and_last_dow,
     get_first_and_last_d_o_m,
     ensure_payroll_cycle,
     ensure_time_sheet,
     save_work_segment,
     get_all_work_segments_in_range,
-    get_week_dates)
+    get_week_dates,
+    get_project_names,
+    get_project_by_id)
 
 logging.basicConfig()
 log = logging.getLogger(__file__)
@@ -40,7 +40,6 @@ log = logging.getLogger(__file__)
              permission='user')
 def timesheet_form(request):
     session = request.session
-    project_names = get_project_names()
     current_day = session.get('current_day')
     if not current_day:
         current_day = date.today()
@@ -51,6 +50,8 @@ def timesheet_form(request):
     if not employee:
         request.session.flash("You need to register first!")
         return HTTPFound(location=request.route_url('register'))
+    project_names = map(lambda project: [project.name, "%s by %s" % (project.name, project.client)],
+                        employee.projects)
     time_sheet_data = get_timesheet_data(employee, current_day, monday, sunday)
     form = Form(request,
                 schema=TimesheetDataSchema(),
@@ -109,17 +110,6 @@ def get_week_dates_map(day):
                           Day4=week_dates_string[3],
                           Day5=week_dates_string[4], Day6=week_dates_string[5], Day7=week_dates_string[6])
     return week_dates_map
-
-
-def get_project_by_id(project_id):
-    project = itertools.ifilter(lambda project: project.id == project_id, get_all_projects()).next()
-    return project
-
-
-def get_project_names():
-    projects = get_all_projects()
-    project_names = map(lambda project: [project.name, "%s by %s" % (project.name, project.client)], projects)
-    return project_names
 
 
 def get_timesheet(employee, monday, sunday):

@@ -1,0 +1,26 @@
+
+{{ renderer.begin(request.route_url('employees', _query=dict(page=current_page)), name="employee-attributes-form", class="form-inline employee-attributes-form") }}
+<fieldset>
+    <legend>{{ employee.first_name }}, {{ employee.last_name }} (aka: {{ employee.username }})</legend>
+    {{ renderer.csrf_token() }}
+    {{ renderer.hidden_tag("username") }}
+    <div class="form-group">
+        {{ renderer.label("Current Projects:",  class="sr-only") }}
+        {% for project in employee.projects %}
+            <label>{{ project.name }}</label>
+        {% else %}
+            <label>No projects assigned</label>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ renderer.label("Active",  class="sr-only") }}
+        {{ renderer.checkbox("active", id="active", class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ renderer.label("Project",  class="sr-only") }}
+        {{ renderer.select("project", projects, selected_value=None, id="project", class="form-control") }}
+    </div>
+    <hr>
+</fieldset>
+{{ renderer.submit('submit', 'Update', class="btn btn-large btn-primary") }}
+{{ renderer.end() }}

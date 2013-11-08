@@ -14,7 +14,7 @@ from ..models import (
     ProjectSchema,
     Project)
 
-from ..views.timesheet_views import get_all_projects
+from ..api.timesheet_api import get_all_projects
 
 logging.basicConfig()
 log = logging.getLogger(__file__)

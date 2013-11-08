@@ -347,7 +347,7 @@ class PayrollCycle(CRUDMixin, Base):
 
 class Project(CRUDMixin, Base):
     __tablename__ = 'projects'
-    id = Column(Integer, Sequence('projects_seq_id'), primary_key=True)
+    id = Column(Integer, Sequence('projects_seq_id', optional=True), primary_key=True)
     name = Column(Text)
     client = Column(Text)
     description = Column(Text)
@@ -362,13 +362,17 @@ class Project(CRUDMixin, Base):
     work_segments = relationship("WorkSegment", backref="projects")
 
     def __init__(self, name=None, client=None, description=None,
-                 email=None, address=None, telephone_number=None):
+                 email=None, address=None, telephone_number=None, manager=None, manager_telephone_number=None,
+                 manager_email=None):
         self.name = name
         self.client = client
         self.description = description
         self.email = email
         self.telephone_number = telephone_number
         self.address = address
+        self.manager = manager
+        self.manager_telephone_number = manager_telephone_number
+        self.manager_email = manager_email
 
     def __json__(self, request):
         return {

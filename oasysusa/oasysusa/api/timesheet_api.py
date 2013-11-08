@@ -80,6 +80,15 @@ def get_all_projects():
     projects = Project.query().all()
     return projects
 
+def get_project_names():
+    projects = get_all_projects()
+    project_names = map(lambda project: [project.name, "%s by %s" % (project.name, project.client)], projects)
+    return project_names
+
+def get_project_by_id(project_id):
+    project = itertools.ifilter(lambda project: project.id == project_id, get_all_projects()).next()
+    return project
+
 # @cache_region('long_term', 'work_segments')
 def get_all_work_segments_in_range(employee, start, finish):
     work_segments = WorkSegment.query().filter(WorkSegment.employee_id == employee.id, WorkSegment.date >= start,
