@@ -29,7 +29,7 @@ log = logging.getLogger(__file__)
 
 @view_config(route_name='timesheet',
              renderer='templates/timesheet.jinja2',
-             permission='user')
+             permission='employee')
 def timesheet_form(request):
     session = request.session
     current_day = session.get('current_day')

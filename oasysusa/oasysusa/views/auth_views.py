@@ -68,8 +68,8 @@ def login(request):
     login = ''
     password = ''
     if 'submit' in request.POST:
-        login = request.params['login']
-        password = request.params['password']
+        login = request.params.get('login')
+        password = request.params.get('password')
         valid_credentials = Employee.check_password(login, password)
         if valid_credentials:
             headers = remember(request, login)
