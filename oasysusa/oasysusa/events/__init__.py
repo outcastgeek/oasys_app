@@ -44,14 +44,15 @@ def get_settings():
 
 @subscriber(ApplicationCreated)
 def application_created_subscriber(event):
-    settings = get_settings()
-    if "sqlite" or "localhost" in settings.get('sqlalchemy.url'):
-        log.warn('Provisioning the database...')
-        admins = [dict(username='admin', password='OneAdmin13', group='admin')]
-        managers = [dict(username='manager', password='ManaJa13', group='manager')]
-        with transaction.manager:
-            map(check_before_insert_group, ['user', 'employee', 'manager', 'admin'])
-            map(lambda user_creds: check_before_insert_user(**user_creds), itertools.chain(admins, managers))
+    pass
+    # settings = get_settings()
+    # if "sqlite" or "localhost" in settings.get('sqlalchemy.url'):
+    #     log.warn('Provisioning the database...')
+    #     admins = [dict(username='admin', password='OneAdmin13', group='admin')]
+    #     managers = [dict(username='manager', password='ManaJa13', group='manager')]
+    #     with transaction.manager:
+    #         map(check_before_insert_group, ['user', 'employee', 'manager', 'admin'])
+    #         map(lambda user_creds: check_before_insert_user(**user_creds), itertools.chain(admins, managers))
 
 
 @subscriber(BeforeRender)
