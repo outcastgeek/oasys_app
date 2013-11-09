@@ -158,8 +158,10 @@ class Employee(CRUDMixin, Base):
     last_name = Column(Text)
     email = Column(Text, unique=True)
     active = Column(Boolean)
-    groups = relationship("Group", single_parent=True, cascade="all, delete-orphan", secondary='employee_group', backref="employees")
-    projects = relationship("Project", single_parent=True, cascade="all, delete-orphan", secondary='employee_project', backref="employees")
+    groups = relationship("Group", single_parent=True, cascade="all, delete-orphan", secondary='employee_group',
+                          backref="employees")
+    projects = relationship("Project", single_parent=True, cascade="all, delete-orphan", secondary='employee_project',
+                            backref="employees")
     provider = Column(Text)
     address = Column(Text)
     employee_id = Column(Text)
@@ -416,12 +418,12 @@ class ProjectSchema(Schema):
 class TimeSheet(CRUDMixin, Base):
     __tablename__ = 'time_sheets'
     id = Column(Integer, primary_key=True)
-    employee_id = Column(Integer, ForeignKey('employees.id'))
-    payroll_cycle_id = Column(Integer, ForeignKey('payroll_cycles.id'))
+    employee_id = Column(Integer, ForeignKey('employees.id', ondelete='CASCADE'))
+    payroll_cycle_id = Column(Integer, ForeignKey('payroll_cycles.id', ondelete='CASCADE'))
     start_date = Column(Date)
     end_date = Column(Date)
     description = Column('description', Unicode(250))
-    work_segments = relationship("WorkSegment", backref="time_sheets")
+    work_segments = relationship("WorkSegment", single_parent=True, cascade="all, delete-orphan", backref="time_sheets")
 
     def __init__(self, start_date=None, end_date=None, description=None):
         self.start_date = start_date
