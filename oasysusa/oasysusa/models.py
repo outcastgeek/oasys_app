@@ -448,10 +448,10 @@ class TimeSheetSchema(Schema):
 class WorkSegment(CRUDMixin, Base):
     __tablename__ = 'work_segments'
     id = Column(Integer, primary_key=True)
-    project_id = Column(Integer, ForeignKey('projects.id'))
-    time_sheet_id = Column(Integer, ForeignKey('time_sheets.id'))
-    payroll_cycle_id = Column(Integer, ForeignKey('payroll_cycles.id'))
-    employee_id = Column(Integer, ForeignKey('employees.id'))
+    project_id = Column(Integer, ForeignKey('projects.id', ondelete='CASCADE'))
+    time_sheet_id = Column(Integer, ForeignKey('time_sheets.id', ondelete='CASCADE'))
+    payroll_cycle_id = Column(Integer, ForeignKey('payroll_cycles.id', ondelete='CASCADE'))
+    employee_id = Column(Integer, ForeignKey('employees.id', ondelete='CASCADE'))
     date = Column(Date)
     hours = Column(Integer)
 
