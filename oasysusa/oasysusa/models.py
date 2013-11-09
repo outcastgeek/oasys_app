@@ -168,7 +168,7 @@ class Employee(CRUDMixin, Base):
     provider_id = Column(Text)
     telephone_number = Column(Text)
     date_of_birth = Column(Date)
-    time_sheets = relationship("TimeSheet", backref="employees")
+    time_sheets = relationship("TimeSheet", single_parent=True, cascade="all, delete-orphan", backref="employees")
 
     # employees = Table(__tablename__, Base.metadata, autoload=True)
 
