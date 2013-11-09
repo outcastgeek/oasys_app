@@ -141,6 +141,7 @@ def ensure_time_sheet(employee, payroll_cycle, monday, sunday, description):
         time_sheet = TimeSheet(start_date=monday, end_date=sunday)
         time_sheet.employee_id = employee.id
         time_sheet.payroll_cycle_id = payroll_cycle.id
+        time_sheet.description = description
         return time_sheet.save()
 
 

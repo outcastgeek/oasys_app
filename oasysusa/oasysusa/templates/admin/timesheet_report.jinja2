@@ -1,38 +1,37 @@
 <html>
 <head>
+    <link href="{{ request.static_url('oasysusa:static/css/bootstrap.min.css') }}">
 </head>
 <body>
-{% block body %}
-    <h2>{{ employee.first_name }}, {{ employee.last_name }}</h2>
-    <hr style="margin: 3em 0;"/>
-    <div class="greenbox">
-        <img src="http://placehold.it/1200x480&text=WEEKLY_TIMESHEET." alt="">
+<h2>{{ employee.first_name }}, {{ employee.last_name }}</h2>
+<hr style="margin: 3em 0;"/>
+<div class="greenbox">
+    <img src="http://placehold.it/1200x480&text=WEEKLY_TIMESHEET." alt="">
+</div>
+<hr style="margin: 3em 0;"/>
+<b>Time Period: {{ TUTILS.format_date(monday) }} to {{ TUTILS.format_date(sunday) }}</b>
+<hr style="margin: 3em 0;"/>
+<table width="100%" cellpadding="4" cellspacing="0">
+    {% for work_segment in timesheet_data.work_segments %}
+        <tbody style="border: 1px solid #000000;">
+        <tr>
+            <td width="33%">
+                <div>{{ work_segment[2] }}</div>
+            </td>
+            <td width="33%">
+                <div>{{ TUTILS.format_date(work_segment[1]) }}</div>
+            </td>
+            <td width="33%">
+                <div>{{ work_segment[0] }}</div>
+            </td>
+        </tr>
+        </tbody>
+    {% endfor %}
+</table>
+{% if timesheet_data.description %}
+    <div class="span12">
+        {{ timesheet_data.description }}
     </div>
-    <hr style="margin: 3em 0;"/>
-    <b>Time Period: {{ TUTILS.format_date(monday) }} to {{ TUTILS.format_date(sunday) }}</b>
-    <hr style="margin: 3em 0;"/>
-    <table width="100%" cellpadding="4" cellspacing="0">
-        {% for work_segment in timesheet_data.work_segments %}
-            <tbody style="border: 1px solid #000000;">
-            <tr>
-                <td width="33%">
-                    <div>{{ work_segment[2] }}</div>
-                </td>
-                <td width="33%">
-                    <div>{{ TUTILS.format_date(work_segment[1]) }}</div>
-                </td>
-                <td width="33%">
-                    <div>{{ work_segment[0] }}</div>
-                </td>
-            </tr>
-            {% if timesheet_data.description %}
-                <tr>
-                    <div>{{ timesheet_data.description }}</div>
-                </tr>
-            {% endif %}
-            </tbody>
-        {% endfor %}
-    </table>
-{% endblock %}
+{% endif %}
 </body>
 </html>

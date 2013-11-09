@@ -1,6 +1,8 @@
 __author__ = 'outcastgeek'
 
+import itertools
 import logging
+import transaction
 
 from beaker.cache import cache_region
 from pyramid.events import (
@@ -13,7 +15,7 @@ from pyramid.threadlocal import (
 
 from ..models import DATE_FORMAT
 
-from .bootstrap import bootstrap_data
+from ..admin.bootstrap import check_before_insert_user, check_before_insert_group
 
 logging.basicConfig()
 log = logging.getLogger(__file__)
@@ -44,7 +46,12 @@ def get_settings():
 def application_created_subscriber(event):
     settings = get_settings()
     if "sqlite" or "localhost" in settings.get('sqlalchemy.url'):
-        bootstrap_data()
+        log.warn('Provisioning the database...')
+        admins = [dict(username='admin', password='OneAdmin13', group='admin')]
+        managers = [dict(username='manager', password='ManaJa13', group='manager')]
+        with transaction.manager:
+            map(check_before_insert_group, ['user', 'employee', 'manager', 'admin'])
+            map(lambda user_creds: check_before_insert_user(**user_creds), itertools.chain(admins, managers))
 
 
 @subscriber(BeforeRender)

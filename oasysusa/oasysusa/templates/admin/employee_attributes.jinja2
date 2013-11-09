@@ -24,6 +24,7 @@
     {{ renderer.end() }}
     {{ timesheet_report_renderer.begin(request.route_url('timesheet_report'), name="timesheet-report-form", class="form-inline", target="_blank") }}
     <div class="form-group">
+        {{ timesheet_report_renderer.csrf_token() }}
         {{ timesheet_report_renderer.hidden_tag("username") }}
         {{ timesheet_report_renderer.label("Actions",  class="sr-only") }}
         {{ timesheet_report_renderer.submit('submit', 'Get weekly timesheet', class="btn btn-inverse") }}

@@ -46,6 +46,7 @@ class RootFactory(object):
                (Allow, Everyone, 'view'),
                (Allow, Authenticated, 'edit'),
                (Allow, Authenticated, 'user'),
+               (Allow, Authenticated, 'employee'),
     ]
 
     def __init__(self, request):
@@ -208,7 +209,7 @@ class Employee(CRUDMixin, Base):
         user = cls.query().filter(Employee.username == username).first()
         if not user:
             return False
-        return sha512_crypt.verify(password, user.password)
+        return sha512_crypt.verify(password, user.password), user
 
     # def save(self, employee):
     #     employee_dob = datetime.strptime(employee.date_of_birth, DATE_FORMAT)

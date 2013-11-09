@@ -10,6 +10,9 @@ from pyramid.view import (
 
 from pyramid.httpexceptions import HTTPFound
 
+from pyramid_simpleform import Form
+from pyramid_simpleform.renderers import FormRenderer
+
 from ..models import (
     Employee, Project)
 
@@ -29,7 +32,9 @@ class EmployeesManagement(object):
         current_page = int(self.request.params.get('page', 1))
         # employees = Employee.get_paginator(request, Employee.last_name, page=int(current_page), items_per_page=1)
         employees = Employee.get_paginator(self.request, Employee.username, page=int(current_page))
-        return dict(employees=employees, current_page=current_page)
+        return dict(employees=employees, current_page=current_page,
+                    bootstrap_renderer=FormRenderer(Form(self.request, defaults=dict(return_to=self.request.url))),
+                    clean_bootstrap_renderer=FormRenderer(Form(self.request, defaults=dict(return_to=self.request.url))))
 
     @view_config(request_method='POST')
     def update_employee(self):

@@ -1,10 +1,11 @@
 __author__ = 'outcastgeek'
 
-import itertools
 import logging
-import transaction
 
 from beaker.cache import region_invalidate
+
+from pyramid.httpexceptions import HTTPFound
+from pyramid.view import view_config
 
 from ..models import (
     Employee,
@@ -16,6 +17,30 @@ from ..api.timesheet_api import get_all_projects
 logging.basicConfig()
 log = logging.getLogger(__file__)
 
+
+@view_config(route_name='bootstrap_data',
+             request_method='POST',
+             permission='admin')
+def bootstrap_data(request):
+    return_to = request.POST.get('return_to')
+    log.warn('Provisioning the database...')
+    test_projects = gen_test_projects(8)
+    map(lambda proj_info: check_before_insert_project(**proj_info), test_projects)
+    test_users = gen_test_users(31)
+    map(lambda user_creds: check_before_insert_user(**user_creds), test_users)
+    return HTTPFound(location=return_to)
+
+
+@view_config(route_name='clean_bootstrap_data',
+             request_method='POST',
+             permission='admin')
+def clean_bootstrap_data(request):
+    return_to = request.POST.get('return_to')
+    test_users = gen_test_users(31)
+    map(lambda user_creds: check_before_dropping_user(**user_creds), test_users)
+    return HTTPFound(location=return_to)
+
+############################# UTILITIES ########################################
 
 def check_before_insert_group(groupname):
     existing_group = Group.query().filter(Group.groupname == groupname).first()
@@ -45,6 +70,12 @@ def check_before_insert_user(username, password, group, **kwargs):
         admin.save()
 
 
+def check_before_dropping_user(username, password, group, **kwargs):
+    existing_user = Employee.query().filter(Employee.username == username).first()
+    if existing_user:
+        existing_user.delete()
+
+
 def gen_test_projects(count):
     return map(
         lambda index: dict(name='Project%s' % index, client='client%s' % index, description='description%s' % index,
@@ -57,19 +88,11 @@ def gen_test_projects(count):
 def gen_test_users(count):
     return map(
         lambda index: dict(username='Username%s' % index, first_name='NameFirst%s' % index,
-                           last_name='NameLast%s' % index, provider='TESTING',
+                           last_name='NameLast%s' % index, provider='TESTING', provider_id='TESTING',
                            password='WordPass%s' % index, group='employee', email='test%s@employee.com' % index,
                            active=True), xrange(0, count))
 
 
-def bootstrap_data():
-    log.warn('Provisioning the database...')
-    with transaction.manager:
-        map(check_before_insert_group, ['user', 'employee', 'admin'])
-        test_projects = gen_test_projects(8)
-        map(lambda proj_info: check_before_insert_project(**proj_info), test_projects)
-        test_users = gen_test_users(31)
-        admins = [dict(username='admin', password='OneAdmin13', group='admin')]
-        map(lambda user_creds: check_before_insert_user(**user_creds),
-            itertools.chain(admins, test_users))
+
+
 

@@ -70,10 +70,11 @@ def login(request):
     if 'submit' in request.POST:
         login = request.params.get('login')
         password = request.params.get('password')
-        valid_credentials = Employee.check_password(login, password)
+        valid_credentials, employee = Employee.check_password(login, password)
         if valid_credentials:
             headers = remember(request, login)
             log.info(headers)
+            session['provider_id'] = employee.provider_id
             request.session.flash("Welcome %s!" % login)
             return HTTPFound(location=came_from,
                              headers=headers)
