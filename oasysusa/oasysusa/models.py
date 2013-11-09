@@ -158,10 +158,8 @@ class Employee(CRUDMixin, Base):
     last_name = Column(Text)
     email = Column(Text, unique=True)
     active = Column(Boolean)
-    groups = relationship("Group", single_parent=True, cascade="all, delete-orphan", secondary='employee_group',
-                          backref="employees")
-    projects = relationship("Project", single_parent=True, cascade="all, delete-orphan", secondary='employee_project',
-                            backref="employees")
+    groups = relationship("Group", secondary='employee_group', backref="employees")
+    projects = relationship("Project", secondary='employee_project', backref="employees")
     provider = Column(Text)
     address = Column(Text)
     employee_id = Column(Text)
