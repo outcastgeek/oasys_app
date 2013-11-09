@@ -38,6 +38,8 @@ def clean_bootstrap_data(request):
     return_to = request.POST.get('return_to')
     test_users = gen_test_users(31)
     map(lambda user_creds: check_before_dropping_user(**user_creds), test_users)
+    test_projects = gen_test_projects(8)
+    map(lambda proj_info: check_before_dropping_project(**proj_info), test_projects)
     return HTTPFound(location=return_to)
 
 ############################# UTILITIES ########################################
@@ -58,6 +60,14 @@ def check_before_insert_project(**kwargs):
         log.info("Adding project %s" % project_name)
         project = Project(**kwargs)
         project.save()
+
+
+def check_before_dropping_project(**kwargs):
+    project_name = kwargs.get('name')
+    existing_project = Project.query().filter(Project.name == project_name).first()
+    if existing_project:
+        region_invalidate(get_all_projects, 'long_term', 'projects')
+        existing_project.delete()
 
 
 def check_before_insert_user(username, password, group, **kwargs):
