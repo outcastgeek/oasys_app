@@ -79,10 +79,12 @@ def get_all_projects():
     projects = Project.query().all()
     return projects
 
+
 def get_project_names():
     projects = get_all_projects()
     project_names = map(lambda project: [project.name, "%s by %s" % (project.name, project.client)], projects)
     return project_names
+
 
 def get_project_by_id(project_id):
     project = itertools.ifilter(lambda project: project.id == project_id, get_all_projects()).next()
@@ -162,22 +164,28 @@ def save_work_segment(time_sheet, payroll_cycle, employee, work_segment_tuple):
 ################# UTILITIES ########################
 
 def get_timesheet_data(employee, current_day, monday, sunday):
-    existing_timesheet = get_timesheet(employee, monday, sunday)
+    existing_work_segments = get_work_segments(employee, monday, sunday)
     week_dates_map = get_week_dates_map(current_day)
-    if len(existing_timesheet) == 0:
+    if len(existing_work_segments) == 0:
         return TimesheetData(**week_dates_map)
     else:
-        timesheet = TimeSheet.query().filter(TimeSheet.id == existing_timesheet[0].time_sheet_id,
+        timesheet = TimeSheet.query().filter(TimeSheet.id == existing_work_segments[0].time_sheet_id,
                                              TimeSheet.employee_id == employee.id).first()
-        project = get_project_by_id(existing_timesheet[0].project_id)
-        timesheet_metadata = dict(Hours1=existing_timesheet[0].hours if len(existing_timesheet) > 0 else 0,
-                                  Hours2=existing_timesheet[1].hours if len(existing_timesheet) > 1 else 0,
-                                  Hours3=existing_timesheet[2].hours if len(existing_timesheet) > 2 else 0,
-                                  Hours4=existing_timesheet[3].hours if len(existing_timesheet) > 3 else 0,
-                                  Hours5=existing_timesheet[4].hours if len(existing_timesheet) > 4 else 0,
-                                  Hours6=existing_timesheet[5].hours if len(existing_timesheet) > 5 else 0,
-                                  Hours7=existing_timesheet[6].hours if len(existing_timesheet) > 6 else 0,
-                                  project=project.name,
+        projects = map(lambda existing_work_segment: get_project_by_id(existing_work_segment.project_id), existing_work_segments)
+        timesheet_metadata = dict(Hours1=existing_work_segments[0].hours if len(existing_work_segments) > 0 else 0,
+                                  Hours2=existing_work_segments[1].hours if len(existing_work_segments) > 1 else 0,
+                                  Hours3=existing_work_segments[2].hours if len(existing_work_segments) > 2 else 0,
+                                  Hours4=existing_work_segments[3].hours if len(existing_work_segments) > 3 else 0,
+                                  Hours5=existing_work_segments[4].hours if len(existing_work_segments) > 4 else 0,
+                                  Hours6=existing_work_segments[5].hours if len(existing_work_segments) > 5 else 0,
+                                  Hours7=existing_work_segments[6].hours if len(existing_work_segments) > 6 else 0,
+                                  project1=projects[0].name if len(projects) > 0 else None,
+                                  project2=projects[1].name if len(projects) > 1 else None,
+                                  project3=projects[2].name if len(projects) > 2 else None,
+                                  project4=projects[3].name if len(projects) > 3 else None,
+                                  project5=projects[4].name if len(projects) > 4 else None,
+                                  project6=projects[5].name if len(projects) > 5 else None,
+                                  project7=projects[6].name if len(projects) > 6 else None,
                                   description=timesheet.description if timesheet else None)
         default_for_week = dict(week_dates_map.items() + timesheet_metadata.items())
         return TimesheetData(**default_for_week)
@@ -197,17 +205,24 @@ def get_week_dates_map(day):
     return week_dates_map
 
 
-def get_timesheet(employee, monday, sunday):
+def get_work_segments(employee, monday, sunday):
     work_segments = get_all_work_segments_in_range(employee, monday, sunday)
     return work_segments
 
 
 class TimesheetData():
-    def __init__(self, project=None, Hours1=None, Hours2=None, Hours3=None, Hours4=None,
+    def __init__(self, project1=None, project2=None, project3=None, project4=None, project5=None, project6=None,
+                 project7=None, Hours1=None, Hours2=None, Hours3=None, Hours4=None,
                  Hours5=None, Hours6=None,
                  Hours7=None, Day1=None, Day2=None, Day3=None, Day4=None,
                  Day5=None, Day6=None, Day7=None, description=None):
-        self.project = project
+        self.project1 = project1
+        self.project2 = project2
+        self.project3 = project3
+        self.project4 = project4
+        self.project5 = project5
+        self.project6 = project6
+        self.project7 = project7
         self.Hours1 = Hours1
         self.Hours2 = Hours2
         self.Hours3 = Hours3
@@ -226,11 +241,11 @@ class TimesheetData():
 
     @property
     def work_segments(self):
-        return [(self.Hours1, date_string_to_date(self.Day1), self.project),
-                (self.Hours2, date_string_to_date(self.Day2), self.project),
-                (self.Hours3, date_string_to_date(self.Day3), self.project),
-                (self.Hours4, date_string_to_date(self.Day4), self.project),
-                (self.Hours5, date_string_to_date(self.Day5), self.project),
-                (self.Hours6, date_string_to_date(self.Day6), self.project),
-                (self.Hours7, date_string_to_date(self.Day7), self.project)]
+        return [(self.Hours1, date_string_to_date(self.Day1), self.project1),
+                (self.Hours2, date_string_to_date(self.Day2), self.project2),
+                (self.Hours3, date_string_to_date(self.Day3), self.project3),
+                (self.Hours4, date_string_to_date(self.Day4), self.project4),
+                (self.Hours5, date_string_to_date(self.Day5), self.project5),
+                (self.Hours6, date_string_to_date(self.Day6), self.project6),
+                (self.Hours7, date_string_to_date(self.Day7), self.project7)]
 

@@ -68,7 +68,13 @@ def timesheet_form(request):
 class TimesheetDataSchema(Schema):
     allow_extra_fields = True
     filter_extra_fields = True
-    project = NotEmpty
+    project1 = NotEmpty
+    project2 = NotEmpty
+    project3 = NotEmpty
+    project4 = NotEmpty
+    project5 = NotEmpty
+    project6 = NotEmpty
+    project7 = NotEmpty
     Hours1 = NotEmpty
     Hours2 = NotEmpty
     Hours3 = NotEmpty

@@ -27,13 +27,14 @@
         <fieldset>
             <legend>{{ TUTILS.format_date(monday) }} to {{ TUTILS.format_date(sunday) }}</legend>
             {{ renderer.csrf_token() }}
-            {{ renderer.select("project", projects, selected_value=None, id="project", class="form-control") }}
             <div class="form-group">
                 {{ renderer.label("Monday",  class="sr-only") }}
                 {{ renderer.label("Hours", class="span1 pull-right") }}
                 {{ renderer.errorlist("Hours1") }}
                 {{ renderer.text("Hours1", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
                 {{ renderer.hidden_tag("Day1") }}
+                {{ renderer.select("project1", projects, selected_value=None, id="project1", class="form-control") }}
+                <hr>
             </div>
             <div class="form-group">
                 {{ renderer.label("Tuesday",  class="sr-only") }}
@@ -41,6 +42,8 @@
                 {{ renderer.errorlist("Hours2") }}
                 {{ renderer.text("Hours2", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
                 {{ renderer.hidden_tag("Day2") }}
+                {{ renderer.select("project2", projects, selected_value=None, id="project2", class="form-control") }}
+                <hr>
             </div>
             <div class="form-group">
                 {{ renderer.label("Wednesday",  class="sr-only") }}
@@ -48,6 +51,8 @@
                 {{ renderer.errorlist("Hours3") }}
                 {{ renderer.text("Hours3", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
                 {{ renderer.hidden_tag("Day3") }}
+                {{ renderer.select("project3", projects, selected_value=None, id="project3", class="form-control") }}
+                <hr>
             </div>
             <div class="form-group">
                 {{ renderer.label("Thursday",  class="sr-only") }}
@@ -55,6 +60,8 @@
                 {{ renderer.errorlist("Hours4") }}
                 {{ renderer.text("Hours4", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
                 {{ renderer.hidden_tag("Day4") }}
+                {{ renderer.select("project4", projects, selected_value=None, id="project4", class="form-control") }}
+                <hr>
             </div>
             <div class="form-group">
                 {{ renderer.label("Friday",  class="sr-only") }}
@@ -62,6 +69,8 @@
                 {{ renderer.errorlist("Hours5") }}
                 {{ renderer.text("Hours5", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
                 {{ renderer.hidden_tag("Day5") }}
+                {{ renderer.select("project5", projects, selected_value=None, id="project5", class="form-control") }}
+                <hr>
             </div>
             <div class="form-group">
                 {{ renderer.label("Saturday",  class="sr-only") }}
@@ -69,6 +78,8 @@
                 {{ renderer.errorlist("Hours6") }}
                 {{ renderer.text("Hours6", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
                 {{ renderer.hidden_tag("Day6") }}
+                {{ renderer.select("project6", projects, selected_value=None, id="project6", class="form-control") }}
+                <hr>
             </div>
             <div class="form-group">
                 {{ renderer.label("Sunday",  class="sr-only") }}
@@ -76,6 +87,7 @@
                 {{ renderer.errorlist("Hours7") }}
                 {{ renderer.text("Hours7", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
                 {{ renderer.hidden_tag("Day7") }}
+                {{ renderer.select("project7", projects, selected_value=None, id="project7", class="form-control") }}
             </div>
             <hr>
             <div class="form-group">
