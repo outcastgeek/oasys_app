@@ -4,7 +4,9 @@ import itertools
 import logging
 import transaction
 
-from beaker.cache import cache_region
+from beaker.cache import (
+    cache_region,
+    region_invalidate)
 from pyramid.events import (
     subscriber,
     BeforeRender,
@@ -44,6 +46,7 @@ def get_settings():
 
 @subscriber(ApplicationCreated)
 def application_created_subscriber(event):
+    region_invalidate(get_settings, 'long_term', 'settings')
     # pass
     settings = get_settings()
     if "sqlite" or "localhost" in settings.get('sqlalchemy.url'):
