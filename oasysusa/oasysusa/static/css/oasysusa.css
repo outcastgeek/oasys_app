@@ -391,6 +391,20 @@ div.puplebox {
     background-color: #0f20ff;
     height: 1px;
 }
+.timesheet-form input.invalid.dirty {
+    background-color: #FA787E;
+}
+
+.timesheet-form input.valid.dirty {
+    background-color: #78FA89;
+}
+.timesheet-form textarea.invalid.dirty {
+    background-color: #FA787E;
+}
+
+.timesheet-form textarea.valid.dirty {
+    background-color: #78FA89;
+}
 .employee-attributes {
     max-width: 440px;
     padding: 19px 29px 29px;
@@ -422,6 +436,14 @@ div.puplebox {
 }
 
 .form-base input.valid.dirty {
+    background-color: #78FA89;
+}
+
+.form-base textarea.invalid.dirty {
+    background-color: #FA787E;
+}
+
+.form-base textarea.valid.dirty {
     background-color: #78FA89;
 }
 

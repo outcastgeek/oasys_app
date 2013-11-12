@@ -61,6 +61,22 @@
                                       :source-map "oasysusa/oasysusa/static/js/project.js.map"
                                       :optimizations :advanced
                                       :pretty-print false}}
+                         {:id "timesheet-form-dev"
+                          :source-paths ["src-cljs/timesheet/form", "src-cljs/utils"]
+;                          :externs ["externs/jquery-1.9.js"]
+                          :compiler {
+                                      :output-to "oasysusa/oasysusa/static/js/timesheet-form-dev.js"
+                                      :optimizations :simple
+                                      :pretty-print true}}
+                         {:id "timesheet-form"
+                          :source-paths ["src-cljs/timesheet/form", "src-cljs/utils"]
+;                          :externs ["externs/jquery-1.9.js"]
+                          :compiler {
+                                      ;                                      :output-dir "oasysusa/oasysusa/static/js"
+                                      :output-to "oasysusa/oasysusa/static/js/timesheet-form.js"
+                                      :source-map "oasysusa/oasysusa/static/js/timesheet-form.js.map"
+                                      :optimizations :advanced
+                                      :pretty-print false}}
                          {:id "hello"
                           :source-paths ["node-cljs/hello"]
                           :externs []
