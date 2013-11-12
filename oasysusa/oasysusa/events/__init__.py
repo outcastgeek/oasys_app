@@ -2,15 +2,17 @@ __author__ = 'outcastgeek'
 
 import itertools
 import logging
+import pymongo
 import transaction
 
 from beaker.cache import (
     cache_region,
     region_invalidate)
+from gridfs import GridFS
 from pyramid.events import (
     subscriber,
     BeforeRender,
-    ApplicationCreated)
+    ApplicationCreated, NewRequest)
 from pyramid.threadlocal import (
     get_current_registry,
     get_current_request)
@@ -56,6 +58,16 @@ def application_created_subscriber(event):
         with transaction.manager:
             map(check_before_insert_group, ['user', 'employee', 'manager', 'admin'])
             map(lambda user_creds: check_before_insert_user(**user_creds), itertools.chain(admins, managers))
+
+
+@subscriber(NewRequest)
+def add_mongo(event):
+    settings = get_settings()
+    mongo_url = settings.get('mongo.url')
+    mongo_conn = pymongo.MongoClient(mongo_url)
+    request = get_current_request()
+    request.db = mongo_conn['client_timesheets']
+    request.fs = GridFS(request.db)
 
 
 @subscriber(BeforeRender)
