@@ -53,8 +53,8 @@ def setup_packages(local='retina'):
     sudo('apt-get update')
     package_ensure('python-software-properties')
     sudo('add-apt-repository --yes ppa:gophers/go')
-    # sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10')
-    # sudo('echo "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen" | tee -a /etc/apt/sources.list')
+    sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10')
+    sudo('echo "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen" | tee -a /etc/apt/sources.list')
     sudo('apt-get update')
     package_ensure('build-essential')
     package_ensure('curl')
@@ -67,7 +67,7 @@ def setup_packages(local='retina'):
     #package_ensure('postgis')
     #package_ensure('postgresql-contrib')
     package_ensure('postgresql-server-dev-all')
-    # package_ensure('mongodb-10gen')
+    package_ensure('mongodb-10gen')
     package_ensure('redis-server')
     package_ensure('libmemcached-dev')
     package_ensure('memcached')
@@ -145,7 +145,7 @@ def put_py_requirements(local='retina'):
 
 def install_python_packages(local='retina'):
     puts(green('Installing Python packages'))
-    put_py_requirements()
+    put_py_requirements(local)
     sudo('pip install --upgrade setuptools', user='root')
     sudo('pip install -r /etc/requirements.txt --upgrade', user='root')
 
@@ -328,6 +328,7 @@ def up_start():
     # upstart_ensure('mongodb')
     upstart_ensure('redis-server')
     # upstart_ensure('memcached')
+    upstart_ensure('mongodb')
     #upstart_ensure('oasysusa')
     # kill_webapp()
     with cd('/home/oasysusa/oasys_corp'):
