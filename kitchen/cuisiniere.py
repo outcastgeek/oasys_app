@@ -327,4 +327,7 @@ def up_start():
     # upstart_ensure('redis-server')
     # upstart_ensure('memcached')
     upstart_ensure('mongodb')
-    upstart_ensure('oasysusa')
+    # upstart_ensure('oasysusa')
+    with cd('/home/oasysusa/oasys_corp'):
+        sudo('memcached &', user='oasysusa')
+        sudo('/etc/init.d/oasysusa restart', user='root')
