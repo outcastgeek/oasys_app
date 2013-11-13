@@ -251,22 +251,6 @@ def migrate_oasys_db():
     with cd('/home/oasysusa/oasys_corp/oasysusa'):
         sudo('/home/oasysusa/ENV/bin/python run-prod.py -y', user='oasysusa')
 
-def kill_webapp():
-    try:
-        run('ps -ef | grep gunicorn')
-        #run('kill -9 $(ps -ef | grep uwsgi | awk \'{print $2}\')')
-        # run('kill -9 $(ps -ef | grep oasysusa | awk \'{print $2}\')')
-        run('pkill gunicorn')
-    except:
-        print 'Oops!!!!'
-
-def drop_and_reinstall():
-    kill_webapp()
-    sudo('rm -r /home/oasysusa/ENV /home/oasysusa/oasys_corp')
-    create_virtual_env()
-    get_oasys()
-    up_start()
-
 def tail_nginx():
     run('tail -f /home/oasysusa/oasys_corp/logs/nginx.access.log')
 
@@ -317,20 +301,30 @@ def refresh_oasys_from_local(local='retina'):
     sudo('rm -r /tmp/oasysusa')
     install_app()
 
+def drop_and_reinstall():
+    stop_services()
+    sudo('rm -r /home/oasysusa/ENV /home/oasysusa/oasys_corp')
+    create_virtual_env()
+    get_oasys()
+    up_start()
+
 def clean_logs():
     with cd('/home/oasysusa/oasys_corp/logs'):
         run('rm -r *.log')
 
+def stop_services():
+    sudo('service memcached stop')
+    sudo('service redis-server stop')
+    sudo('service mongodb stop')
+    sudo('service oasysusa stop')
+
+def service_status(service_name):
+    sudo('service %s status' % service_name)
+
 def up_start():
     # run('tree /home/oasysusa/oasys_corp/oasysusa/oasysusa/static')
-    run('nginx -s reload')
     upstart_ensure('nginx')
-    # upstart_ensure('mongodb')
-    upstart_ensure('redis-server')
+    # upstart_ensure('redis-server')
     # upstart_ensure('memcached')
     upstart_ensure('mongodb')
-    #upstart_ensure('oasysusa')
-    # kill_webapp()
-    with cd('/home/oasysusa/oasys_corp'):
-        sudo('memcached &', user='oasysusa')
-        sudo('/etc/init.d/oasysusa restart', user='root')
+    upstart_ensure('oasysusa')
