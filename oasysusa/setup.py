@@ -51,6 +51,8 @@ setup(name='oasysusa',
       test_suite='oasysusa',
       install_requires=requires,
       entry_points="""\
+      [beaker.backends]
+      mongodb = oasysusa.sessions_storage:MongoDBNamespaceManager
       [paste.app_factory]
       main = oasysusa:main
       [console_scripts]
