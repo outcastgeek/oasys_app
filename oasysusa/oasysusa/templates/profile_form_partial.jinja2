@@ -14,10 +14,10 @@
     {{ renderer.text("last_name", placeholder="last_name", size=30, class="input-block-level", required="required", form_input="form_input") }}
     {{ renderer.label("Email") }}
     {{ renderer.errorlist("email") }}
-    {{ renderer.text("email", size=30, placeholder="email@emailprovider.com", class="input-block-level", required="required", form_input="form_input") }}
+    {{ renderer.text("email", size=30, type="email", placeholder="email@emailprovider.com", class="input-block-level", required="required", form_input="form_input") }}
     {{ renderer.label("Date Of Birth") }}
     {{ renderer.errorlist("date_of_birth") }}
-    {{ renderer.text("date_of_birth", placeholder="01/01/0001", size=30, class="input-block-level", required="required",
+    {{ renderer.text("date_of_birth", type="date", placeholder="01/01/0001", size=30, class="input-block-level", required="required",
                                   ng_model="user.date_of_birth", form_input="form_input", input_type="date") }}
     {{ renderer.label("Address") }}
     {{ renderer.errorlist("address") }}

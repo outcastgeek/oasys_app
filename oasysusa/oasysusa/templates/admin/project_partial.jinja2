@@ -26,13 +26,13 @@
 
 {{ renderer.label("Description",  class="sr-only") }}
 {{ renderer.errorlist("description") }}
-{{ renderer.textarea("description", placeholder="description", class="form-control input-block-level", rows="4", cols="50",
+{{ renderer.textarea("description", placeholder="description", class="field span12", rows="4", cols="50",
                                                     required="required", form_input="form_input", class="form-control") }}
 </div>
 <div class="form-group">
 {{ renderer.label("Email",  class="sr-only") }}
 {{ renderer.errorlist("email") }}
-{{ renderer.text("email", size=30, placeholder="email@emailprovider.com", class="form-control input-block-level", required="required", form_input="form_input") }}
+{{ renderer.text("email", type="email", size=30, placeholder="email@emailprovider.com", class="form-control input-block-level", required="required", form_input="form_input") }}
 </div>
 <div class="form-group">
 {{ renderer.label("Telephone Number",  class="sr-only") }}
@@ -57,7 +57,7 @@
 <div class="form-group">
 {{ renderer.label("Manager's Email",  class="sr-only") }}
 {{ renderer.errorlist("manager_email") }}
-{{ renderer.text("manager_email", size=30, placeholder="manager@somwhere.com", class="form-control input-block-level", required="required", form_input="form_input") }}
+{{ renderer.text("manager_email", type="email", size=30, placeholder="manager@somwhere.com", class="form-control input-block-level", required="required", form_input="form_input") }}
 </div>
 <button id="clear" class="btn btn-large">Clear</button>
 {{ renderer.submit('submit', 'Save', class="btn btn-large btn-primary") }}

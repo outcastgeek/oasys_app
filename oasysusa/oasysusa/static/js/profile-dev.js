@@ -21105,6 +21105,12 @@ oasysusa.utils.dom.attr = function(a, b) {
 oasysusa.utils.dom.set_attr_BANG_ = function(a, b, c) {
   return domina.set_attr_BANG_.call(null, a, b, c)
 };
+oasysusa.utils.dom.add_class_BANG_ = function(a, b) {
+  return domina.add_class_BANG_.call(null, a, b)
+};
+oasysusa.utils.dom.remove_class_BANG_ = function(a, b) {
+  return domina.remove_class_BANG_.call(null, a, b)
+};
 oasysusa.utils.dom.prevent_default = function(a) {
   return domina.events.prevent_default.call(null, a)
 };

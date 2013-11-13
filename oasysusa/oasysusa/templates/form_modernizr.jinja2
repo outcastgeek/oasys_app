@@ -1,0 +1,11 @@
+<script>Modernizr.load({
+    test: Modernizr.inputtypes.date,
+    nope: ['http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js',
+        'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css'],
+    complete: function () {
+        $('input[type=date]').datepicker({
+            dateFormat: 'mm/dd/yy'
+        });
+    }
+});
+</script>

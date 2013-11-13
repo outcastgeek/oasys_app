@@ -40,6 +40,14 @@
   ;(jq/attr ($ el) prop val)
   (dom/set-attr! el prop val))
 
+(defn add-class! [el val]
+  ;Add a JQ version here
+  (dom/add-class! el val))
+
+(defn remove-class! [el val]
+  ;Add a JQ version here
+  (dom/remove-class! el val))
+
 (defn prevent-default [evt]
   ;(.preventDefault evt)
   (ev/prevent-default evt))

@@ -17,6 +17,7 @@
 {% endblock %}
 
 {% block page_js %}
+    {% include "templates/form_modernizr.jinja2" %}
     {% if cljs_debug %}
         <script src="{{ request.static_url('oasysusa:static/js/repl.js') }}"></script>
         <script src="{{ request.static_url('oasysusa:static/js/profile-dev.js') }}"></script>
