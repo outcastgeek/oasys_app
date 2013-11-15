@@ -52,12 +52,12 @@
             </button>
             <a class="navbar-brand" href="/">{{ project }}</a>
         </div><!-- /.navbar -->
-        <ul class="nav navbar-nav">
-            <li  class="active"><a href="#Updates">Updates</a></li>
-            <li><a href="/contact">Contact</a></li>
-        </ul>
         <!-- Responsive Navbar Part 2: Place all navbar contents you want collapsed withing .navbar-collapse.collapse. -->
         <div class="collapse navbar-collapse" id="menu-items">
+            <ul class="nav navbar-nav">
+                <li  class="active"><a href="#Updates">Updates</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if USER_ID %}
                     <li><a href="/timesheet">Timesheet</a></li>
