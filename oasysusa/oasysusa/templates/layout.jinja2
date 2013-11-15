@@ -16,7 +16,7 @@
 <!-- Optional theme -->
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css">
 
-{% assets filters="cssmin,datauri", output="css/oasysusa.min.css", "css/oasysusa.css" %}
+{% assets filters="pyscss,cssmin,datauri", output="css/oasysusa.min.css", "css/oasysusa.scss" %}
     <link href="{{ ASSET_URL }}" rel="stylesheet">
 {% endassets %}
 

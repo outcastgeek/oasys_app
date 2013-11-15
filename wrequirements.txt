@@ -63,6 +63,7 @@ mock==1.0.1
 
 #static content
 webassets==0.9
+pyScss==1.2.0.post3
 pyramid_webassets==0.7.1
 closure==20121212
 yuicompressor==2.4.8
