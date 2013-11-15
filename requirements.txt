@@ -62,13 +62,14 @@ behave==1.2.3
 mock==1.0.1
 
 #static content
-webassets==0.8
+webassets==0.9
+pyramid_webassets==0.7.1
 closure==20121212
-yuicompressor==2.4.7
-jsmin==2.0.3
+yuicompressor==2.4.8
+jsmin==2.0.8
 slimmer==0.1.30
 cssutils==0.9.10
-cssmin==0.1.4
+cssmin==0.2.0
 
 #background
 pymongo==2.5.2

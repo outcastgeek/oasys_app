@@ -9,8 +9,8 @@ CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
 requires = [
     'pyramid',
     'pyramid_jinja2',
+    'pyramid_webassets',
     'pyramid_beaker',
-    'dogpile.cache',
     'pyramid_simpleform',
     'pyramid_deform',
     'SQLAlchemy',

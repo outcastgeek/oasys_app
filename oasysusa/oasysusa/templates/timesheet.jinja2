@@ -29,7 +29,7 @@
             {{ renderer.csrf_token() }}
             <div class="form-group">
                 {{ renderer.label("Monday",  class="sr-only") }}
-                {{ renderer.label("Hours", class="span1 pull-right") }}
+                {{ renderer.label("Hours", class="col-xs-1 pull-right") }}
                 {{ renderer.errorlist("Hours1") }}
                 {{ renderer.text("Hours1", type="number", min="0", max="24", step="1", value="0", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
                 {{ renderer.hidden_tag("Day1") }}
@@ -38,7 +38,7 @@
             </div>
             <div class="form-group">
                 {{ renderer.label("Tuesday",  class="sr-only") }}
-                {{ renderer.label("Hours", class="span1 pull-right") }}
+                {{ renderer.label("Hours", class="col-xs-1 pull-right") }}
                 {{ renderer.errorlist("Hours2") }}
                 {{ renderer.text("Hours2", type="number", min="0", max="24", step="1", value="0", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
                 {{ renderer.hidden_tag("Day2") }}
@@ -47,7 +47,7 @@
             </div>
             <div class="form-group">
                 {{ renderer.label("Wednesday",  class="sr-only") }}
-                {{ renderer.label("Hours", class="span1 pull-right") }}
+                {{ renderer.label("Hours", class="col-xs-1 pull-right") }}
                 {{ renderer.errorlist("Hours3") }}
                 {{ renderer.text("Hours3", type="number", min="0", max="24", step="1", value="0", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
                 {{ renderer.hidden_tag("Day3") }}
@@ -56,7 +56,7 @@
             </div>
             <div class="form-group">
                 {{ renderer.label("Thursday",  class="sr-only") }}
-                {{ renderer.label("Hours", class="span1 pull-right") }}
+                {{ renderer.label("Hours", class="col-xs-1 pull-right") }}
                 {{ renderer.errorlist("Hours4") }}
                 {{ renderer.text("Hours4", type="number", min="0", max="24", step="1", value="0", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
                 {{ renderer.hidden_tag("Day4") }}
@@ -65,7 +65,7 @@
             </div>
             <div class="form-group">
                 {{ renderer.label("Friday",  class="sr-only") }}
-                {{ renderer.label("Hours", class="span1 pull-right") }}
+                {{ renderer.label("Hours", class="col-xs-1 pull-right") }}
                 {{ renderer.errorlist("Hours5") }}
                 {{ renderer.text("Hours5", type="number", min="0", max="24", step="1", value="0", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
                 {{ renderer.hidden_tag("Day5") }}
@@ -74,7 +74,7 @@
             </div>
             <div class="form-group">
                 {{ renderer.label("Saturday",  class="sr-only") }}
-                {{ renderer.label("Hours", class="span1 pull-right") }}
+                {{ renderer.label("Hours", class="col-xs-1 pull-right") }}
                 {{ renderer.errorlist("Hours6") }}
                 {{ renderer.text("Hours6", type="number", min="0", max="24", step="1", value="0", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
                 {{ renderer.hidden_tag("Day6") }}
@@ -83,7 +83,7 @@
             </div>
             <div class="form-group">
                 {{ renderer.label("Sunday",  class="sr-only") }}
-                {{ renderer.label("Hours", class="span1 pull-right") }}
+                {{ renderer.label("Hours", class="col-xs-1 pull-right") }}
                 {{ renderer.errorlist("Hours7") }}
                 {{ renderer.text("Hours7", type="number", min="0", max="24", step="1", value="0", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
                 {{ renderer.hidden_tag("Day7") }}

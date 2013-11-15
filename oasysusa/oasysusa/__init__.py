@@ -52,6 +52,7 @@ def main(global_config, **settings):
                           root_factory='oasysusa.models.RootFactory')
 
     # scan for config
+    config.include('.views.ext')
     config.include('.forms')
     config.include('.renderers')
     config.include('.api', route_prefix='/api')

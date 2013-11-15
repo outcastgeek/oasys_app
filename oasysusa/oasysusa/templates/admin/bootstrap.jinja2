@@ -1,11 +1,11 @@
 
-{{ clean_bootstrap_renderer.begin(request.route_url('clean_bootstrap_data'), name="clean-bootstrap-data-report-form", class="span4 pull-left") }}
+{{ clean_bootstrap_renderer.begin(request.route_url('clean_bootstrap_data'), name="clean-bootstrap-data-report-form", class="col-xs-4 pull-left") }}
     {{ clean_bootstrap_renderer.csrf_token() }}
     {{ clean_bootstrap_renderer.hidden_tag("return_to") }}
     {{ clean_bootstrap_renderer.submit('submit', 'Clean Test Data', class="btn btn-small btn-danger") }}
 {{ clean_bootstrap_renderer.end() }}
 
-{{ bootstrap_renderer.begin(request.route_url('bootstrap_data'), name="bootstrap-data-report-form", class="span4 pull-right") }}
+{{ bootstrap_renderer.begin(request.route_url('bootstrap_data'), name="bootstrap-data-report-form", class="col-xs-4 pull-right") }}
     {{ bootstrap_renderer.csrf_token() }}
     {{ bootstrap_renderer.hidden_tag("return_to") }}
     {{ bootstrap_renderer.submit('submit', 'Setup Test Data', class="btn btn-small btn-warning") }}

@@ -14,6 +14,14 @@
 {#    </style>#}
 {#{% endblock %}#}
 
+{% block css %}
+    <style>
+        body {
+            padding-top: 80px;
+        }
+    </style>
+{% endblock %}
+
 {% block header %}
 <!-- Carousel
 ================================================== -->
@@ -59,19 +67,19 @@
 {% block body %}
 <!-- Three columns of text below the carousel -->
 <div class="row">
-    <div class="span4 contenu">
+    <div class="col-xs-4 contenu">
 {#        <img class="img-circle" data-src="holder.js/140x140">#}
         <h2>Employing Oasys</h2>
         <p>Whether it is redesigning the building blocks of existing project or starting new initiatives, Oasys will help you identify the right people and services to deliver results on your terms.</p>
 {#        <p><a class="btn" href="#">View details &raquo;</a></p>#}
     </div><!-- /.span4 -->
-    <div class="span4 contenu">
+    <div class="col-xs-4 contenu">
 {#        <img class="img-circle" data-src="holder.js/140x140">#}
         <h2>Clients & Services</h2>
         <p>Clients return to employ our services time and again because they have always seen high performance and outstanding results.</p>
 {#        <p><a class="btn" href="#">View details &raquo;</a></p>#}
     </div><!-- /.span4 -->
-    <div class="span4 contenu">
+    <div class="col-xs-4 contenu">
 {#        <img class="img-circle" data-src="holder.js/140x140">#}
         <h2>Working @ Oasys</h2>
         <p>Employees enjoy working with us because we provide growing career opportunities in challenging roles with excellent employee benefits.</p>

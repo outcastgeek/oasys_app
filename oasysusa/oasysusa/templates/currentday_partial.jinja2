@@ -1,11 +1,11 @@
 
 <div class="form-group">
-    {{ prev_renderer.begin(request.route_url('current_day', direction='prev'), class="span4 pull-left") }}
+    {{ prev_renderer.begin(request.route_url('current_day', direction='prev'), class="col-xs-4 pull-left") }}
     {{ prev_renderer.csrf_token() }}
     {{ prev_renderer.hidden_tag("return_to") }}
     {{ prev_renderer.submit('submit', '<< Previous', class="btn btn-inverse") }}
     {{ prev_renderer.end() }}
-    {{ next_renderer.begin(request.route_url('current_day', direction='next'), class="span4 pull-right") }}
+    {{ next_renderer.begin(request.route_url('current_day', direction='next'), class="col-xs-4 pull-right") }}
     {{ next_renderer.csrf_token() }}
     {{ next_renderer.hidden_tag("return_to") }}
     {{ next_renderer.submit('submit', 'Next >>', class="btn btn-inverse") }}

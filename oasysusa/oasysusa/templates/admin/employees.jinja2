@@ -16,22 +16,24 @@
     {{ currentdayform(request, True)|safe }}
     {% include "templates/admin/bootstrap.jinja2" %}
     {% if employees.items %}
-        <div class="pagination">
+        <div>
             <h2>Employees</h2>
             <hr>
-            {{ employees.pager(link_attr={"class": "btn small"},
-                           curpage_attr={"class": "btn primary small disabled"},
-                           dotdot_attr={"class": "btn small disabled"}) }}
+            <div class="pager">
+                {{ employees.pager(symbol_previous="«", symbol_next="»") }}
+            </div>
         </div>
+
+        <hr>
 
         {% for employee in employees.items %}
             {{ ea_attrs_form(request, employee, current_page) | safe }}
         {% endfor %}
 
-        <div class="pagination">
-            {{ employees.pager(link_attr={"class": "btn small"},
-                           curpage_attr={"class": "btn primary small disabled"},
-                           dotdot_attr={"class": "btn small disabled"}) }}
+        <hr>
+
+        <div class="pager">
+            {{ employees.pager(symbol_previous="«", symbol_next="»") }}
         </div>
     {% endif %}
 {% endblock %}
