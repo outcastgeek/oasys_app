@@ -136,14 +136,9 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
 
-<script>
-    !function ($) {
-        $(function(){
-            // carousel demo
-            $('#myCarousel').carousel()
-        })
-    }(window.jQuery)
-</script>
+{% assets filters="rjsmin,datauri", output="js/carousel.min.js", "js/carousel.js" %}
+    <script src="{{ ASSET_URL }}"></script>
+{% endassets %}
 {% assets filters="rjsmin,datauri", output="js/holder.min.js", "js/holder.js" %}
     <script src="{{ ASSET_URL }}"></script>
 {% endassets %}
