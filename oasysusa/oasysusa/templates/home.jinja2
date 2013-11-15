@@ -120,3 +120,9 @@
 <!-- /END THE FEATURETTES -->
 
 {% endblock %}
+
+{% block page_js %}
+    {% assets filters="rjsmin,datauri", output="js/carousel.min.js", "js/carousel.js" %}
+        <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+{% endblock %}
