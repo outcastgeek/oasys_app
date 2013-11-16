@@ -35,13 +35,19 @@
                     <ul class="nav nav-list">
                         <li class="divider"></li>
                         <li class="divider"></li>
-                        <li class="nav-header">Third party authentication:</li>
+                        <li class="nav-header"><h2>Third party authentication:</h2></li>
                         <li class="divider"></li>
                         <li>
                             {#                    {{ request.persona_button }}#}
                             {% for provider in providers_info %}
                                 <form action="{{ provider.login_url }}" method="post">
-                                    <button class="btn btn-large btn-primary" type="submit">{{ provider.provider_name }}</button>
+                                    <a type="submit">
+                                        <div class="row">
+                                            <div class="col-xs-4 well box">
+                                                <h2>{{ provider.provider_name }}</h2>
+                                            </div>
+                                        </div>
+                                    </a>
                                 </form>
                             {% endfor %}
                         </li>

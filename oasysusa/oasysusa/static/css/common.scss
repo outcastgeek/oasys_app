@@ -45,11 +45,25 @@ div.yellowbox {
 
 div.cyanbox {
   background-color: cyan;
-  @include box_mixin;
+  @include box_mixi;
 }
 
 div.puplebox {
   background-color: purple;
+  @include box_mixin;
+}
+
+div.box {
+  color: #ffffff;
+  text-shadow: -1px 0 lightgray, -1px 0 #5760ff;
+  background: #1F7F68;
+  @include box_mixin;
+}
+
+div.box2 {
+  color: #ffffff;
+  text-shadow: -1px 0 lightgray, -1px 0 #5760ff;
+  background: green;
   @include box_mixin;
 }
 
@@ -119,26 +133,15 @@ div.puplebox {
 
 @import "section_common";
 
-section.h1 {
-  @include section_heading_mixin;
-}
-
-section.h2 {
-  @include section_heading_mixin;
-}
-
-#notifications {
-  background: beige;
-  @include section_mixin;
-}
-
 #contact {
-  background: darkgray;
+  background: #3FFFD1;
   margin-bottom: 10px;
   @include section_mixin;
 }
 
 #footer {
-  background: beige;
+  color: #ffffff;
+  text-shadow: -1px 0 lightgray, -1px 0 #5760ff;
+  background: #1F7F68;
   @include section_mixin;
 }

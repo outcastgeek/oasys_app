@@ -5,26 +5,28 @@
 #oasys {
   color: white;
   text-shadow: -1px 0 lightgray, -1px 0 #5760ff;
-  background: #ff4c4a;
+  background: #1F7F68;
   @include section_mixin;
 }
 
 #technologies {
-  color: #ffffff;
+  //background: #8BFFE3;
+  color: white;
   text-shadow: -1px 0 lightgray, -1px 0 #5760ff;
-  background: #1fb49d;
+  background: #B23208;
   @include section_mixin;
 }
 
 #inc {
+  //background: #3FFFD1;
   color: white;
   text-shadow: -1px 0 lightgray, -1px 0 #5760ff;
-  background: #5b8059;
+  background: #467F72;
   @include section_mixin;
 }
 
-#work {
-  background: #ffa272;
-  @include section_mixin;
-}
+//#work {
+//  background: #467F72;
+//  @include section_mixin;
+//}
 
