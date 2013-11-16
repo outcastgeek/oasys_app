@@ -41,13 +41,9 @@
                             {#                    {{ request.persona_button }}#}
                             {% for provider in providers_info %}
                                 <form action="{{ provider.login_url }}" method="post">
-                                    <a type="submit">
-                                        <div class="row">
-                                            <div class="col-xs-4 well box">
-                                                <h2>{{ provider.provider_name }}</h2>
-                                            </div>
-                                        </div>
-                                    </a>
+                                    <button type="submit" class="col-xs-4 well box">
+                                        <h2>{{ provider.provider_name }}</h2>
+                                    </button>
                                 </form>
                             {% endfor %}
                         </li>
