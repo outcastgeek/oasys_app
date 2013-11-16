@@ -10,40 +10,46 @@
             padding-top: 80px;
         }
     </style>
+    {% assets filters="pyscss,cssmin,datauri", output="css/login.min.css", "css/login.scss" %}
+        <link href="{{ ASSET_URL }}" rel="stylesheet">
+    {% endassets %}
 {% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-xs-6">
-            <form class="form-base" action="{{ url }}" method="post">
-                <h2 class="form-base-heading">Please sign in</h2>
-                <input type="hidden" name="came_from" value="{{ came_from }}"/>
-                <input type="text" name="login" value="{{ login }}" class="input-block-level"/><br/>
-                <input type="password" name="password" value="{{ password }}" class="input-block-level"/><br/>
-                <label class="checkbox">
-                    <input type="checkbox" value="remember-me"> Remember me
-                </label>
-                <input class="btn btn-large btn-primary" id="submit" name="submit" type="submit" value="Sign in" />
-            </form>
+    <section id="login" data-speed="2" data-type="background">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-6">
+                    <form class="form-base" action="{{ url }}" method="post">
+                        <h2 class="form-base-heading">Please sign in</h2>
+                        <input type="hidden" name="came_from" value="{{ came_from }}"/>
+                        <input type="text" name="login" value="{{ login }}" class="input-block-level"/><br/>
+                        <input type="password" name="password" value="{{ password }}" class="input-block-level"/><br/>
+                        <label class="checkbox">
+                            <input type="checkbox" value="remember-me"> Remember me
+                        </label>
+                        <input class="btn btn-large btn-primary" id="submit" name="submit" type="submit" value="Sign in" />
+                    </form>
+                </div>
+                <div class="col-xs-6">
+                    <ul class="nav nav-list">
+                        <li class="divider"></li>
+                        <li class="divider"></li>
+                        <li class="nav-header">Third party authentication:</li>
+                        <li class="divider"></li>
+                        <li>
+                            {#                    {{ request.persona_button }}#}
+                            {% for provider in providers_info %}
+                                <form action="{{ provider.login_url }}" method="post">
+                                    <button class="btn btn-large btn-primary" type="submit">{{ provider.provider_name }}</button>
+                                </form>
+                            {% endfor %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="col-xs-6">
-            <ul class="nav nav-list">
-                <li class="divider"></li>
-                <li class="divider"></li>
-                <li class="nav-header">Third party authentication:</li>
-                <li class="divider"></li>
-                <li>
-{#                    {{ request.persona_button }}#}
-                    {% for provider in providers_info %}
-                        <form action="{{ provider.login_url }}" method="post">
-                            <button class="btn btn-large btn-primary" type="submit">{{ provider.provider_name }}</button>
-                        </form>
-                    {% endfor %}
-                </li>
-            </ul>
-        </div>
-
-    </div>
+    </section>
 {% endblock %}
 
 {% block page_js %}

@@ -63,7 +63,7 @@
     (update-inputs (get-in @form-state [:state ]))
     (doseq [x input_ids]
       (domutil/listen! (domutil/by-id x) :blur update)
-      ;(attach-blur-listener x)
+      (domutil/listen! (domutil/by-id x) :change update)
       )
     (domutil/listen! (domutil/by-id "clear") :click (fn [evt]
                                                       (clear evt input_ids form-state)))

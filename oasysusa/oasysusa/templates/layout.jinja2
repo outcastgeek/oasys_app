@@ -16,10 +16,6 @@
 <!-- Optional theme -->
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css">
 
-{% assets filters="pyscss,cssmin,datauri", output="css/oasysusa.min.css", "css/oasysusa.scss" %}
-    <link href="{{ ASSET_URL }}" rel="stylesheet">
-{% endassets %}
-
 {% block css %}
 {% endblock %}
 
@@ -56,7 +52,7 @@
         <div class="collapse navbar-collapse" id="menu-items">
             <ul class="nav navbar-nav">
                 <li  class="active"><a href="#Updates">Updates</a></li>
-                <li><a href="/contact">Contact</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if USER_ID %}
@@ -70,9 +66,9 @@
                         <li><a role="menuitem" tabindex="-1" href="/profile">Profile</a></li>
                         {% if USER_ID %}
                             <li><a href="/logout">Logout</a></li>
-                            <li class="divider"></li>
-                            <li class="nav-header">Links</li>
-                            <li><a role="menuitem" tabindex="-1" href="/contact">Contact</a></li>
+{#                            <li class="divider"></li>#}
+{#                            <li class="nav-header">Links</li>#}
+{#                            <li><a role="menuitem" tabindex="-1" href="/contact">Contact</a></li>#}
                         {% else %}
                             <li><a href="/login">Login</a></li>
                         {% endif %}
@@ -95,35 +91,35 @@
             </ul>
         </div><!--/.nav-collapse -->
     </div> <!-- /.container -->
-</header><!-- /.navbar-wrapper -->
-
-<!-- Marketing messaging and featurettes
-================================================== -->
-<!-- Wrap the rest of the page in another container to center all the content. -->
-
-<div class="container marketing">
-
     {% for flash_msg in USER_SESSION.pop_flash() %}
-        <div class="alert alert-info">
+        <div class="alert alert-info alert-dismissable">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <strong>Msg:</strong> {{ flash_msg }}
         </div>
     {% endfor %}
+</header><!-- /.navbar-wrapper -->
 
-    {% block header %}
-    {% endblock %}
+{% block header %}
+{% endblock %}
 
-    {% block body %}
-    {% endblock %}
+{% block body %}
+{% endblock %}
 
-    <!-- FOOTER -->
-    <footer>
-        <p class="pull-right"><a href="#">Back to top</a></p>
-        <p>&copy; Copyright 2009-2013, Oasys Technologies &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-    </footer>
+{% include "templates/contact.jinja2" %}
 
-</div><!-- /.container -->
-
+<section id="footer" data-speed="2" data-type="background">
+    <div class="container">
+        <div class="row-fluid">
+            <div class="col-xs-12">
+                <!-- FOOTER -->
+                <footer>
+                    <p class="pull-right"><a href="#">Back to top</a></p>
+                    <p>&copy; Copyright 2009-2013, Oasys Technologies &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+                </footer>
+            </div>
+        </div>
+    </div><!-- /.container -->
+</section>
 
 
 <!-- Le javascript

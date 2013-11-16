@@ -38,10 +38,6 @@ After you fix the problem, please restart the Pyramid application to
 try it again.
 """
 
-@view_config(route_name='contact', renderer='templates/contact.jinja2')
-def contact_view(request):
-    return {}
-
 ######## TRYING DEFORM #########
 class Person(colander.MappingSchema):
     name = colander.SchemaNode(colander.String())

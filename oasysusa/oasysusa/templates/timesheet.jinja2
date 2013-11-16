@@ -10,106 +10,97 @@
             padding-top: 80px;
         }
     </style>
+    {% assets filters="pyscss,cssmin,datauri", output="css/timesheet.min.css", "css/timesheet.scss" %}
+        <link href="{{ ASSET_URL }}" rel="stylesheet">
+    {% endassets %}
 {% endblock %}
 
 {% block body %}
-    {#    {{ projectform(request)|safe }}#}
-    {#    <select name="Projects">#}
-    {#        {% for project in projects %}#}
-    {#            <option  value="{{ project.name }} by {{ project.client }}">{{ project.name }} by {{ project.client }}</option>#}
-    {#        {% endfor %}#}
-    {#    </select>#}
-    <main>
+
+    <section id="timesheet" data-speed="2" data-type="background">
         {{ currentdayform(request)|safe }}
         <hr>
-        {{ renderer.begin(request.route_url('timesheet'), name="timesheet-form", class="form-inline timesheet-form") }}
-        <h2 class="form-base-heading">Timesheet</h2>
-        <fieldset>
-            <legend>{{ TUTILS.format_date(monday) }} to {{ TUTILS.format_date(sunday) }}</legend>
-            {{ renderer.csrf_token() }}
-            <div class="form-group">
-                {{ renderer.label("Monday",  class="sr-only") }}
-                {{ renderer.label("Hours", class="col-xs-1 pull-right") }}
+        <div class="container">
+            {{ renderer.begin(request.route_url('timesheet'), name="timesheet-form", class="form-inline form-base") }}
+            <h2 class="form-base-heading">Timesheet</h2>
+            <fieldset>
+                <legend>{{ TUTILS.format_date(monday) }} to {{ TUTILS.format_date(sunday) }}</legend>
+                {{ renderer.csrf_token() }}
+                {{ renderer.label("Monday") }}
+                <br>
+                {{ renderer.label("Hours") }}
                 {{ renderer.errorlist("Hours1") }}
-                {{ renderer.text("Hours1", type="number", min="0", max="24", step="1", value="0", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
+                {{ renderer.text("Hours1", type="number", min="0", max="24", step="1", value="0", placeholder="8.0", required="required", form_input="form_input") }}
                 {{ renderer.hidden_tag("Day1") }}
-                {{ renderer.select("project1", projects, selected_value=None, id="project1", class="form-control") }}
+                {{ renderer.select("project1", projects, selected_value=None, id="project1") }}
                 <hr>
-            </div>
-            <div class="form-group">
-                {{ renderer.label("Tuesday",  class="sr-only") }}
-                {{ renderer.label("Hours", class="col-xs-1 pull-right") }}
+                {{ renderer.label("Tuesday") }}
+                <br>
+                {{ renderer.label("Hours") }}
                 {{ renderer.errorlist("Hours2") }}
-                {{ renderer.text("Hours2", type="number", min="0", max="24", step="1", value="0", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
+                {{ renderer.text("Hours2", type="number", min="0", max="24", step="1", value="0", placeholder="8.0", required="required", form_input="form_input") }}
                 {{ renderer.hidden_tag("Day2") }}
-                {{ renderer.select("project2", projects, selected_value=None, id="project2", class="form-control") }}
+                {{ renderer.select("project2", projects, selected_value=None, id="project2") }}
                 <hr>
-            </div>
-            <div class="form-group">
-                {{ renderer.label("Wednesday",  class="sr-only") }}
-                {{ renderer.label("Hours", class="col-xs-1 pull-right") }}
+                {{ renderer.label("Wednesday") }}
+                <br>
+                {{ renderer.label("Hours") }}
                 {{ renderer.errorlist("Hours3") }}
-                {{ renderer.text("Hours3", type="number", min="0", max="24", step="1", value="0", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
+                {{ renderer.text("Hours3", type="number", min="0", max="24", step="1", value="0", placeholder="8.0", required="required", form_input="form_input") }}
                 {{ renderer.hidden_tag("Day3") }}
-                {{ renderer.select("project3", projects, selected_value=None, id="project3", class="form-control") }}
+                {{ renderer.select("project3", projects, selected_value=None, id="project3") }}
                 <hr>
-            </div>
-            <div class="form-group">
-                {{ renderer.label("Thursday",  class="sr-only") }}
-                {{ renderer.label("Hours", class="col-xs-1 pull-right") }}
+                {{ renderer.label("Thursday") }}
+                <br>
+                {{ renderer.label("Hours") }}
                 {{ renderer.errorlist("Hours4") }}
-                {{ renderer.text("Hours4", type="number", min="0", max="24", step="1", value="0", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
+                {{ renderer.text("Hours4", type="number", min="0", max="24", step="1", value="0", placeholder="8.0", required="required", form_input="form_input") }}
                 {{ renderer.hidden_tag("Day4") }}
-                {{ renderer.select("project4", projects, selected_value=None, id="project4", class="form-control") }}
+                {{ renderer.select("project4", projects, selected_value=None, id="project4") }}
                 <hr>
-            </div>
-            <div class="form-group">
-                {{ renderer.label("Friday",  class="sr-only") }}
-                {{ renderer.label("Hours", class="col-xs-1 pull-right") }}
+                {{ renderer.label("Friday") }}
+                <br>
+                {{ renderer.label("Hours") }}
                 {{ renderer.errorlist("Hours5") }}
-                {{ renderer.text("Hours5", type="number", min="0", max="24", step="1", value="0", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
+                {{ renderer.text("Hours5", type="number", min="0", max="24", step="1", value="0", placeholder="8.0", required="required", form_input="form_input") }}
                 {{ renderer.hidden_tag("Day5") }}
-                {{ renderer.select("project5", projects, selected_value=None, id="project5", class="form-control") }}
+                {{ renderer.select("project5", projects, selected_value=None, id="project5") }}
                 <hr>
-            </div>
-            <div class="form-group">
-                {{ renderer.label("Saturday",  class="sr-only") }}
-                {{ renderer.label("Hours", class="col-xs-1 pull-right") }}
+                {{ renderer.label("Saturday") }}
+                <br>
+                {{ renderer.label("Hours") }}
                 {{ renderer.errorlist("Hours6") }}
-                {{ renderer.text("Hours6", type="number", min="0", max="24", step="1", value="0", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
+                {{ renderer.text("Hours6", type="number", min="0", max="24", step="1", value="0", placeholder="8.0", required="required", form_input="form_input") }}
                 {{ renderer.hidden_tag("Day6") }}
-                {{ renderer.select("project6", projects, selected_value=None, id="project6", class="form-control") }}
+                {{ renderer.select("project6", projects, selected_value=None, id="project6") }}
                 <hr>
-            </div>
-            <div class="form-group">
-                {{ renderer.label("Sunday",  class="sr-only") }}
-                {{ renderer.label("Hours", class="col-xs-1 pull-right") }}
+                {{ renderer.label("Sunday") }}
+                <br>
+                {{ renderer.label("Hours") }}
                 {{ renderer.errorlist("Hours7") }}
-                {{ renderer.text("Hours7", type="number", min="0", max="24", step="1", value="0", placeholder="8.0", required="required", form_input="form_input", class="form-control") }}
+                {{ renderer.text("Hours7", type="number", min="0", max="24", step="1", value="0", placeholder="8.0", required="required", form_input="form_input") }}
                 {{ renderer.hidden_tag("Day7") }}
-                {{ renderer.select("project7", projects, selected_value=None, id="project7", class="form-control") }}
-            </div>
-            <hr>
-            <div class="form-group">
-                {{ renderer.label("Description",  class="sr-only") }}
+                {{ renderer.select("project7", projects, selected_value=None, id="project7") }}
+                <hr>
+                {{ renderer.label("Description") }}
                 {{ renderer.errorlist("description") }}
                 {{ renderer.textarea("description", placeholder="description", class="field span12", rows="4", cols="50",
-                                                    required="required", form_input="form_input", class="form-control") }}
-            </div>
-            <hr>
-        </fieldset>
-        <button id="clear" class="btn btn-large">Clear</button>
-        {{ renderer.submit('submit', 'Save', class="btn btn-large btn-primary") }}
-        {{ renderer.end() }}
-    </main>
+                                                    required="required", form_input="form_input") }}
+                <hr>
+            </fieldset>
+            <button id="clear" class="btn btn-large">Clear</button>
+            {{ renderer.submit('submit', 'Save', class="btn btn-large btn-primary") }}
+            {{ renderer.end() }}
+        </div>
+    </section>
 {% endblock %}
 
 {% block page_js %}
     {% include "templates/form_modernizr.jinja2" %}
     {% if cljs_debug %}
-                <script src="{{ request.static_url('oasysusa:static/js/repl.js') }}"></script>
-                <script src="{{ request.static_url('oasysusa:static/js/timesheet-form-dev.js') }}"></script>
+        <script src="{{ request.static_url('oasysusa:static/js/repl.js') }}"></script>
+        <script src="{{ request.static_url('oasysusa:static/js/timesheet-form-dev.js') }}"></script>
     {% else %}
-                <script src="{{ request.static_url('oasysusa:static/js/timesheet-form.js') }}"></script>
+        <script src="{{ request.static_url('oasysusa:static/js/timesheet-form.js') }}"></script>
     {% endif %}
 {% endblock %}

@@ -1,0 +1,7 @@
+@import "section_common";
+@import "common";
+
+#login {
+  background: url(../img/background.png);
+  @include section_mixin;
+}

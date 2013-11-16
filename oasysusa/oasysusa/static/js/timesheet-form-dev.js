@@ -21221,10 +21221,11 @@ oasysusa.utils.form.run = function(a) {
   f = null;
   for(h = c = 0;;) {
     if(h < c) {
-      k = cljs.core._nth.call(null, f, h), oasysusa.utils.dom.listen_BANG_.call(null, oasysusa.utils.dom.by_id.call(null, k), new cljs.core.Keyword(null, "blur", "blur", 1016931289), e), h += 1
+      k = cljs.core._nth.call(null, f, h), oasysusa.utils.dom.listen_BANG_.call(null, oasysusa.utils.dom.by_id.call(null, k), new cljs.core.Keyword(null, "blur", "blur", 1016931289), e), oasysusa.utils.dom.listen_BANG_.call(null, oasysusa.utils.dom.by_id.call(null, k), new cljs.core.Keyword(null, "change", "change", 3947235106), e), h += 1
     }else {
       if(d = cljs.core.seq.call(null, d)) {
-        f = d, cljs.core.chunked_seq_QMARK_.call(null, f) ? (d = cljs.core.chunk_first.call(null, f), h = cljs.core.chunk_rest.call(null, f), f = d, c = cljs.core.count.call(null, d), d = h) : (d = cljs.core.first.call(null, f), oasysusa.utils.dom.listen_BANG_.call(null, oasysusa.utils.dom.by_id.call(null, d), new cljs.core.Keyword(null, "blur", "blur", 1016931289), e), d = cljs.core.next.call(null, f), f = null, c = 0), h = 0
+        f = d, cljs.core.chunked_seq_QMARK_.call(null, f) ? (d = cljs.core.chunk_first.call(null, f), h = cljs.core.chunk_rest.call(null, f), f = d, c = cljs.core.count.call(null, d), d = h) : (d = cljs.core.first.call(null, f), oasysusa.utils.dom.listen_BANG_.call(null, oasysusa.utils.dom.by_id.call(null, d), new cljs.core.Keyword(null, "blur", "blur", 1016931289), e), oasysusa.utils.dom.listen_BANG_.call(null, oasysusa.utils.dom.by_id.call(null, d), new cljs.core.Keyword(null, "change", "change", 
+        3947235106), e), d = cljs.core.next.call(null, f), f = null, c = 0), h = 0
       }else {
         break
       }

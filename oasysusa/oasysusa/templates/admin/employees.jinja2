@@ -10,32 +10,40 @@
             padding-top: 80px;
         }
     </style>
+    {% assets filters="pyscss,cssmin,datauri", output="css/employees.min.css", "css/employees.scss" %}
+        <link href="{{ ASSET_URL }}" rel="stylesheet">
+    {% endassets %}
 {% endblock %}
 
 {% block body %}
-    {{ currentdayform(request, True)|safe }}
-    {% include "templates/admin/bootstrap.jinja2" %}
-    {% if employees.items %}
-        <div>
-            <h2>Employees</h2>
-            <hr>
-            <div class="pager">
-                {{ employees.pager(symbol_previous="«", symbol_next="»") }}
-            </div>
+
+    <section id="employees" data-speed="2" data-type="background">
+        {{ currentdayform(request, True)|safe }}
+        {% include "templates/admin/bootstrap.jinja2" %}
+        <div class="container">
+            {% if employees.items %}
+                <div>
+                    <h2>Employees</h2>
+                    <hr>
+                    <div class="pager">
+                        {{ employees.pager(symbol_previous="«", symbol_next="»") }}
+                    </div>
+                </div>
+
+                <hr>
+
+                {% for employee in employees.items %}
+                    {{ ea_attrs_form(request, employee, current_page) | safe }}
+                {% endfor %}
+
+                <hr>
+
+                <div class="pager">
+                    {{ employees.pager(symbol_previous="«", symbol_next="»") }}
+                </div>
+            {% endif %}
         </div>
-
-        <hr>
-
-        {% for employee in employees.items %}
-            {{ ea_attrs_form(request, employee, current_page) | safe }}
-        {% endfor %}
-
-        <hr>
-
-        <div class="pager">
-            {{ employees.pager(symbol_previous="«", symbol_next="»") }}
-        </div>
-    {% endif %}
+    </section>
 {% endblock %}
 
 {% block page_js %}

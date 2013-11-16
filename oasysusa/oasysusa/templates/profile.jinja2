@@ -10,6 +10,9 @@
             padding-top: 80px;
         }
     </style>
+    {% assets filters="pyscss,cssmin,datauri", output="css/profile.min.css", "css/profile.scss" %}
+        <link href="{{ ASSET_URL }}" rel="stylesheet">
+    {% endassets %}
 {% endblock %}
 
 {% block body %}

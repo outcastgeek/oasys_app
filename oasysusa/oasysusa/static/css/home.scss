@@ -1,0 +1,30 @@
+
+@import "section_common";
+@import "common";
+
+#oasys {
+  color: white;
+  text-shadow: -1px 0 lightgray, -1px 0 #5760ff;
+  background: #ff4c4a;
+  @include section_mixin;
+}
+
+#technologies {
+  color: #ffffff;
+  text-shadow: -1px 0 lightgray, -1px 0 #5760ff;
+  background: #1fb49d;
+  @include section_mixin;
+}
+
+#inc {
+  color: white;
+  text-shadow: -1px 0 lightgray, -1px 0 #5760ff;
+  background: #5b8059;
+  @include section_mixin;
+}
+
+#work {
+  background: #ffa272;
+  @include section_mixin;
+}
+

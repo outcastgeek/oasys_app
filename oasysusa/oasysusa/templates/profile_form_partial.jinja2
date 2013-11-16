@@ -1,6 +1,6 @@
 
-<main>
-    {{ renderer.begin(request.route_url('profile'), name="profile-form", class="form-base") }}
+<section id="profile" data-speed="2" data-type="background">
+    {{ renderer.begin(request.route_url('profile'), name="profile-form", class="form-inline form-base") }}
     <h2 class="form-base-heading">Basic Profile</h2>
     {{ renderer.csrf_token() }}
     {{ renderer.hidden_tag("provider") }}
@@ -28,5 +28,5 @@
         <button id="clear" class="btn btn-large">Clear</button>
     {{ renderer.submit('submit', 'Save', class="btn btn-large btn-primary") }}
     {{ renderer.end() }}
-</main>
+</section>
 

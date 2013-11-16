@@ -1,0 +1,9 @@
+
+@import "section_common";
+@import "common";
+@import "form_common";
+
+#project {
+  background: url(../img/background.png);
+  @include section_mixin;
+}

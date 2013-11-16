@@ -21221,10 +21221,11 @@ oasysusa.utils.form.run = function(a) {
   f = null;
   for(h = c = 0;;) {
     if(h < c) {
-      k = cljs.core._nth.call(null, f, h), oasysusa.utils.dom.listen_BANG_.call(null, oasysusa.utils.dom.by_id.call(null, k), new cljs.core.Keyword(null, "blur", "blur", 1016931289), e), h += 1
+      k = cljs.core._nth.call(null, f, h), oasysusa.utils.dom.listen_BANG_.call(null, oasysusa.utils.dom.by_id.call(null, k), new cljs.core.Keyword(null, "blur", "blur", 1016931289), e), oasysusa.utils.dom.listen_BANG_.call(null, oasysusa.utils.dom.by_id.call(null, k), new cljs.core.Keyword(null, "change", "change", 3947235106), e), h += 1
     }else {
       if(d = cljs.core.seq.call(null, d)) {
-        f = d, cljs.core.chunked_seq_QMARK_.call(null, f) ? (d = cljs.core.chunk_first.call(null, f), h = cljs.core.chunk_rest.call(null, f), f = d, c = cljs.core.count.call(null, d), d = h) : (d = cljs.core.first.call(null, f), oasysusa.utils.dom.listen_BANG_.call(null, oasysusa.utils.dom.by_id.call(null, d), new cljs.core.Keyword(null, "blur", "blur", 1016931289), e), d = cljs.core.next.call(null, f), f = null, c = 0), h = 0
+        f = d, cljs.core.chunked_seq_QMARK_.call(null, f) ? (d = cljs.core.chunk_first.call(null, f), h = cljs.core.chunk_rest.call(null, f), f = d, c = cljs.core.count.call(null, d), d = h) : (d = cljs.core.first.call(null, f), oasysusa.utils.dom.listen_BANG_.call(null, oasysusa.utils.dom.by_id.call(null, d), new cljs.core.Keyword(null, "blur", "blur", 1016931289), e), oasysusa.utils.dom.listen_BANG_.call(null, oasysusa.utils.dom.by_id.call(null, d), new cljs.core.Keyword(null, "change", "change", 
+        3947235106), e), d = cljs.core.next.call(null, f), f = null, c = 0), h = 0
       }else {
         break
       }
@@ -21236,5 +21237,5 @@ oasysusa.utils.form.run = function(a) {
 };
 oasysusa.profile = {};
 oasysusa.profile.core = {};
-oasysusa.profile.core.profile_state = cljs.core.atom.call(null, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "ids", "ids", 1014008362), cljs.core.PersistentVector.fromArray("first_name last_name email date_of_birth address telephone_number".split(" "), !0)], !0));
+oasysusa.profile.core.profile_state = cljs.core.atom.call(null, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "ids", "ids", 1014008362), cljs.core.PersistentVector.fromArray(["first_name", "last_name", "email", "address", "telephone_number"], !0)], !0));
 oasysusa.utils.form.run.call(null, oasysusa.profile.core.profile_state);

@@ -1,0 +1,38 @@
+
+@import "section_common";
+@import "common";
+@import "form_common";
+
+#timesheet {
+  background: url(../img/background.png);
+  @include section_mixin;
+}
+
+.timesheet-form {
+  max-width: $wide_form;
+  @include form_base_mixin;
+}
+
+.timesheet-form hr {
+  border: 0;
+  width: 80%;
+  color: lightskyblue;
+  background-color: lightskyblue;
+  height: 1px;
+}
+
+.timesheet-form input.invalid.dirty {
+  background-color: $input_invalid_dirty_color;
+}
+
+.timesheet-form input.valid.dirty {
+  background-color: $input_valid_dirty_color;
+}
+
+.timesheet-form textarea.invalid.dirty {
+  background-color: $input_invalid_dirty_color;;
+}
+
+.timesheet-form textarea.valid.dirty {
+  background-color: $input_valid_dirty_color;
+}
