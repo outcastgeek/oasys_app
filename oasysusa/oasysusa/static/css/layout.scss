@@ -26,3 +26,31 @@
 
 $narrow_form = 300px;
 $wide_form = 440px;
+
+/* BOOSTRAP CUSTOMIZATION
+================================================== */
+
+/************ MEDIA **************/
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 3 / 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 2) {
+  .checkbox .icon {
+    background-image: url("../images/checkbox-2x.png");
+    background-size: 110px 110px; }
+
+  .radio .icon {
+    background-image: url("../images/radio-2x.png");
+    background-size: 110px 110px; } }
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 3 / 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 2) {
+  .toggle.toggle-off .toggle-radio {
+    background-image: url("../images/toggle/icon-off-2x.png");
+    background-size: 30px 29px; }
+  .toggle .toggle-radio {
+    background-image: url("../images/toggle/icon-on-2x.png");
+    background-size: 30px 29px; } }
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 3 / 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 2) {
+  .tile.tile-hot:before {
+    background-image: url("../images/tile/ribbon-2x.png"); } }
+
+
