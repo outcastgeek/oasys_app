@@ -30,8 +30,8 @@
                             {#                    {{ request.persona_button }}#}
                             {% for provider in providers_info %}
                                 <form action="{{ provider.login_url }}" method="post">
-                                    <button type="submit" class="col-xs-4 well box">
-                                        <h2>{{ provider.provider_name }}</h2>
+                                    <button type="submit" class="btn btn-lg btn-block">
+                                        {{ provider.provider_name }}
                                     </button>
                                 </form>
                             {% endfor %}
