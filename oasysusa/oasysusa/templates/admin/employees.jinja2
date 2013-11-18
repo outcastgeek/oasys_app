@@ -4,17 +4,6 @@
     Employees
 {% endblock %}
 
-{% block css %}
-    <style>
-        body {
-            padding-top: 80px;
-        }
-    </style>
-    {% assets filters="pyscss,cssmin,datauri", output="css/employees.min.css", "css/employees.scss" %}
-        <link href="{{ ASSET_URL }}" rel="stylesheet">
-    {% endassets %}
-{% endblock %}
-
 {% block body %}
 
     <section id="employees" data-speed="2" data-type="background">

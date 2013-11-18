@@ -1,0 +1,95 @@
+
+@import "colors";
+@import "layout";
+
+/************** SECTION *****************/
+
+@mixin section_mixin {
+  height: auto;
+  margin: 0 auto;
+  width: 100%;
+  position: relative;
+//box-shadow: $box_shadow;
+  padding: 100px 0;
+}
+
+@mixin section_heading_mixin {
+  font-family: "ff-meta-serif-web-pro", serif;
+  font-size: 3.75em;
+  line-height: 1.25em;
+}
+
+/****************  BOX  *****************/
+
+@mixin box_mixin {
+/*width: 600px;*/
+/*height: 350px;*/
+//padding: 70px 20px 0px 20px;
+  margin: 4em auto 0 auto;
+  border: $box_border;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 90px;
+}
+
+/*****************  FORM  **********************/
+
+@mixin form_base_mixin {
+  padding: 19px 29px 29px;
+  margin: 0 auto 20px;
+  background-color: $white_background_color;
+  border: $form_border;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+}
+
+.form-base {
+  max-width: $narrow_form;
+  @include form_base_mixin;
+}
+
+.form-base-wide {
+  max-width: $wide_form;
+  @include form_base_mixin;
+}
+
+.form-base .form-base-heading,
+.form-base .checkbox {
+  margin-bottom: 10px;
+}
+
+.form-base input[type="text"],
+.form-base input[type="password"] {
+  font-size: 16px;
+  height: auto;
+  margin-bottom: 15px;
+  padding: 7px 9px;
+}
+
+.form-base input.invalid.dirty {
+  background-color: $input_invalid_dirty_color;
+}
+
+.form-base input.valid.dirty {
+  background-color: $input_valid_dirty_color;
+}
+
+.form-base textarea.invalid.dirty {
+  background-color: $input_invalid_dirty_color;
+}
+
+.form-base textarea.valid.dirty {
+  background-color: $input_valid_dirty_color;
+}
+
+/************************ pagination *****************/
+
+.pagination {
+  max-width: 800px;
+  padding: 19px 29px 29px;
+  margin: 0 auto 20px;
+}

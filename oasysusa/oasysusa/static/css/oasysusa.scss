@@ -1,0 +1,195 @@
+/* GLOBAL STYLES
+-------------------------------------------------- */
+
+@import "components";
+@import "colors";
+@import "layout";
+@import "miscellaneous";
+
+body {
+  padding-top: 80px;
+  padding-bottom: 40px;
+  color: #5a5a5a;
+  //background-image: url('../img/background.png');
+  font-family: times, Times New Roman, times-roman, georgia, serif;
+}
+
+div.contenu {
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+  position: relative;
+  border-radius: 3px;
+  background-color: white;
+  /*border: 1px solid #ccc;*/
+  /*padding: 20px;*/
+  text-shadow: none;
+}
+
+/************** BOXES ****************/
+
+div.redbox {
+  background-color: red;
+  @include box_mixin;
+}
+
+div.bluebox {
+  background-color: blue;
+  @include box_mixin;
+}
+
+div.greenbox {
+  background-color: green;
+  @include box_mixin;
+}
+
+div.yellowbox {
+  background-color: yellow;
+  @include box_mixin;
+}
+
+div.cyanbox {
+  background-color: cyan;
+  @include box_mixi;
+}
+
+div.puplebox {
+  background-color: purple;
+  @include box_mixin;
+}
+
+div.box {
+  color: #ffffff;
+  text-shadow: -1px 0 lightgray, -1px 0 #5760ff;
+  background: #1F7F68;
+  @include box_mixin;
+}
+
+div.box2 {
+  color: #ffffff;
+  text-shadow: -1px 0 lightgray, -1px 0 #5760ff;
+  background: green;
+  @include box_mixin;
+}
+
+/************************ forms *****************/
+
+.employee-attributes {
+  max-width: 440px;
+  @include form_base_mixin;
+}
+
+/************************ sections *****************/
+
+#contact {
+  background: #3FFFD1;
+  margin-bottom: 10px;
+  @include section_mixin;
+}
+
+#footer {
+  color: #ffffff;
+  text-shadow: -1px 0 lightgray, -1px 0 #5760ff;
+  background: #1F7F68;
+  @include section_mixin;
+}
+
+/******** EMPLOYESS ***********/
+
+#employees {
+  background: #32CCA7;
+  @include section_mixin;
+}
+
+/******** HOME ***********/
+
+#oasys {
+  color: white;
+  text-shadow: -1px 0 lightgray, -1px 0 #5760ff;
+  background: #1F7F68;
+  @include section_mixin;
+}
+
+#technologies {
+  //background: #8BFFE3;
+  color: white;
+  text-shadow: -1px 0 lightgray, -1px 0 #5760ff;
+  background: #B23208;
+  @include section_mixin;
+}
+
+#inc {
+  //background: #3FFFD1;
+  color: white;
+  text-shadow: -1px 0 lightgray, -1px 0 #5760ff;
+  background: #467F72;
+  @include section_mixin;
+}
+
+//#work {
+//  background: #467F72;
+//  @include section_mixin;
+//}
+
+/******** LOGIN ***********/
+
+#login {
+  background: #32CCA7;
+  @include section_mixin;
+}
+
+/******** PROFILE ***********/
+
+#profile {
+  background: #32CCA7;
+  @include section_mixin;
+}
+
+/******** PROJECT ***********/
+
+#project {
+  background: #32CCA7;
+  @include section_mixin;
+}
+
+/******** TIMESHEET ***********/
+
+#timesheet {
+  background: #32CCA7;
+  @include section_mixin;
+}
+
+.timesheet-form {
+  max-width: $wide_form;
+  @include form_base_mixin;
+}
+
+.timesheet-form hr {
+  border: 0;
+  width: 80%;
+  color: lightskyblue;
+  background-color: lightskyblue;
+  height: 1px;
+}
+
+.timesheet-form input.invalid.dirty {
+  background-color: $input_invalid_dirty_color;
+}
+
+.timesheet-form input.valid.dirty {
+  background-color: $input_valid_dirty_color;
+}
+
+.timesheet-form textarea.invalid.dirty {
+  background-color: $input_invalid_dirty_color;;
+}
+
+.timesheet-form textarea.valid.dirty {
+  background-color: $input_valid_dirty_color;
+}
+
+
+
+
+
+
+
+

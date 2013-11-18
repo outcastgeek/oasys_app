@@ -1,9 +1,0 @@
-
-@import "section_common";
-@import "common";
-@import "form_common";
-
-#profile {
-  background: #32CCA7;
-  @include section_mixin;
-}
