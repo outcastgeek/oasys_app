@@ -40,7 +40,7 @@ def form(request, employee, current_page):
     existing_files = map(lambda f: dict(fileid=str(f.get('_id')),
                                         filename=f.get('filename'),
                                         content_type=f.get('content_type')), existing_files_handles)
-    response = render('templates/admin/employee_attributes.jinja2',
+    response = render('templates/partials/employee_attributes_partial.jinja2',
                       dict(renderer=FormRenderer(form),
                            timesheet_report_renderer=FormRenderer(timesheet_report_form),
                            employee=employee,

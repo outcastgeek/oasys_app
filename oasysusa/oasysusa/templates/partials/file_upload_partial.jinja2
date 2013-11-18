@@ -3,6 +3,7 @@
     {{ renderer.begin(request.route_url('file-upload'), class="form-inline form-base",
                       accept_charset="utf-8", enctype="multipart/form-data") }}
     {{ renderer.csrf_token() }}
+    {{ renderer.hidden("return_to", value=request.url) }}
     {{ renderer.label("Select or Drag and Drop a File") }}
     {{ renderer.errorlist("file_info") }}
     {{ renderer.file("file_info", type="file", form_input="form_input") }}

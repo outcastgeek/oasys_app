@@ -49,6 +49,7 @@ def file_upload(request):
     form = Form(request,
                 schema=FileUploadSchema())
     if 'submit' in request.POST:
+        return_to = request.POST.get('return_to')
         raw_file_data = request.POST.get('file_info')
         input_file = raw_file_data.file
         file_metadata_json_str = request.POST.get('file_metadata')
@@ -68,7 +69,7 @@ def file_upload(request):
         except: # catch *all* exceptions
             e = sys.exc_info()[0]
             request.session.flash("Error: %s" % e)
-        return HTTPFound(location=request.route_url('timesheet'))
+        return HTTPFound(location=return_to)
     return dict(renderer=FormRenderer(form))
 
 

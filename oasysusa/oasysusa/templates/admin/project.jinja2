@@ -16,12 +16,12 @@
 {% endblock %}
 
 {% block body %}
-    {% include "templates/admin/project_partial.jinja2" %}
+    {% include "templates/partials/project_partial.jinja2" %}
 {#    {{ projectform(request)|safe }}#}
 {% endblock %}
 
 {% block page_js %}
-    {% include "templates/form_modernizr.jinja2" %}
+    {% include "templates/partials/form_modernizr_partial.jinja2" %}
     {% if cljs_debug %}
         <script src="{{ request.static_url('oasysusa:static/js/repl.js') }}"></script>
         <script src="{{ request.static_url('oasysusa:static/js/project-dev.js') }}"></script>

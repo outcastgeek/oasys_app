@@ -104,7 +104,7 @@
 {% endblock %}
 
 {% block page_js %}
-    {% include "templates/form_modernizr.jinja2" %}
+    {% include "templates/partials/form_modernizr_partial.jinja2" %}
     {% if cljs_debug %}
         <script src="{{ request.static_url('oasysusa:static/js/repl.js') }}"></script>
         <script src="{{ request.static_url('oasysusa:static/js/timesheet-form-dev.js') }}"></script>

@@ -33,7 +33,7 @@ def currentday(request, display_range=False):
         session['current_day'] = current_day
     monday, sunday = first_and_last_dow(current_day)
     current_day_str = current_day.strftime(DATE_FORMAT)
-    response = render('templates/currentday_partial.jinja2',
+    response = render('templates/partials/currentday_partial.jinja2',
                       dict(prev_renderer=FormRenderer(Form(request, defaults=dict(return_to=request.url))),
                            jump_to_date_renderer=FormRenderer(Form(request, defaults=dict(new_date=current_day_str,
                                                                                           return_to=request.url))),
