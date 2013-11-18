@@ -4,14 +4,11 @@
 @import "components";
 @import "colors";
 @import "layout";
+@import "fonts";
 @import "miscellaneous";
 
 body {
-  padding-top: 80px;
   padding-bottom: 40px;
-  color: #5a5a5a;
-  //background-image: url('../img/background.png');
-  font-family: times, Times New Roman, times-roman, georgia, serif;
 }
 
 div.contenu {

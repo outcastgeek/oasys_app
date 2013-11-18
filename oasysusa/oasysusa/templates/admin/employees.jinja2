@@ -15,7 +15,7 @@
                     <h2>Employees</h2>
                     <hr>
                     <div class="pager">
-                        {{ employees.pager(symbol_previous="«", symbol_next="»") }}
+                        {{ employees.pager(link_attr={"class": "btn small"}, symbol_previous="«", symbol_next="»") }}
                     </div>
                 </div>
 
@@ -28,7 +28,7 @@
                 <hr>
 
                 <div class="pager">
-                    {{ employees.pager(symbol_previous="«", symbol_next="»") }}
+                    {{ employees.pager(link_attr={"class": "btn small"}, symbol_previous="«", symbol_next="»") }}
                 </div>
             {% endif %}
         </div>
