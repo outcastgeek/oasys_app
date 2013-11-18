@@ -1,0 +1,24 @@
+<fieldset>
+    <legend>{{ file_upload_type or "Unknown" }} File Upload</legend>
+    {{ renderer.begin(request.route_url('file-upload'), class="form-inline form-base",
+                      accept_charset="utf-8", enctype="multipart/form-data") }}
+    {{ renderer.csrf_token() }}
+    {{ renderer.label("Select or Drag and Drop a File") }}
+    {{ renderer.errorlist("file_info") }}
+    {{ renderer.file("file_info", type="file", form_input="form_input") }}
+    {{ renderer.hidden("file_metadata", value=file_metadata) }}
+    {{ renderer.submit('submit', 'Upload', class="btn btn-inverse") }}
+    <hr>
+    <ul>
+        {% for f in existing_files %}
+            <li><a target="__blank" href="{{ request.route_url('file-download', fileid=f.fileid) }}">{{ f.filename }}</a></li>
+        {% else %}
+            <label>No files uploaded.</label>
+        {% endfor %}
+    </ul>
+    {{ renderer.end() }}
+</fieldset>
+
+{% block page_js %}
+{% endblock %}
+

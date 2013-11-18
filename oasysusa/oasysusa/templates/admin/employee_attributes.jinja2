@@ -29,6 +29,14 @@
         {{ timesheet_report_renderer.label("Actions",  class="sr-only") }}
         {{ timesheet_report_renderer.submit('submit', 'Get weekly timesheet', class="btn btn-inverse") }}
     </div>
+    <hr>
+    <ul>
+        {% for f in existing_files %}
+            <li><a target="__blank" href="{{ request.route_url('file-download', fileid=f.fileid) }}">{{ f.filename }}</a></li>
+        {% else %}
+            <label>No files uploaded.</label>
+        {% endfor %}
+    </ul>
     {{ timesheet_report_renderer.end() }}
 </div>
 

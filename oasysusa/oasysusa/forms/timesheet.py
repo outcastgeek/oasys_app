@@ -49,7 +49,7 @@ def current_day(request):
     session = request.session
     return_to = request.POST.get('return_to')
     new_date = request.params.get('new_date')
-    direction = request.matchdict['direction']
+    direction = request.matchdict.get('direction')
     if 'new_date' == direction and new_date:
         current_day = datetime.strptime(new_date, DATE_FORMAT)
         current_day = current_day if current_day > EARLIEST_DATE else EARLIEST_DATE
