@@ -3,6 +3,7 @@ from celery.loaders import default
 __author__ = 'outcastgeek'
 
 import logging
+import sys
 
 from datetime import (
     date,
@@ -51,8 +52,13 @@ def current_day(request):
     new_date = request.params.get('new_date')
     direction = request.matchdict.get('direction')
     if 'new_date' == direction and new_date:
-        current_day = datetime.strptime(new_date, DATE_FORMAT)
-        current_day = current_day if current_day > EARLIEST_DATE else EARLIEST_DATE
+        try:
+            current_day = datetime.strptime(new_date, DATE_FORMAT)
+            current_day = current_day if current_day > EARLIEST_DATE else EARLIEST_DATE
+        except:
+            e = sys.exc_info()[0]
+            request.session.flash("Error: %s" % e)
+            return HTTPFound(location=return_to)
     else:
         current_day = session.get('current_day')
         if not current_day:
