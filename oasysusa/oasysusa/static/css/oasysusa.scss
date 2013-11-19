@@ -84,9 +84,10 @@ div.box2 {
 }
 
 #footer {
-  color: #ffffff;
-  text-shadow: -1px 0 lightgray, -1px 0 #5760ff;
-  background: #1F7F68;
+  //color: #ffffff;
+  //text-shadow: -1px 0 lightgray, -1px 0 #5760ff;
+  //background: #1F7F68;
+  background-color: #edeff1;
   @include section_mixin;
 }
 
@@ -100,17 +101,18 @@ div.box2 {
 /******** HOME ***********/
 
 #oasys {
-  color: white;
-  text-shadow: -1px 0 lightgray, -1px 0 #5760ff;
-  background: #1F7F68;
+  //color: white;
+  //text-shadow: -1px 0 lightgray, -1px 0 #5760ff;
+  //background: #1F7F68;
+  background: #32CCA7;
   @include section_mixin;
 }
 
 #technologies {
-  //background: #8BFFE3;
-  color: white;
-  text-shadow: -1px 0 lightgray, -1px 0 #5760ff;
-  background: #B23208;
+  background: #8BFFE3;
+  //color: white;
+  //text-shadow: -1px 0 lightgray, -1px 0 #5760ff;
+  //background: #B23208;
   @include section_mixin;
 }
 
