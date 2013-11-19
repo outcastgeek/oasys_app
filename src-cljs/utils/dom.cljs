@@ -40,6 +40,10 @@
   ;(jq/attr ($ el) prop val)
   (dom/set-attr! el prop val))
 
+(defn set-html! [el val]
+  ;Add a JQ version here
+  (dom/set-html! el val))
+
 (defn add-class! [el val]
   ;Add a JQ version here
   (dom/add-class! el val))

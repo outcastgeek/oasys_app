@@ -17,6 +17,11 @@
 {{ jump_to_date_renderer.label("Current Day") }}
 {{ jump_to_date_renderer.text("new_date", type="date", placeholder="01/01/0001", size=20 , required="required", form_input="form_input") }}
 {{ jump_to_date_renderer.submit('submit', 'Go', class="btn btn-inverse") }}
+
+{#{{ jump_to_date_renderer.text("new_date", type="text", placeholder="01/01/0001", size=20 , required="required", form_input="form_input") }}#}
+{#{{ jump_to_date_renderer.submit('submit', 'Go', class="btn btn-inverse") }}#}
+{#<div id="datepicker_iso_8601"></div>#}
+
 {% if display_range %}
     <hr>
     <b>Current Time Period: {{ TUTILS.format_date(monday) }} to {{ TUTILS.format_date(sunday) }}</b>
