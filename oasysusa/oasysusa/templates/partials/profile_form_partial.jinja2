@@ -1,32 +1,42 @@
 
 <section id="profile" data-speed="2" data-type="background">
-    {{ renderer.begin(request.route_url('profile'), name="profile-form", class="form-inline form-base") }}
-    <h2 class="form-base-heading">Basic Profile</h2>
-    {{ renderer.csrf_token() }}
-    {{ renderer.hidden_tag("provider") }}
-    {{ renderer.hidden_tag("provider_id") }}
-    {{ renderer.hidden_tag("username") }}
-    {{ renderer.label("First Name") }}
-    {{ renderer.errorlist("first_name") }}
-    {{ renderer.text("first_name", placeholder="first_name", size=30, class="input-block-level", required="required", form_input="form_input") }}
-    {{ renderer.label("Last Name") }}
-    {{ renderer.errorlist("last_name") }}
-    {{ renderer.text("last_name", placeholder="last_name", size=30, class="input-block-level", required="required", form_input="form_input") }}
-    {{ renderer.label("Email") }}
-    {{ renderer.errorlist("email") }}
-    {{ renderer.text("email", size=30, type="email", placeholder="email@emailprovider.com", class="input-block-level", required="required", form_input="form_input") }}
-    {{ renderer.label("Date Of Birth") }}
-    {{ renderer.errorlist("date_of_birth") }}
-    {{ renderer.text("date_of_birth", type="date", placeholder="01/01/0001", size=30, class="input-block-level", required="required",
+    <div class="container">
+        <div class="row-fluid">
+            {{ renderer.begin(request.route_url('profile'), name="profile-form", class="form-inline form-base") }}
+            <h2 class="form-base-heading">Basic Profile</h2>
+            {{ renderer.csrf_token() }}
+            {{ renderer.hidden_tag("provider") }}
+            {{ renderer.hidden_tag("provider_id") }}
+            {{ renderer.hidden_tag("username") }}
+            {{ renderer.label("First Name") }}
+            {{ renderer.errorlist("first_name") }}
+            {{ renderer.text("first_name", placeholder="first_name", size=30, class="input-block-level", required="required", form_input="form_input") }}
+            <br>
+            {{ renderer.label("Last Name") }}
+            {{ renderer.errorlist("last_name") }}
+            {{ renderer.text("last_name", placeholder="last_name", size=30, class="input-block-level", required="required", form_input="form_input") }}
+            <br>
+            {{ renderer.label("Email") }}
+            {{ renderer.errorlist("email") }}
+            {{ renderer.text("email", size=30, type="email", placeholder="email@emailprovider.com", class="input-block-level", required="required", form_input="form_input") }}
+            <br>
+            {{ renderer.label("Date Of Birth") }}
+            {{ renderer.errorlist("date_of_birth") }}
+            {{ renderer.text("date_of_birth", type="date", placeholder="01/01/0001", size=30, class="input-block-level", required="required",
                                   ng_model="user.date_of_birth", form_input="form_input", input_type="date") }}
-    {{ renderer.label("Address") }}
-    {{ renderer.errorlist("address") }}
-    {{ renderer.text("address", placeholder="23 geeky way, Hacker PL 12345", size=60, class="input-block-level", required="required", form_input="form_input") }}
-    {{ renderer.label("Telephone Number") }}
-    {{ renderer.errorlist("telephone_number") }}
-    {{ renderer.text("telephone_number", placeholder="987-654-3210", size=30, class="input-block-level", required="required", form_input="form_input") }}
-        <button id="clear" class="btn btn-large">Clear</button>
-    {{ renderer.submit('submit', 'Save', class="btn btn-large btn-primary") }}
-    {{ renderer.end() }}
+            <br>
+            {{ renderer.label("Address") }}
+            {{ renderer.errorlist("address") }}
+            {{ renderer.text("address", placeholder="23 geeky way, Hacker PL 12345", size=60, class="input-block-level", required="required", form_input="form_input") }}
+            <br>
+            {{ renderer.label("Telephone Number") }}
+            {{ renderer.errorlist("telephone_number") }}
+            {{ renderer.text("telephone_number", placeholder="987-654-3210", size=30, class="input-block-level", required="required", form_input="form_input") }}
+            <br>
+            <button id="clear" class="btn btn-large">Clear</button>
+            {{ renderer.submit('submit', 'Save', class="btn btn-large btn-primary") }}
+            {{ renderer.end() }}
+        </div>
+    </div>
 </section>
 
