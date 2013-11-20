@@ -1,4 +1,3 @@
-
 # from gevent import monkey; monkey.patch_all()
 # from psycogreen import gevent; gevent.patch_psycopg()
 
@@ -23,6 +22,7 @@ from .models import (
 
 logging.basicConfig()
 log = logging.getLogger(__file__)
+
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
@@ -70,7 +70,7 @@ def main(global_config, **settings):
     if 'bitbucket' in providers:
         config.include('velruse.providers.bitbucket')
         config.add_bitbucket_login_from_settings(prefix='bitbucket.')
-    # if 'live' in providers:
+        # if 'live' in providers:
     #     config.include('velruse.providers.live')
     #     config.add_live_login_from_settings(prefix='live.')
 
@@ -92,20 +92,33 @@ def main(global_config, **settings):
 
 ######################## RUNNER #########################################
 
+from zmq.eventloop import ioloop
+
+ioloop.install() # should be done before any tornado stuff
+
+loop = ioloop.IOLoop.instance()
+
 from tornado import (
     wsgi,
     web,
-    httpserver,
-    ioloop,
-    )
+    httpserver)
 
 from tornado.process import (
     cpu_count,
     fork_processes,
     )
 
-def serve_paste(app, global_conf, **kw):
+from .async.web import (
+    TestHandler,
+    dot,
+    slow_responder)
 
+from .async.zmq_tornado_app import ZmqTornadoApp
+
+import threading
+
+
+def serve_paste(app, global_conf, **kw):
     # Logger objects for internal tornado use
     access_log = logging.getLogger("tornado.access")
     access_log.setLevel(logging.INFO)
@@ -124,11 +137,21 @@ def serve_paste(app, global_conf, **kw):
 
     log.info('Starting Custom Tornado server on port: %s' % str(port))
 
-    tornado_app = web.Application(
+    zmq_tcp_address = 'tcp://127.0.0.1:5555'
+    tornado_app = ZmqTornadoApp(
         [
+            (r"/async/web", TestHandler),
             (r'(.*)', web.FallbackHandler, dict(fallback=wsgi_app)),
-            ]
+        ],
     )
+    tornado_app.setup_zmq_handlers(zmq_tcp_address=zmq_tcp_address, loop=loop)
+
+    # worker = threading.Thread(target=slow_responder)
+    # worker.daemon=True
+    # worker.start()
+
+    beat = ioloop.PeriodicCallback(dot, 100)
+    beat.start()
 
     # try:
     #     fork_processes(cpu_count())
@@ -138,7 +161,7 @@ def serve_paste(app, global_conf, **kw):
     http_server = httpserver.HTTPServer(tornado_app)
     http_server.listen(port)
 
-    ioloop.IOLoop.instance().start()
+    loop.start()
 
 
 
