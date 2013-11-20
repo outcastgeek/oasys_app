@@ -130,10 +130,10 @@ def serve_paste(app, global_conf, **kw):
             ]
     )
 
-    try:
-        fork_processes(cpu_count())
-    except:
-        log.error('Fork is not available on this system, proceeding...')
+    # try:
+    #     fork_processes(cpu_count())
+    # except:
+    #     log.error('Fork is not available on this system, proceeding...')
 
     http_server = httpserver.HTTPServer(tornado_app)
     http_server.listen(port)
