@@ -89,3 +89,38 @@ def main(global_config, **settings):
     # config.scan('oasysusa.views')
     config.scan()
     return config.make_wsgi_app()
+
+######################## RUNNER #########################################
+
+from tornado import (
+    wsgi,
+    web,
+    httpserver,
+    ioloop,
+    )
+
+from tornado.process import (
+    cpu_count,
+    fork_processes,
+    )
+
+def serve_paste(app, global_conf, **kw):
+
+    port = kw.get('port', 6543)
+    wsgi_app = wsgi.WSGIContainer(app)
+
+    tornado_app = web.Application(
+        [
+            (r'(.*)', web.FallbackHandler, dict(fallback=wsgi_app)),
+            ]
+    )
+
+    fork_processes(cpu_count())
+
+    http_server = httpserver.HTTPServer(tornado_app)
+    http_server.listen(port)
+
+    ioloop.IOLoop.instance().start()
+
+
+
