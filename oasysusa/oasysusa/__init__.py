@@ -116,6 +116,8 @@ def serve_paste(app, global_conf, **kw):
     gen_log = logging.getLogger("tornado.general")
     gen_log.setLevel(logging.ERROR)
 
+    oasysusa_log = logging.getLogger("oasysusa")
+    oasysusa_log.setLevel(logging.INFO)
 
     port = kw.get('port', 6543)
     wsgi_app = wsgi.WSGIContainer(app)
