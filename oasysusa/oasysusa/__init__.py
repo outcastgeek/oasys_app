@@ -127,7 +127,7 @@ def serve_paste(app, global_conf, **kw):
     app_log.setLevel(logging.INFO)
 
     gen_log = logging.getLogger("tornado.general")
-    gen_log.setLevel(logging.ERROR)
+    gen_log.setLevel(logging.INFO)
 
     oasysusa_log = logging.getLogger("oasysusa")
     oasysusa_log.setLevel(logging.INFO)
