@@ -249,7 +249,7 @@ class MongoDBNamespaceManager(NamespaceManager):
             host_uri = 'mongodb://'
             for x in host_list:
                 host_uri += '%s:%s' % x
-            log.info("Host URI: %s" % host_uri)
+            #log.info("Host URI: %s" % host_uri)
             conn = Connection(host_uri, slave_okay=options.get('slaveok', False))
 
             db = conn[database]
