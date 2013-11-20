@@ -109,6 +109,8 @@ def serve_paste(app, global_conf, **kw):
     port = kw.get('port', 6543)
     wsgi_app = wsgi.WSGIContainer(app)
 
+    log.info('Starting Custom Tornado server on port: %s' % str(port))
+
     tornado_app = web.Application(
         [
             (r'(.*)', web.FallbackHandler, dict(fallback=wsgi_app)),
