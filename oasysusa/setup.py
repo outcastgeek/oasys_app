@@ -55,6 +55,8 @@ setup(name='oasysusa',
       mongodb = oasysusa.sessions_storage:MongoDBNamespaceManager
       [paste.app_factory]
       main = oasysusa:main
+      [paste.server_runner]
+      run = oasysusa:serve_paste
       [console_scripts]
       initialize_oasysusa_db = oasysusa.scripts.initializedb:main
       """,
