@@ -108,9 +108,14 @@ def serve_paste(app, global_conf, **kw):
 
     # Logger objects for internal tornado use
     access_log = logging.getLogger("tornado.access")
+    access_log.setLevel(logging.INFO)
+
     app_log = logging.getLogger("tornado.application")
+    app_log.setLevel(logging.INFO)
+
     gen_log = logging.getLogger("tornado.general")
-    gen_log.setLevel(logging.INFO)
+    gen_log.setLevel(logging.ERROR)
+
 
     port = kw.get('port', 6543)
     wsgi_app = wsgi.WSGIContainer(app)
