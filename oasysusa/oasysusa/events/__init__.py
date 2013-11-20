@@ -52,8 +52,8 @@ def application_created_subscriber(event):
     # pass
     settings = get_settings()
     conn_string = settings.get('sqlalchemy.url')
-    log.warn('The connection string in use is: %s' % conn_string)
-    if "sqlite" or "localhost" in conn_string:
+    # log.warn('The connection string in use is: %s' % conn_string)
+    if "sqlite"  in conn_string or "localhost" in conn_string:
         log.warn('Provisioning the database...')
         admins = [dict(username='admin', password='OneAdmin13', group='admin')]
         managers = [dict(username='manager', password='ManaJa13', group='manager')]
