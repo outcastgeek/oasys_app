@@ -56,7 +56,7 @@ def application_created_subscriber(event):
     settings = get_current_registry().settings # do not use the cacheable version during startup
     conn_string = settings.get('sqlalchemy.url')
     # log.warn('The connection string in use is: %s' % conn_string)
-    if "sqlite"  in conn_string or "localhost" in conn_string:
+    if "sqlite" in conn_string or "localhost" in conn_string:
         log.warn('Provisioning the database...')
         admins = [dict(username='admin', password='OneAdmin13', group='admin')]
         managers = [dict(username='manager', password='ManaJa13', group='manager')]
@@ -74,6 +74,7 @@ def add_mongo(event):
     request.db = mongo_conn['client_timesheets']
     request.fs = GridFS(request.db)
 
+
 @subscriber(NewRequest)
 def add_s3_zmq_socket(event):
     settings = get_settings()
@@ -86,6 +87,9 @@ def add_s3_zmq_socket(event):
     request = get_current_request()
     request.s3ctx = s3ctx
     request.s3socket = s3socket
+    request.s3conf = dict(s3_access_key_id=settings.get('s3_access_key_id'),
+                          s3_secret=settings.get('s3_secret'),
+                          s3_bucket_name=settings.get('s3_bucket_name'))
 
 
 @subscriber(BeforeRender)

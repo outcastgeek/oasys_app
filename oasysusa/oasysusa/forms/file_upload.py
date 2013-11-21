@@ -3,6 +3,9 @@ __author__ = 'outcastgeek'
 import json
 import logging
 import sys
+import umsgpack
+
+# from tempfile import NamedTemporaryFile
 
 from bson.objectid import ObjectId
 
@@ -65,8 +68,11 @@ def file_upload(request):
                     if not data:
                         break
                     fp.write(data)
-
-            request.s3socket.send_json(file_metadata)
+                input_file.seek(0)
+                pack_msg = umsgpack.packb(dict(file_data.items()
+                                               + request.s3conf.items()
+                                               + dict(file=input_file.read()).items()))
+                request.s3socket.send(pack_msg)
 
             request.session.flash("You successfully uploaded file %s" % raw_file_data.filename)
         except: # catch *all* exceptions
