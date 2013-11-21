@@ -35,6 +35,7 @@ called, because only one loop will be running.
 ioloop.install()
 
 import tornado
+import subprocess
 
 from tornado import web
 
@@ -109,7 +110,8 @@ class TailLogHandler(AsyncProcessMixIn):
     @tornado.web.asynchronous
     def get(self):
         log_location = self.application.settings.get('log_location')
-        self.call_subprocess('tail -4000 %s' % log_location, self.on_tail)
+        p = subprocess.Popen('echo `cat %s`' % log_location, shell=True, stdout=subprocess.PIPE)
+        stdout, stderr = p.communicate()
 
     def on_tail(self, output, return_code):
         self.write("return code is: %d" % (return_code,))
