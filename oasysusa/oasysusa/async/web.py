@@ -106,19 +106,6 @@ class TestHandler(web.RequestHandler):
         self.write(reply)
         self.finish()
 
-class TailLogHandler(AsyncProcessMixIn):
-    @tornado.web.asynchronous
-    def get(self):
-        log_location = self.application.settings.get('log_location')
-        p = subprocess.Popen('echo `cat %s`' % log_location, shell=True, stdout=subprocess.PIPE)
-        stdout, stderr = p.communicate()
-
-    def on_tail(self, output, return_code):
-        self.write("return code is: %d" % (return_code,))
-        self.write("output is:\n%s" % (output.read(),)) # output is a file-like object returned by subprocess.Popen
-
-        self.finish()
-
 # def main():
 #     worker = threading.Thread(target=slow_responder)
 #     worker.daemon=True

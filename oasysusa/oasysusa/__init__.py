@@ -110,7 +110,6 @@ from tornado.process import (
 
 from .async.web import (
     dot,
-    TailLogHandler,
     TestHandler)
 
 from .async.zmq_tornado_app import ZmqTornadoApp
@@ -140,7 +139,6 @@ def serve_paste(app, global_conf, **kw):
     zmq_tcp_address = 'tcp://127.0.0.1:5555'
     tornado_app = ZmqTornadoApp(
         [
-            (r"/async/tail", TailLogHandler),
             (r"/async/web", TestHandler),
             (r'(.*)', web.FallbackHandler, dict(fallback=wsgi_app)),
         ],
