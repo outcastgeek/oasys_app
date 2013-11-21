@@ -4,10 +4,6 @@ import itertools
 import logging
 import zmq
 
-from beaker.cache import (
-    cache_region,
-    region_invalidate)
-
 from tornado import web
 
 from ..mixins.shutdown import ShutdownMixin
@@ -27,9 +23,9 @@ class ZmqTornadoApp(web.Application, ShutdownMixin):
                             [dict(address_key='test_zmq_tcp_address', handler=self.slow_responder)]))
 
 
-    def add_handler(self, handler=None, address_key=None):
+    def add_handler(self, handler=None, address_key=None, socket_type=zmq.REP):
         self.ctx = zmq.Context.instance()
-        self.socket = self.ctx.socket(zmq.REP)
+        self.socket = self.ctx.socket(socket_type)
         self.socket.linger = 0
         address = self.settings.get(address_key)
         self.socket.bind(address)

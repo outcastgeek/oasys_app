@@ -6,6 +6,8 @@ import pymongo
 import transaction
 import zmq
 
+from zmq.eventloop import zmqstream
+
 from beaker.cache import (
     cache_region,
     region_invalidate)
@@ -76,10 +78,13 @@ def add_mongo(event):
 def add_s3_zmq_socket(event):
     settings = get_settings()
     s3_tcp_address = settings.get('s3_tcp_address')
-    ctx = zmq.Context.instance()
-    s3socket = ctx.socket(zmq.REQ)
-    s3socket.connect(s3_tcp_address)
+    s3ctx = zmq.Context.instance()
+    s = s3ctx.socket(zmq.PUSH)
+    s.connect(s3_tcp_address)
+    loop = get_current_registry().loop
+    s3socket = zmqstream.ZMQStream(s, loop)
     request = get_current_request()
+    request.s3ctx = s3ctx
     request.s3socket = s3socket
 
 
@@ -106,4 +111,4 @@ def add_globals(event):
 
 from s3 import upload_to_s3
 
-zmq_handlers = [dict(address_key='s3_tcp_address', handler=upload_to_s3)]
+zmq_handlers = [dict(address_key='s3_tcp_address', handler=upload_to_s3, socket_type=zmq.PULL)]

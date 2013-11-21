@@ -138,6 +138,7 @@ def serve_paste(app, global_conf, **kw):
     port = kw.get('port', 6543)
     # Enhance the current app settings
     app.registry.settings = dict(app.registry.settings.items() + kw.items())
+    app.registry.loop = loop
     wsgi_app = wsgi.WSGIContainer(app)
 
     log.info('Starting Custom Tornado server on port: %s' % str(port))
@@ -155,8 +156,8 @@ def serve_paste(app, global_conf, **kw):
     # worker.daemon=True
     # worker.start()
 
-    # beat = ioloop.PeriodicCallback(dot, 100)
-    # beat.start()
+    beat = ioloop.PeriodicCallback(dot, 100)
+    beat.start()
 
     # try:
     #     fork_processes(cpu_count())
