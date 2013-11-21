@@ -81,10 +81,10 @@ def add_mongo(event):
 @subscriber(ApplicationCreated)
 def ensure_s3_bucket(event):
     log.info('Setting up s3 bucket...')
-    settings = get_settings()
+    settings = get_current_registry().settings # do not use the cacheable version during startup
     try:
         conn = boto.connect_s3(aws_access_key_id=settings.get('s3_access_key_id'),
-                               aws_secret_access_key=settings.get('s3_bucket_name'))
+                               aws_secret_access_key=settings.get('s3_secret'))
         conn.create_bucket(settings.get('s3_bucket_name'))
         log.info('Done with s3 bucket setup!!!!')
     except S3ResponseError, error:
