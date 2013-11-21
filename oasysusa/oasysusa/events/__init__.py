@@ -1,5 +1,6 @@
 __author__ = 'outcastgeek'
 
+import boto
 import itertools
 import logging
 import pymongo
@@ -7,6 +8,8 @@ import transaction
 import zmq
 
 from zmq.eventloop import zmqstream
+
+from boto.exception import S3ResponseError
 
 from beaker.cache import (
     cache_region,
@@ -73,6 +76,19 @@ def add_mongo(event):
     request = get_current_request()
     request.db = mongo_conn['client_timesheets']
     request.fs = GridFS(request.db)
+
+
+@subscriber(ApplicationCreated)
+def ensure_s3_bucket(event):
+    log.info('Setting up s3 bucket...')
+    settings = get_settings()
+    try:
+        conn = boto.connect_s3(aws_access_key_id=settings.get('s3_access_key_id'),
+                               aws_secret_access_key=settings.get('s3_bucket_name'))
+        conn.create_bucket(settings.get('s3_bucket_name'))
+        log.info('Done with s3 bucket setup!!!!')
+    except S3ResponseError, error:
+        log.error("Could not setup s3 bucket: \n%s", error)
 
 
 @subscriber(NewRequest)
