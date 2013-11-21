@@ -35,7 +35,10 @@ called, because only one loop will be running.
 ioloop.install()
 
 import tornado
+
 from tornado import web
+
+from .tornado_async_process_mixin import AsyncProcessMixIn
 
 logging.basicConfig()
 log = logging.getLogger(__file__)
@@ -100,6 +103,18 @@ class TestHandler(web.RequestHandler):
         log.info("\nfinishing with %r\n" % reply,)
         self.stream.close()
         self.write(reply)
+        self.finish()
+
+class TailLogHandler(AsyncProcessMixIn):
+    @tornado.web.asynchronous
+    def get(self):
+        log_location = self.application.settings.get('log_location')
+        self.call_subprocess('tail -4000 %s' % log_location, self.on_tail)
+
+    def on_tail(self, output, return_code):
+        self.write("return code is: %d" % (return_code,))
+        self.write("output is:\n%s" % (output.read(),)) # output is a file-like object returned by subprocess.Popen
+
         self.finish()
 
 # def main():

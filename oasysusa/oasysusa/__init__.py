@@ -109,9 +109,9 @@ from tornado.process import (
     )
 
 from .async.web import (
-    TestHandler,
     dot,
-    slow_responder)
+    TailLogHandler,
+    TestHandler)
 
 from .async.zmq_tornado_app import ZmqTornadoApp
 
@@ -140,9 +140,11 @@ def serve_paste(app, global_conf, **kw):
     zmq_tcp_address = 'tcp://127.0.0.1:5555'
     tornado_app = ZmqTornadoApp(
         [
+            (r"/async/tail", TailLogHandler),
             (r"/async/web", TestHandler),
             (r'(.*)', web.FallbackHandler, dict(fallback=wsgi_app)),
         ],
+        **kw
     )
     tornado_app.setup_zmq_handlers(zmq_tcp_address=zmq_tcp_address, loop=loop)
 
@@ -158,10 +160,14 @@ def serve_paste(app, global_conf, **kw):
     # except:
     #     log.error('Fork is not available on this system, proceeding...')
 
-    http_server = httpserver.HTTPServer(tornado_app)
+    http_server = httpserver.HTTPServer(tornado_app,
+                                        xheaders=True)
     http_server.listen(port)
 
+    tornado_app.setup_graceful_shutdown(http_server)
+
     loop.start()
+    log.info("Exit...")
 
 
 
