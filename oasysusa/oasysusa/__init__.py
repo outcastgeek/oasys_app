@@ -29,9 +29,13 @@ def main(global_config, **settings):
     """
     engine = None
     try:
-        engine = engine_from_config(settings, 'sqlalchemy.', pool_size=24, max_overflow=0, echo_pool=True, echo=True)
+        engine = engine_from_config(settings, 'sqlalchemy.', pool_size=24, max_overflow=0)
     except:
-        engine = engine_from_config(settings, 'sqlalchemy.', echo_pool=True, echo=True)
+        engine = engine_from_config(settings, 'sqlalchemy.')
+    # try:
+    #     engine = engine_from_config(settings, 'sqlalchemy.', pool_size=24, max_overflow=0, echo_pool=True, echo=True)
+    # except:
+    #     engine = engine_from_config(settings, 'sqlalchemy.', echo_pool=True, echo=True)
     DBSession.configure(bind=engine)
     Base.metadata.bind = engine
 
@@ -132,11 +136,12 @@ def serve_paste(app, global_conf, **kw):
     oasysusa_log.setLevel(logging.INFO)
 
     port = kw.get('port', 6543)
+    # Enhance the current app settings
+    app.registry.settings = dict(app.registry.settings.items() + kw.items())
     wsgi_app = wsgi.WSGIContainer(app)
 
     log.info('Starting Custom Tornado server on port: %s' % str(port))
 
-    zmq_tcp_address = 'tcp://127.0.0.1:5555'
     tornado_app = ZmqTornadoApp(
         [
             (r"/async/web", TestHandler),
@@ -144,14 +149,14 @@ def serve_paste(app, global_conf, **kw):
         ],
         **kw
     )
-    tornado_app.setup_zmq_handlers(zmq_tcp_address=zmq_tcp_address, loop=loop)
+    tornado_app.setup_zmq_handlers(loop=loop)
 
     # worker = threading.Thread(target=slow_responder)
     # worker.daemon=True
     # worker.start()
 
-    beat = ioloop.PeriodicCallback(dot, 100)
-    beat.start()
+    # beat = ioloop.PeriodicCallback(dot, 100)
+    # beat.start()
 
     # try:
     #     fork_processes(cpu_count())

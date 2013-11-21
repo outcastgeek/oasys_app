@@ -34,12 +34,7 @@ called, because only one loop will be running.
 
 ioloop.install()
 
-import tornado
-import subprocess
-
 from tornado import web
-
-from .tornado_async_process_mixin import AsyncProcessMixIn
 
 logging.basicConfig()
 log = logging.getLogger(__file__)
@@ -90,7 +85,8 @@ class TestHandler(web.RequestHandler):
     def get(self):
         ctx = zmq.Context.instance()
         s = ctx.socket(zmq.REQ)
-        s.connect(self.application.zmq_tcp_address)
+        test_zmq_tcp_address = self.application.settings.get('test_zmq_tcp_address')
+        s.connect(test_zmq_tcp_address)
         # send request to worker
         s.send('hello')
         loop = ioloop.IOLoop.instance()

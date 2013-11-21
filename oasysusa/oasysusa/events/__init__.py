@@ -4,6 +4,7 @@ import itertools
 import logging
 import pymongo
 import transaction
+import zmq
 
 from beaker.cache import (
     cache_region,
@@ -50,7 +51,7 @@ def get_settings():
 def application_created_subscriber(event):
     region_invalidate(get_settings, 'long_term', 'settings')
     # pass
-    settings = get_settings()
+    settings = get_current_registry().settings # do not use the cacheable version during startup
     conn_string = settings.get('sqlalchemy.url')
     # log.warn('The connection string in use is: %s' % conn_string)
     if "sqlite"  in conn_string or "localhost" in conn_string:
@@ -70,6 +71,16 @@ def add_mongo(event):
     request = get_current_request()
     request.db = mongo_conn['client_timesheets']
     request.fs = GridFS(request.db)
+
+@subscriber(NewRequest)
+def add_s3_zmq_socket(event):
+    settings = get_settings()
+    s3_tcp_address = settings.get('s3_tcp_address')
+    ctx = zmq.Context.instance()
+    s3socket = ctx.socket(zmq.REQ)
+    s3socket.connect(s3_tcp_address)
+    request = get_current_request()
+    request.s3socket = s3socket
 
 
 @subscriber(BeforeRender)
@@ -91,3 +102,8 @@ def add_globals(event):
         TUTILS=template_utils,
     ))
 
+######################## ZMQ Handlers ############################
+
+from s3 import upload_to_s3
+
+zmq_handlers = [dict(address_key='s3_tcp_address', handler=upload_to_s3)]

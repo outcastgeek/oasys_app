@@ -65,6 +65,10 @@ def file_upload(request):
                     if not data:
                         break
                     fp.write(data)
+
+            request.s3socket.send_json(file_metadata)
+            request.s3socket.close()
+
             request.session.flash("You successfully uploaded file %s" % raw_file_data.filename)
         except: # catch *all* exceptions
             e = sys.exc_info()[0]
