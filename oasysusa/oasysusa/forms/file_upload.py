@@ -28,7 +28,6 @@ def form(request, metadata):
                 schema=FileUploadSchema())
     existing_files_handles = list(request.client_timesheets.find(metadata))
     existing_files = map(lambda f: dict(file_url=f.get('file_url'),
-                                        # fileid=str(f.get('_id')),
                                         filename=f.get('filename'),
                                         content_type=f.get('content_type')), existing_files_handles)
     response_data = dict(metadata.items() + dict(renderer=FormRenderer(form), request=request,

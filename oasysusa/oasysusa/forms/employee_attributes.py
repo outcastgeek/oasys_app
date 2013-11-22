@@ -33,11 +33,11 @@ def form(request, employee, current_page):
                                  obj=employee)
     project_names = get_project_names()
     monday, sunday = first_and_last_dow(current_day)
-    existing_files_handles = list(request.db.fs.files.find(dict(username=employee.username,
-                                                                file_upload_type="Client's Timesheet",
-                                                                start=monday.strftime(DATE_FORMAT),
-                                                                end=sunday.strftime(DATE_FORMAT))))
-    existing_files = map(lambda f: dict(fileid=str(f.get('_id')),
+    existing_files_handles = list(request.client_timesheets.find(dict(username=employee.username,
+                                                                      file_upload_type="Client's Timesheet",
+                                                                      start=monday.strftime(DATE_FORMAT),
+                                                                      end=sunday.strftime(DATE_FORMAT))))
+    existing_files = map(lambda f: dict(file_url=f.get('file_url'),
                                         filename=f.get('filename'),
                                         content_type=f.get('content_type')), existing_files_handles)
     response = render('templates/partials/employee_attributes_partial.jinja2',
