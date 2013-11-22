@@ -74,8 +74,7 @@ def add_mongo(event):
     mongo_url = settings.get('mongo.url')
     mongo_conn = pymongo.MongoClient(mongo_url)
     request = get_current_request()
-    request.db = mongo_conn['client_timesheets']
-    request.fs = GridFS(request.db)
+    request.client_timesheets = mongo_conn['employee_data']['client_timesheets']
 
 
 @subscriber(ApplicationCreated)

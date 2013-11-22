@@ -159,7 +159,7 @@ class S3Client(object):
         """
         client = AsyncHTTPClient()
         method = "PUT"
-        data = b64decode(data)
+        # data = b64decode(data) #TODO: to encode or not to encode????
 
         headers.update({
             "Content-Length": str(len(data)),

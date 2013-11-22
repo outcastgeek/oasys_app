@@ -5,7 +5,7 @@ import logging
 import sys
 import umsgpack
 
-# from tempfile import NamedTemporaryFile
+from tempfile import NamedTemporaryFile
 
 from bson.objectid import ObjectId
 
@@ -26,8 +26,9 @@ log = logging.getLogger(__file__)
 def form(request, metadata):
     form = Form(request,
                 schema=FileUploadSchema())
-    existing_files_handles = list(request.db.fs.files.find(metadata))
-    existing_files = map(lambda f: dict(fileid=str(f.get('_id')),
+    existing_files_handles = list(request.client_timesheets.find(metadata))
+    existing_files = map(lambda f: dict(file_url=f.get('file_url'),
+                                        # fileid=str(f.get('_id')),
                                         filename=f.get('filename'),
                                         content_type=f.get('content_type')), existing_files_handles)
     response_data = dict(metadata.items() + dict(renderer=FormRenderer(form), request=request,
@@ -59,21 +60,24 @@ def file_upload(request):
         file_metadata = json.loads(file_metadata_json_str)
         log.info("Persisting file somewhere...")
         try:
-            file_data = dict(file_metadata.items() + dict(filename=raw_file_data.filename,
+            filename = raw_file_data.filename.replace(' ', '_')
+            file_url = "//%s.s3.amazonaws.com/%s" % (request.s3conf.get('s3_bucket_name'), filename)
+            file_data = dict(file_metadata.items() + dict(filename=filename,
+                                                          file_url = file_url,
                                                           content_type=raw_file_data.type).items())
-            with request.fs.new_file(**file_data) as fp:
-                input_file.seek(0)
+            input_file.seek(0)
+            with NamedTemporaryFile(delete=True) as tmp_file:
                 while True:
                     data = input_file.read(2 << 16)
                     if not data:
                         break
-                    fp.write(data)
-                input_file.seek(0)
+                    tmp_file.write(data)
+                tmp_file.seek(0)
                 pack_msg = umsgpack.packb(dict(file_data.items()
                                                + request.s3conf.items()
-                                               + dict(file=input_file.read()).items()))
+                                               + dict(file=tmp_file.read()).items()))
                 request.s3socket.send(pack_msg)
-
+            request.client_timesheets.insert(file_data)
             request.session.flash("You successfully uploaded file %s" % raw_file_data.filename)
         except: # catch *all* exceptions
             e = sys.exc_info()[0]
