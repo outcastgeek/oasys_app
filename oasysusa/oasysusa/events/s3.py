@@ -190,6 +190,6 @@ class S3Client(object):
                            path, error, error.response.body, error.response.effective_url)
             raise Return(None)
 
-        self.log.info("Done uploading %s to s3!!!!\n%s", path, response)
+        self.log.info("Done uploading %s to s3!!!!\n[[\n%s\n]]", path, response.effective_url)
         raise Return(response)
 
