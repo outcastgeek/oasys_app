@@ -75,8 +75,7 @@ def file_upload(request):
                 pack_msg = umsgpack.packb(dict(file_data.items()
                                                + request.s3conf.items()
                                                + dict(file=tmp_file.read()).items()))
-                request.s3socket.send(pack_msg)
-                request.loop.add_callback(check_upload_later, request, file_url)
+                request.loop.add_callback(check_upload_later, request, file_url, pack_msg)
             request.client_timesheets.insert(file_data)
             request.session.flash("You successfully uploaded file %s" % raw_file_data.filename)
         except: # catch *all* exceptions
@@ -101,8 +100,10 @@ gen_log = logging.getLogger("tornado.general")
 
 
 @coroutine
-def check_upload_later(request, file_url):
-    yield Task(request.loop.add_timeout, time.time() + 5)
+def check_upload_later(request, file_url, pack_msg):
+    yield Task(request.loop.add_timeout, time.time() + 2)
+    request.s3socket.send(pack_msg)
+    yield Task(request.loop.add_timeout, time.time() + 3)
     status = yield Task(check_upload_success, request, file_url)
     gen_log.info("\n\n%s\n\n", status)
 
