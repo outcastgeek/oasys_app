@@ -13,21 +13,17 @@ from tornado import (
     web,
     httpserver)
 
-from tornado.process import (
-    cpu_count,
-    fork_processes,
-    )
-
 from .web import (
     dot,
     TestHandler)
 
 from .zmq_tornado_app import ZmqTornadoApp
 
-import threading
+from ..events import setup_zmq_handlers
 
 logging.basicConfig()
 log = logging.getLogger(__file__)
+
 
 def serve_paste(app, global_conf, **kw):
     # Logger objects for internal tornado use
@@ -44,9 +40,13 @@ def serve_paste(app, global_conf, **kw):
     oasysusa_log.setLevel(logging.INFO)
 
     port = kw.get('port', 6543)
-    # Enhance the current app settings
-    app.registry.settings = dict(app.registry.settings.items() + kw.items())
+
+    # Add the loop to the application registry
     app.registry.loop = loop
+
+    # Setup ZMQ handlers
+    setup_zmq_handlers(app.registry)
+
     wsgi_app = wsgi.WSGIContainer(app)
 
     log.info('Starting Custom Tornado server on port: %s' % str(port))
@@ -55,10 +55,7 @@ def serve_paste(app, global_conf, **kw):
         [
             (r"/async/web", TestHandler),
             (r'(.*)', web.FallbackHandler, dict(fallback=wsgi_app)),
-            ],
-        **kw
-    )
-    tornado_app.setup_zmq_handlers(loop=loop)
+        ])
 
     # worker = threading.Thread(target=slow_responder)
     # worker.daemon=True
@@ -66,11 +63,6 @@ def serve_paste(app, global_conf, **kw):
 
     beat = ioloop.PeriodicCallback(dot, 100)
     beat.start()
-
-    # try:
-    #     fork_processes(cpu_count())
-    # except:
-    #     log.error('Fork is not available on this system, proceeding...')
 
     http_server = httpserver.HTTPServer(tornado_app,
                                         xheaders=True)

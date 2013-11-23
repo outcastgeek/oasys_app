@@ -39,37 +39,37 @@ from tornado import web
 logging.basicConfig()
 log = logging.getLogger(__file__)
 
-def slow_responder():
-    """thread for slowly responding to replies."""
-    ctx = zmq.Context.instance()
-    socket = ctx.socket(zmq.REP)
-    socket.linger = 0
-    socket.bind('tcp://127.0.0.1:5555')
-    i=0
-    while True:
-        msg = socket.recv()
-        # print "\nworker received %r\n" % msg
-        log.info("\nworker received %r\n" % msg)
-        # time.sleep(random.randint(1,5))
-        time.sleep(1)
-        socket.send(msg + " to you too, #%i" % i)
-        i+=1
-
-def slow_responder():
-    """thread for slowly responding to replies."""
-    ctx = zmq.Context.instance()
-    socket = ctx.socket(zmq.REP)
-    socket.linger = 0
-    socket.bind('tcp://127.0.0.1:5555')
-    i=0
-    while True:
-        msg = socket.recv()
-        # print "\nworker received %r\n" % msg
-        log.info("\nworker received %r\n" % msg)
-        # time.sleep(random.randint(1,5))
-        time.sleep(1)
-        socket.send(msg + " to you too, #%i" % i)
-        i+=1
+# def slow_responder():
+#     """thread for slowly responding to replies."""
+#     ctx = zmq.Context.instance()
+#     socket = ctx.socket(zmq.REP)
+#     socket.linger = 0
+#     socket.bind('tcp://127.0.0.1:5555')
+#     i=0
+#     while True:
+#         msg = socket.recv()
+#         # print "\nworker received %r\n" % msg
+#         log.info("\nworker received %r\n" % msg)
+#         # time.sleep(random.randint(1,5))
+#         time.sleep(1)
+#         socket.send(msg + " to you too, #%i" % i)
+#         i+=1
+#
+# def slow_responder():
+#     """thread for slowly responding to replies."""
+#     ctx = zmq.Context.instance()
+#     socket = ctx.socket(zmq.REP)
+#     socket.linger = 0
+#     socket.bind('tcp://127.0.0.1:5555')
+#     i=0
+#     while True:
+#         msg = socket.recv()
+#         # print "\nworker received %r\n" % msg
+#         log.info("\nworker received %r\n" % msg)
+#         # time.sleep(random.randint(1,5))
+#         time.sleep(1)
+#         socket.send(msg + " to you too, #%i" % i)
+#         i+=1
 
 def dot():
     """callback for showing that IOLoop is still responsive while we wait"""

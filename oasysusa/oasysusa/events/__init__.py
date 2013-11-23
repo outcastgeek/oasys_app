@@ -1,20 +1,15 @@
 __author__ = 'outcastgeek'
 
-import boto
 import itertools
 import logging
+
 import pymongo
 import transaction
 import zmq
-
 from zmq.eventloop import zmqstream
-
-from boto.exception import S3ResponseError
-
 from beaker.cache import (
     cache_region,
     region_invalidate)
-from gridfs import GridFS
 from pyramid.events import (
     subscriber,
     BeforeRender,
@@ -24,8 +19,10 @@ from pyramid.threadlocal import (
     get_current_request)
 
 from ..models import DATE_FORMAT
-
 from ..admin.bootstrap import check_before_insert_user, check_before_insert_group
+
+from ..events.s3 import ensure_s3_bucket
+from ..events.zmq_event import setup_zmq_handlers
 
 logging.basicConfig()
 log = logging.getLogger(__file__)
@@ -56,7 +53,10 @@ def get_settings():
 def application_created_subscriber(event):
     region_invalidate(get_settings, 'long_term', 'settings')
     # pass
-    settings = get_current_registry().settings # do not use the cacheable version during startup
+    registry = get_current_registry()
+    settings = registry.settings # do not use the cacheable version during startup
+    ensure_s3_bucket(settings)
+
     conn_string = settings.get('sqlalchemy.url')
     # log.warn('The connection string in use is: %s' % conn_string)
     if "sqlite" in conn_string or "localhost" in conn_string:
@@ -75,19 +75,6 @@ def add_mongo(event):
     mongo_conn = pymongo.MongoClient(mongo_url)
     request = get_current_request()
     request.client_timesheets = mongo_conn['employee_data']['client_timesheets']
-
-
-@subscriber(ApplicationCreated)
-def ensure_s3_bucket(event):
-    log.info('Setting up s3 bucket...')
-    settings = get_current_registry().settings # do not use the cacheable version during startup
-    try:
-        conn = boto.connect_s3(aws_access_key_id=settings.get('s3_access_key_id'),
-                               aws_secret_access_key=settings.get('s3_secret'))
-        conn.create_bucket(settings.get('s3_bucket_name'))
-        log.info('Done with s3 bucket setup!!!!')
-    except S3ResponseError, error:
-        log.error("Could not setup s3 bucket: \n%s", error)
 
 
 @subscriber(NewRequest)
@@ -126,9 +113,3 @@ def add_globals(event):
         cljs_debug=cljs_debug,
         TUTILS=template_utils,
     ))
-
-######################## ZMQ Handlers ############################
-
-from s3 import upload_to_s3
-
-zmq_handlers = [dict(address_key='s3_tcp_address', handler=upload_to_s3, socket_type=zmq.PULL)]

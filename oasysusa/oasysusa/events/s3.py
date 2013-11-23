@@ -1,10 +1,32 @@
 __author__ = 'outcastgeek'
 
 import logging
+
+import boto
 import umsgpack
+from boto.exception import S3ResponseError
+from pyramid.threadlocal import get_current_registry
+
 
 logging.basicConfig()
 log = logging.getLogger(__file__)
+
+
+################### Lifecycle Events ################################
+
+
+def ensure_s3_bucket(settings):
+    log.info('Setting up s3 bucket...')
+    try:
+        conn = boto.connect_s3(aws_access_key_id=settings.get('s3_access_key_id'),
+                               aws_secret_access_key=settings.get('s3_secret'))
+        conn.create_bucket(settings.get('s3_bucket_name'))
+        log.info('Done with s3 bucket setup!!!!')
+    except S3ResponseError, error:
+        log.error("Could not setup s3 bucket: \n%s", error)
+
+
+################### END Lifecycle Events #############################
 
 
 def upload_to_s3(socket, events):
@@ -19,9 +41,9 @@ def upload_to_s3(socket, events):
 
 #Got it from here: https://gist.github.com/taylanpince/5876491
 
-import hashlib, hmac, mimetypes, os, time
+import hashlib, hmac, mimetypes
 
-from base64 import b64encode, b64decode
+from base64 import b64encode
 from calendar import timegm
 from datetime import datetime
 from email.utils import formatdate
