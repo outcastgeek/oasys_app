@@ -62,7 +62,7 @@ def file_upload(request):
             filename = raw_file_data.filename.replace(' ', '_')
             file_url = "//%s.s3.amazonaws.com/%s" % (request.s3conf.get('s3_bucket_name'), filename)
             file_data = dict(file_metadata.items() + dict(filename=filename,
-                                                          file_url = file_url,
+                                                          file_url=file_url,
                                                           content_type=raw_file_data.type).items())
             input_file.seek(0)
             with NamedTemporaryFile(delete=True) as tmp_file:
@@ -76,6 +76,7 @@ def file_upload(request):
                                                + request.s3conf.items()
                                                + dict(file=tmp_file.read()).items()))
                 request.s3socket.send(pack_msg)
+                request.loop.add_callback(check_upload_later, request, file_url)
             request.client_timesheets.insert(file_data)
             request.session.flash("You successfully uploaded file %s" % raw_file_data.filename)
         except: # catch *all* exceptions
@@ -90,4 +91,36 @@ class FileUploadSchema(Schema):
     filter_extra_fields = True
 
     file_info = FileUploadKeeper
+
+
+import time
+from tornado.gen import Task, Return, coroutine
+from tornado.httpclient import AsyncHTTPClient, HTTPRequest, HTTPError
+
+gen_log = logging.getLogger("tornado.general")
+
+
+@coroutine
+def check_upload_later(request, file_url):
+    yield Task(request.loop.add_timeout, time.time() + 5)
+    status = yield Task(check_upload_success, request, file_url)
+    gen_log.info("\n\n%s\n\n", status)
+
+
+@coroutine
+def check_upload_success(request, file_url):
+    yield Task(request.loop.add_timeout, time.time() + 5)
+    try:
+        url = "http:%s" % file_url
+        client = AsyncHTTPClient()
+        response = yield client.fetch(url,
+                                      method="HEAD",
+                                      connect_timeout=10,
+                                      request_timeout=30)
+        raise Return(response)
+    except HTTPError, e:
+        gen_log.error("\n\nOops, something went wrong...\n\n")
+        raise Return(None)
+
+
 

@@ -100,6 +100,7 @@ def add_s3_zmq_socket(event):
     loop = get_current_registry().loop
     s3socket = zmqstream.ZMQStream(s, loop)
     request = get_current_request()
+    request.loop = loop
     request.s3ctx = s3ctx
     request.s3socket = s3socket
     request.s3conf = dict(s3_access_key_id=settings.get('s3_access_key_id'),
