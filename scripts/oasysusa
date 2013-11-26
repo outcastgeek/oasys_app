@@ -86,6 +86,8 @@ stop() {
   else
     echo "OasysUSA is not running"
   fi
+
+  rm ${OASYSUSA_LOGS}/oasysusa.pid
  
   return 0
 }
