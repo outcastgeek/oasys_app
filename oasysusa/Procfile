@@ -1,4 +1,4 @@
 
-devices: ~/ENV/bin/python $(pwd)/devices.py production.ini
-services: ~/ENV/bin/python $(pwd)/services.py production.ini
-web: ~/ENV/bin/python $(pwd)/run-prod.py -p
+devices: /home/oasysusa/ENV/bin/run_oasysusa_devices production.ini
+services: /home/oasysusa/ENV/bin/run_oasysusa_services production.ini
+web: /home/oasysusa/ENV/bin/python $(pwd)/run-prod.py -p
