@@ -34,10 +34,10 @@ def add_handler(loop, settings, handler=None, address_key=None, socket_type=zmq.
     socket.bind(address)
     loop.add_handler(socket, handler, zmq.POLLIN)
 
-def slow_responder(self, socket, events):
+def slow_responder(socket, events):
     msg = socket.recv()
     # print "\nworker received %r\n" % msg
-    log.info("\nworker received %r\n" % msg)
-    time.sleep(random.randint(1,5))
-    time.sleep(1)
-    socket.send("%s to you too, #%i" % msg)
+    # log.info("\nworker received %r\n" % msg)
+    # time.sleep(random.randint(1,5))
+    # time.sleep(1)
+    socket.send("%s to you too, #%i" % (msg, events))

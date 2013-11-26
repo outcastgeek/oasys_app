@@ -25,8 +25,6 @@ requires = [
     'tornado',
     'passlib',
     'velruse',
-    'pyramid_persona',
-    'requests',
     'mock',
     'behave',
     ]
@@ -59,5 +57,7 @@ setup(name='oasysusa',
       run = oasysusa:serve_paste
       [console_scripts]
       initialize_oasysusa_db = oasysusa.scripts.initializedb:main
+      run_oasysusa_devices = oasysusa.scripts.devices:main
+      run_oasysusa_services = oasysusa.scripts.services:main
       """,
       )

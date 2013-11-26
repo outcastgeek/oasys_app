@@ -45,7 +45,7 @@ def serve_paste(app, global_conf, **kw):
     app.registry.loop = loop
 
     # Setup ZMQ handlers
-    setup_zmq_handlers(app.registry)
+    # setup_zmq_handlers(app.registry)
 
     wsgi_app = wsgi.WSGIContainer(app)
 
@@ -61,8 +61,8 @@ def serve_paste(app, global_conf, **kw):
     # worker.daemon=True
     # worker.start()
 
-    beat = ioloop.PeriodicCallback(dot, 100)
-    beat.start()
+    # beat = ioloop.PeriodicCallback(dot, 100)
+    # beat.start()
 
     http_server = httpserver.HTTPServer(tornado_app,
                                         xheaders=True)

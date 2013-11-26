@@ -85,7 +85,8 @@ class TestHandler(web.RequestHandler):
     def get(self):
         ctx = zmq.Context.instance()
         s = ctx.socket(zmq.REQ)
-        test_zmq_tcp_address = self.application.settings.get('test_zmq_tcp_address')
+        # test_zmq_tcp_address = self.application.settings.get('test_zmq_tcp_address')
+        test_zmq_tcp_address = 'tcp://127.0.0.1:5555'
         s.connect(test_zmq_tcp_address)
         # send request to worker
         s.send('hello')
@@ -102,25 +103,25 @@ class TestHandler(web.RequestHandler):
         self.write(reply)
         self.finish()
 
-# def main():
-#     worker = threading.Thread(target=slow_responder)
-#     worker.daemon=True
-#     worker.start()
-#
-#     application = web.Application([(r"/", TestHandler)])
-#     beat = ioloop.PeriodicCallback(dot, 100)
-#     beat.start()
-#     application.listen(8888)
-#     try:
-#         ioloop.IOLoop.instance().start()
-#     except KeyboardInterrupt:
-#         # print ' Interrupted'
-#         log.error(' Interrupted')
-#
-#
-# if __name__ == "__main__":
-#     main()
-#
-#
+def main():
+    # worker = threading.Thread(target=slow_responder)
+    # worker.daemon=True
+    # worker.start()
+
+    application = web.Application([(r"/", TestHandler)])
+    beat = ioloop.PeriodicCallback(dot, 100)
+    beat.start()
+    application.listen(8888)
+    try:
+        ioloop.IOLoop.instance().start()
+    except KeyboardInterrupt:
+        # print ' Interrupted'
+        log.error(' Interrupted')
+
+
+if __name__ == "__main__":
+    main()
+
+
 
 

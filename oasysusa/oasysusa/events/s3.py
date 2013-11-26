@@ -8,8 +8,7 @@ from boto.exception import S3ResponseError
 from pyramid.threadlocal import get_current_registry
 
 
-logging.basicConfig()
-log = logging.getLogger(__file__)
+log = logging.getLogger("oasysusa")
 
 
 ################### Lifecycle Events ################################
@@ -35,6 +34,7 @@ def upload_to_s3(socket, events):
     s3client = S3Client(access_key=file_data.get('s3_access_key_id'),
                         secret_key=file_data.get('s3_secret'),
                         bucket=file_data.get('s3_bucket_name'))
+    log.info("Uploading %s to s3", file_data.get('filename'))
     s3client.upload(path=file_data.get('filename'), data=file_data.get('file'))
 
 ##################### s3 Uploader Client #############################
@@ -69,7 +69,6 @@ class S3Client(object):
         self.access_key = access_key
         self.secret_key = secret_key
         self.bucket = bucket
-        self.log = gen_log = logging.getLogger("tornado.general")
 
     def generate_url(self, path):
         """
@@ -191,7 +190,7 @@ class S3Client(object):
         })
 
         try:
-            self.log.info("Uploading %s to s3...\n", path)
+            log.info("Uploading %s to s3...\n", path)
             response = yield client.fetch(
                 AWS_S3_BUCKET_URL % {
                     "bucket": self.bucket,
@@ -208,10 +207,10 @@ class S3Client(object):
                 )
             )
         except HTTPError, error:
-            self.log.error("Could not upload %s to s3!!!!\n[[\n%s\n%s\n%s\n]]",
+            log.error("Could not upload %s to s3!!!!\n[[\n%s\n%s\n%s\n]]",
                            path, error, error.response.body, error.response.effective_url)
             raise Return(None)
 
-        self.log.info("Done uploading %s to s3!!!!\n[[\n%s\n]]", path, response.effective_url)
+        log.info("Done uploading %s to s3!!!!\n[[\n%s\n]]", path, response.effective_url)
         raise Return(response)
 
