@@ -89,7 +89,7 @@ stop() {
     echo "OasysUSA is not running"
   fi
 
-  rm ${OASYSUSA_LOGS}/supervisord.pid
+  #rm ${OASYSUSA_LOGS}/supervisord.pid
  
   return 0
 }
