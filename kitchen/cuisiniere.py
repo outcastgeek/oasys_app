@@ -323,6 +323,9 @@ def stop_services():
     sudo('service redis-server stop')
     sudo('service mongodb stop')
     sudo('service oasysusa stop')
+    sudo('killall run_oasysusa_devices')
+    sudo('killall run_oasysusa_services')
+    sudo('killall pserve')
 
 def service_status(service_name):
     sudo('service %s status' % service_name)
