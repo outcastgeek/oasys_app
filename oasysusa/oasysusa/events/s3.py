@@ -1,11 +1,28 @@
 __author__ = 'outcastgeek'
 
-import logging
+from zmq.eventloop import ioloop
 
+ioloop.install() # should be done before any tornado stuff
+
+loop = ioloop.IOLoop.instance()
+
+import logging
+import time
 import boto
 import umsgpack
+
 from boto.exception import S3ResponseError
-from pyramid.threadlocal import get_current_registry
+
+import hashlib, hmac, mimetypes
+
+from base64 import b64encode
+from calendar import timegm
+from datetime import datetime
+from email.utils import formatdate
+from urllib import quote
+
+from tornado.gen import coroutine, Return, Task
+from tornado.httpclient import AsyncHTTPClient, HTTPError
 
 
 log = logging.getLogger("oasysusa")
@@ -27,7 +44,7 @@ def ensure_s3_bucket(settings):
 
 ################### END Lifecycle Events #############################
 
-
+@coroutine
 def upload_to_s3(socket, events):
     raw_msg = socket.recv()
     file_data = umsgpack.unpackb(raw_msg)
@@ -35,23 +52,13 @@ def upload_to_s3(socket, events):
                         secret_key=file_data.get('s3_secret'),
                         bucket=file_data.get('s3_bucket_name'))
     log.info("Uploading %s to s3", file_data.get('filename'))
-    s3client.upload(path=file_data.get('filename'), data=file_data.get('file'))
+    response = yield s3client.upload(path=file_data.get('filename'), data=file_data.get('file'))
+    if response:
+        yield s3client.check_upload_later(response.effective_url)
 
 ##################### s3 Uploader Client #############################
 
 #Got it from here: https://gist.github.com/taylanpince/5876491
-
-import hashlib, hmac, mimetypes
-
-from base64 import b64encode
-from calendar import timegm
-from datetime import datetime
-from email.utils import formatdate
-from urllib import quote
-
-from tornado.gen import coroutine, Return
-from tornado.httpclient import AsyncHTTPClient, HTTPError
-
 
 AWS_S3_BUCKET_URL = "http://%(bucket)s.s3.amazonaws.com/%(path)s"
 AWS_S3_CONNECT_TIMEOUT = 10
@@ -63,12 +70,13 @@ class S3Client(object):
       AWS client that handles asynchronous uploads to S3 buckets
       """
 
-    def __init__(self, access_key=None, secret_key=None, bucket=None):
+    def __init__(self, access_key=None, secret_key=None, bucket=None, io_loop=loop):
         super(S3Client, self).__init__()
 
         self.access_key = access_key
         self.secret_key = secret_key
         self.bucket = bucket
+        self.io_loop = io_loop
 
     def generate_url(self, path):
         """
@@ -208,9 +216,31 @@ class S3Client(object):
             )
         except HTTPError, error:
             log.error("Could not upload %s to s3!!!!\n[[\n%s\n%s\n%s\n]]",
-                           path, error, error.response.body, error.response.effective_url)
+                      path, error, error.response.body, error.response.effective_url)
             raise Return(None)
 
         log.info("Done uploading %s to s3!!!!\n[[\n%s\n]]", path, response.effective_url)
         raise Return(response)
+
+    @coroutine
+    def check_upload_later(self, file_url):
+        yield Task(self.io_loop.add_timeout, time.time() + 5)
+        status = yield Task(self.check_upload_success, file_url)
+        log.info("\n\n%s\n\n", status)
+
+
+    @coroutine
+    def check_upload_success(self, file_url):
+        yield Task(self.io_loop.add_timeout, time.time() + 5)
+        try:
+            url = "http:%s" % file_url
+            client = AsyncHTTPClient()
+            response = yield client.fetch(url,
+                                          method="HEAD",
+                                          connect_timeout=10,
+                                          request_timeout=30)
+            raise Return(response)
+        except HTTPError, e:
+            log.error("\n\nOops, something went wrong...\n\n")
+            raise Return(None)
 

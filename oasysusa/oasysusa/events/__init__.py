@@ -6,14 +6,16 @@ import logging
 import pymongo
 import transaction
 import zmq
-from zmq.eventloop import zmqstream
+
 from beaker.cache import (
     cache_region,
     region_invalidate)
+
 from pyramid.events import (
     subscriber,
     BeforeRender,
     ApplicationCreated, NewRequest)
+
 from pyramid.threadlocal import (
     get_current_registry,
     get_current_request)
@@ -82,12 +84,9 @@ def add_s3_zmq_socket(event):
     settings = get_settings()
     s3_tcp_address = settings.get('s3_tcp_address')
     s3ctx = zmq.Context.instance()
-    s = s3ctx.socket(zmq.PUSH)
-    s.connect(s3_tcp_address)
-    loop = get_current_registry().loop
-    s3socket = zmqstream.ZMQStream(s, loop)
+    s3socket = s3ctx.socket(zmq.PUSH)
+    s3socket.connect(s3_tcp_address)
     request = get_current_request()
-    request.loop = loop
     request.s3ctx = s3ctx
     request.s3socket = s3socket
     request.s3conf = dict(s3_access_key_id=settings.get('s3_access_key_id'),
