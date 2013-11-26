@@ -35,10 +35,12 @@ env.roledefs = {
     'local': ['vagrant@127.0.0.1:2222'],
     'polyglot': ['root@166.78.121.77'],
     'poly': ['root@198.61.175.146'],
+    'haut': ['root@198.61.239.247'],
     'og': ['root@outcastgeek.com']
 }
 # Use qxYnD6LnRS4H
 # Use jPYM53shyN87
+# Use WBnMozXbU6Gt
 
 def check_VM_Specs():
     sudo('dmesg | grep CPU')
@@ -106,17 +108,7 @@ def setup_packages(local='retina'):
     # package_ensure('maven')
     # sudo('update-alternatives --set java /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java')
 
-    #JRuby
-    #sudo('curl -L https://get.rvm.io | bash -s stable --ruby=2.0.0')
-    #sudo('rvm use ruby')
-    #sudo('gem update --system')
-    #sudo('gem update')
-    #sudo('gem install bundler foreman')
-    #sudo('rvm install 1.7.3')
-    #sudo('rvm use 1.7.3')
-    #sudo('gem update --system')
-    #sudo('gem update')
-    #sudo('gem install therubyrhino jruby-openssl bundler')
+    # setup_ruby()
 
     #Other
     #puts(green('Installing additional software'))
@@ -128,6 +120,19 @@ def setup_packages(local='retina'):
     #package_ensure('gambc')
     #package_ensure('libgambc4-dev')
     #package_ensure('haskell-platform')
+
+def setup_ruby():
+    #JRuby
+    sudo('curl -L https://get.rvm.io | bash -s stable --ruby=2.0.0')
+    sudo('rvm use ruby')
+    sudo('gem update --system')
+    sudo('gem update')
+    sudo('gem install bundler foreman')
+    #sudo('rvm install 1.7.3')
+    #sudo('rvm use 1.7.3')
+    #sudo('gem update --system')
+    #sudo('gem update')
+    #sudo('gem install therubyrhino jruby-openssl bundler')
 
 def setup_users():
     puts(green('Creating Ubuntu users'))   
@@ -206,6 +211,7 @@ def put_oasysusa(local='retina'):
     oasysusa_conf = '/etc/init/oasysusa.conf'
     sudo('touch ' + oasysusa_conf)
     file_write(oasysusa_conf, "# this is an abstract oasysusa job containing only a comment", owner='oasysusa', sudo=True)
+
 
 def put_system_health():
     puts(green('Putting new health script'))
