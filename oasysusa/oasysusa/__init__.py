@@ -94,12 +94,5 @@ def main(global_config, **settings):
     config.scan()
     return config.make_wsgi_app()
 
-######################## RUNNER #########################################
-
-from .async import tornado_paste_server
-
-def serve_paste(app, global_conf, **kw):
-    tornado_paste_server.serve_paste(app, global_conf, **kw)
-
 
 
