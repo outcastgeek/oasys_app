@@ -73,10 +73,11 @@ def application_created_subscriber(event):
 @subscriber(NewRequest)
 def add_mongo(event):
     settings = get_settings()
+    mongo_db = settings.get('mongo.db')
     mongo_url = settings.get('mongo.url')
     mongo_conn = pymongo.MongoClient(mongo_url)
     request = get_current_request()
-    request.client_timesheets = mongo_conn['employee_data']['client_timesheets']
+    request.client_timesheets = mongo_conn[mongo_db]['employee_data']['client_timesheets']
 
 
 @subscriber(NewRequest)
