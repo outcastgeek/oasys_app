@@ -54,7 +54,8 @@ paste==1.7.5.1
 pyzmq==14.0.0
 u-msgpack-python==1.4
 #uwsgi==1.9.18.2
-m2wsgid==0.7.1
+#m2wsgid==0.7.1
+elasticsearch==0.4.3
 sunburnt==0.6
 envoy==0.0.2
 
