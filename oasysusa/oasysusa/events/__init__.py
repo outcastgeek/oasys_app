@@ -86,7 +86,7 @@ def add_s3_zmq_socket(event):
     s3_tcp_address = settings.get('s3_tcp_address')
     s3ctx = zmq.Context.instance()
     s3socket = s3ctx.socket(zmq.PUSH)
-    s3socket.connect(s3_tcp_address)
+    # s3socket.connect(s3_tcp_address)
     request = get_current_request()
     request.s3ctx = s3ctx
     request.s3socket = s3socket

@@ -1,4 +1,4 @@
 
 devices: python.exe oasysusa/scripts/devices.py development.ini
 services: python.exe oasysusa/scripts/services.py development.ini
-web: pserve.exe development.ini
+#web: pserve.exe development.ini

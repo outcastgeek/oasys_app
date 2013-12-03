@@ -29,52 +29,20 @@
                                       :output-to "oasysusa/oasysusa/static/js/repl.js"
                                       :optimizations :simple
                                       :pretty-print true}}
-                         {:id "profile-dev"
-                          :source-paths ["src-cljs/profile", "src-cljs/utils"]
-                          :externs ["externs/jquery-1.9.js"]
-                          :compiler {
-                                      :output-to "oasysusa/oasysusa/static/js/profile-dev.js"
-                                      :optimizations :simple
-                                      :pretty-print true}}
-                         {:id "profile"
-                          :source-paths ["src-cljs/profile", "src-cljs/utils"]
-                          :externs ["externs/jquery-1.9.js"]
-                          :compiler {
-;                                      :output-dir "oasysusa/oasysusa/static/js"
-                                      :output-to "oasysusa/oasysusa/static/js/profile.js"
-                                      :source-map "oasysusa/oasysusa/static/js/profile.js.map"
-                                      :optimizations :advanced
-                                      :pretty-print false}}
-                         {:id "project-dev"
-                          :source-paths ["src-cljs/timesheet/project", "src-cljs/utils"]
-                          :externs ["externs/jquery-1.9.js"]
-                          :compiler {
-                                      :output-to "oasysusa/oasysusa/static/js/project-dev.js"
-                                      :optimizations :simple
-                                      :pretty-print true}}
-                         {:id "project"
-                          :source-paths ["src-cljs/timesheet/project", "src-cljs/utils"]
-                          :externs ["externs/jquery-1.9.js"]
-                          :compiler {
-;                                      :output-dir "oasysusa/oasysusa/static/js"
-                                      :output-to "oasysusa/oasysusa/static/js/project.js"
-                                      :source-map "oasysusa/oasysusa/static/js/project.js.map"
-                                      :optimizations :advanced
-                                      :pretty-print false}}
-                         {:id "timesheet-form-dev"
-                          :source-paths ["src-cljs/timesheet/form", "src-cljs/utils"]
+                         {:id "form-dev"
+                          :source-paths ["src-cljs/utils", "src-cljs/form"]
 ;                          :externs ["externs/jquery-1.9.js"]
                           :compiler {
-                                      :output-to "oasysusa/oasysusa/static/js/timesheet-form-dev.js"
+                                      :output-to "oasysusa/oasysusa/static/js/form-dev.js"
                                       :optimizations :simple
                                       :pretty-print true}}
-                         {:id "timesheet-form"
-                          :source-paths ["src-cljs/timesheet/form", "src-cljs/utils"]
+                         {:id "form"
+                          :source-paths ["src-cljs/utils", "src-cljs/form"]
 ;                          :externs ["externs/jquery-1.9.js"]
                           :compiler {
-                                      ;                                      :output-dir "oasysusa/oasysusa/static/js"
-                                      :output-to "oasysusa/oasysusa/static/js/timesheet-form.js"
-                                      :source-map "oasysusa/oasysusa/static/js/timesheet-form.js.map"
+;                                      :output-dir "oasysusa/oasysusa/static/js"
+                                      :output-to "oasysusa/oasysusa/static/js/form.js"
+                                      :source-map "oasysusa/oasysusa/static/js/form.js.map"
                                       :optimizations :advanced
                                       :pretty-print false}}
                          {:id "hello"
@@ -83,6 +51,14 @@
                           :compiler {
                                       :target :nodejs
                                       :output-to "target/nodejs/hello-node.js"
+                                      :optimizations :simple
+                                      :pretty-print true}}
+                         {:id "services"
+                          :source-paths ["node-cljs/express"]
+                          :externs []
+                          :compiler {
+                                      :target :nodejs
+                                      :output-to "node-services/services.js"
                                       :optimizations :simple
                                       :pretty-print true}}
                          {:id "phantom"

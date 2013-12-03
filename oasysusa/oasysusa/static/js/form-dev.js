@@ -3424,16 +3424,16 @@ cljs.core.fn_QMARK_ = function(a) {
 };
 cljs.core.with_meta = function with_meta(b, c) {
   return cljs.core.fn_QMARK_.call(null, b) && !(b ? b.cljs$lang$protocol_mask$partition0$ & 262144 || b.cljs$core$IWithMeta$ || (b.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IWithMeta, b)) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IWithMeta, b)) ? with_meta.call(null, function() {
-    "undefined" === typeof cljs.core.t14858 && (cljs.core.t14858 = function(b, c, f, g) {
+    "undefined" === typeof cljs.core.t5218 && (cljs.core.t5218 = function(b, c, f, g) {
       this.meta = b;
       this.o = c;
       this.with_meta = f;
-      this.meta14859 = g;
+      this.meta5219 = g;
       this.cljs$lang$protocol_mask$partition1$ = 0;
       this.cljs$lang$protocol_mask$partition0$ = 393217
-    }, cljs.core.t14858.cljs$lang$type = !0, cljs.core.t14858.cljs$lang$ctorStr = "cljs.core/t14858", cljs.core.t14858.cljs$lang$ctorPrWriter = function(b, c, f) {
-      return cljs.core._write.call(null, c, "cljs.core/t14858")
-    }, cljs.core.t14858.prototype.call = function() {
+    }, cljs.core.t5218.cljs$lang$type = !0, cljs.core.t5218.cljs$lang$ctorStr = "cljs.core/t5218", cljs.core.t5218.cljs$lang$ctorPrWriter = function(b, c, f) {
+      return cljs.core._write.call(null, c, "cljs.core/t5218")
+    }, cljs.core.t5218.prototype.call = function() {
       var b = function(b, c) {
         return cljs.core.apply.call(null, b.o, c)
       }, c = function(c, e) {
@@ -3450,9 +3450,9 @@ cljs.core.with_meta = function with_meta(b, c) {
       };
       c.cljs$core$IFn$_invoke$arity$variadic = b;
       return c
-    }(), cljs.core.t14858.prototype.apply = function(b, c) {
+    }(), cljs.core.t5218.prototype.apply = function(b, c) {
       return this.call.apply(this, [this].concat(c.slice()))
-    }, cljs.core.t14858.prototype.cljs$core$IFn$_invoke$arity$2 = function() {
+    }, cljs.core.t5218.prototype.cljs$core$IFn$_invoke$arity$2 = function() {
       var b = function(b) {
         return cljs.core.apply.call(null, self__.o, b)
       }, c = function(c) {
@@ -3467,14 +3467,14 @@ cljs.core.with_meta = function with_meta(b, c) {
       };
       c.cljs$core$IFn$_invoke$arity$variadic = b;
       return c
-    }(), cljs.core.t14858.prototype.cljs$core$Fn$ = !0, cljs.core.t14858.prototype.cljs$core$IMeta$_meta$arity$1 = function(b) {
-      return this.meta14859
-    }, cljs.core.t14858.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(b, c) {
-      return new cljs.core.t14858(this.meta, this.o, this.with_meta, c)
-    }, cljs.core.__GT_t14858 = function(b, c, f, g) {
-      return new cljs.core.t14858(b, c, f, g)
+    }(), cljs.core.t5218.prototype.cljs$core$Fn$ = !0, cljs.core.t5218.prototype.cljs$core$IMeta$_meta$arity$1 = function(b) {
+      return this.meta5219
+    }, cljs.core.t5218.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(b, c) {
+      return new cljs.core.t5218(this.meta, this.o, this.with_meta, c)
+    }, cljs.core.__GT_t5218 = function(b, c, f, g) {
+      return new cljs.core.t5218(b, c, f, g)
     });
-    return new cljs.core.t14858(c, b, with_meta, null)
+    return new cljs.core.t5218(c, b, with_meta, null)
   }(), c) : cljs.core._with_meta.call(null, b, c)
 };
 cljs.core.meta = function(a) {
@@ -16892,20 +16892,20 @@ goog.events.wrapListener_ = function(a) {
 goog.debug.entryPointRegistry.register(function(a) {
   goog.events.handleBrowserEvent_ = a(goog.events.handleBrowserEvent_)
 });
-var domina = {support:{}}, div_16350 = document.createElement("div"), test_html_16351 = "   \x3clink/\x3e\x3ctable\x3e\x3c/table\x3e\x3ca href\x3d'/a' style\x3d'top:1px;float:left;opacity:.55;'\x3ea\x3c/a\x3e\x3cinput type\x3d'checkbox'/\x3e";
-div_16350.innerHTML = test_html_16351;
-domina.support.leading_whitespace_QMARK_ = cljs.core._EQ_.call(null, div_16350.firstChild.nodeType, 3);
-domina.support.extraneous_tbody_QMARK_ = cljs.core._EQ_.call(null, div_16350.getElementsByTagName("tbody").length, 0);
-domina.support.unscoped_html_elements_QMARK_ = cljs.core._EQ_.call(null, div_16350.getElementsByTagName("link").length, 0);
+var domina = {support:{}}, div_7686 = document.createElement("div"), test_html_7687 = "   \x3clink/\x3e\x3ctable\x3e\x3c/table\x3e\x3ca href\x3d'/a' style\x3d'top:1px;float:left;opacity:.55;'\x3ea\x3c/a\x3e\x3cinput type\x3d'checkbox'/\x3e";
+div_7686.innerHTML = test_html_7687;
+domina.support.leading_whitespace_QMARK_ = cljs.core._EQ_.call(null, div_7686.firstChild.nodeType, 3);
+domina.support.extraneous_tbody_QMARK_ = cljs.core._EQ_.call(null, div_7686.getElementsByTagName("tbody").length, 0);
+domina.support.unscoped_html_elements_QMARK_ = cljs.core._EQ_.call(null, div_7686.getElementsByTagName("link").length, 0);
 domina.re_html = /<|&#?\w+;/;
 domina.re_leading_whitespace = /^\s+/;
 domina.re_xhtml_tag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/i;
 domina.re_tag_name = /<([\w:]+)/;
 domina.re_no_inner_html = /<(?:script|style)/i;
 domina.re_tbody = /<tbody/i;
-var opt_wrapper_15902 = cljs.core.PersistentVector.fromArray([1, "\x3cselect multiple\x3d'multiple'\x3e", "\x3c/select\x3e"], !0), table_section_wrapper_15903 = cljs.core.PersistentVector.fromArray([1, "\x3ctable\x3e", "\x3c/table\x3e"], !0), cell_wrapper_15904 = cljs.core.PersistentVector.fromArray([3, "\x3ctable\x3e\x3ctbody\x3e\x3ctr\x3e", "\x3c/tr\x3e\x3c/tbody\x3e\x3c/table\x3e"], !0);
-domina.wrap_map = cljs.core.PersistentHashMap.fromArrays(["col", new cljs.core.Keyword(null, "default", "default", 2558708147), "tfoot", "caption", "optgroup", "legend", "area", "td", "thead", "th", "option", "tbody", "tr", "colgroup"], [cljs.core.PersistentVector.fromArray([2, "\x3ctable\x3e\x3ctbody\x3e\x3c/tbody\x3e\x3ccolgroup\x3e", "\x3c/colgroup\x3e\x3c/table\x3e"], !0), cljs.core.PersistentVector.fromArray([0, "", ""], !0), table_section_wrapper_15903, table_section_wrapper_15903, opt_wrapper_15902, 
-cljs.core.PersistentVector.fromArray([1, "\x3cfieldset\x3e", "\x3c/fieldset\x3e"], !0), cljs.core.PersistentVector.fromArray([1, "\x3cmap\x3e", "\x3c/map\x3e"], !0), cell_wrapper_15904, table_section_wrapper_15903, cell_wrapper_15904, opt_wrapper_15902, table_section_wrapper_15903, cljs.core.PersistentVector.fromArray([2, "\x3ctable\x3e\x3ctbody\x3e", "\x3c/tbody\x3e\x3c/table\x3e"], !0), table_section_wrapper_15903]);
+var opt_wrapper_7238 = cljs.core.PersistentVector.fromArray([1, "\x3cselect multiple\x3d'multiple'\x3e", "\x3c/select\x3e"], !0), table_section_wrapper_7239 = cljs.core.PersistentVector.fromArray([1, "\x3ctable\x3e", "\x3c/table\x3e"], !0), cell_wrapper_7240 = cljs.core.PersistentVector.fromArray([3, "\x3ctable\x3e\x3ctbody\x3e\x3ctr\x3e", "\x3c/tr\x3e\x3c/tbody\x3e\x3c/table\x3e"], !0);
+domina.wrap_map = cljs.core.PersistentHashMap.fromArrays(["col", new cljs.core.Keyword(null, "default", "default", 2558708147), "tfoot", "caption", "optgroup", "legend", "area", "td", "thead", "th", "option", "tbody", "tr", "colgroup"], [cljs.core.PersistentVector.fromArray([2, "\x3ctable\x3e\x3ctbody\x3e\x3c/tbody\x3e\x3ccolgroup\x3e", "\x3c/colgroup\x3e\x3c/table\x3e"], !0), cljs.core.PersistentVector.fromArray([0, "", ""], !0), table_section_wrapper_7239, table_section_wrapper_7239, opt_wrapper_7238, 
+cljs.core.PersistentVector.fromArray([1, "\x3cfieldset\x3e", "\x3c/fieldset\x3e"], !0), cljs.core.PersistentVector.fromArray([1, "\x3cmap\x3e", "\x3c/map\x3e"], !0), cell_wrapper_7240, table_section_wrapper_7239, cell_wrapper_7240, opt_wrapper_7238, table_section_wrapper_7239, cljs.core.PersistentVector.fromArray([2, "\x3ctable\x3e\x3ctbody\x3e", "\x3c/tbody\x3e\x3c/table\x3e"], !0), table_section_wrapper_7239]);
 domina.remove_extraneous_tbody_BANG_ = function(a, b, c, d) {
   b = cljs.core.not.call(null, cljs.core.re_find.call(null, domina.re_tbody, b));
   cljs.core._EQ_.call(null, c, "table") && b ? (c = a.firstChild, a = cljs.core.truth_(c) ? a.firstChild.childNodes : c) : a = cljs.core._EQ_.call(null, d, "\x3ctable\x3e") && b ? divchildNodes : cljs.core.PersistentVector.EMPTY;
@@ -17601,41 +17601,41 @@ domina.events.root_element = window.document.documentElement;
 domina.events.create_listener_function = function create_listener_function(b) {
   return function(c) {
     b.call(null, function() {
-      "undefined" === typeof domina.events.t15738 && (domina.events.t15738 = function(b, c, f, g) {
+      "undefined" === typeof domina.events.t7074 && (domina.events.t7074 = function(b, c, f, g) {
         this.evt = b;
         this.f = c;
         this.create_listener_function = f;
-        this.meta15739 = g;
+        this.meta7075 = g;
         this.cljs$lang$protocol_mask$partition1$ = 0;
         this.cljs$lang$protocol_mask$partition0$ = 393472
-      }, domina.events.t15738.cljs$lang$type = !0, domina.events.t15738.cljs$lang$ctorStr = "domina.events/t15738", domina.events.t15738.cljs$lang$ctorPrWriter = function(b, c, f) {
-        return cljs.core._write.call(null, c, "domina.events/t15738")
-      }, domina.events.t15738.prototype.cljs$core$ILookup$_lookup$arity$2 = function(b, c) {
+      }, domina.events.t7074.cljs$lang$type = !0, domina.events.t7074.cljs$lang$ctorStr = "domina.events/t7074", domina.events.t7074.cljs$lang$ctorPrWriter = function(b, c, f) {
+        return cljs.core._write.call(null, c, "domina.events/t7074")
+      }, domina.events.t7074.prototype.cljs$core$ILookup$_lookup$arity$2 = function(b, c) {
         var f = this.evt[c];
         return cljs.core.truth_(f) ? f : this.evt[cljs.core.name.call(null, c)]
-      }, domina.events.t15738.prototype.cljs$core$ILookup$_lookup$arity$3 = function(b, c, f) {
+      }, domina.events.t7074.prototype.cljs$core$ILookup$_lookup$arity$3 = function(b, c, f) {
         b = cljs.core._lookup.call(null, this, c);
         return cljs.core.truth_(b) ? b : f
-      }, domina.events.t15738.prototype.domina$events$Event$ = !0, domina.events.t15738.prototype.domina$events$Event$prevent_default$arity$1 = function(b) {
+      }, domina.events.t7074.prototype.domina$events$Event$ = !0, domina.events.t7074.prototype.domina$events$Event$prevent_default$arity$1 = function(b) {
         return this.evt.preventDefault()
-      }, domina.events.t15738.prototype.domina$events$Event$stop_propagation$arity$1 = function(b) {
+      }, domina.events.t7074.prototype.domina$events$Event$stop_propagation$arity$1 = function(b) {
         return this.evt.stopPropagation()
-      }, domina.events.t15738.prototype.domina$events$Event$target$arity$1 = function(b) {
+      }, domina.events.t7074.prototype.domina$events$Event$target$arity$1 = function(b) {
         return this.evt.target
-      }, domina.events.t15738.prototype.domina$events$Event$current_target$arity$1 = function(b) {
+      }, domina.events.t7074.prototype.domina$events$Event$current_target$arity$1 = function(b) {
         return this.evt.currentTarget
-      }, domina.events.t15738.prototype.domina$events$Event$event_type$arity$1 = function(b) {
+      }, domina.events.t7074.prototype.domina$events$Event$event_type$arity$1 = function(b) {
         return this.evt.type
-      }, domina.events.t15738.prototype.domina$events$Event$raw_event$arity$1 = function(b) {
+      }, domina.events.t7074.prototype.domina$events$Event$raw_event$arity$1 = function(b) {
         return this.evt
-      }, domina.events.t15738.prototype.cljs$core$IMeta$_meta$arity$1 = function(b) {
-        return this.meta15739
-      }, domina.events.t15738.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(b, c) {
-        return new domina.events.t15738(this.evt, this.f, this.create_listener_function, c)
-      }, domina.events.__GT_t15738 = function(b, c, f, g) {
-        return new domina.events.t15738(b, c, f, g)
+      }, domina.events.t7074.prototype.cljs$core$IMeta$_meta$arity$1 = function(b) {
+        return this.meta7075
+      }, domina.events.t7074.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(b, c) {
+        return new domina.events.t7074(this.evt, this.f, this.create_listener_function, c)
+      }, domina.events.__GT_t7074 = function(b, c, f, g) {
+        return new domina.events.t7074(b, c, f, g)
       });
-      return new domina.events.t15738(c, b, create_listener_function, null)
+      return new domina.events.t7074(c, b, create_listener_function, null)
     }());
     return!0
   }
@@ -19476,26 +19476,26 @@ cljs.core.async.impl.ioc_helpers.finished_QMARK_ = function(a) {
   return a[cljs.core.async.impl.ioc_helpers.STATE_IDX] === new cljs.core.Keyword(null, "finished", "finished", 4635210724)
 };
 cljs.core.async.impl.ioc_helpers.fn_handler = function fn_handler(b) {
-  "undefined" === typeof cljs.core.async.impl.ioc_helpers.t15705 && (cljs.core.async.impl.ioc_helpers.t15705 = function(b, d, e) {
+  "undefined" === typeof cljs.core.async.impl.ioc_helpers.t7041 && (cljs.core.async.impl.ioc_helpers.t7041 = function(b, d, e) {
     this.f = b;
     this.fn_handler = d;
-    this.meta15706 = e;
+    this.meta7042 = e;
     this.cljs$lang$protocol_mask$partition1$ = 0;
     this.cljs$lang$protocol_mask$partition0$ = 393216
-  }, cljs.core.async.impl.ioc_helpers.t15705.cljs$lang$type = !0, cljs.core.async.impl.ioc_helpers.t15705.cljs$lang$ctorStr = "cljs.core.async.impl.ioc-helpers/t15705", cljs.core.async.impl.ioc_helpers.t15705.cljs$lang$ctorPrWriter = function(b, d, e) {
-    return cljs.core._write.call(null, d, "cljs.core.async.impl.ioc-helpers/t15705")
-  }, cljs.core.async.impl.ioc_helpers.t15705.prototype.cljs$core$async$impl$protocols$Handler$ = !0, cljs.core.async.impl.ioc_helpers.t15705.prototype.cljs$core$async$impl$protocols$Handler$active_QMARK_$arity$1 = function(b) {
+  }, cljs.core.async.impl.ioc_helpers.t7041.cljs$lang$type = !0, cljs.core.async.impl.ioc_helpers.t7041.cljs$lang$ctorStr = "cljs.core.async.impl.ioc-helpers/t7041", cljs.core.async.impl.ioc_helpers.t7041.cljs$lang$ctorPrWriter = function(b, d, e) {
+    return cljs.core._write.call(null, d, "cljs.core.async.impl.ioc-helpers/t7041")
+  }, cljs.core.async.impl.ioc_helpers.t7041.prototype.cljs$core$async$impl$protocols$Handler$ = !0, cljs.core.async.impl.ioc_helpers.t7041.prototype.cljs$core$async$impl$protocols$Handler$active_QMARK_$arity$1 = function(b) {
     return!0
-  }, cljs.core.async.impl.ioc_helpers.t15705.prototype.cljs$core$async$impl$protocols$Handler$commit$arity$1 = function(b) {
+  }, cljs.core.async.impl.ioc_helpers.t7041.prototype.cljs$core$async$impl$protocols$Handler$commit$arity$1 = function(b) {
     return this.f
-  }, cljs.core.async.impl.ioc_helpers.t15705.prototype.cljs$core$IMeta$_meta$arity$1 = function(b) {
-    return this.meta15706
-  }, cljs.core.async.impl.ioc_helpers.t15705.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(b, d) {
-    return new cljs.core.async.impl.ioc_helpers.t15705(this.f, this.fn_handler, d)
-  }, cljs.core.async.impl.ioc_helpers.__GT_t15705 = function(b, d, e) {
-    return new cljs.core.async.impl.ioc_helpers.t15705(b, d, e)
+  }, cljs.core.async.impl.ioc_helpers.t7041.prototype.cljs$core$IMeta$_meta$arity$1 = function(b) {
+    return this.meta7042
+  }, cljs.core.async.impl.ioc_helpers.t7041.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(b, d) {
+    return new cljs.core.async.impl.ioc_helpers.t7041(this.f, this.fn_handler, d)
+  }, cljs.core.async.impl.ioc_helpers.__GT_t7041 = function(b, d, e) {
+    return new cljs.core.async.impl.ioc_helpers.t7041(b, d, e)
   });
-  return new cljs.core.async.impl.ioc_helpers.t15705(b, fn_handler, null)
+  return new cljs.core.async.impl.ioc_helpers.t7041(b, fn_handler, null)
 };
 cljs.core.async.impl.ioc_helpers.run_state_machine = function(a) {
   return cljs.core.async.impl.ioc_helpers.aget_object.call(null, a, cljs.core.async.impl.ioc_helpers.FN_IDX).call(null, a)
@@ -19766,24 +19766,24 @@ cljs.core.async.impl.dispatch.queue_delay = function(a, b) {
 };
 cljs.core.async.impl.channels = {};
 cljs.core.async.impl.channels.box = function box$$0(b) {
-  "undefined" === typeof cljs.core.async.impl.channels.t15694 && (cljs.core.async.impl.channels.t15694 = function(b, d, e) {
+  "undefined" === typeof cljs.core.async.impl.channels.t7030 && (cljs.core.async.impl.channels.t7030 = function(b, d, e) {
     this.val = b;
     this.box = d;
-    this.meta15695 = e;
+    this.meta7031 = e;
     this.cljs$lang$protocol_mask$partition1$ = 0;
     this.cljs$lang$protocol_mask$partition0$ = 425984
-  }, cljs.core.async.impl.channels.t15694.cljs$lang$type = !0, cljs.core.async.impl.channels.t15694.cljs$lang$ctorStr = "cljs.core.async.impl.channels/t15694", cljs.core.async.impl.channels.t15694.cljs$lang$ctorPrWriter = function(b, d, e) {
-    return cljs.core._write.call(null, d, "cljs.core.async.impl.channels/t15694")
-  }, cljs.core.async.impl.channels.t15694.prototype.cljs$core$IDeref$_deref$arity$1 = function(b) {
+  }, cljs.core.async.impl.channels.t7030.cljs$lang$type = !0, cljs.core.async.impl.channels.t7030.cljs$lang$ctorStr = "cljs.core.async.impl.channels/t7030", cljs.core.async.impl.channels.t7030.cljs$lang$ctorPrWriter = function(b, d, e) {
+    return cljs.core._write.call(null, d, "cljs.core.async.impl.channels/t7030")
+  }, cljs.core.async.impl.channels.t7030.prototype.cljs$core$IDeref$_deref$arity$1 = function(b) {
     return this.val
-  }, cljs.core.async.impl.channels.t15694.prototype.cljs$core$IMeta$_meta$arity$1 = function(b) {
-    return this.meta15695
-  }, cljs.core.async.impl.channels.t15694.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(b, d) {
-    return new cljs.core.async.impl.channels.t15694(this.val, this.box, d)
-  }, cljs.core.async.impl.channels.__GT_t15694 = function(b, d, e) {
-    return new cljs.core.async.impl.channels.t15694(b, d, e)
+  }, cljs.core.async.impl.channels.t7030.prototype.cljs$core$IMeta$_meta$arity$1 = function(b) {
+    return this.meta7031
+  }, cljs.core.async.impl.channels.t7030.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(b, d) {
+    return new cljs.core.async.impl.channels.t7030(this.val, this.box, d)
+  }, cljs.core.async.impl.channels.__GT_t7030 = function(b, d, e) {
+    return new cljs.core.async.impl.channels.t7030(b, d, e)
   });
-  return new cljs.core.async.impl.channels.t15694(b, box$$0, null)
+  return new cljs.core.async.impl.channels.t7030(b, box$$0, null)
 };
 cljs.core.async.impl.channels.PutBox = function(a, b) {
   this.handler = a;
@@ -20153,26 +20153,26 @@ cljs.core.async.impl.timers.timeout = function(a) {
   return d
 };
 cljs.core.async.fn_handler = function fn_handler$$0(b) {
-  "undefined" === typeof cljs.core.async.t15638 && (cljs.core.async.t15638 = function(b, d, e) {
+  "undefined" === typeof cljs.core.async.t6974 && (cljs.core.async.t6974 = function(b, d, e) {
     this.f = b;
     this.fn_handler = d;
-    this.meta15639 = e;
+    this.meta6975 = e;
     this.cljs$lang$protocol_mask$partition1$ = 0;
     this.cljs$lang$protocol_mask$partition0$ = 393216
-  }, cljs.core.async.t15638.cljs$lang$type = !0, cljs.core.async.t15638.cljs$lang$ctorStr = "cljs.core.async/t15638", cljs.core.async.t15638.cljs$lang$ctorPrWriter = function(b, d, e) {
-    return cljs.core._write.call(null, d, "cljs.core.async/t15638")
-  }, cljs.core.async.t15638.prototype.cljs$core$async$impl$protocols$Handler$ = !0, cljs.core.async.t15638.prototype.cljs$core$async$impl$protocols$Handler$active_QMARK_$arity$1 = function(b) {
+  }, cljs.core.async.t6974.cljs$lang$type = !0, cljs.core.async.t6974.cljs$lang$ctorStr = "cljs.core.async/t6974", cljs.core.async.t6974.cljs$lang$ctorPrWriter = function(b, d, e) {
+    return cljs.core._write.call(null, d, "cljs.core.async/t6974")
+  }, cljs.core.async.t6974.prototype.cljs$core$async$impl$protocols$Handler$ = !0, cljs.core.async.t6974.prototype.cljs$core$async$impl$protocols$Handler$active_QMARK_$arity$1 = function(b) {
     return!0
-  }, cljs.core.async.t15638.prototype.cljs$core$async$impl$protocols$Handler$commit$arity$1 = function(b) {
+  }, cljs.core.async.t6974.prototype.cljs$core$async$impl$protocols$Handler$commit$arity$1 = function(b) {
     return this.f
-  }, cljs.core.async.t15638.prototype.cljs$core$IMeta$_meta$arity$1 = function(b) {
-    return this.meta15639
-  }, cljs.core.async.t15638.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(b, d) {
-    return new cljs.core.async.t15638(this.f, this.fn_handler, d)
-  }, cljs.core.async.__GT_t15638 = function(b, d, e) {
-    return new cljs.core.async.t15638(b, d, e)
+  }, cljs.core.async.t6974.prototype.cljs$core$IMeta$_meta$arity$1 = function(b) {
+    return this.meta6975
+  }, cljs.core.async.t6974.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(b, d) {
+    return new cljs.core.async.t6974(this.f, this.fn_handler, d)
+  }, cljs.core.async.__GT_t6974 = function(b, d, e) {
+    return new cljs.core.async.t6974(b, d, e)
   });
-  return new cljs.core.async.t15638(b, fn_handler$$0, null)
+  return new cljs.core.async.t6974(b, fn_handler$$0, null)
 };
 cljs.core.async.buffer = function(a) {
   return cljs.core.async.impl.buffers.fixed_buffer.call(null, a)
@@ -20286,51 +20286,51 @@ cljs.core.async.random_array = function(a) {
 };
 cljs.core.async.alt_flag = function alt_flag() {
   var b = cljs.core.atom.call(null, !0);
-  "undefined" === typeof cljs.core.async.t15649 && (cljs.core.async.t15649 = function(b, d, e) {
+  "undefined" === typeof cljs.core.async.t6985 && (cljs.core.async.t6985 = function(b, d, e) {
     this.flag = b;
     this.alt_flag = d;
-    this.meta15650 = e;
+    this.meta6986 = e;
     this.cljs$lang$protocol_mask$partition1$ = 0;
     this.cljs$lang$protocol_mask$partition0$ = 393216
-  }, cljs.core.async.t15649.cljs$lang$type = !0, cljs.core.async.t15649.cljs$lang$ctorStr = "cljs.core.async/t15649", cljs.core.async.t15649.cljs$lang$ctorPrWriter = function(b, d, e) {
-    return cljs.core._write.call(null, d, "cljs.core.async/t15649")
-  }, cljs.core.async.t15649.prototype.cljs$core$async$impl$protocols$Handler$ = !0, cljs.core.async.t15649.prototype.cljs$core$async$impl$protocols$Handler$active_QMARK_$arity$1 = function(b) {
+  }, cljs.core.async.t6985.cljs$lang$type = !0, cljs.core.async.t6985.cljs$lang$ctorStr = "cljs.core.async/t6985", cljs.core.async.t6985.cljs$lang$ctorPrWriter = function(b, d, e) {
+    return cljs.core._write.call(null, d, "cljs.core.async/t6985")
+  }, cljs.core.async.t6985.prototype.cljs$core$async$impl$protocols$Handler$ = !0, cljs.core.async.t6985.prototype.cljs$core$async$impl$protocols$Handler$active_QMARK_$arity$1 = function(b) {
     return cljs.core.deref.call(null, this.flag)
-  }, cljs.core.async.t15649.prototype.cljs$core$async$impl$protocols$Handler$commit$arity$1 = function(b) {
+  }, cljs.core.async.t6985.prototype.cljs$core$async$impl$protocols$Handler$commit$arity$1 = function(b) {
     cljs.core.reset_BANG_.call(null, this.flag, null);
     return!0
-  }, cljs.core.async.t15649.prototype.cljs$core$IMeta$_meta$arity$1 = function(b) {
-    return this.meta15650
-  }, cljs.core.async.t15649.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(b, d) {
-    return new cljs.core.async.t15649(this.flag, this.alt_flag, d)
-  }, cljs.core.async.__GT_t15649 = function(b, d, e) {
-    return new cljs.core.async.t15649(b, d, e)
+  }, cljs.core.async.t6985.prototype.cljs$core$IMeta$_meta$arity$1 = function(b) {
+    return this.meta6986
+  }, cljs.core.async.t6985.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(b, d) {
+    return new cljs.core.async.t6985(this.flag, this.alt_flag, d)
+  }, cljs.core.async.__GT_t6985 = function(b, d, e) {
+    return new cljs.core.async.t6985(b, d, e)
   });
-  return new cljs.core.async.t15649(b, alt_flag, null)
+  return new cljs.core.async.t6985(b, alt_flag, null)
 };
 cljs.core.async.alt_handler = function alt_handler(b, c) {
-  "undefined" === typeof cljs.core.async.t15655 && (cljs.core.async.t15655 = function(b, c, f, g) {
+  "undefined" === typeof cljs.core.async.t6991 && (cljs.core.async.t6991 = function(b, c, f, g) {
     this.cb = b;
     this.flag = c;
     this.alt_handler = f;
-    this.meta15656 = g;
+    this.meta6992 = g;
     this.cljs$lang$protocol_mask$partition1$ = 0;
     this.cljs$lang$protocol_mask$partition0$ = 393216
-  }, cljs.core.async.t15655.cljs$lang$type = !0, cljs.core.async.t15655.cljs$lang$ctorStr = "cljs.core.async/t15655", cljs.core.async.t15655.cljs$lang$ctorPrWriter = function(b, c, f) {
-    return cljs.core._write.call(null, c, "cljs.core.async/t15655")
-  }, cljs.core.async.t15655.prototype.cljs$core$async$impl$protocols$Handler$ = !0, cljs.core.async.t15655.prototype.cljs$core$async$impl$protocols$Handler$active_QMARK_$arity$1 = function(b) {
+  }, cljs.core.async.t6991.cljs$lang$type = !0, cljs.core.async.t6991.cljs$lang$ctorStr = "cljs.core.async/t6991", cljs.core.async.t6991.cljs$lang$ctorPrWriter = function(b, c, f) {
+    return cljs.core._write.call(null, c, "cljs.core.async/t6991")
+  }, cljs.core.async.t6991.prototype.cljs$core$async$impl$protocols$Handler$ = !0, cljs.core.async.t6991.prototype.cljs$core$async$impl$protocols$Handler$active_QMARK_$arity$1 = function(b) {
     return cljs.core.async.impl.protocols.active_QMARK_.call(null, this.flag)
-  }, cljs.core.async.t15655.prototype.cljs$core$async$impl$protocols$Handler$commit$arity$1 = function(b) {
+  }, cljs.core.async.t6991.prototype.cljs$core$async$impl$protocols$Handler$commit$arity$1 = function(b) {
     cljs.core.async.impl.protocols.commit.call(null, this.flag);
     return this.cb
-  }, cljs.core.async.t15655.prototype.cljs$core$IMeta$_meta$arity$1 = function(b) {
-    return this.meta15656
-  }, cljs.core.async.t15655.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(b, c) {
-    return new cljs.core.async.t15655(this.cb, this.flag, this.alt_handler, c)
-  }, cljs.core.async.__GT_t15655 = function(b, c, f, g) {
-    return new cljs.core.async.t15655(b, c, f, g)
+  }, cljs.core.async.t6991.prototype.cljs$core$IMeta$_meta$arity$1 = function(b) {
+    return this.meta6992
+  }, cljs.core.async.t6991.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(b, c) {
+    return new cljs.core.async.t6991(this.cb, this.flag, this.alt_handler, c)
+  }, cljs.core.async.__GT_t6991 = function(b, c, f, g) {
+    return new cljs.core.async.t6991(b, c, f, g)
   });
-  return new cljs.core.async.t15655(c, b, alt_handler, null)
+  return new cljs.core.async.t6991(c, b, alt_handler, null)
 };
 cljs.core.async.do_alts = function(a, b, c) {
   var d = cljs.core.async.alt_flag.call(null), e = cljs.core.count.call(null, b), f = cljs.core.async.random_array.call(null, e), g = (new cljs.core.Keyword(null, "priority", "priority", 4143410454)).cljs$core$IFn$_invoke$arity$1(c), h = function() {
@@ -20996,33 +20996,33 @@ domina.css.sel = function() {
   var a = null, b = function(b) {
     return a.call(null, domina.css.root_element.call(null), b)
   }, c = function(b, c) {
-    "undefined" === typeof domina.css.t16357 && (domina.css.t16357 = function(a, b, c, d) {
+    "undefined" === typeof domina.css.t7693 && (domina.css.t7693 = function(a, b, c, d) {
       this.expr = a;
       this.base = b;
       this.sel = c;
-      this.meta16358 = d;
+      this.meta7694 = d;
       this.cljs$lang$protocol_mask$partition1$ = 0;
       this.cljs$lang$protocol_mask$partition0$ = 393216
-    }, domina.css.t16357.cljs$lang$type = !0, domina.css.t16357.cljs$lang$ctorStr = "domina.css/t16357", domina.css.t16357.cljs$lang$ctorPrWriter = function(a, b, c) {
-      return cljs.core._write.call(null, b, "domina.css/t16357")
-    }, domina.css.t16357.prototype.domina$DomContent$ = !0, domina.css.t16357.prototype.domina$DomContent$nodes$arity$1 = function(a) {
+    }, domina.css.t7693.cljs$lang$type = !0, domina.css.t7693.cljs$lang$ctorStr = "domina.css/t7693", domina.css.t7693.cljs$lang$ctorPrWriter = function(a, b, c) {
+      return cljs.core._write.call(null, b, "domina.css/t7693")
+    }, domina.css.t7693.prototype.domina$DomContent$ = !0, domina.css.t7693.prototype.domina$DomContent$nodes$arity$1 = function(a) {
       var b = this;
       return cljs.core.mapcat.call(null, function(a) {
         return domina.normalize_seq.call(null, goog.dom.query(b.expr, a))
       }, domina.nodes.call(null, b.base))
-    }, domina.css.t16357.prototype.domina$DomContent$single_node$arity$1 = function(a) {
+    }, domina.css.t7693.prototype.domina$DomContent$single_node$arity$1 = function(a) {
       var b = this;
       return cljs.core.first.call(null, cljs.core.filter.call(null, cljs.core.complement.call(null, cljs.core.nil_QMARK_), cljs.core.mapcat.call(null, function(a) {
         return domina.normalize_seq.call(null, goog.dom.query(b.expr, a))
       }, domina.nodes.call(null, b.base))))
-    }, domina.css.t16357.prototype.cljs$core$IMeta$_meta$arity$1 = function(a) {
-      return this.meta16358
-    }, domina.css.t16357.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(a, b) {
-      return new domina.css.t16357(this.expr, this.base, this.sel, b)
-    }, domina.css.__GT_t16357 = function(a, b, c, d) {
-      return new domina.css.t16357(a, b, c, d)
+    }, domina.css.t7693.prototype.cljs$core$IMeta$_meta$arity$1 = function(a) {
+      return this.meta7694
+    }, domina.css.t7693.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(a, b) {
+      return new domina.css.t7693(this.expr, this.base, this.sel, b)
+    }, domina.css.__GT_t7693 = function(a, b, c, d) {
+      return new domina.css.t7693(a, b, c, d)
     });
-    return new domina.css.t16357(c, b, a, null)
+    return new domina.css.t7693(c, b, a, null)
   }, a = function(a, e) {
     switch(arguments.length) {
       case 1:
@@ -24522,7 +24522,11 @@ oasysusa.utils.form.run = function(a) {
     return g.call(null, c, b, a)
   })
 };
-oasysusa.timesheet = {};
-oasysusa.timesheet.project = {};
-oasysusa.timesheet.project.project_state = cljs.core.atom.call(null, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "ids", "ids", 1014008362), cljs.core.PersistentVector.fromArray("name client description email telephone_number address manager manager_telephone_number manager_email".split(" "), !0)], !0));
-oasysusa.utils.form.run.call(null, oasysusa.timesheet.project.project_state);
+oasysusa.form = {};
+oasysusa.form.validate_form = function(a) {
+  a = cljs.core.js__GT_clj.call(null, a);
+  var b = cljs.core.atom.call(null, cljs.core.PersistentArrayMap.EMPTY);
+  cljs.core.reset_BANG_.call(null, b, a);
+  return oasysusa.utils.form.run.call(null, b)
+};
+goog.exportSymbol("oasysusa.form.validate_form", oasysusa.form.validate_form);

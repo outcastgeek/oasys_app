@@ -56,6 +56,7 @@ u-msgpack-python==1.4
 #uwsgi==1.9.18.2
 #m2wsgid==0.7.1
 elasticsearch==0.4.3
+pyelasticsearch==0.6.1
 sunburnt==0.6
 envoy==0.0.2
 
@@ -78,12 +79,14 @@ cssutils==0.9.10
 cssmin==0.2.0
 
 #background
-pymongo==2.5.2
-mongokit==0.8.3
-redis==2.8.0
-celery==3.0.21
-celery-with-redis==3.0
-flower==0.5.2
+pymongo==2.6.3
+pyzmq-mdp==0.2
+#mongokit==0.8.3
+#redis==2.8.0
+#pyres==1.4.2
+#celery==3.0.21
+#celery-with-redis==3.0
+#flower==0.5.2
 #pytz==2013b
 
 -e ./oasysusa

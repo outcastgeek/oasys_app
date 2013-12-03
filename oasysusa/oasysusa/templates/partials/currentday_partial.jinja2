@@ -11,19 +11,26 @@
     {{ next_renderer.submit('submit', 'Next >>', class="btn btn-inverse") }}
     {{ next_renderer.end() }}
 </div>
-{{ jump_to_date_renderer.begin(request.route_url('current_day', direction='new_date'), class="form-inline form-base-wide") }}
-{{ jump_to_date_renderer.csrf_token() }}
-{{ jump_to_date_renderer.hidden_tag("return_to") }}
-{{ jump_to_date_renderer.label("Current Day") }}
-{{ jump_to_date_renderer.text("new_date", type="date", placeholder="01/01/0001", size=20 , required="required", form_input="form_input") }}
-{{ jump_to_date_renderer.submit('submit', 'Go', class="btn btn-inverse") }}
+<div ng_app="dateStandAlone">
+    {{ jump_to_date_renderer.begin(request.route_url('current_day', direction='new_date'), class="form-inline form-base-wide", ng_controller="dateStandAloneCtrl") }}
+    {{ jump_to_date_renderer.csrf_token() }}
+    {{ jump_to_date_renderer.hidden_tag("return_to") }}
+    {{ jump_to_date_renderer.label("Current Day") }}
+    {{ jump_to_date_renderer.text("new_date", type="text", placeholder="01/01/0001", size=20 , required="required", form_input="form_input", datepicker_popup="{@~ format ~@}", ng_model="dt") }}
+    <span class="btn" ng_click="open()"><i class="icon-calendar"></i></span>
+    {#<input type="text" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />#}
+    {#<button class="btn" ng-click="open()"><i class="icon-calendar"></i></button>#}
 
-{#{{ jump_to_date_renderer.text("new_date", type="text", placeholder="01/01/0001", size=20 , required="required", form_input="form_input") }}#}
-{#{{ jump_to_date_renderer.submit('submit', 'Go', class="btn btn-inverse") }}#}
-{#<div id="datepicker_iso_8601"></div>#}
+    {{ jump_to_date_renderer.submit('submit', 'Go', class="btn btn-inverse") }}
 
-{% if display_range %}
-    <hr>
-    <b>Current Time Period: {{ TUTILS.format_date(monday) }} to {{ TUTILS.format_date(sunday) }}</b>
-{% endif %}
-{{ jump_to_date_renderer.end() }}
+    {#{{ jump_to_date_renderer.text("new_date", type="text", placeholder="01/01/0001", size=20 , required="required", form_input="form_input") }}#}
+    {#{{ jump_to_date_renderer.submit('submit', 'Go', class="btn btn-inverse") }}#}
+    {#<div id="datepicker_iso_8601"></div>#}
+
+    {% if display_range %}
+        <hr>
+        <b>Current Time Period: {{ TUTILS.format_date(monday) }} to {{ TUTILS.format_date(sunday) }}</b>
+    {% endif %}
+    {{ jump_to_date_renderer.end() }}
+</div>
+

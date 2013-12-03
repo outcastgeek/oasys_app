@@ -13,8 +13,11 @@
     {% include "templates/partials/form_modernizr_partial.jinja2" %}
     {% if cljs_debug %}
         <script src="{{ request.static_url('oasysusa:static/js/repl.js') }}"></script>
-        <script src="{{ request.static_url('oasysusa:static/js/project-dev.js') }}"></script>
+        <script src="{{ request.static_url('oasysusa:static/js/form-dev.js') }}"></script>
     {% else %}
-        <script src="{{ request.static_url('oasysusa:static/js/project.js') }}"></script>
+        <script src="{{ request.static_url('oasysusa:static/js/form.js') }}"></script>
     {% endif %}
+    <script type="text/javascript">
+        oasysusa.form.validate_form({"ids": ["name", "client", "description", "email", "telephone_number", "address", "manager", "manager_telephone_number", "manager_email"]});
+    </script>
 {% endblock %}
