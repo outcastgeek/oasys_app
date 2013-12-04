@@ -13474,30 +13474,35 @@ cljs.core.string_print = cljs.nodejs.require.call(null, "util").print;
 var express = {s3:{}};
 express.s3.zmq = cljs.nodejs.require.call(null, "zmq");
 express.s3.responder = express.s3.zmq.socket("rep");
-express.s3.on_msg = function(a) {
-  a = cljs.core.js__GT_clj.call(null, a);
-  console.log([cljs.core.str("Received request: ["), cljs.core.str(a), cljs.core.str("]")].join(""));
-  return express.s3.responder.send("world")
+express.s3.handle_msgs = function(a) {
+  return a.on("message", function(b) {
+    b = cljs.core.js__GT_clj.call(null, b);
+    console.log([cljs.core.str("Received request: ["), cljs.core.str(b), cljs.core.str("]")].join(""));
+    return a.send("world")
+  })
 };
-express.s3.on_connection_error = function(a) {
-  return cljs.core.truth_(a) ? console.log(a) : console.log("Listening on 5555...")
+express.s3.bind = function(a, b) {
+  return a.bind(b, function(a) {
+    return cljs.core.truth_(a) ? console.log(a) : console.log([cljs.core.str("Listening "), cljs.core.str(b), cljs.core.str(" ...")].join(""))
+  })
 };
-express.s3.on_sigint = function() {
-  return express.s3.responder.close()
-};
-express.s3.responder.on("message", express.s3.on_msg);
-express.s3.responder.bind("tcp://127.0.0.1:5555", express.s3.on_connection_error);
+var G__31713_31714 = express.s3.responder;
+express.s3.handle_msgs.call(null, G__31713_31714);
+express.s3.bind.call(null, G__31713_31714, "tcp://127.0.0.1:5555");
 express.core = {};
 express.core.express = cljs.nodejs.require.call(null, "express");
 express.core.app = express.core.express.call(null);
+express.core.hello = function(a, b) {
+  b.setHeader("X-Powered-By", "Blood, sweat, and tears");
+  b.send("Hello World");
+  return b
+};
 express.core._main = function() {
   var a = function(a) {
     a = express.core.app;
     a.use(express.core.express.favicon());
     a.use(express.core.express.logger("dev"));
-    a.get("/", function(a, b) {
-      return b.send("Hello World")
-    });
+    a.get("/", express.core.hello);
     a.listen(3E3);
     return console.log([cljs.core.str("Express server started on port: "), cljs.core.str(express.core.app.get("port"))].join(""))
   }, b = function(b) {
