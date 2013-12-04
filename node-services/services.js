@@ -3425,16 +3425,16 @@ cljs.core.fn_QMARK_ = function(a) {
 };
 cljs.core.with_meta = function with_meta(b, c) {
   return cljs.core.fn_QMARK_.call(null, b) && !(b ? b.cljs$lang$protocol_mask$partition0$ & 262144 || b.cljs$core$IWithMeta$ || (b.cljs$lang$protocol_mask$partition0$ ? 0 : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IWithMeta, b)) : cljs.core.native_satisfies_QMARK_.call(null, cljs.core.IWithMeta, b)) ? with_meta.call(null, function() {
-    "undefined" === typeof cljs.core.t7239 && (cljs.core.t7239 = function(b, c, f, g) {
+    "undefined" === typeof cljs.core.t47196 && (cljs.core.t47196 = function(b, c, f, g) {
       this.meta = b;
       this.o = c;
       this.with_meta = f;
-      this.meta7240 = g;
+      this.meta47197 = g;
       this.cljs$lang$protocol_mask$partition1$ = 0;
       this.cljs$lang$protocol_mask$partition0$ = 393217
-    }, cljs.core.t7239.cljs$lang$type = !0, cljs.core.t7239.cljs$lang$ctorStr = "cljs.core/t7239", cljs.core.t7239.cljs$lang$ctorPrWriter = function(b, c, f) {
-      return cljs.core._write.call(null, c, "cljs.core/t7239")
-    }, cljs.core.t7239.prototype.call = function() {
+    }, cljs.core.t47196.cljs$lang$type = !0, cljs.core.t47196.cljs$lang$ctorStr = "cljs.core/t47196", cljs.core.t47196.cljs$lang$ctorPrWriter = function(b, c, f) {
+      return cljs.core._write.call(null, c, "cljs.core/t47196")
+    }, cljs.core.t47196.prototype.call = function() {
       var b = function(b, c) {
         return cljs.core.apply.call(null, b.o, c)
       }, c = function(c, e) {
@@ -3451,9 +3451,9 @@ cljs.core.with_meta = function with_meta(b, c) {
       };
       c.cljs$core$IFn$_invoke$arity$variadic = b;
       return c
-    }(), cljs.core.t7239.prototype.apply = function(b, c) {
+    }(), cljs.core.t47196.prototype.apply = function(b, c) {
       return this.call.apply(this, [this].concat(c.slice()))
-    }, cljs.core.t7239.prototype.cljs$core$IFn$_invoke$arity$2 = function() {
+    }, cljs.core.t47196.prototype.cljs$core$IFn$_invoke$arity$2 = function() {
       var b = function(b) {
         return cljs.core.apply.call(null, self__.o, b)
       }, c = function(c) {
@@ -3468,14 +3468,14 @@ cljs.core.with_meta = function with_meta(b, c) {
       };
       c.cljs$core$IFn$_invoke$arity$variadic = b;
       return c
-    }(), cljs.core.t7239.prototype.cljs$core$Fn$ = !0, cljs.core.t7239.prototype.cljs$core$IMeta$_meta$arity$1 = function(b) {
-      return this.meta7240
-    }, cljs.core.t7239.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(b, c) {
-      return new cljs.core.t7239(this.meta, this.o, this.with_meta, c)
-    }, cljs.core.__GT_t7239 = function(b, c, f, g) {
-      return new cljs.core.t7239(b, c, f, g)
+    }(), cljs.core.t47196.prototype.cljs$core$Fn$ = !0, cljs.core.t47196.prototype.cljs$core$IMeta$_meta$arity$1 = function(b) {
+      return this.meta47197
+    }, cljs.core.t47196.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(b, c) {
+      return new cljs.core.t47196(this.meta, this.o, this.with_meta, c)
+    }, cljs.core.__GT_t47196 = function(b, c, f, g) {
+      return new cljs.core.t47196(b, c, f, g)
     });
-    return new cljs.core.t7239(c, b, with_meta, null)
+    return new cljs.core.t47196(c, b, with_meta, null)
   }(), c) : cljs.core._with_meta.call(null, b, c)
 };
 cljs.core.meta = function(a) {
@@ -13471,7 +13471,23 @@ cljs.nodejs = {};
 cljs.nodejs.require = require;
 cljs.nodejs.process = process;
 cljs.core.string_print = cljs.nodejs.require.call(null, "util").print;
-var express = {core:{}};
+var express = {s3:{}};
+express.s3.zmq = cljs.nodejs.require.call(null, "zmq");
+express.s3.responder = express.s3.zmq.socket("rep");
+express.s3.on_msg = function(a) {
+  a = cljs.core.js__GT_clj.call(null, a);
+  console.log([cljs.core.str("Received request: ["), cljs.core.str(a), cljs.core.str("]")].join(""));
+  return express.s3.responder.send("world")
+};
+express.s3.on_connection_error = function(a) {
+  return cljs.core.truth_(a) ? console.log(a) : console.log("Listening on 5555...")
+};
+express.s3.on_sigint = function() {
+  return express.s3.responder.close()
+};
+express.s3.responder.on("message", express.s3.on_msg);
+express.s3.responder.bind("tcp://127.0.0.1:5555", express.s3.on_connection_error);
+express.core = {};
 express.core.express = cljs.nodejs.require.call(null, "express");
 express.core.app = express.core.express.call(null);
 express.core._main = function() {

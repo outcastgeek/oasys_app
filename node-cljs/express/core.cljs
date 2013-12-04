@@ -1,5 +1,6 @@
 (ns express.core
-  (:require [cljs.nodejs :as node]))
+  (:require [cljs.nodejs :as node]
+            [express.s3 :as s3]))
 
 (def express (node/require "express"))
 (def app (express))

@@ -13,7 +13,8 @@
         "nodemailer": "0.5.11",
         "knox": "0.8.8",
         "zmq": "2.5.1",
-        "elasticsearchclient": "0.3.13",
+        "msgpack": "0.2.1",
+        "elasticsearchclient": "0.5.3",
         "socket.io": "0.9.16",
         "express": "3.4.5",
         "jade": "*"
