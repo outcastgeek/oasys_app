@@ -100,6 +100,7 @@ def setup_packages(local='retina'):
     package_ensure('python-setuptools')
     package_ensure('python-pip')
     install_python_packages(local)
+    install_nodejs()
     
     #JVM
     # puts(green('Installing JVM packages'))
@@ -120,6 +121,12 @@ def setup_packages(local='retina'):
     #package_ensure('gambc')
     #package_ensure('libgambc4-dev')
     #package_ensure('haskell-platform')
+
+def install_nodejs():
+    puts(green('Setting up Node.js'))
+    sudo('add-apt-repository --yes ppa:chris-lea/node.js')
+    sudo('apt-get update')
+    package_ensure('nodejs')
 
 def setup_ruby():
     #JRuby
