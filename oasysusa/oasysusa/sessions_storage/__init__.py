@@ -205,7 +205,7 @@ try:
 except ImportError:
     raise InvalidCacheBackendError("Unable to load the pymongo driver.")
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("session")
 
 class MongoDBNamespaceManager(NamespaceManager):
     clients = SyncDict()

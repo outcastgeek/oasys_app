@@ -4,6 +4,7 @@ import itertools
 import logging
 
 import pymongo
+import sys
 import transaction
 import zmq
 
@@ -26,8 +27,7 @@ from ..admin.bootstrap import check_before_insert_user, check_before_insert_grou
 from ..events.s3 import ensure_s3_bucket
 from ..events.zmq_event import setup_zmq_handlers
 
-logging.basicConfig()
-log = logging.getLogger(__file__)
+log = logging.getLogger("oasysusa")
 
 
 class TemplateUtils(object):
@@ -82,17 +82,21 @@ def add_mongo(event):
 
 @subscriber(NewRequest)
 def add_s3_zmq_socket(event):
-    settings = get_settings()
-    s3_tcp_address = settings.get('s3_tcp_address')
-    s3ctx = zmq.Context.instance()
-    s3socket = s3ctx.socket(zmq.PUSH)
-    # s3socket.connect(s3_tcp_address)
-    request = get_current_request()
-    request.s3ctx = s3ctx
-    request.s3socket = s3socket
-    request.s3conf = dict(s3_access_key_id=settings.get('s3_access_key_id'),
-                          s3_secret=settings.get('s3_secret'),
-                          s3_bucket_name=settings.get('s3_bucket_name'))
+    try:
+        settings = get_settings()
+        s3_tcp_address = settings.get('s3_tcp_address')
+        s3ctx = zmq.Context.instance()
+        s3socket = s3ctx.socket(zmq.PUSH)
+        s3socket.connect(s3_tcp_address)
+        request = get_current_request()
+        request.s3ctx = s3ctx
+        request.s3socket = s3socket
+        request.s3conf = dict(s3_access_key_id=settings.get('s3_access_key_id'),
+                              s3_secret=settings.get('s3_secret'),
+                              s3_bucket_name=settings.get('s3_bucket_name'))
+    except:
+        e = sys.exc_info()[0]
+        log.error("Could not setup zmq client: %s", e)
 
 
 @subscriber(BeforeRender)

@@ -7,7 +7,17 @@
   :test-paths ["test-clj"]
   :resource-paths ["resource-clj"]
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-2030"]
+                 [org.clojure/tools.reader "0.8.0"]
+                 [org.jeromq/jeromq "0.2.0"]
+                 [org.zeromq/cljzmq "0.1.3" :exclusions [[org.zeromq/jzmq :extension "jar"]]]
+                 [re-rand "0.1.0"]
+                 [compojure "1.1.6"]
+                 [ring/ring-jetty-adapter "1.2.1"]
+                 [http.async.client "0.5.2"]
+                 [clj-http "0.7.7"]
+                 [cheshire "5.2.0"]
+                 ;;;;; CLJS
+                 [org.clojure/clojurescript "0.0-2080"]
                  [com.cemerick/piggieback "0.1.2"]
                  [org.clojure/core.async "0.1.0-SNAPSHOT"]
                  [shoreleave/shoreleave-remote "0.3.0"]
@@ -18,8 +28,11 @@
                  [jayq "2.4.0"]
                  [crate "0.2.4"]
                  [org.bodil/cljs-noderepl "0.1.10"]]
-  :aot :all :plugins [[lein-cljsbuild "0.3.4"]
-                      [org.bodil/lein-noderepl "0.1.10"]]
+  :java-source-paths ["src-java"]
+  :javac-options ["-target" "1.7" "-source" "1.7" "-Xlint:-options"]
+  :aot :all
+  :plugins [[lein-cljsbuild "1.0.0"]
+            [org.bodil/lein-noderepl "0.1.10"]]
   :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
   :cljsbuild {
                :builds [
