@@ -7,19 +7,19 @@
   :test-paths ["test-clj"]
   :resource-paths ["resource-clj"]
   :dependencies [[org.clojure/clojure "1.5.1"]
+                 [org.clojure/core.async "0.1.242.0-44b1e3-alpha"]
                  [org.clojure/tools.reader "0.8.0"]
                  [org.jeromq/jeromq "0.2.0"]
-                 [org.zeromq/cljzmq "0.1.3" :exclusions [[org.zeromq/jzmq :extension "jar"]]]
-                 [re-rand "0.1.0"]
-                 [compojure "1.1.6"]
-                 [ring/ring-jetty-adapter "1.2.1"]
                  [http.async.client "0.5.2"]
                  [clj-http "0.7.7"]
                  [cheshire "5.2.0"]
+                 [com.amazonaws/aws-java-sdk "1.6.7"]
+                 [clj-time "0.6.0"]
+                 [org.clojure/tools.logging "0.2.6"]
+                 [ch.qos.logback/logback-classic "1.0.13"]
                  ;;;;; CLJS
                  [org.clojure/clojurescript "0.0-2080"]
                  [com.cemerick/piggieback "0.1.2"]
-                 [org.clojure/core.async "0.1.0-SNAPSHOT"]
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [org.clojure/google-closure-library-third-party "0.0-2029-2"]
                  [domina "1.0.2"]
@@ -29,6 +29,11 @@
                  [crate "0.2.4"]
                  [org.bodil/cljs-noderepl "0.1.10"]]
   :java-source-paths ["src-java"]
+  :jvm-opts ["-Xmx1G" "-server" "-Xms1G" "-XX:MaxPermSize=128m" ;"-Xmx32M" "-server" "-Xms32m" "-XX:MaxPermSize=32m"
+             "-XX:CompileThreshold=4" "-XX:+AggressiveOpts"
+             "-XX:MaxHeapFreeRatio=70" "-XX:MinHeapFreeRatio=40"
+             "-XX:+UseParallelGC" "-XX:ParallelGCThreads=24"
+             "-XX:+DisableExplicitGC" "-Djava.awt.headless=true"]
   :javac-options ["-target" "1.7" "-source" "1.7" "-Xlint:-options"]
   :aot :all
   :plugins [[lein-cljsbuild "1.0.0"]
