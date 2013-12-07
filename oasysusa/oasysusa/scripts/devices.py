@@ -1,3 +1,5 @@
+from oasysusa.scripts.services import setup_zmq_handlers
+
 __author__ = 'outcastgeek'
 
 from zmq.eventloop import ioloop
@@ -11,6 +13,7 @@ import os
 import sys
 import zmq
 
+from multiprocessing import freeze_support
 from zmq.devices.basedevice import ProcessDevice
 
 log = logging.getLogger('oasysusa')
@@ -29,6 +32,8 @@ def setup_queue(front_addr=None, back_addr=None):
     queuedevice.bind_out(back_addr)
     # queuedevice.setsockopt_in(zmq.HWM, 1)
     # queuedevice.setsockopt_out(zmq.HWM, 1)
+
+    freeze_support()
     queuedevice.start()
 
 
@@ -38,6 +43,8 @@ def setup_streamer(front_addr=None, back_addr=None):
     streamerdevice.bind_out(back_addr)
     streamerdevice.setsockopt_in(zmq.IDENTITY, 'PULL')
     streamerdevice.setsockopt_out(zmq.IDENTITY, 'PUSH')
+
+    freeze_support()
     streamerdevice.start()
 
 
@@ -65,6 +72,7 @@ def main(argv=sys.argv):
 
     setup_queues(settings)
     setup_streamers(settings)
+    setup_zmq_handlers(settings)
 
     loop.start()
 
