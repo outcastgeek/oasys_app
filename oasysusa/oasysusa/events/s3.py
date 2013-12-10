@@ -1,29 +1,12 @@
 __author__ = 'outcastgeek'
 
-from zmq.eventloop import ioloop
-
-ioloop.install() # should be done before any tornado stuff
-
-loop = ioloop.IOLoop.instance()
-
 import logging
-import time
 import boto
-import umsgpack
 
+from boto.s3.key import Key
 from boto.exception import S3ResponseError
 
-import hashlib, hmac, mimetypes
-
-from base64 import b64encode
-from calendar import timegm
-from datetime import datetime
-from email.utils import formatdate
-from urllib import quote
-
-from tornado.gen import coroutine, Return, Task
-from tornado.httpclient import AsyncHTTPClient, HTTPError
-
+import mimetypes
 
 log = logging.getLogger("oasysusa")
 
@@ -44,203 +27,15 @@ def ensure_s3_bucket(settings):
 
 ################### END Lifecycle Events #############################
 
-@coroutine
-def upload_to_s3(socket, events):
-    raw_msg = socket.recv()
-    file_data = umsgpack.unpackb(raw_msg)
-    s3client = S3Client(access_key=file_data.get('s3_access_key_id'),
-                        secret_key=file_data.get('s3_secret'),
-                        bucket=file_data.get('s3_bucket_name'))
+def handle_s3srvc_request(file_data):
     log.info("Uploading %s to s3", file_data.get('filename'))
-    response = yield s3client.upload(path=file_data.get('filename'), data=file_data.get('file'))
-    if response:
-        yield s3client.check_upload_later(response.effective_url)
-
-##################### s3 Uploader Client #############################
-
-#Got it from here: https://gist.github.com/taylanpince/5876491
-
-AWS_S3_BUCKET_URL = "http://%(bucket)s.s3.amazonaws.com/%(path)s"
-AWS_S3_CONNECT_TIMEOUT = 10
-AWS_S3_REQUEST_TIMEOUT = 30
-
-
-class S3Client(object):
-    """
-      AWS client that handles asynchronous uploads to S3 buckets
-      """
-
-    def __init__(self, access_key=None, secret_key=None, bucket=None, io_loop=loop):
-        super(S3Client, self).__init__()
-
-        self.access_key = access_key
-        self.secret_key = secret_key
-        self.bucket = bucket
-        self.io_loop = io_loop
-
-    def generate_url(self, path):
-        """
-        Generates a URL for the given file path
-        """
-        return AWS_S3_BUCKET_URL % {
-            "bucket": self.bucket,
-            "path": path,
-        }
-
-    def _guess_mimetype(self, filename, default="application/octet-stream"):
-        """
-        Guess mimetype from file name
-        """
-        if "." not in filename:
-            return default
-
-        prefix, extension = filename.lower().rsplit(".", 1)
-
-        if extension == "jpg":
-            extension = "jpeg"
-
-        return mimetypes.guess_type(prefix + "." + extension)[0] or default
-
-    def _aws_md5(self, data):
-        """
-        Make an AWS-style MD5 hash (digest in base64)
-        """
-        hasher = hashlib.new("md5")
-
-        if hasattr(data, "read"):
-            data.seek(0)
-
-            while True:
-                chunk = data.read(8192)
-
-                if not chunk:
-                    break
-
-                hasher.update(chunk)
-
-            data.seek(0)
-        else:
-            hasher.update(data)
-
-        return b64encode(hasher.digest()).decode("ascii")
-
-    def _urlquote(self, url):
-        """
-        Quote URLs in AWS format
-        """
-        if isinstance(url, unicode):
-            url = url.encode("utf-8")
-
-        return quote(url, "/")
-
-    def _rfc822_datetime(self, t=None):
-        """
-        Generate date in RFC822 format
-        """
-        if t is None:
-            t = datetime.utcnow()
-
-        return formatdate(timegm(t.timetuple()), usegmt=True)
-
-    def _generate_authenticated_headers(self, method, path, headers={}):
-        """
-        Generate headers for AWS with authentication tokens
-        """
-        date = self._rfc822_datetime()
-
-        signature = "\n".join([
-            "{method}",
-            "{content_md5}",
-            "{content_type}",
-            "{date}",
-            "x-amz-acl:{acl}",
-            "/{bucket}/{path}"
-        ]).format(
-            method=method,
-            acl=headers.get("X-Amz-Acl"),
-            content_type=headers.get("Content-Type"),
-            content_md5=headers.get("Content-MD5"),
-            date=date,
-            bucket=self._urlquote(self.bucket),
-            path=self._urlquote(path)
-        )
-
-        auth_signature = b64encode(hmac.new(
-            self.secret_key.encode("utf-8"),
-            signature.encode("utf-8"),
-            hashlib.sha1
-        ).digest()).strip()
-
-        headers.update({
-            "Date": date,
-            "Authorization": "AWS %(access_key)s:%(auth_signature)s" % {
-                "access_key": self.access_key,
-                "auth_signature": auth_signature,
-            }
-        })
-
-        return headers
-
-    @coroutine
-    def upload(self, path, data, headers={}):
-        """
-        Asynchronously uploads the given data stream to the specified path
-        """
-        client = AsyncHTTPClient()
-        method = "PUT"
-        # data = b64decode(data) #TODO: to encode or not to encode????
-
-        headers.update({
-            "Content-Length": str(len(data)),
-            "Content-MD5": self._aws_md5(data),
-            "X-Amz-Acl": "public-read",
-            "Content-Type": self._guess_mimetype(path),
-        })
-
-        try:
-            log.info("Uploading %s to s3...\n", path)
-            response = yield client.fetch(
-                AWS_S3_BUCKET_URL % {
-                    "bucket": self.bucket,
-                    "path": path,
-                },
-                method=method,
-                body=data,
-                connect_timeout=AWS_S3_CONNECT_TIMEOUT,
-                request_timeout=AWS_S3_REQUEST_TIMEOUT,
-                headers=self._generate_authenticated_headers(
-                    method,
-                    path,
-                    headers=headers
-                )
-            )
-        except HTTPError, error:
-            log.error("Could not upload %s to s3!!!!\n[[\n%s\n%s\n%s\n]]",
-                      path, error, error.response.body, error.response.effective_url)
-            raise Return(None)
-
-        log.info("Done uploading %s to s3!!!!\n[[\n%s\n]]", path, response.effective_url)
-        raise Return(response)
-
-    @coroutine
-    def check_upload_later(self, file_url):
-        yield Task(self.io_loop.add_timeout, time.time() + 5)
-        status = yield Task(self.check_upload_success, file_url)
-        log.info("\n\n%s\n\n", status)
-
-
-    @coroutine
-    def check_upload_success(self, file_url):
-        yield Task(self.io_loop.add_timeout, time.time() + 5)
-        try:
-            url = "http:%s" % file_url
-            client = AsyncHTTPClient()
-            response = yield client.fetch(url,
-                                          method="HEAD",
-                                          connect_timeout=10,
-                                          request_timeout=30)
-            raise Return(response)
-        except HTTPError, e:
-            log.error("\n\nOops, something went wrong...\n\n")
-            raise Return(None)
-
+    type, encoding = mimetypes.guess_type(file_data.get('filename'))
+    type = type or 'application/octet-stream'
+    headers = { 'Content-Type': type, 'X-Amz-Acl': 'public-read' }
+    conn = boto.connect_s3(aws_access_key_id = file_data.get('s3_access_key_id'),
+                           aws_secret_access_key = file_data.get('s3_secret'))
+    bucket = conn.get_bucket(file_data.get('s3_bucket_name'))
+    key = Key(bucket)
+    key.key = file_data.get('filename')
+    key.set_contents_from_string(file_data.get('file'), headers)
+    return "Done uploading..."

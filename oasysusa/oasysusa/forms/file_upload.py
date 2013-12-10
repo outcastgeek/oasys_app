@@ -75,7 +75,8 @@ def file_upload(request):
                 msg = dict(file_data.items()
                            + request.s3conf.items()
                            + dict(srvc=S3SRVC, file=tmp_file.read()).items())
-                request.tell(msg)
+                resp = request.ask(msg)
+                log.info(resp)
             request.client_timesheets.insert(file_data)
             request.session.flash("You successfully uploaded file %s" % raw_file_data.filename)
         except: # catch *all* exceptions

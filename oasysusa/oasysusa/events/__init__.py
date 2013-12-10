@@ -28,7 +28,6 @@ from ..models import DATE_FORMAT
 from ..admin.bootstrap import check_before_insert_user, check_before_insert_group
 
 from ..events.s3 import ensure_s3_bucket
-from ..events.zmq_event import setup_zmq_handlers
 
 from ..async.srvc_client import (
     srvc_tell,
