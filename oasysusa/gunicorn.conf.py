@@ -19,8 +19,8 @@ keepalive = 2
 debug = False
 spew = False
 proc_name = 'oasysusa'
-accesslog = '/home/oasysusa/oasys_corp/logs/oasysusa.log'
-pidfile = '/home/oasysusa/oasys_corp/logs/pid_5000.pid'
+# accesslog = '/home/oasysusa/oasys_corp/logs/oasysusa.log'
+# pidfile = '/home/oasysusa/oasys_corp/logs/pid_5000.pid'
 
 
 

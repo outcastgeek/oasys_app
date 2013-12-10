@@ -31,8 +31,9 @@ alembic==0.6.0
 futures==2.1.5
 tornado==3.1.1
 gevent==0.13.8
-gevent-socketio==0.3.5-rc2
 gevent_subprocess==0.1.1
+gevent-socketio==0.3.5-rc2
+pyramid_socketio==0.9
 pyramid==1.4.3
 pyramid_tm==0.7
 pyramid_beaker==0.8

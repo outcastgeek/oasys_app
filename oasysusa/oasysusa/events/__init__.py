@@ -6,7 +6,10 @@ import logging
 import pymongo
 import sys
 import transaction
-import zmq
+import uuid
+
+from functools import partial
+from uuid import uuid5
 
 from beaker.cache import (
     cache_region,
@@ -26,6 +29,11 @@ from ..admin.bootstrap import check_before_insert_user, check_before_insert_grou
 
 from ..events.s3 import ensure_s3_bucket
 from ..events.zmq_event import setup_zmq_handlers
+
+from ..async.srvc_client import (
+    srvc_tell,
+    srvc_ask
+    )
 
 log = logging.getLogger("oasysusa")
 
@@ -81,16 +89,14 @@ def add_mongo(event):
 
 
 @subscriber(NewRequest)
-def add_s3_zmq_socket(event):
+def add_zmq_srvc_tools(event):
     try:
         settings = get_settings()
-        s3_tcp_address = settings.get('s3_tcp_address')
-        s3ctx = zmq.Context.instance()
-        s3socket = s3ctx.socket(zmq.PUSH)
-        s3socket.connect(s3_tcp_address)
+        services_tcp_address = settings.get('services_tcp_address')
         request = get_current_request()
-        request.s3ctx = s3ctx
-        request.s3socket = s3socket
+        identity = '%s_%s' % (request.path, uuid5(uuid.NAMESPACE_DNS, request.path))
+        request.tell = partial(srvc_tell, identity, services_tcp_address)
+        request.ask = partial(srvc_ask, identity, services_tcp_address)
         request.s3conf = dict(s3_access_key_id=settings.get('s3_access_key_id'),
                               s3_secret=settings.get('s3_secret'),
                               s3_bucket_name=settings.get('s3_bucket_name'))

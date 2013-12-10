@@ -3,7 +3,6 @@ __author__ = 'outcastgeek'
 import json
 import logging
 import sys
-import umsgpack
 
 from tempfile import NamedTemporaryFile
 
@@ -19,8 +18,9 @@ from pyramid_simpleform.renderers import FormRenderer
 from formencode import Schema
 from formencode.validators import FileUploadKeeper
 
-logging.basicConfig()
-log = logging.getLogger(__file__)
+from ..async.srvc_handler import S3SRVC
+
+log = logging.getLogger('oasysusa')
 
 
 def form(request, metadata):
@@ -72,10 +72,10 @@ def file_upload(request):
                         break
                     tmp_file.write(data)
                 tmp_file.seek(0)
-                pack_msg = umsgpack.packb(dict(file_data.items()
-                                               + request.s3conf.items()
-                                               + dict(file=tmp_file.read()).items()))
-                request.s3socket.send(pack_msg)
+                msg = dict(file_data.items()
+                           + request.s3conf.items()
+                           + dict(srvc=S3SRVC, file=tmp_file.read()).items())
+                request.tell(msg)
             request.client_timesheets.insert(file_data)
             request.session.flash("You successfully uploaded file %s" % raw_file_data.filename)
         except: # catch *all* exceptions
@@ -91,12 +91,6 @@ class FileUploadSchema(Schema):
 
     file_info = FileUploadKeeper
 
-
-import time
-from tornado.gen import Task, Return, coroutine
-from tornado.httpclient import AsyncHTTPClient, HTTPRequest, HTTPError
-
-gen_log = logging.getLogger("tornado.general")
 
 
 
