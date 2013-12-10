@@ -170,21 +170,38 @@ div.box2 {
   height: 1px;
 }
 
-.timesheet-form input.invalid.dirty {
+.form-base input.ng-invalid.ng-dirty {
   background-color: $input_invalid_dirty_color;
 }
 
-.timesheet-form input.valid.dirty {
+.form-base input.ng-valid.ng-dirty {
   background-color: $input_valid_dirty_color;
 }
 
-.timesheet-form textarea.invalid.dirty {
+.form-base textarea.ng-invalid.ng-dirty {
   background-color: $input_invalid_dirty_color;;
 }
 
-.timesheet-form textarea.valid.dirty {
+.form-base textarea.ng-valid.ng-dirty {
   background-color: $input_valid_dirty_color;
 }
+
+.timesheet-form input.ng-invalid.ng-dirty {
+  background-color: $input_invalid_dirty_color;
+}
+
+.timesheet-form input.ng-valid.ng-dirty {
+  background-color: $input_valid_dirty_color;
+}
+
+.timesheet-form textarea.ng-invalid.ng-dirty {
+  background-color: $input_invalid_dirty_color;;
+}
+
+.timesheet-form textarea.ng-valid.ng-dirty {
+  background-color: $input_valid_dirty_color;
+}
+
 
 
 

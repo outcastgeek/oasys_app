@@ -11,7 +11,7 @@ var dateStandAlone = angular.module('dateStandAlone', []);
 dateStandAlone.config(function($interpolateProvider) {
     $interpolateProvider.startSymbol('{@~');
     $interpolateProvider.endSymbol('~@}');
-}).controller('dateStandAloneCtrl', function($scope, $timeout) {
+}).controller('dateStandAloneCtrl', function($scope) {
     $scope.today = function() {
         $scope.dt = new Date();
     };
