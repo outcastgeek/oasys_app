@@ -348,3 +348,4 @@ def up_start():
     with cd('/home/oasysusa/oasys_corp'):
         sudo('memcached &', user='oasysusa')
         sudo('/etc/init.d/oasysusa restart', user='root')
+        sudo('kill -9 killall pserve run_oasysusa_services')
