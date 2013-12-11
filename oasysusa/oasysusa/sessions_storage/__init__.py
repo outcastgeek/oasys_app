@@ -222,11 +222,11 @@ class MongoDBNamespaceManager(NamespaceManager):
             raise MissingCacheParameter("MongoDB url is required")
 
         if skip_pickle:
-            log.info("Disabling pickling for namespace: %s" % self.namespace)
+            log.debug("Disabling pickling for namespace: %s" % self.namespace)
             self._pickle = False
 
         if sparse_collection:
-            log.info("Separating data to one row per key (sparse collection) for ns %s ." % self.namespace)
+            log.debug("Separating data to one row per key (sparse collection) for ns %s ." % self.namespace)
             self._sparse = True
 
         # Temporarily uses a local copy of the functions until pymongo upgrades to new parser code
@@ -249,13 +249,13 @@ class MongoDBNamespaceManager(NamespaceManager):
             host_uri = 'mongodb://'
             for x in host_list:
                 host_uri += '%s:%s' % x
-            #log.info("Host URI: %s" % host_uri)
+            log.debug("Host URI: %s" % host_uri)
             conn = Connection(host_uri, slave_okay=options.get('slaveok', False))
 
             db = conn[database]
 
             if username:
-                log.info("Attempting to authenticate %s/%s " % (username, password))
+                log.debug("Attempting to authenticate %s/%s " % (username, password))
                 if not db.authenticate(username, password):
                     raise InvalidCacheBackendError('Cannot authenticate to '
                                                    ' MongoDB.')
