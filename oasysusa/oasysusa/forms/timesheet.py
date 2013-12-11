@@ -1,5 +1,3 @@
-from celery.loaders import default
-
 __author__ = 'outcastgeek'
 
 import logging
