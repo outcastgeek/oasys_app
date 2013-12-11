@@ -2,48 +2,55 @@
 <section id="project" data-speed="2" data-type="background">
     <div class="container">
         <div class="row-fluid">
-            {{ renderer.begin(request.route_url('project-form'), name="project-form", class="form-inline form-base") }}
+            {{ renderer.begin(request.route_url('project-form'), name="project-form", class="form-inline form-base",
+                                                                 novalidate="novalidate", ng_controller="FormValidationController") }}
             <h2 class="form-base-heading">Create Project</h2>
             {{ renderer.csrf_token() }}
             {{ renderer.label("Name") }}
             {{ renderer.errorlist("name") }}
-            {{ renderer.text("name", placeholder="name", size=30, required="required", form_input="form_input") }}
+            {{ renderer.text("name", placeholder="name", size=30, required="required", form_input="form_input", ng_model="data.name") }}
             <hr>
             {{ renderer.label("Client") }}
             {{ renderer.errorlist("client") }}
-            {{ renderer.text("client", placeholder="client", size=30, required="required", form_input="form_input") }}
+            {{ renderer.text("client", placeholder="client", size=30, required="required", form_input="form_input", ng_model="data.client") }}
             <hr>
             {{ renderer.label("Description") }}
             {{ renderer.errorlist("description") }}
             {{ renderer.textarea("description", placeholder="description", class="field span12", rows="4", cols="50",
-                                                    required="required", form_input="form_input", class="form-control") }}
+                                                required="required", form_input="form_input", class="form-control", ng_model="data.description") }}
             <hr>
             {{ renderer.label("Email") }}
             {{ renderer.errorlist("email") }}
-            {{ renderer.text("email", type="email", size=30, placeholder="email@emailprovider.com", required="required", form_input="form_input") }}
+            {{ renderer.text("email", type="email", size=30, placeholder="email@emailprovider.com", required="required",
+                                      form_input="form_input", ng_model="data.email") }}
             <hr>
             {{ renderer.label("Telephone Number") }}
             {{ renderer.errorlist("telephone_number") }}
-            {{ renderer.text("telephone_number", placeholder="987-654-3210", size=30, required="required", form_input="form_input") }}
+            {{ renderer.text("telephone_number", placeholder="987-654-3210", size=30, required="required", form_input="form_input",
+                                                 ng_model="data.telephone_number") }}
             <hr>
             {{ renderer.label("Address") }}
             {{ renderer.errorlist("address") }}
-            {{ renderer.text("address", placeholder="23 geeky way, Hacker PL 12345", size=60, required="required", form_input="form_input") }}
+            {{ renderer.text("address", placeholder="23 geeky way, Hacker PL 12345", size=60, required="required",
+                                        form_input="form_input", ng_model="data.address") }}
             <hr>
             {{ renderer.label("Manager") }}
             {{ renderer.errorlist("manager") }}
-            {{ renderer.text("manager", placeholder="manager", size=30, required="required", form_input="manager") }}
+            {{ renderer.text("manager", placeholder="manager", size=30, required="required", form_input="manager",
+                                        ng_model="data.manager") }}
             <hr>
             {{ renderer.label("Manager's Telephone Number") }}
             {{ renderer.errorlist("manager_telephone_number") }}
-            {{ renderer.text("manager_telephone_number", placeholder="987-654-3210", size=30, required="required", form_input="form_input") }}
+            {{ renderer.text("manager_telephone_number", placeholder="987-654-3210", size=30, required="required",
+                                                         form_input="form_input", ng_model="data.manager_telephone_number") }}
             <hr>
             {{ renderer.label("Manager's Email") }}
             {{ renderer.errorlist("manager_email") }}
-            {{ renderer.text("manager_email", type="email", size=30, placeholder="manager@somwhere.com", required="required", form_input="form_input") }}
+            {{ renderer.text("manager_email", type="email", size=30, placeholder="manager@somwhere.com", required="required",
+                                              form_input="form_input", ng_model="data.manager_email") }}
             <hr>
             <button id="clear" class="btn btn-large">Clear</button>
-            {{ renderer.submit('submit', 'Save', class="btn btn-large btn-primary") }}
+            {{ renderer.submit('submit', 'Save', class="btn btn-large btn-primary", ng_disabled="project-form.$invalid || isUnchanged(data)") }}
             {{ renderer.end() }}
         </div>
     </div>

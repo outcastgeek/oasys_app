@@ -186,6 +186,38 @@ div.box2 {
   background-color: $input_valid_dirty_color;
 }
 
+.profile-form input.ng-invalid.ng-dirty {
+  background-color: $input_invalid_dirty_color;
+}
+
+.profile-form input.ng-valid.ng-dirty {
+  background-color: $input_valid_dirty_color;
+}
+
+.profile-form textarea.ng-invalid.ng-dirty {
+  background-color: $input_invalid_dirty_color;;
+}
+
+.profile-form textarea.ng-valid.ng-dirty {
+  background-color: $input_valid_dirty_color;
+}
+
+.project-form input.ng-invalid.ng-dirty {
+  background-color: $input_invalid_dirty_color;
+}
+
+.project-form input.ng-valid.ng-dirty {
+  background-color: $input_valid_dirty_color;
+}
+
+.project-form textarea.ng-invalid.ng-dirty {
+  background-color: $input_invalid_dirty_color;;
+}
+
+.project-form textarea.ng-valid.ng-dirty {
+  background-color: $input_valid_dirty_color;
+}
+
 .timesheet-form input.ng-invalid.ng-dirty {
   background-color: $input_invalid_dirty_color;
 }
