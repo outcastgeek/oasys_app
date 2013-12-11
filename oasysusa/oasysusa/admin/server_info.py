@@ -1,6 +1,8 @@
 __author__ = 'outcastgeek'
 
-import subprocess
+import gevent
+
+from gevent import subprocess
 
 from pyramid.response import Response
 from pyramid.view import view_config
