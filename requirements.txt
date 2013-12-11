@@ -7,9 +7,9 @@ pexpect==2.4
 docopt==0.6.1
 termcolor==1.1.0
 docutils==0.11
-numpy==1.7.1
-sympy==0.7.3
-pil==1.1.7
+#numpy==1.7.1
+#sympy==0.7.3
+#pil==1.1.7
 python-dateutil==2.1
 pytz==2013.7
 xhtml2pdf==0.0.5
