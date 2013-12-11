@@ -1,6 +1,11 @@
 __author__ = 'outcastgeek'
 
+import logging
+import sys
+
 from socketio.server import SocketIOServer
+
+log = logging.getLogger('oasysusa')
 
 def serve(app, **kw):
     _quiet = kw.pop('_quiet', False)
@@ -33,8 +38,14 @@ def serve(app, **kw):
                             policy_server=policy_server,
                             **kw)
     if not _quiet:
-        print('serving on http://%s:%s' % (host, port))
-    server.serve_forever()
+        log.info('serving on http://%s:%s' % (host, port))
+
+    try:
+        server.serve_forever()
+    except:
+        e = sys.exc_info()[0]
+        log.error("Error: %s" % e)
+        server.serve_forever()
 
 
 def serve_paste(app, global_conf, **kw):

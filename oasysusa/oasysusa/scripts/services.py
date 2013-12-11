@@ -13,6 +13,18 @@ from pyramid.paster import (
     setup_logging
     )
 
+from sqlalchemy import engine_from_config
+
+from oasysusa.models import (
+    DBSession,
+    Base,
+    )
+
+from oasysusa.async.psycopg2_pool import (
+    make_green,
+    GreenQueuePool
+    )
+
 from oasysusa.async.srvc_handler import handle_msg
 
 log = logging.getLogger('oasysusa')
@@ -70,6 +82,13 @@ class Server(object):
         self.pool.kill()
         self.dead=True
 
+def configure_database(settings):
+    engine = engine_from_config(settings, 'sqlalchemy.', poolclass=GreenQueuePool, pool_size=40000, max_overflow=0)
+    make_green(engine) # Make the system green!!!!
+
+    DBSession.configure(bind=engine)
+    Base.metadata.bind = engine
+
 def usage(argv):
     cmd = os.path.basename(argv[0])
     print('usage: %s <config_uri>\n'
@@ -84,6 +103,8 @@ def main(argv=sys.argv):
     setup_logging(config_uri)
     print "Config location: %s" % config_uri
     settings = get_appsettings(config_uri)
+
+    configure_database(settings)
 
     services_tcp_address=settings.get('services_tcp_address')
 

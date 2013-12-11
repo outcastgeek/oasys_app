@@ -5,7 +5,9 @@
 #
 # pyximport.install(pyimport=True)
 
+import gevent
 import logging
+import os
 
 from pyramid.config import Configurator
 from pyramid.authentication import SessionAuthenticationPolicy
@@ -20,22 +22,31 @@ from .models import (
     Base,
     )
 
-logging.basicConfig()
-log = logging.getLogger(__file__)
+from .async.psycopg2_pool import (
+    make_green,
+    GreenQueuePool
+    )
 
+log = logging.getLogger('oasysusa')
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
-    engine = None
-    try:
-        engine = engine_from_config(settings, 'sqlalchemy.', pool_size=24, max_overflow=0)
-    except:
-        engine = engine_from_config(settings, 'sqlalchemy.')
+    # engine = None
+    # try:
+    #     engine = engine_from_config(settings, 'sqlalchemy.', poolclass=GreenQueuePool, pool_size=24, max_overflow=0)
+    # except:
+    #     engine = engine_from_config(settings, 'sqlalchemy.', poolclass=GreenQueuePool)
+
+    engine = engine_from_config(settings, 'sqlalchemy.', poolclass=GreenQueuePool, pool_size=40000, max_overflow=0)
+
     # try:
     #     engine = engine_from_config(settings, 'sqlalchemy.', pool_size=24, max_overflow=0, echo_pool=True, echo=True)
     # except:
     #     engine = engine_from_config(settings, 'sqlalchemy.', echo_pool=True, echo=True)
+
+    make_green(engine) # Make the system green!!!!
+
     DBSession.configure(bind=engine)
     Base.metadata.bind = engine
 
