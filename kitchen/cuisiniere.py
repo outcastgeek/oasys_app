@@ -274,7 +274,8 @@ def update_dependencies():
     # with cd('/home/oasysusa/oasys_corp/oasysusa'):
     #     sudo('/home/oasysusa/ENV/bin/python run-prod.py -u', user='oasysusa')
     with cd('/home/oasysusa/oasys_corp'):
-        sudo('/home/oasysusa/ENV/bin/pip install -r requirements.txt --upgrade', user='oasysusa')
+        # sudo('/home/oasysusa/ENV/bin/pip install -r requirements.txt --upgrade', user='oasysusa')
+        sudo('/home/oasysusa/ENV/bin/pip install -r requirements.txt', user='oasysusa')
 
 def install_app():
     with cd('/home/oasysusa/oasys_corp/oasysusa'):
