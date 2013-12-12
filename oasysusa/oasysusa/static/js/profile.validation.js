@@ -1,14 +1,26 @@
-/**
- * Created with IntelliJ IDEA.
- * User: outcastgeek
- * Date: 12/2/13
- * Time: 4:31 PM
- * To change this template use File | Settings | File Templates.
- */
 
-oasysUsaApp.controller('dateStandAloneCtrl', function($scope, $timeout) {
+oasysUsaApp.controller('FormValidationController', function($scope) {
+
+    $scope.master = {};
+
+    $scope.update = function(data) {
+        $scope.master = angular.copy(data);
+    };
+
+    $scope.reset = function() {
+        $scope.data = angular.copy($scope.master);
+    };
+
+    $scope.isUnchanged = function(data) {
+        return angular.equals(data, $scope.master);
+    };
+
+    $scope.reset();
+
+    /*    Calendar Stuff     */
+
     $scope.today = function() {
-        $scope.dt = new Date();
+        $scope.data.date_of_birth = new Date();
     };
     $scope.today();
 
@@ -18,7 +30,7 @@ oasysUsaApp.controller('dateStandAloneCtrl', function($scope, $timeout) {
     };
 
     $scope.clear = function () {
-        $scope.dt = null;
+        $scope.data.date_of_birth = null;
     };
 
     // Disable weekend selection
@@ -34,7 +46,6 @@ oasysUsaApp.controller('dateStandAloneCtrl', function($scope, $timeout) {
     $scope.open = function() {
         $timeout(function() {
             $scope.opened = true;
-            console.log('Hello');
         });
     };
 
@@ -47,6 +58,4 @@ oasysUsaApp.controller('dateStandAloneCtrl', function($scope, $timeout) {
 //    $scope.format = $scope.formats[0];
     $scope.format = 'MM/dd/yyyy';
 });
-
-
 

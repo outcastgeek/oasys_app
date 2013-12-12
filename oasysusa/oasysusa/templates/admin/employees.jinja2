@@ -1,5 +1,7 @@
 {% extends "templates/layout.jinja2" %}
 
+{% block angular_app %}oasysUsaApp{% endblock %}
+
 {% block title %}
     Employees
 {% endblock %}
@@ -44,5 +46,7 @@
 
 {% block page_js %}
     {% include "templates/partials/form_modernizr_partial.jinja2" %}
-    {#    <script src="{{ request.persona_js }}" type="text/javascript"></script>#}
+    {% assets filters="rjsmin,datauri", output="js/form.validation.min.js", "js/oasysusa.app.js", "js/date.standalone.js", "js/form.validation.js" %}
+        <script src="{{ ASSET_URL }}" type="text/javascript"></script>
+    {% endassets %}
 {% endblock %}

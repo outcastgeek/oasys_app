@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html" ng-app="{% block angular_app %}SomeApp{% endblock %}">
+<html lang="en" xmlns="http://www.w3.org/1999/html" ng-app="{% block angular_app %}oasysUsaApp{% endblock %}">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -140,6 +140,10 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+<!-- Angular UI -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.6.0/ui-bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.6.0/ui-bootstrap-tpls.min.js"></script>
 
 {#{% assets filters="rjsmin,datauri", output="js/holder.min.js", "js/holder.js" %}#}
 {#    <script src="{{ ASSET_URL }}"></script>#}

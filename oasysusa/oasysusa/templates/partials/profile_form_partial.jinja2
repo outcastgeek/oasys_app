@@ -26,8 +26,9 @@
             <br>
             {{ renderer.label("Date Of Birth") }}
             {{ renderer.errorlist("date_of_birth") }}
-            {{ renderer.text("date_of_birth", type="date", placeholder="01/01/0001", size=30, class="input-block-level", required="required",
-                                  ng_model="user.date_of_birth", form_input="form_input", input_type="date", ng_model="data.date_of_birth") }}
+            {{ renderer.text("date_of_birth", type="text", placeholder="01/01/0001", size=30, class="input-block-level", required="required",
+                                  ng_model="data.date_of_birth", form_input="form_input", input_type="date",
+                                  datepicker_popup="{@~ format ~@}", is_open="opened", datepicker_options="dateOptions") }}
             <br>
             {{ renderer.label("Address") }}
             {{ renderer.errorlist("address") }}

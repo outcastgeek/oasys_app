@@ -1,6 +1,6 @@
 {% extends "templates/layout.jinja2" %}
 
-{% block angular_app %}formValidation{% endblock %}
+{% block angular_app %}oasysUsaApp{% endblock %}
 
 {% block title %}
     Profile
@@ -12,7 +12,7 @@
 
 {% block page_js %}
     {% include "templates/partials/form_modernizr_partial.jinja2" %}
-    {% assets filters="rjsmin,datauri", output="js/form.validation.min.js", "js/form.validation.js" %}
+    {% assets filters="rjsmin,datauri", output="js/profile.validation.min.js", "js/oasysusa.app.js", "js/profile.validation.js" %}
         <script src="{{ ASSET_URL }}" type="text/javascript"></script>
     {% endassets %}
 {% endblock %}
