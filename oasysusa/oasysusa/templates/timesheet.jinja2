@@ -111,8 +111,7 @@
 {#    {% assets filters="rjsmin,datauri", output="js/form.validation.min.js", "js/form.validation.js", "js/date.standalone.js" %}#}
 {#        <script src="{{ ASSET_URL }}" type="text/javascript"></script>#}
 {#    {% endassets %}#}
-{#    {% assets filters="rjsmin,datauri", output="js/form.validation.min.js", "js/oasysusa.app.js", "js/date.standalone.js", "js/form.validation.js" %}#}
-    {% assets filters="datauri", output="js/form.validation.min.js", "js/oasysusa.app.js", "js/date.standalone.js", "js/form.validation.js" %}
+    {% assets filters="rjsmin,datauri", output="js/form.validation.min.js", "js/oasysusa.app.js", "js/date.standalone.js", "js/form.validation.js" %}
         <script src="{{ ASSET_URL }}" type="text/javascript"></script>
     {% endassets %}
 {% endblock %}
