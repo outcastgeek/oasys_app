@@ -8,46 +8,46 @@
             {{ renderer.csrf_token() }}
             {{ renderer.label("Name") }}
             {{ renderer.errorlist("name") }}
-            {{ renderer.text("name", placeholder="name", size=30, required="required", form_input="form_input", ng_model="data.name") }}
+            {{ renderer.text("name", placeholder="name", size=30, required="required", form_input="form_input", ng_model="data.name", ng_initial="") }}
             <hr>
             {{ renderer.label("Client") }}
             {{ renderer.errorlist("client") }}
-            {{ renderer.text("client", placeholder="client", size=30, required="required", form_input="form_input", ng_model="data.client") }}
+            {{ renderer.text("client", placeholder="client", size=30, required="required", form_input="form_input", ng_model="data.client", ng_initial="") }}
             <hr>
             {{ renderer.label("Description") }}
             {{ renderer.errorlist("description") }}
             {{ renderer.textarea("description", placeholder="description", class="field span12", rows="4", cols="50",
-                                                required="required", form_input="form_input", class="form-control", ng_model="data.description") }}
+                                                required="required", form_input="form_input", class="form-control", ng_model="data.description", ng_initial="") }}
             <hr>
             {{ renderer.label("Email") }}
             {{ renderer.errorlist("email") }}
             {{ renderer.text("email", type="email", size=30, placeholder="email@emailprovider.com", required="required",
-                                      form_input="form_input", ng_model="data.email") }}
+                                      form_input="form_input", ng_model="data.email", ng_initial="") }}
             <hr>
             {{ renderer.label("Telephone Number") }}
             {{ renderer.errorlist("telephone_number") }}
             {{ renderer.text("telephone_number", placeholder="987-654-3210", size=30, required="required", form_input="form_input",
-                                                 ng_model="data.telephone_number") }}
+                                                 ng_model="data.telephone_number", ng_initial="") }}
             <hr>
             {{ renderer.label("Address") }}
             {{ renderer.errorlist("address") }}
             {{ renderer.text("address", placeholder="23 geeky way, Hacker PL 12345", size=60, required="required",
-                                        form_input="form_input", ng_model="data.address") }}
+                                        form_input="form_input", ng_model="data.address", ng_initial="") }}
             <hr>
             {{ renderer.label("Manager") }}
             {{ renderer.errorlist("manager") }}
             {{ renderer.text("manager", placeholder="manager", size=30, required="required", form_input="manager",
-                                        ng_model="data.manager") }}
+                                        ng_model="data.manager", ng_initial="") }}
             <hr>
             {{ renderer.label("Manager's Telephone Number") }}
             {{ renderer.errorlist("manager_telephone_number") }}
             {{ renderer.text("manager_telephone_number", placeholder="987-654-3210", size=30, required="required",
-                                                         form_input="form_input", ng_model="data.manager_telephone_number") }}
+                                                         form_input="form_input", ng_model="data.manager_telephone_number", ng_initial="") }}
             <hr>
             {{ renderer.label("Manager's Email") }}
             {{ renderer.errorlist("manager_email") }}
             {{ renderer.text("manager_email", type="email", size=30, placeholder="manager@somwhere.com", required="required",
-                                              form_input="form_input", ng_model="data.manager_email") }}
+                                              form_input="form_input", ng_model="data.manager_email", ng_initial="") }}
             <hr>
             <button id="clear" class="btn btn-large">Clear</button>
             {{ renderer.submit('submit', 'Save', class="btn btn-large btn-primary", ng_disabled="project-form.$invalid || isUnchanged(data)") }}
