@@ -5,7 +5,6 @@ import random
 from datetime import datetime
 from webhelpers.paginate import PageURL_WebOb, Page
 
-from beaker.cache import cache_region
 import sqlalchemy as sa
 from sqlalchemy import (
     Column,
@@ -16,7 +15,9 @@ from sqlalchemy import (
     Unicode,
     Table,
     Boolean,
-    Date, and_, or_)
+    Date,
+    and_,
+    or_)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import (
     scoped_session,
@@ -38,8 +39,9 @@ from pyramid.security import (
     Everyone,
     ALL_PERMISSIONS)
 
-from .errors import ConflictingProfileException
+from pyramid.threadlocal import get_current_registry
 
+from .errors import ConflictingProfileException
 
 class RootFactory(object):
     __acl__ = [(Allow, 'admin', ALL_PERMISSIONS),
@@ -52,6 +54,9 @@ class RootFactory(object):
     def __init__(self, request):
         pass
 
+class IndexUpdateEvent(object):
+    def __init__(self, target):
+        self.target = target
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
@@ -220,6 +225,8 @@ class Employee(CRUDMixin, Base):
 
     @classmethod
     def update_or_insert(cls, username, employee):
+        registry = get_current_registry()
+
         #check
         existing_employee = cls.query().filter(or_(and_(cls.username == username,
                                                         cls.provider_id == str(employee.provider_id)),
@@ -234,6 +241,7 @@ class Employee(CRUDMixin, Base):
                 employees_table = employee.__table__
                 update_stmt = employees_table.update(employees_table.c.username == username)
                 update_stmt.execute(employee_data)
+                registry.notify(IndexUpdateEvent(employee))
             else:
                 err_msg = ' already exist'
                 if existing_employee.email == employee.email:
@@ -246,9 +254,25 @@ class Employee(CRUDMixin, Base):
             employee.date_of_birth = employee_dob if employee_dob > EARLIEST_DATE else EARLIEST_DATE
             employee_group = Group.query().filter(Group.groupname == 'employee').first()
             employee.groups.append(employee_group)
+            registry.notify(IndexUpdateEvent(employee))
             return employee.save()
 
-    def __json__(self, request):
+    def get_data(self):
+        return {
+            'username': self.username,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'email': self.email,
+            'provider': self.provider,
+            'active': self.active,
+            'address': self.address,
+            'employee_id': self.employee_id,
+            'provider_id': self.provider_id,
+            'telephone_number': self.telephone_number,
+            'date_of_birth': self.date_of_birth
+        }
+
+    def __json__(self, request=None):
         return {
             'username': self.username,
             'first_name': self.first_name,

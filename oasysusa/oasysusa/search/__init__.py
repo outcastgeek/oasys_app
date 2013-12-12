@@ -6,9 +6,15 @@ from pyelasticsearch import ElasticSearch
 from pyelasticsearch.exceptions import InvalidJsonResponseError
 from requests.exceptions import ConnectionError
 
+from .indices import EMPLOYEE_INDEX, employee_mapping
 
-logging.basicConfig()
-logger = logging.getLogger(__name__)
+# Adjust Import Path for external packages
+EMPLOYEE_INDEX, employee_mapping = EMPLOYEE_INDEX, employee_mapping
+
+log = logging.getLogger('oasysusa')
+
+def get_es_client():
+    return SafeEs(_es_client)
 
 
 # Got it from here: https://github.com/sontek/notaliens.com/blob/master/notaliens/notaliens/search/__init__.py
@@ -20,36 +26,36 @@ class SafeEs(object):
         try:
             self.es.index(index, descriptor, body, **kwargs)
         except (InvalidJsonResponseError, ConnectionError):
-            logger.exception("Couldn't index data to ElasticSearch")
+            log.exception("Couldn't index data to ElasticSearch")
 
     def create_index(self, index, settings=None, mapping=None):
         try:
             self.es.create_index(index, settings=settings)
         except (InvalidJsonResponseError, ConnectionError):
-            logger.exception("Couldn't create the index in ElasticSearch")
+            log.exception("Couldn't create the index in ElasticSearch")
 
     def delete_index(self, index):
         try:
             self.es.delete_index(index)
         except (InvalidJsonResponseError, ConnectionError):
-            logger.exception("Couldn't delete index from ElasticSearch")
+            log.exception("Couldn't delete index from ElasticSearch")
 
     def search(self, query, fallback=None, **kwargs):
         try:
             return self.es.search(query, **kwargs)
         except (InvalidJsonResponseError, ConnectionError):
             if fallback:
-                logger.exception("Couldn't search from ElasticSearch")
+                log.exception("Couldn't search from ElasticSearch")
                 return fallback(query, **kwargs)
             else:
-                logger.warn("No fallback registered")
+                log.warn("No fallback registered")
                 raise
 
     def put_mapping(self, index, descriptor, body):
         try:
             return self.es.put_mapping(index, descriptor, body)
         except (InvalidJsonResponseError, ConnectionError):
-            logger.exception("Couldn't set the mapping for ElasticSearch")
+            log.exception("Couldn't set the mapping for ElasticSearch")
 
 
 def _get_search_settings(settings, prefix='search.'):
@@ -90,7 +96,7 @@ def includeme(config):
     settings = config.registry.settings
 
     search_enabled = asbool(settings.get('search.enabled', False))
-    logger.info('elastic_search_enabled=%s' % search_enabled)
+    log.info('elastic_search_enabled=%s' % search_enabled)
 
     # Enable searching?
     if not search_enabled:

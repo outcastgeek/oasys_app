@@ -18,7 +18,8 @@ from beaker.cache import (
 from pyramid.events import (
     subscriber,
     BeforeRender,
-    ApplicationCreated, NewRequest)
+    ApplicationCreated,
+    NewRequest)
 
 from pyramid.threadlocal import (
     get_current_registry,
