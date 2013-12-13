@@ -32,19 +32,20 @@ log = logging.getLogger('oasysusa')
 def bootstrap_data(request):
     return_to = request.POST.get('return_to')
     log.warn('Provisioning the database...')
-    # index_all_employees()
-    return HTTPFound(location=return_to)
-
-@view_config(route_name='refresh_search_index',
-             request_method='POST',
-             permission='admin')
-def bootstrap_data(request):
-    return_to = request.POST.get('return_to')
-    log.warn('Refreshing the search index...')
     test_projects = gen_test_projects(8)
     map(lambda proj_info: check_before_insert_project(**proj_info), test_projects)
     test_users = gen_test_users(31)
     map(lambda user_creds: check_before_insert_user(**user_creds), test_users)
+    return HTTPFound(location=return_to)
+
+
+@view_config(route_name='refresh_search_index',
+             request_method='POST',
+             permission='admin')
+def refresh_search_index(request):
+    return_to = request.POST.get('return_to')
+    log.warn('Refreshing the search index...')
+    # index_all_employees()
     return HTTPFound(location=return_to)
 
 
