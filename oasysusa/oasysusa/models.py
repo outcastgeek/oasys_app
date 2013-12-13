@@ -54,6 +54,10 @@ class RootFactory(object):
     def __init__(self, request):
         pass
 
+class IndexNewEvent(object):
+    def __init__(self, target):
+        self.target = target
+
 class IndexUpdateEvent(object):
     def __init__(self, target):
         self.target = target
@@ -222,6 +226,12 @@ class Employee(CRUDMixin, Base):
     #     employee_group = Group.by_name('employee')
     #     employee.groups.append(employee_group)
     #     return super(Employee, self).save(employee)
+
+    def save(self):
+        registry = get_current_registry()
+        DBSession.add(self)
+        registry.notify(IndexNewEvent(self))
+        return self
 
     @classmethod
     def update_or_insert(cls, username, employee):

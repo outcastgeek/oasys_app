@@ -40,6 +40,12 @@ class SafeEs(object):
         except (InvalidJsonResponseError, ConnectionError):
             log.exception("Couldn't delete index from ElasticSearch")
 
+    def update(self, index, doc_type, id=None, script=None, **kwargs):
+        try:
+            self.es.update(index, doc_type, id, script, **kwargs)
+        except (InvalidJsonResponseError, ConnectionError):
+            log.exception("Couldn't index data to ElasticSearch")
+
     def search(self, query, fallback=None, **kwargs):
         try:
             return self.es.search(query, **kwargs)

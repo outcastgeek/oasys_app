@@ -20,10 +20,12 @@
                 <div>
                     <h2>Employees</h2>
                     <hr>
+                    {{ search_form(request, "Employee") | safe }}
+                    <hr>
                     <div class="pager">
                         {{ employees.pager(link_attr={"class": "btn small"}, symbol_previous="«", symbol_next="»") }}
                     </div>
-                </div>
+                </div>                
 
                 <hr>
 

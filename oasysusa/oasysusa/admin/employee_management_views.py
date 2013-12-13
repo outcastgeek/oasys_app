@@ -2,6 +2,8 @@ __author__ = 'outcastgeek'
 
 import logging
 
+import simplejson as json
+
 from datetime import date
 
 from pyramid.view import (
@@ -16,12 +18,12 @@ from pyramid_simpleform.renderers import FormRenderer
 from ..models import (
     Employee, Project)
 
-logging.basicConfig()
-log = logging.getLogger(__file__)
+from ..search import EMPLOYEE_INDEX
+
+log = logging.getLogger('oasysusa')
 
 
-@view_defaults(route_name='employees',
-               permission='admin')
+@view_defaults(route_name='employees', permission='admin')
 class EmployeesManagement(object):
     def __init__(self, request):
         self.request = request
@@ -50,3 +52,63 @@ class EmployeesManagement(object):
         self.request.session.flash(
             'The %s project was successfully added to %s\' list of projects.' % (project_name, username))
         return HTTPFound(location=self.request.route_url('employees', _query=dict(page=current_page)))
+
+
+@view_defaults(route_name='employees_es', permission='admin')
+class EmployeesManagementES(object):
+    def __init__(self, request):
+        self.request = request
+
+    @view_config(request_method='GET')
+    def back_to_employees(self):
+        current_page = int(self.request.params.get('page', 1))
+        return HTTPFound(location=self.request.route_url('employees', _query=dict(page=current_page)))
+
+    @view_config(request_method='POST', renderer='templates/admin/employees_search.jinja2')
+    def find_employee(self):
+        # query_string = self.request.POST.get('query')
+        # query = {
+        #     'query': {
+        #         'filtered': {
+        #             'query': {
+        #                 'query_string': {
+        #                     'query': query_string
+        #                 }
+        #             }
+        #         }
+        #     },
+        #     'fields': [
+        #         'id',
+        #         'first_name',
+        #         'username',
+        #         'telephone_number',
+        #         'provider_id',
+        #         'email',
+        #         'address',
+        #         'last_name',
+        #         'date_of_birth',
+        #         'active',
+        #         'provider',
+        #         'employee_id'
+        #     ],
+        #     'from': 0,
+        #     'size': 50,
+        #     'sort': {
+        #         '_score': {
+        #             'order': 'asc'
+        #         }
+        #     },
+        #     'explain': 'true'
+        # }
+        # query = {
+        #     'query': {
+        #         'term': {
+        #             'username':'Username4'
+        #         }
+        #     }
+        # }
+        query = self.request.POST.get('query')
+        employee_res = self.request.es.search(query, index=EMPLOYEE_INDEX, doc_type='employee')
+        log.debug("Employee Search Results:\n%s\n", employee_res)
+        return dict(employee_res=employee_res)
+

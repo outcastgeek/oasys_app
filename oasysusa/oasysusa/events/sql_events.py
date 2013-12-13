@@ -9,7 +9,10 @@ from pyramid.events import (
 
 from pyelasticsearch.exceptions import ElasticHttpNotFoundError
 
-from ..models import IndexUpdateEvent
+from ..models import (
+    IndexNewEvent,
+    IndexUpdateEvent
+    )
 
 from ..search import (
     get_es_client,
@@ -31,7 +34,18 @@ def setup_user_index(event):
     es.put_mapping(EMPLOYEE_INDEX, 'employee', employee_mapping)
 
 @subscriber(IndexUpdateEvent)
-def application_created_subscriber(event):
+def update_employee_subscriber(event):
+    es = get_es_client()
+    employee = event.target
+    es.update(
+        EMPLOYEE_INDEX,
+        'employee',
+        doc=employee.get_data(),
+        id=employee.id
+    )
+
+@subscriber(IndexNewEvent)
+def new_employee_subscriber(event):
     es = get_es_client()
     employee = event.target
     es.index(

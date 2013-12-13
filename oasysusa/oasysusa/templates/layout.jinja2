@@ -80,10 +80,10 @@
                             {% if has_cred('admin', request) %}
                                 <li role="menuitem" tabindex="-1" class="divider"></li>
                                 <li role="menuitem" tabindex="-1" class="nav-header">Time Management</li>
-                                <li><a role="menuitem" tabindex="-1" href="/timesheet/project">Project</a></li>
+                                <li><a role="menuitem" tabindex="-1" href="{{ request.route_url('project-form') }}">Project</a></li>
                                 <li class="divider"></li>
                                 <li class="nav-header">Employee Management</li>
-                                <li><a role="menuitem" tabindex="-1" href="/admin/employees">Employees</a></li>
+                                <li><a role="menuitem" tabindex="-1" href="{{ request.route_url('employees') }}">Employees</a></li>
                             {% endif %}
                         {% endif %}
                         <li class="divider"></li>
