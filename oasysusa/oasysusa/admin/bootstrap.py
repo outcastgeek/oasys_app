@@ -1,6 +1,5 @@
 __author__ = 'outcastgeek'
 
-import itertools
 import logging
 
 from functools import partial
@@ -10,8 +9,6 @@ from beaker.cache import region_invalidate
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
 from pyramid.threadlocal import get_current_registry
-
-from webhelpers.paginate import Page
 
 from sqlalchemy import (
     distinct,
@@ -27,7 +24,7 @@ from ..api.timesheet_api import get_all_projects
 
 from ..search.indices import refresh_user_index
 
-from ..events.sql_events import INDEX_NEW_EMPLOYEE
+from ..events.sql_events import INDEX_ALL_EMPLOYEES
 
 log = logging.getLogger('oasysusa')
 
@@ -50,7 +47,7 @@ def bootstrap_data(request):
 def refresh_search_index(request):
     return_to = request.POST.get('return_to')
     log.warn('Refreshing the search index...')
-    index_all_employees(request)
+    request.tell(dict(srvc=INDEX_ALL_EMPLOYEES))
     return HTTPFound(location=return_to)
 
 
@@ -66,35 +63,6 @@ def clean_bootstrap_data(request):
     return HTTPFound(location=return_to)
 
 ############################# UTILITIES ########################################
-
-def index_all_employees(request):
-    # Get registry
-    registry = get_current_registry()
-    # Get employees collection
-    employees_collection = Employee.all(Employee.username)
-    # Get lambda
-    get_page = lambda collection, count, i : Page(collection, page=i, item_count=count).items
-    # Get count
-    # count = Employee.session().query(func.count(distinct(Employee.username)))
-    count = employees_collection.count()
-    log.debug('\n\nThere are %s employees\n\n', count)
-    # Get page count
-    page_count = Page(Employee.all(Employee.username), page=1, item_count=count).page_count
-    log.debug('\n\nThere are %s pages\n\n', page_count)
-    # Get current page partial
-    get_current_page = partial(get_page, employees_collection, page_count)
-    # Get all employees TODO: Revisit this as it is not very efficient!!!!
-    all_employees = itertools.chain.from_iterable(
-        map(get_current_page, xrange(1, page_count + 1))
-    )
-    # Refresh the employee index
-    # refresh_user_index()
-    map(lambda employee: request.tell(dict(srvc=INDEX_NEW_EMPLOYEE,
-                                           employee=employee.get_data())), all_employees)
-
-    # itertools.chain.from_iterable(
-    #     itertools.starmap(lambda i: get_current_page(i),
-    #                       itertools.islice(xrange(1, page_count + 1), 1, page_count + 1, 1)))
 
 def check_before_insert_group(groupname):
     existing_group = Group.query().filter(Group.groupname == groupname).first()

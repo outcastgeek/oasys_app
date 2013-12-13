@@ -8,8 +8,12 @@ from requests.exceptions import ConnectionError
 
 log = logging.getLogger('oasysusa')
 
-def get_es_client():
-    return SafeEs(_es_client)
+def get_es_client(settings):
+    search_settings = _get_search_settings(settings)
+    es_client = ElasticSearch(
+        'http://%(host)s:%(port)s/' % search_settings
+    )
+    return SafeEs(es_client)
 
 
 # Got it from here: https://github.com/sontek/notaliens.com/blob/master/notaliens/notaliens/search/__init__.py

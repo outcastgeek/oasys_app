@@ -13,14 +13,17 @@ from ..events.s3 import (
 
 from ..events.sql_events import (
     INDEX_NEW_EMPLOYEE,
-    handle_index_new_employee_request
+    INDEX_ALL_EMPLOYEES,
+    handle_index_new_employee_request,
+    handle_index_all_employees
     )
 
 log = logging.getLogger('oasysusa')
 
 SRVC_MAP = {
     S3SRVC:handle_s3srvc_request,
-    INDEX_NEW_EMPLOYEE:handle_index_new_employee_request
+    INDEX_NEW_EMPLOYEE:handle_index_new_employee_request,
+    INDEX_ALL_EMPLOYEES:handle_index_all_employees
 }
 
 def resolve_handler(msg):
@@ -28,10 +31,10 @@ def resolve_handler(msg):
     log.debug('Resolved Service: %s', srvc_name)
     return SRVC_MAP.get(srvc_name)
 
-def process_msg(raw_msg):
+def process_msg(raw_msg, **kwargs):
     msg = umsgpack.unpackb(raw_msg)
     srvc_func = resolve_handler(msg)
-    return srvc_func(msg)
+    return srvc_func(msg, kwargs)
 
 
 def handle_msg(context, _id, raw_msg):

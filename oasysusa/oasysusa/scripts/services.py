@@ -37,9 +37,10 @@ log = logging.getLogger('oasysusa')
 POOL_SIZE = 40000
 
 class Server(object):
-    def __init__(self, address, work_address):
-        self.address = address
-        self.work_address = work_address
+    def __init__(self, settings):
+        self.settings = settings
+        self.address = settings.get('services_tcp_address')
+        self.work_address = settings.get('workers_tcp_address')
         self.pool = Pool(POOL_SIZE)
         self.dead=False
 
@@ -85,7 +86,7 @@ class Server(object):
                     msg = worker.recv()
                     self.pool.wait_available()
                     log.debug('Dispatching work')
-                    self.pool.spawn(process_msg, msg)
+                    self.pool.spawn(process_msg, msg, **self.settings)
 
         frontend.close()
         backend.close()
@@ -122,11 +123,8 @@ def main(argv=sys.argv):
 
     configure_database(settings)
 
-    services_tcp_address = settings.get('services_tcp_address')
-    workers_tcp_address = settings.get('workers_tcp_address')
-
     # Start the server that will handle incoming requests
-    server = Server(services_tcp_address, workers_tcp_address)
+    server = Server(settings)
     # signal register
     signal.signal(signal.SIGINT, server.sig_handler)
     signal.signal(signal.SIGTERM, server.sig_handler)

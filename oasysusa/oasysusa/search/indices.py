@@ -86,8 +86,8 @@ def gen_employee_query(query_string):
     }
     return query
 
-def refresh_user_index():
-    es = get_es_client()
+def refresh_user_index(settings):
+    es = get_es_client(settings)
     try:
         es.delete_index(EMPLOYEE_INDEX)
     except ElasticHttpNotFoundError:
