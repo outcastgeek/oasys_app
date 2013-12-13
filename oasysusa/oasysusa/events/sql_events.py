@@ -14,8 +14,9 @@ from ..models import (
     IndexUpdateEvent
     )
 
-from ..search import (
-    get_es_client,
+from ..search import get_es_client
+
+from ..search.indices import (
     EMPLOYEE_INDEX,
     employee_mapping
     )

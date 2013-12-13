@@ -4,7 +4,7 @@
     {{ renderer.csrf_token() }}
     <div class="form-group">
         {{ renderer.label("Search " + search_type,  class="sr-only") }}
-        {{ renderer.text("new_date", type="text", placeholder="Enter your search query here", size=160 , required="required", form_input="form_input") }}
+        {{ renderer.text("query", type="text", placeholder="Enter your search query here", size=160 , required="required", form_input="form_input") }}
         {{ renderer.submit('submit', 'Search', class="btn btn-inverse") }}
     </div>
     {{ renderer.end() }}

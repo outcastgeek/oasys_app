@@ -2,10 +2,6 @@ __author__ = 'outcastgeek'
 
 import logging
 
-import simplejson as json
-
-from datetime import date
-
 from pyramid.view import (
     view_config,
     view_defaults)
@@ -18,7 +14,10 @@ from pyramid_simpleform.renderers import FormRenderer
 from ..models import (
     Employee, Project)
 
-from ..search import EMPLOYEE_INDEX
+from ..search.indices import (
+    EMPLOYEE_INDEX,
+    gen_employee_query
+    )
 
 log = logging.getLogger('oasysusa')
 
@@ -66,48 +65,8 @@ class EmployeesManagementES(object):
 
     @view_config(request_method='POST', renderer='templates/admin/employees_search.jinja2')
     def find_employee(self):
-        # query_string = self.request.POST.get('query')
-        # query = {
-        #     'query': {
-        #         'filtered': {
-        #             'query': {
-        #                 'query_string': {
-        #                     'query': query_string
-        #                 }
-        #             }
-        #         }
-        #     },
-        #     'fields': [
-        #         'id',
-        #         'first_name',
-        #         'username',
-        #         'telephone_number',
-        #         'provider_id',
-        #         'email',
-        #         'address',
-        #         'last_name',
-        #         'date_of_birth',
-        #         'active',
-        #         'provider',
-        #         'employee_id'
-        #     ],
-        #     'from': 0,
-        #     'size': 50,
-        #     'sort': {
-        #         '_score': {
-        #             'order': 'asc'
-        #         }
-        #     },
-        #     'explain': 'true'
-        # }
-        # query = {
-        #     'query': {
-        #         'term': {
-        #             'username':'Username4'
-        #         }
-        #     }
-        # }
-        query = self.request.POST.get('query')
+        query_string = self.request.POST.get('query')
+        query = gen_employee_query(query_string)
         employee_res = self.request.es.search(query, index=EMPLOYEE_INDEX, doc_type='employee')
         log.debug("Employee Search Results:\n%s\n", employee_res)
         return dict(employee_res=employee_res)

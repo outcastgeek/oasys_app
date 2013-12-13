@@ -1,11 +1,21 @@
 __author__ = 'outcastgeek'
 
+import itertools
 import logging
+
+from functools import partial
 
 from beaker.cache import region_invalidate
 
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
+
+from webhelpers.paginate import Page
+
+from sqlalchemy import (
+    distinct,
+    func
+    )
 
 from ..models import (
     Employee,
@@ -14,9 +24,7 @@ from ..models import (
 
 from ..api.timesheet_api import get_all_projects
 
-logging.basicConfig()
-log = logging.getLogger(__file__)
-
+log = logging.getLogger('oasysusa')
 
 @view_config(route_name='bootstrap_data',
              request_method='POST',
@@ -24,6 +32,15 @@ log = logging.getLogger(__file__)
 def bootstrap_data(request):
     return_to = request.POST.get('return_to')
     log.warn('Provisioning the database...')
+    # index_all_employees()
+    return HTTPFound(location=return_to)
+
+@view_config(route_name='refresh_search_index',
+             request_method='POST',
+             permission='admin')
+def bootstrap_data(request):
+    return_to = request.POST.get('return_to')
+    log.warn('Refreshing the search index...')
     test_projects = gen_test_projects(8)
     map(lambda proj_info: check_before_insert_project(**proj_info), test_projects)
     test_users = gen_test_users(31)
@@ -43,6 +60,19 @@ def clean_bootstrap_data(request):
     return HTTPFound(location=return_to)
 
 ############################# UTILITIES ########################################
+
+# def index_all_employees():
+#     # Get lambda
+#     get_page = lambda collection, count, i : Page(collection, page=i, item_count=count).items
+#     # Get count
+#     count = Employee.session().query(func.count(distinct(Employee.username)))
+#     # Get page count
+#     page_count = Page(Employee, item_count=count).page_count
+#     # Get current page partial
+#     get_current_page = partial(get_page, Employee, count)
+#     itertools.chain.from_iterable(
+#         itertools.starmap(lambda i: get_current_page(i),
+#                           itertools.islice(xrange(1, page_count + 1), 1, page_count + 1, 1)))
 
 def check_before_insert_group(groupname):
     existing_group = Group.query().filter(Group.groupname == groupname).first()

@@ -46,4 +46,40 @@ employee_mapping = {
     }
 }
 
+def gen_employee_query(query_string):
+    query = {
+        'query': {
+            'filtered': {
+                'query': {
+                    'query_string': {
+                        'query': query_string
+                    }
+                }
+            }
+        },
+        'fields': [
+            'id',
+            'first_name',
+            'username',
+            'telephone_number',
+            'provider_id',
+            'email',
+            'address',
+            'last_name',
+            'date_of_birth',
+            'active',
+            'provider',
+            'employee_id'
+        ],
+        'from': 0,
+        'size': 50,
+        'sort': {
+            '_score': {
+                'order': 'asc'
+            }
+        },
+        'explain': 'true'
+    }
+    return query
+
 

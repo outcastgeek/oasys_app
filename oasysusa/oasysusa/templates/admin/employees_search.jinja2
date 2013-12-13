@@ -1,0 +1,40 @@
+{% extends "templates/layout.jinja2" %}
+
+{% block angular_app %}oasysUsaApp{% endblock %}
+
+{% block title %}
+    Employee Search Results
+{% endblock %}
+
+{% block body %}
+
+    <section id="employees" data-speed="2" data-type="background">
+        <div class="container">
+            <div class="row-fluid">
+                {{ currentdayform(request, True)|safe }}
+            </div>
+            <div>
+                <h2>Employees</h2>
+                <hr>
+                {{ search_form(request, "Employee") | safe }}
+                <p><b>Found {{ employee_res.get('hits').get('total') }} in {{ employee_res.get('took') }}</b></p>
+            </div>
+
+            <hr>
+
+            {% for employee in employee_res.get('hits').get('hits') %}
+                <div class="row-fluid">
+                    {{ ea_attrs_form(request, employee.get('fields'), current_page, employee.get('fields').get('username')) | safe }}
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block page_js %}
+    {% include "templates/partials/form_modernizr_partial.jinja2" %}
+    {% assets filters="rjsmin,datauri", output="js/form.validation.min.js", "js/oasysusa.app.js", "js/date.standalone.js", "js/form.validation.js" %}
+        <script src="{{ ASSET_URL }}" type="text/javascript"></script>
+    {% endassets %}
+{% endblock %}

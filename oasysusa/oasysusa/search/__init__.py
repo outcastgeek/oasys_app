@@ -6,11 +6,6 @@ from pyelasticsearch import ElasticSearch
 from pyelasticsearch.exceptions import InvalidJsonResponseError
 from requests.exceptions import ConnectionError
 
-from .indices import EMPLOYEE_INDEX, employee_mapping
-
-# Adjust Import Path for external packages
-EMPLOYEE_INDEX, employee_mapping = EMPLOYEE_INDEX, employee_mapping
-
 log = logging.getLogger('oasysusa')
 
 def get_es_client():
