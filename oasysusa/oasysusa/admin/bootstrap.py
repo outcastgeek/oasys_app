@@ -19,7 +19,6 @@ from sqlalchemy import (
     )
 
 from ..models import (
-    IndexNewEvent,
     Employee,
     Group,
     Project)
@@ -27,6 +26,8 @@ from ..models import (
 from ..api.timesheet_api import get_all_projects
 
 from ..search.indices import refresh_user_index
+
+from ..events.sql_events import INDEX_NEW_EMPLOYEE
 
 log = logging.getLogger('oasysusa')
 
@@ -49,7 +50,7 @@ def bootstrap_data(request):
 def refresh_search_index(request):
     return_to = request.POST.get('return_to')
     log.warn('Refreshing the search index...')
-    index_all_employees()
+    index_all_employees(request)
     return HTTPFound(location=return_to)
 
 
@@ -66,7 +67,7 @@ def clean_bootstrap_data(request):
 
 ############################# UTILITIES ########################################
 
-def index_all_employees():
+def index_all_employees(request):
     # Get registry
     registry = get_current_registry()
     # Get employees collection
@@ -87,8 +88,9 @@ def index_all_employees():
         map(get_current_page, xrange(1, page_count + 1))
     )
     # Refresh the employee index
-    refresh_user_index()
-    map(lambda employee: registry.notify(IndexNewEvent(employee)), all_employees)
+    # refresh_user_index()
+    map(lambda employee: request.tell(dict(srvc=INDEX_NEW_EMPLOYEE,
+                                           employee=employee.get_data())), all_employees)
 
     # itertools.chain.from_iterable(
     #     itertools.starmap(lambda i: get_current_page(i),

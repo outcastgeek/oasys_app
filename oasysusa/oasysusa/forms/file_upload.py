@@ -18,7 +18,7 @@ from pyramid_simpleform.renderers import FormRenderer
 from formencode import Schema
 from formencode.validators import FileUploadKeeper
 
-from ..async.srvc_handler import S3SRVC
+from ..events.s3 import S3SRVC
 
 log = logging.getLogger('oasysusa')
 

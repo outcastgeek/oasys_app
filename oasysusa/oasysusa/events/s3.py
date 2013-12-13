@@ -10,6 +10,7 @@ import mimetypes
 
 log = logging.getLogger("oasysusa")
 
+S3SRVC = 's3srvc'
 
 ################### Lifecycle Events ################################
 

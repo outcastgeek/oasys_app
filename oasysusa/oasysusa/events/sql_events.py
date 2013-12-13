@@ -23,14 +23,19 @@ from ..search.indices import (
 
 log = logging.getLogger('oasysusa')
 
-@subscriber(ApplicationCreated)
-def setup_user_index(event):
-    refresh_user_index()
+INDEX_NEW_EMPLOYEE = 'index_new_employee'
 
-@subscriber(IndexUpdateEvent)
-def update_employee_subscriber(event):
+def index_new_employee(employee):
     es = get_es_client()
-    employee = event.target
+    es.index(
+        EMPLOYEE_INDEX,
+        'employee',
+        employee.get_data(),
+        id=employee.id
+    )
+
+def index_updated_employee(employee):
+    es = get_es_client()
     es.update(
         EMPLOYEE_INDEX,
         'employee',
@@ -38,15 +43,28 @@ def update_employee_subscriber(event):
         id=employee.id
     )
 
+@subscriber(ApplicationCreated)
+def setup_user_index(event):
+    refresh_user_index()
+
+@subscriber(IndexUpdateEvent)
+def updated_employee_subscriber(event):
+    employee = event.target
+    index_updated_employee(employee)
+
 @subscriber(IndexNewEvent)
 def new_employee_subscriber(event):
-    es = get_es_client()
     employee = event.target
+    index_new_employee(employee)
+
+def handle_index_new_employee_request(data):
+    employee = data.get('employee')
+    es = get_es_client()
     es.index(
         EMPLOYEE_INDEX,
         'employee',
-        employee.get_data(),
-        id=employee.id
+        employee,
+        id=employee.get('id')
     )
 
 

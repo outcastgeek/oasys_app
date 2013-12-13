@@ -6,19 +6,21 @@ import umsgpack
 
 from zmq import green as zmq
 
-from ..events.s3 import handle_s3srvc_request
+from ..events.s3 import (
+    S3SRVC,
+    handle_s3srvc_request
+)
+
+from ..events.sql_events import (
+    INDEX_NEW_EMPLOYEE,
+    handle_index_new_employee_request
+    )
 
 log = logging.getLogger('oasysusa')
 
-def refresh_user_index(msg):
-    log.debug('Refreshing user index: %s', msg.get('data'))
-
-S3SRVC='s3srvc'
-REFRESH_USER_INDEX='refresh_user_index'
-
 SRVC_MAP = {
     S3SRVC:handle_s3srvc_request,
-    REFRESH_USER_INDEX:refresh_user_index
+    INDEX_NEW_EMPLOYEE:handle_index_new_employee_request
 }
 
 def resolve_handler(msg):
