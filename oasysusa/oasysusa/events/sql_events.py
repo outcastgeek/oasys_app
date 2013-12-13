@@ -18,21 +18,14 @@ from ..search import get_es_client
 
 from ..search.indices import (
     EMPLOYEE_INDEX,
-    employee_mapping
+    refresh_user_index
     )
 
 log = logging.getLogger('oasysusa')
 
 @subscriber(ApplicationCreated)
 def setup_user_index(event):
-    es = get_es_client()
-    try:
-        es.delete_index(EMPLOYEE_INDEX)
-    except ElasticHttpNotFoundError:
-        pass
-
-    es.create_index(EMPLOYEE_INDEX)
-    es.put_mapping(EMPLOYEE_INDEX, 'employee', employee_mapping)
+    refresh_user_index()
 
 @subscriber(IndexUpdateEvent)
 def update_employee_subscriber(event):

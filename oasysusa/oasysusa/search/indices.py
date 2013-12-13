@@ -1,5 +1,9 @@
 __author__ = 'outcastgeek'
 
+from ..search import get_es_client
+
+from pyelasticsearch.exceptions import ElasticHttpNotFoundError
+
 EMPLOYEE_INDEX = 'employees'
 
 employee_mapping = {
@@ -82,4 +86,12 @@ def gen_employee_query(query_string):
     }
     return query
 
+def refresh_user_index():
+    es = get_es_client()
+    try:
+        es.delete_index(EMPLOYEE_INDEX)
+    except ElasticHttpNotFoundError:
+        pass
 
+    es.create_index(EMPLOYEE_INDEX)
+    es.put_mapping(EMPLOYEE_INDEX, 'employee', employee_mapping)

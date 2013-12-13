@@ -93,9 +93,10 @@ def add_zmq_srvc_tools(event):
     try:
         settings = get_settings()
         services_tcp_address = settings.get('services_tcp_address')
+        workers_tcp_address = settings.get('workers_tcp_address')
         request = get_current_request()
         identity = '%s_%s' % (request.path, uuid5(uuid.NAMESPACE_DNS, request.path))
-        request.tell = partial(srvc_tell, identity, services_tcp_address)
+        request.tell = partial(srvc_tell, workers_tcp_address)
         request.ask = partial(srvc_ask, identity, services_tcp_address)
         request.s3conf = dict(s3_access_key_id=settings.get('s3_access_key_id'),
                               s3_secret=settings.get('s3_secret'),

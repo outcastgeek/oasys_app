@@ -36,19 +36,12 @@ def srvc_ask(identity, address, message):
     context.term()
     return response
 
-def srvc_tell(identity, address, message):
-    identity = '{}{}'.format('id_', identity)
+def srvc_tell(address, message):
     address = address
     pack_msg = umsgpack.packb(message)
     context = zmq.Context()
-    socket = context.socket(zmq.DEALER)
-    socket.setsockopt(zmq.IDENTITY, identity)
+    socket = context.socket(zmq.PUSH)
     socket.connect(address)
-    log.debug('Client %s started\n' % identity)
-    poll = zmq.Poller()
-    poll.register(socket, zmq.POLLIN)
-
     socket.send(pack_msg)
-    log.debug('Req from client %s sent.\n' % identity)
 
 

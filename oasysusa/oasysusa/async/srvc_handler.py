@@ -10,10 +10,15 @@ from ..events.s3 import handle_s3srvc_request
 
 log = logging.getLogger('oasysusa')
 
+def refresh_user_index(msg):
+    log.debug('Refreshing user index: %s', msg.get('data'))
+
 S3SRVC='s3srvc'
+REFRESH_USER_INDEX='refresh_user_index'
 
 SRVC_MAP = {
-    S3SRVC:handle_s3srvc_request
+    S3SRVC:handle_s3srvc_request,
+    REFRESH_USER_INDEX:refresh_user_index
 }
 
 def resolve_handler(msg):

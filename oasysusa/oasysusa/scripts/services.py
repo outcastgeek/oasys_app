@@ -25,7 +25,10 @@ from oasysusa.async.psycopg2_pool import (
     GreenQueuePool
     )
 
-from oasysusa.async.srvc_handler import handle_msg
+from oasysusa.async.srvc_handler import (
+    handle_msg,
+    process_msg
+    )
 
 log = logging.getLogger('oasysusa')
 
@@ -34,8 +37,9 @@ log = logging.getLogger('oasysusa')
 POOL_SIZE = 40000
 
 class Server(object):
-    def __init__(self, address):
+    def __init__(self, address, work_address):
         self.address = address
+        self.work_address = work_address
         self.pool = Pool(POOL_SIZE)
         self.dead=False
 
@@ -50,9 +54,13 @@ class Server(object):
         backend = context.socket(zmq.DEALER)
         backend.bind('inproc://backend')
 
+        worker = context.socket(zmq.PULL)
+        worker.bind(self.work_address)
+
         poll = zmq.Poller()
         poll.register(frontend, zmq.POLLIN)
-        poll.register(backend,  zmq.POLLIN)
+        poll.register(backend, zmq.POLLIN)
+        poll.register(worker, zmq.POLLIN)
 
         while not self.stopped():
             sockets = dict(poll.poll(1000))
@@ -72,8 +80,16 @@ class Server(object):
                     frontend.send(_id, zmq.SNDMORE)
                     frontend.send(msg)
 
+            if worker in sockets:
+                if sockets[worker] == zmq.POLLIN:
+                    msg = worker.recv()
+                    self.pool.wait_available()
+                    log.debug('Dispatching work')
+                    self.pool.spawn(process_msg, msg)
+
         frontend.close()
         backend.close()
+        worker.close()
         context.term()
 
         # signal handler
@@ -106,10 +122,11 @@ def main(argv=sys.argv):
 
     configure_database(settings)
 
-    services_tcp_address=settings.get('services_tcp_address')
+    services_tcp_address = settings.get('services_tcp_address')
+    workers_tcp_address = settings.get('workers_tcp_address')
 
     # Start the server that will handle incoming requests
-    server = Server(services_tcp_address)
+    server = Server(services_tcp_address, workers_tcp_address)
     # signal register
     signal.signal(signal.SIGINT, server.sig_handler)
     signal.signal(signal.SIGTERM, server.sig_handler)
