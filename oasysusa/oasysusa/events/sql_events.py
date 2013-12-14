@@ -77,6 +77,7 @@ def new_employee_subscriber(event): # TODO: Revisit this!!!!
     index_new_employee(employee, settings)
 
 def send_page_for_bulk_index(workers_tcp_address, data):
+    gevent.sleep(4) # Sleep for a while
     srvc_tell(workers_tcp_address, data)
 
 def handle_index_all_employees(data, settings=None):
@@ -107,10 +108,8 @@ def handle_index_all_employees(data, settings=None):
     #                       itertools.islice(xrange(1, page_count + 1), 1, page_count + 1, 1)))
 
 def handle_index_new_employee_request(data, settings=None):
-    gevent.sleep(1) # Sleep for a while
     # Get employees collection
     employees_collection = Employee.all(Employee.username)
-    gevent.sleep(1) # Sleep for a while
     # Get current page partial
     count = data.get('count')
     current_page=data.get('page')

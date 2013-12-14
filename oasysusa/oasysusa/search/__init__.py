@@ -27,6 +27,12 @@ class SafeEs(object):
         except (InvalidJsonResponseError, ConnectionError):
             log.exception("Couldn't index data to ElasticSearch")
 
+    def bulk_index(self, index, descriptor, docs, **kwargs):
+        try:
+            self.es.bulk_index(index, descriptor, docs, **kwargs)
+        except (InvalidJsonResponseError, ConnectionError):
+            log.exception("Couldn't index data to ElasticSearch")
+
     def create_index(self, index, settings=None, mapping=None):
         try:
             self.es.create_index(index, settings=settings)
