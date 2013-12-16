@@ -115,7 +115,7 @@ def handle_index_new_employee_request(data, settings=None):
     employees_collection = Employee.all(Employee.username)
     # Get current page partial
     count = data.get('count')
-    current_page=data.get('page')
+    current_page=data.get('current_page')
     page_items = Page(employees_collection, current_page, item_count=count).items
     employees_data = map(lambda employee: employee.get_data(), page_items)
     try:
