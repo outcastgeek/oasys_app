@@ -28,7 +28,7 @@ def ensure_s3_bucket(settings):
 ################### END Lifecycle Events #############################
 
 @zmq_service(srvc_name='s3srvc')
-def handle_s3srvc_request(file_data):
+def handle_s3srvc_request(file_data, settings=None):
     log.info("Uploading %s to s3", file_data.get('filename'))
     type, encoding = mimetypes.guess_type(file_data.get('filename'))
     type = type or 'application/octet-stream'
