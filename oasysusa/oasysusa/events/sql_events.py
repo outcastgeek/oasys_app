@@ -37,6 +37,8 @@ log = logging.getLogger('oasysusa')
 
 INDEX_NEW_EMPLOYEE = 'index_new_employee'
 INDEX_ALL_EMPLOYEES = 'index_all_employees'
+GEN_TEST_EMPLOYEES = 'gen_test_employees'
+GEN_TEST_EMPLOYEE_TASK = 'gen_test_employee_task'
 
 def index_new_employee(employee, settings):
     es = get_es_client(settings)
@@ -77,7 +79,7 @@ def new_employee_subscriber(event): # TODO: Revisit this!!!!
     index_new_employee(employee, settings)
 
 def send_page_for_bulk_index(workers_tcp_address, data):
-    gevent.sleep(4) # Sleep for a while
+    gevent.sleep(1) # Sleep for a while
     srvc_tell(workers_tcp_address, data)
 
 def handle_index_all_employees(data, settings=None):

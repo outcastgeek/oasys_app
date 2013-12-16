@@ -2,18 +2,10 @@ __author__ = 'outcastgeek'
 
 import logging
 
-from functools import partial
-
 from beaker.cache import region_invalidate
 
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
-from pyramid.threadlocal import get_current_registry
-
-from sqlalchemy import (
-    distinct,
-    func
-    )
 
 from ..models import (
     Employee,
@@ -21,8 +13,6 @@ from ..models import (
     Project)
 
 from ..api.timesheet_api import get_all_projects
-
-from ..search.indices import refresh_user_index
 
 from ..events.sql_events import INDEX_ALL_EMPLOYEES
 
@@ -36,7 +26,7 @@ def bootstrap_data(request):
     log.warn('Provisioning the database...')
     test_projects = gen_test_projects(8)
     map(lambda proj_info: check_before_insert_project(**proj_info), test_projects)
-    test_users = gen_test_users(31)
+    test_users = gen_test_users(1023)
     map(lambda user_creds: check_before_insert_user(**user_creds), test_users)
     return HTTPFound(location=return_to)
 
