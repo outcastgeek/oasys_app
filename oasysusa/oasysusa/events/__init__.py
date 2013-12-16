@@ -26,7 +26,11 @@ from pyramid.threadlocal import (
     get_current_request)
 
 from ..models import DATE_FORMAT
-from ..admin.bootstrap import check_before_insert_user, check_before_insert_group
+
+from ..admin.bootstrap import (
+    check_before_insert_user,
+    check_before_insert_group
+    )
 
 from ..events.s3 import ensure_s3_bucket
 

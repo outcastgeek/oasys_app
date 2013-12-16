@@ -6,25 +6,9 @@ import umsgpack
 
 from zmq import green as zmq
 
-from ..events.s3 import (
-    S3SRVC,
-    handle_s3srvc_request
-)
-
-from ..events.sql_events import (
-    INDEX_NEW_EMPLOYEE,
-    INDEX_ALL_EMPLOYEES,
-    handle_index_new_employee_request,
-    handle_index_all_employees
-    )
+from ..async.srvc_mappings import SRVC_MAP
 
 log = logging.getLogger('oasysusa')
-
-SRVC_MAP = {
-    S3SRVC:handle_s3srvc_request,
-    INDEX_NEW_EMPLOYEE:handle_index_new_employee_request,
-    INDEX_ALL_EMPLOYEES:handle_index_all_employees
-}
 
 def resolve_handler(msg):
     srvc_name = msg.get('srvc')

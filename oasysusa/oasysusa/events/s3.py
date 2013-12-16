@@ -1,16 +1,15 @@
 __author__ = 'outcastgeek'
 
-import logging
 import boto
+import logging
+import mimetypes
 
 from boto.s3.key import Key
 from boto.exception import S3ResponseError
 
-import mimetypes
+from ..async.srvc_mappings import zmq_service
 
 log = logging.getLogger("oasysusa")
-
-S3SRVC = 's3srvc'
 
 ################### Lifecycle Events ################################
 
@@ -28,6 +27,7 @@ def ensure_s3_bucket(settings):
 
 ################### END Lifecycle Events #############################
 
+@zmq_service(srvc_name='s3srvc')
 def handle_s3srvc_request(file_data):
     log.info("Uploading %s to s3", file_data.get('filename'))
     type, encoding = mimetypes.guess_type(file_data.get('filename'))

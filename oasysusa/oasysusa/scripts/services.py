@@ -30,6 +30,8 @@ from oasysusa.async.srvc_handler import (
     process_msg
     )
 
+from oasysusa.async.srvc_mappings import scan_for_zmq_services
+
 log = logging.getLogger('oasysusa')
 
 
@@ -48,6 +50,9 @@ class Server(object):
         return self.dead
 
     def run(self):
+        # Scan for Zmq Service Handlers
+        scan_for_zmq_services()
+
         context = zmq.Context()
         frontend = context.socket(zmq.ROUTER)
         frontend.bind(self.address)

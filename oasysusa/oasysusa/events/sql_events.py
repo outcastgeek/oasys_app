@@ -20,6 +20,8 @@ from pyelasticsearch.exceptions import ElasticHttpNotFoundError
 
 from ..async.srvc_client import srvc_tell
 
+from ..async.srvc_mappings import INDEX_NEW_EMPLOYEE
+
 from ..models import (
     Employee,
     IndexNewEvent,
@@ -33,12 +35,9 @@ from ..search.indices import (
     refresh_user_index
     )
 
-log = logging.getLogger('oasysusa')
+from ..async.srvc_mappings import zmq_service
 
-INDEX_NEW_EMPLOYEE = 'index_new_employee'
-INDEX_ALL_EMPLOYEES = 'index_all_employees'
-GEN_TEST_EMPLOYEES = 'gen_test_employees'
-GEN_TEST_EMPLOYEE_TASK = 'gen_test_employee_task'
+log = logging.getLogger('oasysusa')
 
 def index_new_employee(employee, settings):
     es = get_es_client(settings)
@@ -82,6 +81,7 @@ def send_page_for_bulk_index(workers_tcp_address, data):
     gevent.sleep(1) # Sleep for a while
     srvc_tell(workers_tcp_address, data)
 
+@zmq_service(srvc_name='index_all_employees')
 def handle_index_all_employees(data, settings=None):
     # Get settings
     workers_tcp_address = settings.get('workers_tcp_address')
@@ -109,6 +109,7 @@ def handle_index_all_employees(data, settings=None):
     #     itertools.starmap(lambda i: get_current_page(i),
     #                       itertools.islice(xrange(1, page_count + 1), 1, page_count + 1, 1)))
 
+@zmq_service(srvc_name='index_new_employee')
 def handle_index_new_employee_request(data, settings=None):
     # Get employees collection
     employees_collection = Employee.all(Employee.username)

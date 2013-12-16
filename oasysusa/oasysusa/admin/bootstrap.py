@@ -14,9 +14,16 @@ from ..models import (
 
 from ..api.timesheet_api import get_all_projects
 
-from ..events.sql_events import INDEX_ALL_EMPLOYEES
+from ..async.srvc_mappings import (
+    zmq_service,
+    INDEX_ALL_EMPLOYEES,
+    GEN_TEST_EMPLOYEES,
+    DROP_TEST_EMPLOYEES)
 
 log = logging.getLogger('oasysusa')
+
+NUM_OF_PROJECTS=8
+NUM_OF_EMPLOYEES=31
 
 @view_config(route_name='bootstrap_data',
              request_method='POST',
@@ -24,10 +31,7 @@ log = logging.getLogger('oasysusa')
 def bootstrap_data(request):
     return_to = request.POST.get('return_to')
     log.warn('Provisioning the database...')
-    test_projects = gen_test_projects(8)
-    map(lambda proj_info: check_before_insert_project(**proj_info), test_projects)
-    test_users = gen_test_users(1023)
-    map(lambda user_creds: check_before_insert_user(**user_creds), test_users)
+    request.tell(dict(srvc=GEN_TEST_EMPLOYEES))
     return HTTPFound(location=return_to)
 
 
@@ -46,13 +50,24 @@ def refresh_search_index(request):
              permission='admin')
 def clean_bootstrap_data(request):
     return_to = request.POST.get('return_to')
-    test_users = gen_test_users(31)
-    map(lambda user_creds: check_before_dropping_user(**user_creds), test_users)
-    test_projects = gen_test_projects(8)
-    map(lambda proj_info: check_before_dropping_project(**proj_info), test_projects)
+    request.tell(dict(srvc=DROP_TEST_EMPLOYEES))
     return HTTPFound(location=return_to)
 
 ############################# UTILITIES ########################################
+
+@zmq_service(srvc_name='gen_test_employee_task')
+def handle_bootstrap_data(data, settings=None):
+    test_projects = gen_test_projects(NUM_OF_PROJECTS)
+    map(lambda proj_info: check_before_insert_project(**proj_info), test_projects)
+    test_users = gen_test_users(NUM_OF_EMPLOYEES)
+    map(lambda user_creds: check_before_insert_user(**user_creds), test_users)
+
+@zmq_service(srvc_name='drop_test_employees')
+def handle_clean_bootstrap_data(data, settings=None):
+    test_users = gen_test_users(NUM_OF_EMPLOYEES)
+    map(lambda user_creds: check_before_dropping_user(**user_creds), test_users)
+    test_projects = gen_test_projects(NUM_OF_PROJECTS)
+    map(lambda proj_info: check_before_dropping_project(**proj_info), test_projects)
 
 def check_before_insert_group(groupname):
     existing_group = Group.query().filter(Group.groupname == groupname).first()
