@@ -5,6 +5,8 @@ import os
 import signal
 import sys
 
+from beaker import cache
+from beaker.util import coerce_cache_params
 from gevent.pool import Pool
 from zmq import green as zmq
 
@@ -111,6 +113,47 @@ def configure_database(settings):
     DBSession.configure(bind=engine)
     Base.metadata.bind = engine
 
+
+# Got it from here: https://github.com/Pylons/pyramid_beaker/blob/master/pyramid_beaker/__init__.py
+def set_cache_regions_from_settings(settings):
+    """
+    The ``settings`` passed to the configurator are used to setup
+    the cache options. Cache options in the settings should start
+    with either 'beaker.cache.' or 'cache.'.
+    """
+    cache_settings = {'regions':None}
+    for key in settings.keys():
+        for prefix in ['beaker.cache.', 'cache.']:
+            if key.startswith(prefix):
+                name = key.split(prefix)[1].strip()
+                cache_settings[name] = settings[key].strip()
+    coerce_cache_params(cache_settings)
+
+    if 'enabled' not in cache_settings:
+        cache_settings['enabled'] = True
+
+    regions = cache_settings['regions']
+    if regions:
+        for region in regions:
+            if not region: continue
+            region_settings = {
+                'data_dir': cache_settings.get('data_dir'),
+                'lock_dir': cache_settings.get('lock_dir'),
+                'expire': cache_settings.get('expire', 60),
+                'enabled': cache_settings['enabled'],
+                'key_length': cache_settings.get('key_length', 250),
+                'type': cache_settings.get('type'),
+                'url': cache_settings.get('url'),
+                }
+            region_prefix = '%s.' % region
+            region_len = len(region_prefix)
+            for key in list(cache_settings.keys()):
+                if key.startswith(region_prefix):
+                    region_settings[key[region_len:]] = cache_settings.pop(key)
+            coerce_cache_params(region_settings)
+            cache.cache_regions[region] = region_settings
+
+
 def usage(argv):
     cmd = os.path.basename(argv[0])
     print('usage: %s <config_uri>\n'
@@ -127,6 +170,8 @@ def main(argv=sys.argv):
     settings = get_appsettings(config_uri)
 
     configure_database(settings)
+
+    set_cache_regions_from_settings(settings)
 
     # Start the server that will handle incoming requests
     server = Server(settings)

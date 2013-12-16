@@ -1,6 +1,8 @@
 __author__ = 'outcastgeek'
 
+import gevent
 import logging
+import transaction
 
 from beaker.cache import region_invalidate
 
@@ -23,7 +25,7 @@ from ..async.srvc_mappings import (
 log = logging.getLogger('oasysusa')
 
 NUM_OF_PROJECTS=8
-NUM_OF_EMPLOYEES=31
+NUM_OF_EMPLOYEES=1023
 
 @view_config(route_name='bootstrap_data',
              request_method='POST',
@@ -55,19 +57,23 @@ def clean_bootstrap_data(request):
 
 ############################# UTILITIES ########################################
 
-@zmq_service(srvc_name='gen_test_employee_task')
+@zmq_service(srvc_name='gen_test_employees')
 def handle_bootstrap_data(data, settings=None):
     test_projects = gen_test_projects(NUM_OF_PROJECTS)
-    map(lambda proj_info: check_before_insert_project(**proj_info), test_projects)
+    with transaction.manager:
+        map(lambda proj_info: check_before_insert_project(**proj_info), test_projects)
     test_users = gen_test_users(NUM_OF_EMPLOYEES)
-    map(lambda user_creds: check_before_insert_user(**user_creds), test_users)
+    with transaction.manager:
+        map(lambda user_creds: check_before_insert_user(**user_creds), test_users)
 
 @zmq_service(srvc_name='drop_test_employees')
 def handle_clean_bootstrap_data(data, settings=None):
     test_users = gen_test_users(NUM_OF_EMPLOYEES)
-    map(lambda user_creds: check_before_dropping_user(**user_creds), test_users)
+    with transaction.manager:
+        map(lambda user_creds: check_before_dropping_user(**user_creds), test_users)
     test_projects = gen_test_projects(NUM_OF_PROJECTS)
-    map(lambda proj_info: check_before_dropping_project(**proj_info), test_projects)
+    with transaction.manager:
+        map(lambda proj_info: check_before_dropping_project(**proj_info), test_projects)
 
 def check_before_insert_group(groupname):
     existing_group = Group.query().filter(Group.groupname == groupname).first()
@@ -81,8 +87,8 @@ def check_before_insert_project(**kwargs):
     project_name = kwargs.get('name')
     existing_project = Project.query().filter(Project.name == project_name).first()
     if not existing_project:
-        region_invalidate(get_all_projects, 'long_term', 'projects')
         log.info("Adding project %s" % project_name)
+        region_invalidate(get_all_projects, 'long_term', 'projects')
         project = Project(**kwargs)
         project.save()
 
@@ -96,6 +102,7 @@ def check_before_dropping_project(**kwargs):
 
 
 def check_before_insert_user(username, password, group, **kwargs):
+    gevent.sleep(0.1) # Sleep for a while
     existing_user = Employee.query().filter(Employee.username == username).first()
     if not existing_user:
         log.info("Adding user (%s, ********)" % username)
