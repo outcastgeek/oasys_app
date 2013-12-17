@@ -108,7 +108,7 @@ class Server(object):
 
 def configure_database(settings):
     engine = engine_from_config(settings, 'sqlalchemy.', echo_pool=True, poolclass=GreenQueuePool, pool_size=40000, max_overflow=0)
-    make_green(engine) # Make the system green!!!!
+    # make_green(engine) # Make the system green!!!!
 
     DBSession.configure(bind=engine)
     Base.metadata.bind = engine

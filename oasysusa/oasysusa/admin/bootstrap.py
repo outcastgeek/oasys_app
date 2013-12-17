@@ -102,7 +102,7 @@ def check_before_dropping_project(**kwargs):
 
 
 def check_before_insert_user(username, password, group, **kwargs):
-    gevent.sleep(0.1) # Sleep for a while
+    gevent.sleep(0.4) # Sleep for a while
     existing_user = Employee.query().filter(Employee.username == username).first()
     if not existing_user:
         log.info("Adding user (%s, ********)" % username)
