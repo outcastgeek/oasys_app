@@ -1,0 +1,13 @@
+
+case $1 in
+services)
+  cd oasysusa && pip install -e . && run_oasysusa_services production.ini
+;;
+webapp)
+  cd oasysusa && pserve production.ini http_port=$2
+;;
+esac
+exit 0
+
+
+
