@@ -1,5 +1,6 @@
 __author__ = 'outcastgeek'
 
+import itertools
 import gevent
 import logging
 import transaction
@@ -74,6 +75,18 @@ def handle_clean_bootstrap_data(data, settings=None):
     test_projects = gen_test_projects(NUM_OF_PROJECTS)
     with transaction.manager:
         map(lambda proj_info: check_before_dropping_project(**proj_info), test_projects)
+
+@zmq_service(srvc_name='ensure_admins')
+def ensure_admins(data, settings=None):
+    conn_string = settings.get('sqlalchemy.url')
+    # log.warn('The connection string in use is: %s' % conn_string)
+    if "sqlite" in conn_string or "localhost" in conn_string:
+        log.warn('Provisioning the database...')
+        admins = [dict(username='admin', password='OneAdmin13', group='admin')]
+        managers = [dict(username='manager', password='ManaJa13', group='manager')]
+        with transaction.manager:
+            map(check_before_insert_group, ['user', 'employee', 'manager', 'admin'])
+            map(lambda user_creds: check_before_insert_user(**user_creds), itertools.chain(admins, managers))
 
 def check_before_insert_group(groupname):
     existing_group = Group.query().filter(Group.groupname == groupname).first()

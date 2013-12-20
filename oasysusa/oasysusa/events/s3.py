@@ -13,8 +13,8 @@ log = logging.getLogger("oasysusa")
 
 ################### Lifecycle Events ################################
 
-
-def ensure_s3_bucket(settings):
+@zmq_service(srvc_name='ensure_s3')
+def ensure_s3_bucket(data, settings=None):
     log.info('Setting up s3 bucket...')
     try:
         conn = boto.connect_s3(aws_access_key_id=settings.get('s3_access_key_id'),

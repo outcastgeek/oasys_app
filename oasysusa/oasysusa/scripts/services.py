@@ -120,9 +120,11 @@ class Server(object):
             if worker in sockets:
                 if sockets[worker] == zmq.POLLIN:
                     msg = worker.recv()
-                    self.pool.wait_available()
                     log.debug('Dispatching work')
-                    self.pool.spawn(process_msg, msg, **self.settings)
+                    self.tpool.spawn(process_msg, msg, **self.settings)
+                    # self.pool.wait_available()
+                    # log.debug('Dispatching work')
+                    # self.pool.spawn(process_msg, msg, **self.settings)
 
         frontend.close()
         backend.close()
@@ -137,7 +139,7 @@ class Server(object):
 
 def configure_database(settings):
     engine = engine_from_config(settings, 'sqlalchemy.', echo_pool=True, poolclass=GreenQueuePool, pool_size=40000, max_overflow=0)
-    # make_green(engine) # Make the system green!!!!
+    make_green(engine) # Make the system green!!!!
 
     DBSession.configure(bind=engine)
     Base.metadata.bind = engine

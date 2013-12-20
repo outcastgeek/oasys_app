@@ -1,42 +1,33 @@
 __author__ = 'outcastgeek'
 
-import itertools
 import logging
-
-import pymongo
 import sys
-import transaction
 import uuid
-
 from functools import partial
 from uuid import uuid5
 
+import pymongo
 from beaker.cache import (
     cache_region,
     region_invalidate)
-
 from pyramid.events import (
     subscriber,
     BeforeRender,
     ApplicationCreated,
     NewRequest)
-
 from pyramid.threadlocal import (
     get_current_registry,
     get_current_request)
 
 from ..models import DATE_FORMAT
-
-from ..admin.bootstrap import (
-    check_before_insert_user,
-    check_before_insert_group
-    )
-
 from ..events.s3 import ensure_s3_bucket
-
 from ..async.srvc_client import (
     srvc_tell,
     srvc_ask
+    )
+from ..async.srvc_mappings import (
+    ENSURE_S3,
+    ENSURE_ADMINS
     )
 
 log = logging.getLogger("oasysusa")
@@ -69,18 +60,9 @@ def application_created_subscriber(event):
     # pass
     registry = get_current_registry()
     settings = registry.settings # do not use the cacheable version during startup
-    ensure_s3_bucket(settings)
-
-    conn_string = settings.get('sqlalchemy.url')
-    # log.warn('The connection string in use is: %s' % conn_string)
-    if "sqlite" in conn_string or "localhost" in conn_string:
-        log.warn('Provisioning the database...')
-        admins = [dict(username='admin', password='OneAdmin13', group='admin')]
-        managers = [dict(username='manager', password='ManaJa13', group='manager')]
-        with transaction.manager:
-            map(check_before_insert_group, ['user', 'employee', 'manager', 'admin'])
-            map(lambda user_creds: check_before_insert_user(**user_creds), itertools.chain(admins, managers))
-
+    workers_tcp_address = settings.get('workers_tcp_address')
+    srvc_tell(workers_tcp_address, dict(srvc=ENSURE_S3))
+    srvc_tell(workers_tcp_address, dict(srvc=ENSURE_ADMINS))
 
 @subscriber(NewRequest)
 def add_mongo(event):

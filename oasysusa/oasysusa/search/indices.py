@@ -2,6 +2,8 @@ __author__ = 'outcastgeek'
 
 from ..search import get_es_client
 
+from ..async.srvc_mappings import zmq_service
+
 from pyelasticsearch.exceptions import ElasticHttpNotFoundError
 
 EMPLOYEE_INDEX = 'employees'
@@ -86,7 +88,8 @@ def gen_employee_query(query_string):
     }
     return query
 
-def refresh_user_index(settings):
+@zmq_service(srvc_name='recreate_employee_index')
+def refresh_user_index(data, settings=None):
     es = get_es_client(settings)
     try:
         es.delete_index(EMPLOYEE_INDEX)

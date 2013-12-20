@@ -69,5 +69,7 @@ class EmployeesManagementES(object):
         query = gen_employee_query(query_string)
         employee_res = self.request.es.search(query, index=EMPLOYEE_INDEX, doc_type='employee')
         log.debug("Employee Search Results:\n%s\n", employee_res)
-        return dict(employee_res=employee_res)
+        return dict(employee_res=employee_res,
+                    bootstrap_renderer=FormRenderer(Form(self.request, defaults=dict(return_to=self.request.url))),
+                    clean_bootstrap_renderer=FormRenderer(Form(self.request, defaults=dict(return_to=self.request.url))))
 
