@@ -1,6 +1,6 @@
 
 case $1 in
-services)
+service)
   pip install -r requirements.txt
   cd oasysusa && pip install -e . && run_oasysusa_services production.ini
 ;;

@@ -1,4 +1,4 @@
 #!/bin/bash
 
-service: ./run services
+service: ./run service
 web: ./run webapp $PORT
