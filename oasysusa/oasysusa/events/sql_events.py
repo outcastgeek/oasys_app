@@ -78,7 +78,7 @@ def new_employee_subscriber(event): # TODO: Revisit this!!!!
     index_new_employee(employee, settings)
 
 def send_page_for_bulk_index(workers_tcp_address, data):
-    gevent.sleep(0.1) # Sleep for a while
+    #gevent.sleep(0.1) # Sleep for a while
     srvc_tell(workers_tcp_address, data)
 
 @zmq_service(srvc_name='index_all_employees')

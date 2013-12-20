@@ -8,6 +8,7 @@ import sys
 from beaker import cache
 from beaker.util import coerce_cache_params
 from gevent.pool import Pool
+from gevent.threadpool import ThreadPool
 from zmq import green as zmq
 
 from pyramid.paster import (
@@ -36,9 +37,36 @@ from oasysusa.async.srvc_mappings import scan_for_zmq_services
 
 log = logging.getLogger('oasysusa')
 
+def detectCPUs():
+    """
+     Detects the number of CPUs on a system. Cribbed from pp.
+     """
+    # Linux, Unix and MacOS:
+    if hasattr(os, "sysconf"):
+        if os.sysconf_names.has_key("SC_NPROCESSORS_ONLN"):
+            # Linux & Unix:
+            ncpus = os.sysconf("SC_NPROCESSORS_ONLN")
+            if isinstance(ncpus, int) and ncpus > 0:
+                return ncpus
+            else: # OSX:
+                return int(os.popen2("sysctl -n hw.ncpu")[1].read())
+    # Windows:
+    if os.environ.has_key("NUMBER_OF_PROCESSORS"):
+       ncpus = int(os.environ["NUMBER_OF_PROCESSORS"]);
+       if ncpus > 0:
+           return ncpus
+    return 1 # Default
+
+def poolSIZE():
+    procs = detectCPUs()
+    if procs > 0:
+        return procs * 2 + 1
+    else:
+        return 3
 
 # Set the maximum pool size for the request handlers
 POOL_SIZE = 40000
+TPOOL_SIZE = poolSIZE()
 
 class Server(object):
     def __init__(self, settings):
@@ -46,6 +74,7 @@ class Server(object):
         self.address = settings.get('services_tcp_address')
         self.work_address = settings.get('workers_tcp_address')
         self.pool = Pool(POOL_SIZE)
+        self.tpool = ThreadPool(TPOOL_SIZE)
         self.dead=False
 
     def stopped(self):
