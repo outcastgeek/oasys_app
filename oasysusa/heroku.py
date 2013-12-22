@@ -53,7 +53,7 @@ def serve(app, **kw):
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    #app = loadapp('config:heroku.ini', relative_to='.')
-    app = loadapp('config:development.ini', relative_to=os.path.dirname(os.path.realpath(__file__)))
+    #app = loadapp('config:development.ini', relative_to=os.path.dirname(os.path.realpath(__file__)))
+    app = loadapp('config:production.ini', relative_to=os.path.dirname(os.path.realpath(__file__)))
     print '\n\nApp running on port: %s\n\n' % port
     serve(app, host='0.0.0.0', port=port)

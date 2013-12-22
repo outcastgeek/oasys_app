@@ -2,9 +2,11 @@
 /lib
 /classes
 /checkouts
+/oasysusa/data
 pom.xml
 *.jar
 *.class
+*.pyc
 .lein-deps-sum
 .lein-failures
 .lein-plugins
