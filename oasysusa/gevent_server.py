@@ -8,7 +8,7 @@ if __name__ == '__main__':
 
     port = 6543
     # port = 8080
-    app = get_app('development.ini')
+    app = get_app('oasysusa/development.ini')
     # app = get_app('production.ini')
 
     print 'Listening on port http://0.0.0.0:%d and on port 10843 (flash policy server)' % port
