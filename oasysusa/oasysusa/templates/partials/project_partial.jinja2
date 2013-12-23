@@ -1,8 +1,8 @@
 
-<section id="project" data-speed="2" data-type="background">
+<section id="project_section" data-speed="2" data-type="background">
     <div class="container">
         <div class="row-fluid">
-            {{ renderer.begin(request.route_url('project-form'), name="project-form", class="form-inline form-base",
+            {{ renderer.begin(request.route_url('project-form'), name="project-form", class="form-inline project-form",
                                                                  novalidate="novalidate", ng_controller="FormValidationController") }}
             <h2 class="form-base-heading">Create Project</h2>
             {{ renderer.csrf_token() }}
@@ -31,7 +31,7 @@
             <hr>
             {{ renderer.label("Address") }}
             {{ renderer.errorlist("address") }}
-            {{ renderer.text("address", placeholder="23 geeky way, Hacker PL 12345", size=60, required="required",
+            {{ renderer.text("address", placeholder="23 geeky way, Hacker PL 12345", size=40, required="required",
                                         form_input="form_input", ng_model="data.address", ng_initial="") }}
             <hr>
             {{ renderer.label("Manager") }}

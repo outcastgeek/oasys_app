@@ -3,28 +3,35 @@ __author__ = 'outcastgeek'
 import logging
 import sys
 import uuid
+import pymongo
+
 from functools import partial
 from uuid import uuid5
 
-import pymongo
 from beaker.cache import (
     cache_region,
     region_invalidate)
+
 from pyramid.events import (
     subscriber,
     BeforeRender,
     ApplicationCreated,
-    NewRequest)
+    NewRequest, ContextFound)
+
 from pyramid.threadlocal import (
     get_current_registry,
     get_current_request)
 
+from pyramid.httpexceptions import HTTPUnauthorized
+
 from ..models import DATE_FORMAT
 from ..events.s3 import ensure_s3_bucket
+
 from ..async.srvc_client import (
     srvc_tell,
     srvc_ask
     )
+
 from ..async.srvc_mappings import (
     ENSURE_S3,
     ENSURE_ADMINS
@@ -110,3 +117,15 @@ def add_globals(event):
         cljs_debug=cljs_debug,
         TUTILS=template_utils,
     ))
+
+@subscriber(ContextFound)
+def csrf_validation_event(event):
+    request = event.request
+    session = request.session
+    token = session.get_csrf_token()
+    userID = session.get('auth.userid')
+    if (request.method == 'POST' or request.is_xhr) and userID and token != request.POST['_csrf']:
+        raise HTTPUnauthorized
+
+
+

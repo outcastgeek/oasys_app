@@ -145,7 +145,7 @@ div.box2 {
 
 /******** PROJECT ***********/
 
-#project {
+#project_section {
   background: #32CCA7;
   @include section_mixin;
 }
@@ -186,6 +186,11 @@ div.box2 {
   background-color: $input_valid_dirty_color;
 }
 
+.profile-form {
+  max-width: $wide_form;
+  @include form_base_mixin;
+}
+
 .profile-form input.ng-invalid.ng-dirty {
   background-color: $input_invalid_dirty_color;
 }
@@ -200,6 +205,11 @@ div.box2 {
 
 .profile-form textarea.ng-valid.ng-dirty {
   background-color: $input_valid_dirty_color;
+}
+
+.project-form {
+  max-width: $wide_form;
+  @include form_base_mixin;
 }
 
 .project-form input.ng-invalid.ng-dirty {
@@ -218,6 +228,11 @@ div.box2 {
   background-color: $input_valid_dirty_color;
 }
 
+.timesheet-form {
+  max-width: $wide_form;
+  @include form_base_mixin;
+}
+
 .timesheet-form input.ng-invalid.ng-dirty {
   background-color: $input_invalid_dirty_color;
 }
@@ -232,6 +247,11 @@ div.box2 {
 
 .timesheet-form textarea.ng-valid.ng-dirty {
   background-color: $input_valid_dirty_color;
+}
+
+.search-form {
+  max-width: $wide_form;
+  @include form_base_mixin;
 }
 
 

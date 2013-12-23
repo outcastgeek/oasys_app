@@ -1,42 +1,48 @@
 
-<b>{{ employee.first_name }}, {{ employee.last_name }} <i>(aka: {{ employee.username }})</i></b>
 <div class="employee-attributes">
-    {{ renderer.begin(request.route_url('employees', _query=dict(page=current_page)), name="employee-attributes-form", class="form-inline") }}
-    {{ renderer.csrf_token() }}
-    {{ renderer.hidden_tag("username") }}
-    <div class="form-group">
-        {{ renderer.label("Current Projects:",  class="sr-only") }}
-        {% for project in employee.projects %}
-            <label>{{ project.name }}</label>
-        {% else %}
-            <label>No projects assigned</label>
-        {% endfor %}
-    </div>
-    {#    <div class="form-group">#}
-    {#        {{ renderer.label("Active",  class="sr-only") }}#}
-    {#        {{ renderer.checkbox("active", id="active", class="form-control") }}#}
-    {#    </div>#}
-    <div class="form-group">
-        {{ renderer.label("Project",  class="sr-only") }}
-        {{ renderer.select("project", projects, selected_value=None, id="project", class="form-control") }}
+    <fieldset>
+        <legend>{{ employee.first_name }}, {{ employee.last_name }} <br/><i>(aka: {{ employee.username }})</i></legend>
+        {{ renderer.begin(request.route_url('employees', _query=dict(page=current_page)), name="employee-attributes-form", class="form-inline employee-attributes-form") }}
+        {{ renderer.csrf_token() }}
+        {{ renderer.hidden_tag("username") }}
+        <div class="form-group">
+            {{ renderer.label("Current Projects:",  class="sr-only") }}
+            {% for project in employee.projects %}
+                <label>{{ project.name }}</label>
+                {% if not loop.last %}
+                    ,
+                {% endif %}
+            {% else %}
+                <label>No projects assigned</label>
+            {% endfor %}
+        </div>
+        <br>
+        {#    <div class="form-group">#}
+        {#        {{ renderer.label("Active",  class="sr-only") }}#}
+        {#        {{ renderer.checkbox("active", id="active", class="form-control") }}#}
+        {#    </div>#}
+        <div class="form-group">
+            {{ renderer.label("Project",  class="sr-only") }}
+            {{ renderer.select("project", projects, selected_value=None, class="form-control") }}
+        </div>
         {{ renderer.submit('submit', 'Update', class="btn btn-inverse") }}
-    </div>
-    {{ renderer.end() }}
-    {{ timesheet_report_renderer.begin(request.route_url('timesheet_report'), name="timesheet-report-form", class="form-inline", target="_blank") }}
-    <div class="form-group">
-        {{ timesheet_report_renderer.csrf_token() }}
-        {{ timesheet_report_renderer.hidden_tag("username") }}
-        {{ timesheet_report_renderer.label("Actions",  class="sr-only") }}
-        {{ timesheet_report_renderer.submit('submit', 'Get weekly timesheet', class="btn btn-inverse") }}
-    </div>
-    <hr>
-    <ul>
-        {% for f in existing_files %}
-            <li><a target="__blank" href="{{ f.file_url }}">{{ f.filename }}</a></li>
-        {% else %}
-            <label>No files uploaded.</label>
-        {% endfor %}
-    </ul>
-    {{ timesheet_report_renderer.end() }}
+        {{ renderer.end() }}
+        {{ timesheet_report_renderer.begin(request.route_url('timesheet_report'), name="timesheet-report-form", class="form-inline", target="_blank") }}
+        <div class="form-inline">
+            {{ timesheet_report_renderer.csrf_token() }}
+            {{ timesheet_report_renderer.hidden_tag("username") }}
+            {{ timesheet_report_renderer.label("Actions",  class="sr-only") }}
+            {{ timesheet_report_renderer.submit('submit', 'Get weekly timesheet', class="btn btn-inverse") }}
+        </div>
+        <hr>
+        <ul>
+            {% for f in existing_files %}
+                <li><a target="__blank" href="{{ f.file_url }}">{{ f.filename }}</a></li>
+            {% else %}
+                <label>No files uploaded.</label>
+            {% endfor %}
+        </ul>
+        {{ timesheet_report_renderer.end() }}
+    </fieldset>
 </div>
 
