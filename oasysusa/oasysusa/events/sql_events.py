@@ -60,12 +60,12 @@ def index_updated_employee(employee, settings):
         id=employee.id
     )
 
-@subscriber(ApplicationCreated)
-def setup_user_index(event):
-    registry = get_current_registry()
-    settings = registry.settings # do not use the cacheable version during startup
-    workers_tcp_address = settings.get('workers_tcp_address')
-    srvc_tell(workers_tcp_address, dict(srvc=RECREATE_EMPLOYEE_INDEX))
+# @subscriber(ApplicationCreated)
+# def setup_user_index(event):
+#     registry = get_current_registry()
+#     settings = registry.settings # do not use the cacheable version during startup
+#     workers_tcp_address = settings.get('workers_tcp_address')
+#     srvc_tell(workers_tcp_address, dict(srvc=RECREATE_EMPLOYEE_INDEX))
 
 @subscriber(IndexUpdateEvent)
 def updated_employee_subscriber(event): # TODO: Revisit this!!!!

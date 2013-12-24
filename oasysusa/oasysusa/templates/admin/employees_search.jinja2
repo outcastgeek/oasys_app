@@ -19,8 +19,8 @@
             <div>
                 <h2>Employees</h2>
                 <hr>
-                {{ search_form(request, "Employee") | safe }}
-                <p><b>Found {{ employee_res.get('hits').get('total') }} in {{ employee_res.get('took') }}</b></p>
+                {{ search_form(request, "Employee", query_string) | safe }}
+                <p><b>Found {{ employee_res.get('hits').get('total') }} employee(s) in {{ employee_res.get('took') }} milliseconds</b></p>
             </div>
 
             <hr>

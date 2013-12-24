@@ -13,11 +13,12 @@ from pyramid_simpleform.renderers import FormRenderer
 log = logging.getLogger('oasysusa')
 
 
-def form(request, type):
+def form(request, type, query_string=None):
     form = Form(request,
                 schema=SearchSchema())
     response = render('templates/partials/search_partial.jinja2',
-                      dict(renderer=FormRenderer(form), search_type=type))
+                      dict(renderer=FormRenderer(form), search_type=type,
+                           query_string=query_string))
     return response
 
 

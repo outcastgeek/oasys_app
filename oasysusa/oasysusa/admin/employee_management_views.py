@@ -66,10 +66,11 @@ class EmployeesManagementES(object):
     @view_config(request_method='POST', renderer='templates/admin/employees_search.jinja2')
     def find_employee(self):
         query_string = self.request.POST.get('query')
-        query = gen_employee_query(query_string)
+        query = gen_employee_query('*%s*' % query_string) #Search for a part of a word is enabled!!!!
         employee_res = self.request.es.search(query, index=EMPLOYEE_INDEX, doc_type='employee')
         log.debug("Employee Search Results:\n%s\n", employee_res)
         return dict(employee_res=employee_res,
+                    query_string=query_string,
                     bootstrap_renderer=FormRenderer(Form(self.request, defaults=dict(return_to=self.request.url))),
                     clean_bootstrap_renderer=FormRenderer(Form(self.request, defaults=dict(return_to=self.request.url))))
 
