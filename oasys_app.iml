@@ -15,6 +15,14 @@
     <orderEntry type="jdk" jdkName="Python 2.7.5 (C:/Tools/Python/python.exe)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="sass-stdlib" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="bundler (v1.3.5, jruby-1.7.6-p392) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="ffi (v1.9.3, jruby-1.7.6-p392) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="listen (v1.1.6, jruby-1.7.6-p392) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rake (v10.1.0, jruby-1.7.6-p392) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rb-fsevent (v0.9.3, jruby-1.7.6-p392) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rb-inotify (v0.9.2, jruby-1.7.6-p392) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rb-kqueue (v0.2.0, jruby-1.7.6-p392) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sass (v3.3.0.rc.2, jruby-1.7.6-p392) [gem]" level="application" />
   </component>
 </module>
 

@@ -1,25 +1,6 @@
 /**
  * Created with IntelliJ IDEA.
  * User: outcastgeek
- * Date: 12/11/13
- * Time: 7:07 PM
- * To change this template use File | Settings | File Templates.
- */
-
-var oasysUsaApp = angular.module('oasysUsaApp', ['ui.bootstrap']);
-
-oasysUsaApp.config(function($interpolateProvider) {
-    $interpolateProvider.startSymbol('{@~');
-    $interpolateProvider.endSymbol('~@}');
-});
-
-
-
-
-
-/**
- * Created with IntelliJ IDEA.
- * User: outcastgeek
  * Date: 12/24/13
  * Time: 1:04 PM
  * To change this template use File | Settings | File Templates.
@@ -115,25 +96,3 @@ oasysUsaApp.directive('svgTextAnim', function (svgTextAnimService) {
     };
 });
 
-
-$(document).ready(function(){
-    // cache the window object
-    $window = $(window);
-
-    $('section[data-type="background"]').each(function(){
-        // declare the variable to affect the defined data-type
-        var $scroll = $(this);
-
-        $(window).scroll(function() {
-            // HTML5 proves useful for helping with creating JS functions!
-            // also, negative value because we're scrolling upwards
-            var yPos = -($window.scrollTop() / $scroll.data('speed'));
-
-            // background position
-            var coords = '50% '+ yPos + 'px';
-
-            // move the background
-            $scroll.css({ backgroundPosition: coords });
-        }); // end window scroll
-    });  // end section function
-}); // close out script
