@@ -254,6 +254,14 @@ div.box2 {
   @include form_base_mixin;
 }
 
+#company_name {
+  height: 200px;
+  width: 800px;
+  display: block;
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  margin: auto;
+}
 
 
 

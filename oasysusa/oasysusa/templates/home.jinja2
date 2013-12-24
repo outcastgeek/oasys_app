@@ -8,6 +8,11 @@
 
     <section id="oasys" data-speed="2" data-type="background">
         <div class="container">
+            <div class="col-xs-12">
+                <svg id="company_name"></svg>
+            </div>
+        </div>
+        <div class="container">
             <div class="page-header">
                 <h1>We have all the tools you need.</h1>
             </div>
@@ -78,7 +83,7 @@
 {% endblock %}
 
 {% block page_js %}
-    {% assets filters="rjsmin,datauri", output="js/parallax.min.js", "js/parallax.js" %}
+    {% assets filters="rjsmin,datauri", output="js/parallax.min.js", "js/parallax.js", "js/company.js" %}
         <script src="{{ ASSET_URL }}"></script>
     {% endassets %}
 {% endblock %}

@@ -9,6 +9,10 @@
     <meta content="_csrf" name="csrf-param" />
     <meta content="{{ request.session.get_csrf_token() }}=" name="csrf-token" />
 
+    <!-- DNS Prefetch -->
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//ajax.googleapis.com">
+
     <!-- Le styles -->
 
     <!-- Latest compiled and minified CSS -->
@@ -156,6 +160,9 @@
 <!-- Angular UI -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.6.0/ui-bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.6.0/ui-bootstrap-tpls.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.3.11/d3.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/snap.svg/0.1.0/snap.svg-min.js"></script>
 
 <script src="{{ request.static_url('oasysusa:static/js/modernizr.custom.js') }}"></script>
 
