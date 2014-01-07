@@ -15,6 +15,7 @@
     <orderEntry type="jdk" jdkName="Python 2.7.5 (C:/Tools/Python/python.exe)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="sass-stdlib" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="jruby-1.7.6-p392 facet library" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bundler (v1.3.5, jruby-1.7.6-p392) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ffi (v1.9.3, jruby-1.7.6-p392) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="listen (v1.1.6, jruby-1.7.6-p392) [gem]" level="application" />
@@ -23,6 +24,13 @@
     <orderEntry type="library" scope="PROVIDED" name="rb-inotify (v0.9.2, jruby-1.7.6-p392) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rb-kqueue (v0.2.0, jruby-1.7.6-p392) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sass (v3.3.0.rc.2, jruby-1.7.6-p392) [gem]" level="application" />
+  </component>
+  <component name="PyDocumentationSettings">
+    <option name="myDocStringFormat" value="Plain" />
+  </component>
+  <component name="TestRunnerService">
+    <option name="projectConfiguration" value="Unittests" />
+    <option name="PROJECT_TEST_RUNNER" value="Unittests" />
   </component>
 </module>
 

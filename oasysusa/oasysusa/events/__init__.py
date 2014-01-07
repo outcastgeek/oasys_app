@@ -71,33 +71,6 @@ def application_created_subscriber(event):
     srvc_tell(workers_tcp_address, dict(srvc=ENSURE_S3))
     srvc_tell(workers_tcp_address, dict(srvc=ENSURE_ADMINS))
 
-@subscriber(NewRequest)
-def add_mongo(event):
-    settings = get_settings()
-    mongo_db = settings.get('mongo.db')
-    mongo_url = settings.get('mongo.url')
-    mongo_conn = pymongo.MongoClient(mongo_url)
-    request = get_current_request()
-    request.client_timesheets = mongo_conn[mongo_db]['employee_data']['client_timesheets']
-
-
-@subscriber(NewRequest)
-def add_zmq_srvc_tools(event):
-    try:
-        settings = get_settings()
-        services_tcp_address = settings.get('services_tcp_address')
-        workers_tcp_address = settings.get('workers_tcp_address')
-        request = get_current_request()
-        identity = '%s_%s' % (request.path, uuid5(uuid.NAMESPACE_DNS, request.path))
-        request.tell = partial(srvc_tell, workers_tcp_address)
-        request.ask = partial(srvc_ask, identity, services_tcp_address)
-        request.s3conf = dict(s3_access_key_id=settings.get('s3_access_key_id'),
-                              s3_secret=settings.get('s3_secret'),
-                              s3_bucket_name=settings.get('s3_bucket_name'))
-    except:
-        e = sys.exc_info()[0]
-        log.error("Could not setup zmq client: %s", e)
-
 
 @subscriber(BeforeRender)
 def add_globals(event):
@@ -118,6 +91,7 @@ def add_globals(event):
         TUTILS=template_utils,
     ))
 
+
 @subscriber(ContextFound)
 def csrf_validation_event(event):
     request = event.request
@@ -128,4 +102,31 @@ def csrf_validation_event(event):
         raise HTTPUnauthorized
 
 
+def setup_client_timesheets(settings):
+    mongo_db = settings.get('mongo.db')
+    mongo_url = settings.get('mongo.url')
+    mongo_conn = pymongo.MongoClient(mongo_url)
+    return mongo_conn[mongo_db]['employee_data']['client_timesheets']
+
+
+def includeme(config):
+    settings = config.registry.settings
+    try:
+        services_tcp_address = settings.get('services_tcp_address')
+        workers_tcp_address = settings.get('workers_tcp_address')
+        configure_tell = lambda request: partial(srvc_tell, workers_tcp_address)
+        config.add_request_method(configure_tell, 'tell', reify=True)
+        configure_ask = lambda request: partial(srvc_ask,
+                                                '%s_%s' % (request.path, uuid5(uuid.NAMESPACE_DNS, request.path)),
+                                                services_tcp_address)
+        config.add_request_method(configure_ask, 'ask', reify=True)
+        configure_s3conf = lambda request: dict(s3_access_key_id=settings.get('s3_access_key_id'),
+                                                s3_secret=settings.get('s3_secret'),
+                                                s3_bucket_name=settings.get('s3_bucket_name'))
+        config.add_request_method(configure_s3conf, 's3conf', reify=True)
+    except:
+        e = sys.exc_info()[0]
+        log.error("Could not setup zmq client: %s", e)
+    configure_client_timesheets = lambda request: setup_client_timesheets(settings)
+    config.add_request_method(configure_client_timesheets, 'client_timesheets', reify=True)
 

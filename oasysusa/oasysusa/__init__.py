@@ -71,6 +71,7 @@ def main(global_config, **settings):
     config.include('.forms')
     config.include('.renderers')
     config.include('.search')
+    config.include('.events')
     config.include('.api', route_prefix='/api')
     config.include('.admin', route_prefix='/admin')
 
