@@ -11,7 +11,7 @@ from pyramid.renderers import render
 from pyramid_simpleform import Form
 from pyramid_simpleform.renderers import FormRenderer
 
-from ..models import DATE_FORMAT
+from ..models import DATE_FORMAT, Employee
 
 from ..api.timesheet_api import (
     get_project_names,
@@ -23,9 +23,14 @@ log = logging.getLogger('oasysusa')
 def form(request, employee, current_page, username=None):
     session = request.session
     current_day = session.get('current_day')
-    form = Form(request,
-                schema=EmployeeAttributesSchema(),
-                obj=employee)
+    if type(employee) is Employee:
+        form = Form(request,
+                    schema=EmployeeAttributesSchema(),
+                    obj=employee)
+    else:
+        form = Form(request,
+                    schema=EmployeeAttributesSchema(),
+                    defaults=employee)
     timesheet_report_form = Form(request,
                                  schema=EmployeeAttributesSchema(),
                                  obj=employee)
