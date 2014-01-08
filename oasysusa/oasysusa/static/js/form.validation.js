@@ -6,7 +6,8 @@ oasysUsaApp.directive('ngInitial', function() {
         controller: [
             '$scope', '$element', '$attrs', '$parse', function($scope, $element, $attrs, $parse) {
                 var getter, setter, val;
-                val = $attrs.ngInitial || $attrs.value;
+                val = $attrs.ngInitial || $attrs.value || $attrs.$$element.val();
+//                console.log($attrs.name + " => " + $attrs.value);
                 getter = $parse($attrs.ngModel);
                 setter = getter.assign;
                 setter($scope, val);

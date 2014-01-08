@@ -89,4 +89,5 @@ class TimesheetDataSchema(Schema):
     Day5 = DateValidator(date_format='mm/dd/yyyy')
     Day6 = DateValidator(date_format='mm/dd/yyyy')
     Day7 = DateValidator(date_format='mm/dd/yyyy')
-    description = UnicodeString(min=125, max=250)
+    # description = UnicodeString(min=125, max=250)
+    description = UnicodeString(min=125)
