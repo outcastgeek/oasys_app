@@ -26,8 +26,8 @@
                         <br>
                         {{ renderer.label("Hours") }}
                         {{ renderer.errorlist("Hours1") }}
-                        {{ renderer.text("Hours1", type="number", min="0", max="24", step="1", value="0", placeholder="8.0",
-                                                   required="required", form_input="form_input", ng_model="data.Hours1", ng_initial="") }}
+                        {{ renderer.text("Hours1", type="text", pattern="[0-9]{2}", size="2", placeholder="8.0",
+                                                   required="required", ng_model="data.Hours1", ng_initial="") }}
                         {{ renderer.hidden_tag("Day1") }}
                         {{ renderer.select("project1", projects, selected_value=None, id="project1", class="form-control", ng_model="data.project1", ng_initial="") }}
                         <hr>
@@ -35,8 +35,8 @@
                         <br>
                         {{ renderer.label("Hours") }}
                         {{ renderer.errorlist("Hours2") }}
-                        {{ renderer.text("Hours2", type="number", min="0", max="24", step="1", value="0", placeholder="8.0",
-                                                   required="required", form_input="form_input", ng_model="data.Hours2", ng_initial="") }}
+                        {{ renderer.text("Hours2", type="text", pattern="[0-9]{2}", size="2", placeholder="8.0",
+                                                   required="required", ng_model="data.Hours2", ng_initial="") }}
                         {{ renderer.hidden_tag("Day2") }}
                         {{ renderer.select("project2", projects, selected_value=None, id="project2", class="form-control", ng_model="data.project2", ng_initial="") }}
                         <hr>
@@ -44,8 +44,8 @@
                         <br>
                         {{ renderer.label("Hours") }}
                         {{ renderer.errorlist("Hours3") }}
-                        {{ renderer.text("Hours3", type="number", min="0", max="24", step="1", value="0", placeholder="8.0",
-                                                   required="required", form_input="form_input", ng_model="data.Hours3", ng_initial="") }}
+                        {{ renderer.text("Hours3", type="text", pattern="[0-9]{2}", size="2", placeholder="8.0",
+                                                   required="required", ng_model="data.Hours3", ng_initial="") }}
                         {{ renderer.hidden_tag("Day3") }}
                         {{ renderer.select("project3", projects, selected_value=None, id="project3", class="form-control", ng_model="data.project3", ng_initial="") }}
                         <hr>
@@ -53,8 +53,8 @@
                         <br>
                         {{ renderer.label("Hours") }}
                         {{ renderer.errorlist("Hours4") }}
-                        {{ renderer.text("Hours4", type="number", min="0", max="24", step="1", value="0", placeholder="8.0",
-                                                   required="required", form_input="form_input", ng_model="data.Hours4", ng_initial="") }}
+                        {{ renderer.text("Hours4", type="text", pattern="[0-9]{2}", size="2", placeholder="8.0",
+                                                   required="required", ng_model="data.Hours4", ng_initial="") }}
                         {{ renderer.hidden_tag("Day4") }}
                         {{ renderer.select("project4", projects, selected_value=None, id="project4", class="form-control", ng_model="data.project4", ng_initial="") }}
                         <hr>
@@ -62,8 +62,8 @@
                         <br>
                         {{ renderer.label("Hours") }}
                         {{ renderer.errorlist("Hours5") }}
-                        {{ renderer.text("Hours5", type="number", min="0", max="24", step="1", value="0", placeholder="8.0",
-                                                   required="required", form_input="form_input", ng_model="data.Hours5", ng_initial="") }}
+                        {{ renderer.text("Hours5", type="text", pattern="[0-9]{2}", size="2", placeholder="8.0",
+                                                   required="required", ng_model="data.Hours5", ng_initial="") }}
                         {{ renderer.hidden_tag("Day5") }}
                         {{ renderer.select("project5", projects, selected_value=None, id="project5", class="form-control", ng_model="data.project5", ng_initial="") }}
                         <hr>
@@ -71,8 +71,8 @@
                         <br>
                         {{ renderer.label("Hours") }}
                         {{ renderer.errorlist("Hours6") }}
-                        {{ renderer.text("Hours6", type="number", min="0", max="24", step="1", value="0", placeholder="8.0",
-                                                   required="required", form_input="form_input", ng_model="data.Hours6", ng_initial="") }}
+                        {{ renderer.text("Hours6", type="text", pattern="[0-9]{2}", size="2", placeholder="8.0",
+                                                   required="required", ng_model="data.Hours6", ng_initial="") }}
                         {{ renderer.hidden_tag("Day6") }}
                         {{ renderer.select("project6", projects, selected_value=None, id="project6", class="form-control", ng_model="data.project6", ng_initial="") }}
                         <hr>
@@ -80,15 +80,15 @@
                         <br>
                         {{ renderer.label("Hours") }}
                         {{ renderer.errorlist("Hours7") }}
-                        {{ renderer.text("Hours7", type="number", min="0", max="24", step="1", value="0", placeholder="8.0",
-                                                   required="required", form_input="form_input", ng_model="data.Hours7", ng_initial="") }}
+                        {{ renderer.text("Hours7", type="text", pattern="[0-9]{2}", size="2", placeholder="8.0",
+                                                   required="required", ng_model="data.Hours7", ng_initial="") }}
                         {{ renderer.hidden_tag("Day7") }}
                         {{ renderer.select("project7", projects, selected_value=None, id="project7", class="form-control", ng_model="data.project7", ng_initial="") }}
                         <hr>
                         {{ renderer.label("Description") }}
                         {{ renderer.errorlist("description") }}
                         {{ renderer.textarea("description", placeholder="description", class="field span12", rows="4", cols="50",
-                                                    required="required", form_input="form_input", ng_model="data.description", ng_initial="") }}
+                                                    required="required", ng_model="data.description", ng_initial="") }}
                         <hr>
                     </fieldset>
                     <button id="clear" class="btn btn-large">Clear</button>
@@ -112,6 +112,7 @@
 {#        <script src="{{ ASSET_URL }}" type="text/javascript"></script>#}
 {#    {% endassets %}#}
     {% assets filters="rjsmin,datauri", output="js/form.validation.min.js", "js/oasysusa.app.js", "js/date.standalone.js", "js/form.validation.js" %}
+{#    {% assets filters="datauri", output="js/form.validation.min.js", "js/oasysusa.app.js", "js/date.standalone.js", "js/form.validation.js" %}#}
         <script src="{{ ASSET_URL }}" type="text/javascript"></script>
     {% endassets %}
 {% endblock %}

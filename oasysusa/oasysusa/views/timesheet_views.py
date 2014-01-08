@@ -11,7 +11,7 @@ from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
 from pyramid_simpleform import Form
 from pyramid_simpleform.renderers import FormRenderer
-from formencode.validators import NotEmpty, DateValidator, UnicodeString
+from formencode.validators import NotEmpty, DateValidator, UnicodeString, Number
 
 from ..models import Employee
 
@@ -68,20 +68,20 @@ def timesheet_form(request):
 class TimesheetDataSchema(Schema):
     allow_extra_fields = True
     filter_extra_fields = True
-    project1 = NotEmpty
-    project2 = NotEmpty
-    project3 = NotEmpty
-    project4 = NotEmpty
-    project5 = NotEmpty
-    project6 = NotEmpty
-    project7 = NotEmpty
-    Hours1 = NotEmpty
-    Hours2 = NotEmpty
-    Hours3 = NotEmpty
-    Hours4 = NotEmpty
-    Hours5 = NotEmpty
-    Hours6 = NotEmpty
-    Hours7 = NotEmpty
+    project1 = Number(min=0, max=24)
+    project2 = Number(min=0, max=24)
+    project3 = Number(min=0, max=24)
+    project4 = Number(min=0, max=24)
+    project5 = Number(min=0, max=24)
+    project6 = Number(min=0, max=24)
+    project7 = Number(min=0, max=24)
+    Hours1 = Number(min=0, max=24)
+    Hours2 = Number(min=0, max=24)
+    Hours3 = Number(min=0, max=24)
+    Hours4 = Number(min=0, max=24)
+    Hours5 = Number(min=0, max=24)
+    Hours6 = Number(min=0, max=24)
+    Hours7 = Number(min=0, max=24)
     Day1 = DateValidator(date_format='mm/dd/yyyy')
     Day2 = DateValidator(date_format='mm/dd/yyyy')
     Day3 = DateValidator(date_format='mm/dd/yyyy')
