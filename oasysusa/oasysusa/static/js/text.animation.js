@@ -10,7 +10,8 @@ oasysUsaApp.factory('svgTextAnimService', [function () {
     return {
         animateText: function (element, attrs) {
             var text = attrs.text,
-                textSize = parseFloat(attrs.textSize),
+                style = window.getComputedStyle(element),
+                textSize = parseFloat(attrs.textSize || 54),
                 bgFill = attrs.bgFill,
                 circleFill = attrs.circleFill,
                 s = Snap(element), circles = [],
@@ -95,4 +96,83 @@ oasysUsaApp.directive('svgTextAnim', function (svgTextAnimService) {
         }
     };
 });
+
+//oasysUsaApp.factory('d3TextAnimService', [function () {
+//    return {
+//        animateText: function (element, attrs) {
+//
+//            var alphabet = attrs.text.split(""),
+//                width = 960,
+//                height = 300;
+//
+//            var svg = d3.select(element).append("svg")
+//                .attr("width", width)
+//                .attr("height", height)
+//                .append("g")
+//                .attr("transform", "translate(32,"+(height/2)+")");
+//
+//            function update(data) {
+//                var text = svg.selectAll("text")
+//                    .data(data, function (d) { return d });
+//
+//                text.attr("class","update")
+//                    .transition()
+//                    .attr("x", function(d,i) { return i*32 });
+//
+//                text.enter().append("text")
+//                    .attr("class","enter")
+//                    .attr("dy", ".35em")
+//                    .attr("y", -60)
+//                    .attr("x", function(d,i) { return i*32; })
+//                    .style("fill-opacity",1e-6)
+//                    .text(function(d) { return d; })
+//                    .transition()
+//                    .duration(750)
+//                    .attr("y",0)
+//                    .style("fill-opacity",1);
+//
+//                text.exit()
+//                    .attr("class", "exit")
+//                    .transition()
+//                    .duration(750)
+//                    .attr("y", 60)
+//                    .style("fill-opacity",1e-6)
+//                    .remove();
+//            }
+//
+//            update(alphabet);
+//
+//            function shuffle(array) {
+//                var m = array.length, t, i;
+//                while (m) {
+//                    i = Math.floor(Math.random()*m--);
+//                    t = array[m], array[m] = array[i], array[i] = t;
+//                }
+//                return array;
+//            }
+//
+//            function animate() {
+////                setTimeout(function() {
+////                    update(alphabet);
+////                }, 1500);
+//                setInterval(function () {
+//                    update(shuffle(alphabet)
+//                        .slice(0,Math.floor(Math.random()*26))
+//                        .sort());
+//                },1500);
+//            }
+//
+//            animate();
+//        }
+//    }
+//}]);
+//
+//oasysUsaApp.directive('svgTextAnim', function (d3TextAnimService) {
+//    return {
+//        restrict: 'A',
+//        link: function (scope, element, attrs) {
+//            d3TextAnimService.animateText(element[0], attrs);
+//        }
+//    };
+//});
 
