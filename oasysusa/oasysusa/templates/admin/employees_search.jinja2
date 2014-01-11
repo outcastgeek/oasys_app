@@ -10,10 +10,10 @@
 
     <section id="employees" data-speed="2" data-type="background">
         <div class="container">
-            <div class="row-fluid">
+            <div class="row">
                 {{ currentdayform(request, True)|safe }}
             </div>
-            <div class="row-fluid">
+            <div class="row">
                 {% include "templates/admin/bootstrap.jinja2" %}
             </div>
             <div>
@@ -26,7 +26,7 @@
             <hr>
 
             {% for employee in employee_res.get('hits').get('hits') %}
-                <div class="row-fluid">
+                <div class="row">
                     {{ ea_attrs_form(request, employee.get('fields'), current_page, employee.get('fields').get('username')) | safe }}
                 </div>
             {% endfor %}
