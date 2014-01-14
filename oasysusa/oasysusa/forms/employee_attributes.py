@@ -23,20 +23,30 @@ log = logging.getLogger('oasysusa')
 def form(request, employee, current_page, username=None):
     session = request.session
     current_day = session.get('current_day')
-    if type(employee) is Employee:
-        form = Form(request,
-                    schema=EmployeeAttributesSchema(),
-                    obj=employee)
-        timesheet_report_form = Form(request,
-                                     schema=EmployeeAttributesSchema(),
-                                     obj=employee)
-    else:
-        form = Form(request,
-                    schema=EmployeeAttributesSchema(),
-                    defaults=employee)
-        timesheet_report_form = Form(request,
-                                     schema=EmployeeAttributesSchema(),
-                                     defaults=employee)
+    # if type(employee) is Employee:
+    #     form = Form(request,
+    #                 schema=EmployeeAttributesSchema(),
+    #                 obj=employee)
+    #     timesheet_report_form = Form(request,
+    #                                  schema=EmployeeAttributesSchema(),
+    #                                  obj=employee)
+    # else:
+    #     form = Form(request,
+    #                 schema=EmployeeAttributesSchema(),
+    #                 defaults=employee)
+    #     timesheet_report_form = Form(request,
+    #                                  schema=EmployeeAttributesSchema(),
+    #                                  defaults=employee)
+
+    if type(employee) is not Employee:
+        employee = Employee.query().filter(Employee.username == employee.get('username')).first()
+
+    form = Form(request,
+                schema=EmployeeAttributesSchema(),
+                obj=employee)
+    timesheet_report_form = Form(request,
+                                 schema=EmployeeAttributesSchema(),
+                                 obj=employee)
 
     project_names = get_project_names()
     monday, sunday = first_and_last_dow(current_day)
