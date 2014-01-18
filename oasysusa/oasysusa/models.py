@@ -43,6 +43,13 @@ from pyramid.threadlocal import get_current_registry
 
 from .errors import ConflictingProfileException
 
+from .async.srvc_client import srvc_tell
+
+from .async.srvc_mappings import (
+    INDEX_ONE_EMPLOYEE,
+    REINDEX_ONE_EMPLOYEE
+    )
+
 class RootFactory(object):
     __acl__ = [(Allow, 'admin', ALL_PERMISSIONS),
                (Allow, Everyone, 'view'),
@@ -228,14 +235,21 @@ class Employee(CRUDMixin, Base):
     #     return super(Employee, self).save(employee)
 
     def save(self):
-        registry = get_current_registry()
         DBSession.add(self)
-        registry.notify(IndexNewEvent(self))
+        try:
+            registry = get_current_registry()
+            settings = registry.settings
+            workers_tcp_address = settings.get('workers_tcp_address')
+            srvc_tell(workers_tcp_address, dict(employee=self, srvc=INDEX_ONE_EMPLOYEE))
+        except:
+            pass
         return self
 
     @classmethod
     def update_or_insert(cls, username, employee):
         registry = get_current_registry()
+        settings = registry.settings
+        workers_tcp_address = settings.get('workers_tcp_address')
 
         #check
         existing_employee = cls.query().filter(or_(and_(cls.username == username,
@@ -251,7 +265,7 @@ class Employee(CRUDMixin, Base):
                 employees_table = employee.__table__
                 update_stmt = employees_table.update(employees_table.c.username == username)
                 update_stmt.execute(employee_data)
-                registry.notify(IndexUpdateEvent(employee))
+                srvc_tell(workers_tcp_address, dict(employee=employee, srvc=REINDEX_ONE_EMPLOYEE))
             else:
                 err_msg = ' already exist'
                 if existing_employee.email == employee.email:
@@ -264,7 +278,7 @@ class Employee(CRUDMixin, Base):
             employee.date_of_birth = employee_dob if employee_dob > EARLIEST_DATE else EARLIEST_DATE
             employee_group = Group.query().filter(Group.groupname == 'employee').first()
             employee.groups.append(employee_group)
-            registry.notify(IndexUpdateEvent(employee))
+            srvc_tell(workers_tcp_address, dict(employee=employee, srvc=REINDEX_ONE_EMPLOYEE))
             return employee.save()
 
     def get_data(self):

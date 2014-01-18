@@ -6,12 +6,15 @@ import venusian
 ENSURE_S3 = 'ensure_s3'
 S3SRVC = 's3srvc'
 RECREATE_EMPLOYEE_INDEX = 'recreate_employee_index'
-INDEX_NEW_EMPLOYEE = 'index_new_employee'
+INDEX_ONE_EMPLOYEE = 'index_one_employee'
+REINDEX_ONE_EMPLOYEE = 'reindex_one_employee'
+BULK_INDEX_NEW_EMPLOYEE = 'bulk_index_new_employee'
 INDEX_ALL_EMPLOYEES = 'index_all_employees'
 ENSURE_ADMINS = 'ensure_admins'
 GEN_TEST_EMPLOYEES = 'gen_test_employees'
 GEN_TEST_EMPLOYEE_TASK = 'gen_test_employee_task'
 DROP_TEST_EMPLOYEES = 'drop_test_employees'
+DROP_TEST_EMPLOYEE_TASK = 'drop_test_employee_task'
 
 SRVC_MAP = {}
 

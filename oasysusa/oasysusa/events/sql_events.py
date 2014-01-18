@@ -1,7 +1,5 @@
 __author__ = 'outcastgeek'
 
-import gevent
-import itertools
 import logging
 import sys
 
@@ -9,26 +7,15 @@ from functools import partial
 
 from webhelpers.paginate import Page
 
-from pyramid.threadlocal import get_current_registry
-
-from pyramid.events import (
-    subscriber,
-    ApplicationCreated
-    )
-
-from pyelasticsearch.exceptions import ElasticHttpNotFoundError
-
 from ..async.srvc_client import srvc_tell
 
 from ..async.srvc_mappings import (
-    INDEX_NEW_EMPLOYEE,
+    BULK_INDEX_NEW_EMPLOYEE,
     RECREATE_EMPLOYEE_INDEX
     )
 
 from ..models import (
-    Employee,
-    IndexNewEvent,
-    IndexUpdateEvent
+    Employee
     )
 
 from ..search import get_es_client
@@ -42,7 +29,9 @@ from ..async.srvc_mappings import zmq_service
 
 log = logging.getLogger('oasysusa')
 
-def index_new_employee(employee, settings):
+@zmq_service(srvc_name='index_one_employee')
+def index_new_employee(data, settings=None):
+    employee = data.get('employee')
     es = get_es_client(settings)
     es.index(
         EMPLOYEE_INDEX,
@@ -51,7 +40,9 @@ def index_new_employee(employee, settings):
         id=employee.id
     )
 
-def index_updated_employee(employee, settings):
+@zmq_service(srvc_name='reindex_one_employee')
+def index_updated_employee(data, settings=None):
+    employee = data.get('employee')
     es = get_es_client(settings)
     es.update(
         EMPLOYEE_INDEX,
@@ -59,27 +50,6 @@ def index_updated_employee(employee, settings):
         doc=employee.get_data(),
         id=employee.id
     )
-
-# @subscriber(ApplicationCreated)
-# def setup_user_index(event):
-#     registry = get_current_registry()
-#     settings = registry.settings # do not use the cacheable version during startup
-#     workers_tcp_address = settings.get('workers_tcp_address')
-#     srvc_tell(workers_tcp_address, dict(srvc=RECREATE_EMPLOYEE_INDEX))
-
-@subscriber(IndexUpdateEvent)
-def updated_employee_subscriber(event): # TODO: Revisit this!!!!
-    registry = get_current_registry()
-    settings = registry.settings # do not use the cacheable version during startup
-    employee = event.target
-    index_updated_employee(employee, settings)
-
-@subscriber(IndexNewEvent)
-def new_employee_subscriber(event): # TODO: Revisit this!!!!
-    registry = get_current_registry()
-    settings = registry.settings # do not use the cacheable version during startup
-    employee = event.target
-    index_new_employee(employee, settings)
 
 def send_page_for_bulk_index(workers_tcp_address, data):
     #gevent.sleep(0.1) # Sleep for a while
@@ -106,7 +76,7 @@ def handle_index_all_employees(data, settings=None):
 
         send_page_for_bulk_index_partial = partial(send_page_for_bulk_index, workers_tcp_address)
 
-        map(lambda page: send_page_for_bulk_index_partial(dict(srvc=INDEX_NEW_EMPLOYEE,
+        map(lambda page: send_page_for_bulk_index_partial(dict(srvc=BULK_INDEX_NEW_EMPLOYEE,
                                                                count=count,
                                                                current_page=page)), xrange(1, page_count + 1))
 
@@ -117,7 +87,7 @@ def handle_index_all_employees(data, settings=None):
         e = sys.exc_info()[0]
         log.error("Error: %s, Data: %s" % (e, data))
 
-@zmq_service(srvc_name='index_new_employee')
+@zmq_service(srvc_name='bulk_index_new_employee')
 def handle_index_new_employee_request(data, settings=None):
     # Get employees collection
     employees_collection = Employee.all(Employee.username)

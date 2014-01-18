@@ -1,7 +1,6 @@
 __author__ = 'outcastgeek'
 
 import itertools
-import gevent
 import logging
 import transaction
 
@@ -17,11 +16,15 @@ from ..models import (
 
 from ..api.timesheet_api import get_all_projects
 
+from ..async.srvc_client import srvc_tell
+
 from ..async.srvc_mappings import (
     zmq_service,
     INDEX_ALL_EMPLOYEES,
     GEN_TEST_EMPLOYEES,
-    DROP_TEST_EMPLOYEES)
+    GEN_TEST_EMPLOYEE_TASK,
+    DROP_TEST_EMPLOYEES,
+    DROP_TEST_EMPLOYEE_TASK)
 
 log = logging.getLogger('oasysusa')
 
@@ -64,14 +67,16 @@ def handle_bootstrap_data(data, settings=None):
     with transaction.manager:
         map(lambda proj_info: check_before_insert_project(**proj_info), test_projects)
     test_users = gen_test_users(NUM_OF_EMPLOYEES)
-    with transaction.manager:
-        map(lambda user_creds: check_before_insert_user(**user_creds), test_users)
+    workers_tcp_address = settings.get('workers_tcp_address')
+    map(lambda user_creds: srvc_tell(workers_tcp_address, dict(user_creds=user_creds,
+                                                               srvc=GEN_TEST_EMPLOYEE_TASK)), test_users)
 
 @zmq_service(srvc_name='drop_test_employees')
 def handle_clean_bootstrap_data(data, settings=None):
     test_users = gen_test_users(NUM_OF_EMPLOYEES)
-    with transaction.manager:
-        map(lambda user_creds: check_before_dropping_user(**user_creds), test_users)
+    workers_tcp_address = settings.get('workers_tcp_address')
+    map(lambda user_creds: srvc_tell(workers_tcp_address, dict(user_creds=user_creds,
+                                                               srvc=DROP_TEST_EMPLOYEE_TASK)), test_users)
     test_projects = gen_test_projects(NUM_OF_PROJECTS)
     with transaction.manager:
         map(lambda proj_info: check_before_dropping_project(**proj_info), test_projects)
@@ -114,21 +119,34 @@ def check_before_dropping_project(**kwargs):
         existing_project.delete()
 
 
+@zmq_service(srvc_name='gen_test_employee_task')
+def gen_user(data, settings=None):
+    user_creds = data.get('user_creds')
+    check_before_insert_user(**user_creds)
+
+
 def check_before_insert_user(username, password, group, **kwargs):
-    gevent.sleep(0.4) # Sleep for a while
-    existing_user = Employee.query().filter(Employee.username == username).first()
-    if not existing_user:
-        log.info("Adding user (%s, ********)" % username)
-        user_group = Group.query().filter(Group.groupname == group).first()
-        groups = [user_group]
-        admin = Employee(username=username, password=password, groups=groups, **kwargs)
-        admin.save()
+    with transaction.manager:
+        existing_user = Employee.query().filter(Employee.username == username).first()
+        if not existing_user:
+            log.info("Adding user (%s, ********)" % username)
+            user_group = Group.query().filter(Group.groupname == group).first()
+            groups = [user_group]
+            user = Employee(username=username, password=password, groups=groups, **kwargs)
+            user.save()
+
+
+@zmq_service(srvc_name='drop_test_employee_task')
+def del_user(data, settings=None):
+    user_creds = data.get('user_creds')
+    check_before_dropping_user(**user_creds)
 
 
 def check_before_dropping_user(username, password, group, **kwargs):
-    existing_user = Employee.query().filter(Employee.username == username).first()
-    if existing_user:
-        existing_user.delete()
+    with transaction.manager:
+        existing_user = Employee.query().filter(Employee.username == username).first()
+        if existing_user:
+            existing_user.delete()
 
 
 def gen_test_projects(count):
