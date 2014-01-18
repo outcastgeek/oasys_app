@@ -68,13 +68,13 @@ def timesheet_form(request):
 class TimesheetDataSchema(Schema):
     allow_extra_fields = True
     filter_extra_fields = True
-    project1 = Number(min=0, max=24)
-    project2 = Number(min=0, max=24)
-    project3 = Number(min=0, max=24)
-    project4 = Number(min=0, max=24)
-    project5 = Number(min=0, max=24)
-    project6 = Number(min=0, max=24)
-    project7 = Number(min=0, max=24)
+    project1 = NotEmpty
+    project2 = NotEmpty
+    project3 = NotEmpty
+    project4 = NotEmpty
+    project5 = NotEmpty
+    project6 = NotEmpty
+    project7 = NotEmpty
     Hours1 = Number(min=0, max=24)
     Hours2 = Number(min=0, max=24)
     Hours3 = Number(min=0, max=24)
@@ -90,4 +90,6 @@ class TimesheetDataSchema(Schema):
     Day6 = DateValidator(date_format='mm/dd/yyyy')
     Day7 = DateValidator(date_format='mm/dd/yyyy')
     # description = UnicodeString(min=125, max=250)
-    description = UnicodeString(min=125)
+    # description = UnicodeString(min=125)
+    # description = UnicodeString
+    description = UnicodeString(max=250)
