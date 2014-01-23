@@ -120,11 +120,11 @@ class Server(object):
             if worker in sockets:
                 if sockets[worker] == zmq.POLLIN:
                     msg = worker.recv()
-                    # log.debug('Dispatching work')
-                    # self.tpool.spawn(process_msg, msg, **self.settings)
-                    self.pool.wait_available()
                     log.debug('Dispatching work')
-                    self.pool.spawn(process_msg, msg, **self.settings)
+                    self.tpool.spawn(process_msg, msg, **self.settings)
+                    # self.pool.wait_available()
+                    # log.debug('Dispatching work')
+                    # self.pool.spawn(process_msg, msg, **self.settings)
 
         frontend.close()
         backend.close()

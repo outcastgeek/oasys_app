@@ -15,6 +15,7 @@ GEN_TEST_EMPLOYEES = 'gen_test_employees'
 GEN_TEST_EMPLOYEE_TASK = 'gen_test_employee_task'
 DROP_TEST_EMPLOYEES = 'drop_test_employees'
 DROP_TEST_EMPLOYEE_TASK = 'drop_test_employee_task'
+SEND_EMAIL_TASK = 'send_email_task'
 
 SRVC_MAP = {}
 

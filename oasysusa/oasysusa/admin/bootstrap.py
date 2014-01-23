@@ -24,7 +24,8 @@ from ..async.srvc_mappings import (
     GEN_TEST_EMPLOYEES,
     GEN_TEST_EMPLOYEE_TASK,
     DROP_TEST_EMPLOYEES,
-    DROP_TEST_EMPLOYEE_TASK)
+    DROP_TEST_EMPLOYEE_TASK,
+    SEND_EMAIL_TASK)
 
 log = logging.getLogger('oasysusa')
 
@@ -48,6 +49,15 @@ def refresh_search_index(request):
     return_to = request.POST.get('return_to')
     log.warn('Refreshing the search index...')
     request.tell(dict(srvc=INDEX_ALL_EMPLOYEES))
+    # request.send_email(["outcastgeek+oasysusa@gmail.com"],
+    #            "The employee's search index was just refreshed.",
+    #            subject="Employee Index Refresh (DO NOT REPLY)",
+    #            sender="donotreply@oasys-corp.com")
+    request.tell(dict(srvc=SEND_EMAIL_TASK,
+                      recipients=["outcastgeek+oasysusa@gmail.com"],
+                      body="The employee's search index was just refreshed.",
+                      subject="Employee Index Refresh (DO NOT REPLY)",
+                      sender="donotreply@oasys-corp.com"))
     return HTTPFound(location=return_to)
 
 
