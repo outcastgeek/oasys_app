@@ -2,6 +2,7 @@ __author__ = 'outcastgeek'
 
 import logging
 import transaction
+import sys
 
 from functools import partial
 
@@ -18,11 +19,16 @@ def send_email(request,
                body,
                subject="DO NOT REPLY",
                sender="donotreply@oasys-corp.com"):
-    # mailer = Mailer()
-    mailer =get_mailer(request)
-    message = Message(recipients=recipients, body=body, subject=subject, sender=sender)
-    mailer.send(message)
-    # mailer.send_immediately(message, fail_silently=False)
+    try:
+        # mailer = Mailer()
+        mailer =get_mailer(request)
+        message = Message(recipients=recipients, body=body, subject=subject, sender=sender)
+        mailer.send(message)
+        # mailer.send_immediately(message, fail_silently=False)
+        log.info('Sucessfully sent emails to: %s', recipients)
+    except: # catch *all* exceptions
+        e = sys.exc_info()[0]
+        log.error("Error: %s,\nfailed to email: %s", e)
 
 def send_email_tx(settings=None,
                   recipients=None,
@@ -31,9 +37,14 @@ def send_email_tx(settings=None,
                   sender="donotreply@oasys-corp.com",
                   ** kw):
     with transaction.manager:
-        mailer =Mailer.from_settings(settings)
-        message = Message(recipients=recipients, body=body, subject=subject, sender=sender)
-        mailer.send(message)
+        try:
+            mailer =Mailer.from_settings(settings)
+            message = Message(recipients=recipients, body=body, subject=subject, sender=sender)
+            mailer.send(message)
+            log.info('Sucessfully sent emails to: %s', recipients)
+        except: # catch *all* exceptions
+            e = sys.exc_info()[0]
+            log.error("Error: %s,\nfailed to email: %s", e)
 
 @zmq_service(srvc_name='send_email_task')
 def send_email_task(data, settings=None):
