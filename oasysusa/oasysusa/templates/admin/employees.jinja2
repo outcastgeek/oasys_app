@@ -29,11 +29,15 @@
 
                 <hr>
 
-                {% for employee in employees.items %}
-                    <div class="row">
-                        {{ ea_attrs_form(request, employee, current_page) | safe }}
-                    </div>
-                {% endfor %}
+                <div class="row">
+                    <ul class="list-group">
+                        {% for employee in employees.items %}
+                            <li class="list-group-item">
+                                {{ ea_attrs_form(request, employee, current_page) | safe }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
 
                 <hr>
 

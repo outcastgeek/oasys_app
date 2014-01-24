@@ -53,11 +53,11 @@ def refresh_search_index(request):
     #            "The employee's search index was just refreshed.",
     #            subject="Employee Index Refresh (DO NOT REPLY)",
     #            sender="donotreply@oasys-corp.com")
-    request.tell(dict(srvc=SEND_EMAIL_TASK,
-                      recipients=["outcastgeek+oasysusa@gmail.com"],
-                      body="The employee's search index was just refreshed.",
-                      subject="Employee Index Refresh (DO NOT REPLY)",
-                      sender="donotreply@oasys-corp.com"))
+    # request.tell(dict(srvc=SEND_EMAIL_TASK,
+    #                   recipients=["outcastgeek+oasysusa@gmail.com"],
+    #                   body="The employee's search index was just refreshed.",
+    #                   subject="Employee Index Refresh (DO NOT REPLY)",
+    #                   sender="donotreply@oasys-corp.com"))
     return HTTPFound(location=return_to)
 
 

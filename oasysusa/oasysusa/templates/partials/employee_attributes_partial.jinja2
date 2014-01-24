@@ -1,48 +1,62 @@
 
-<div class="employee-attributes">
-    <fieldset>
-        <legend class="label label-default">{{ employee.first_name }}, {{ employee.last_name }} <br/><i>(aka: {{ employee.username }})</i></legend>
-        {{ renderer.begin(request.route_url('employees', _query=dict(page=current_page)), name="employee-attributes-form", class="form-inline employee-attributes-form") }}
-        {{ renderer.csrf_token() }}
-        {{ renderer.hidden_tag("username") }}
-        <div class="form-group">
-            {{ renderer.label("Current Projects:",  class="sr-only") }}
-            {% for project in employee.projects %}
-                <label>{{ project.name }}</label>
-                {% if not loop.last %}
-                    ,
-                {% endif %}
-            {% else %}
-                <label>No projects assigned</label>
-            {% endfor %}
-        </div>
-        <br>
-        {#    <div class="form-group">#}
-        {#        {{ renderer.label("Active",  class="sr-only") }}#}
-        {#        {{ renderer.checkbox("active", id="active", class="form-control") }}#}
-        {#    </div>#}
-        <div class="form-group">
-            {{ renderer.label("Project",  class="sr-only") }}
-            {{ renderer.select("project", projects, selected_value=None, class="form-control") }}
-        </div>
-        {{ renderer.submit('submit', 'Update', class="btn btn-inverse") }}
-        {{ renderer.end() }}
-        {{ timesheet_report_renderer.begin(request.route_url('timesheet_report'), name="timesheet-report-form", class="form-inline", target="_blank") }}
-        <div class="form-inline">
-            {{ timesheet_report_renderer.csrf_token() }}
-            {{ timesheet_report_renderer.hidden_tag("username") }}
-            {{ timesheet_report_renderer.label("Actions",  class="sr-only") }}
-            {{ timesheet_report_renderer.submit('submit', 'Get weekly timesheet', class="btn btn-inverse") }}
-        </div>
-        <hr>
-        <ul class="list-group">
-            {% for f in existing_files %}
-                <li class="list-group-item"><a target="__blank" href="{{ f.file_url }}">{{ f.filename }}</a></li>
-            {% else %}
-                <label>No files uploaded.</label>
-            {% endfor %}
-        </ul>
-        {{ timesheet_report_renderer.end() }}
-    </fieldset>
-</div>
+<!-- Button trigger modal -->
+<h1 class="label label-default">{{ employee.first_name }}, {{ employee.last_name }} <i>(aka: {{ employee.username }})</i></h1> <a class="badge" data-toggle="modal" href="#{{ employee.username }}Modal" class="btn btn-primary btn-lg">Manage</a>
 
+<!-- Modal -->
+<div class="modal fade" id="{{ employee.username }}Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title label label-default">{{ employee.first_name }}, {{ employee.last_name }} <br/><i>(aka: {{ employee.username }})</i></h4>
+            </div>
+            <div class="modal-body employee-attributes">
+                {{ renderer.begin(request.route_url('employees', _query=dict(page=current_page)), name="employee-attributes-form", class="form-inline") }}
+                    {{ renderer.csrf_token() }}
+                    {{ renderer.hidden_tag("username") }}
+                    <div class="form-group">
+                        {{ renderer.label("Current Projects:",  class="sr-only") }}
+                        {% for project in employee.projects %}
+                            <label>{{ project.name }}</label>
+                            {% if not loop.last %}
+                                ,
+                            {% endif %}
+                        {% else %}
+                            <label>No projects assigned</label>
+                        {% endfor %}
+                    </div>
+                    <br>
+                    {#    <div class="form-group">#}
+                    {#        {{ renderer.label("Active",  class="sr-only") }}#}
+                    {#        {{ renderer.checkbox("active", id="active", class="form-control") }}#}
+                    {#    </div>#}
+                    <div class="form-group">
+                        {{ renderer.label("Project",  class="sr-only") }}
+                        {{ renderer.select("project", projects, selected_value=None, class="form-control") }}
+                    </div>
+                    {{ renderer.submit('submit', 'Update', class="btn btn-inverse") }}
+                {{ renderer.end() }}
+                {{ timesheet_report_renderer.begin(request.route_url('timesheet_report'), name="timesheet-report-form", class="form-inline", target="_blank") }}
+                    <div class="form-inline">
+                        {{ timesheet_report_renderer.csrf_token() }}
+                        {{ timesheet_report_renderer.hidden_tag("username") }}
+                        {{ timesheet_report_renderer.label("Actions",  class="sr-only") }}
+                        {{ timesheet_report_renderer.submit('submit', 'Get weekly timesheet', class="btn btn-inverse") }}
+                    </div>
+                    <hr>
+                    <ul class="list-group">
+                        {% for f in existing_files %}
+                            <li class="list-group-item"><a target="__blank" href="{{ f.file_url }}">{{ f.filename }}</a></li>
+                        {% else %}
+                            <label>No files uploaded.</label>
+                        {% endfor %}
+                    </ul>
+                {{ timesheet_report_renderer.end() }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                {#                    <button type="button" class="btn btn-primary">Save changes</button>#}
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
