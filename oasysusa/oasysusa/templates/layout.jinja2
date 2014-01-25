@@ -166,7 +166,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.3.11/d3.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/snap.svg/0.1.0/snap.svg-min.js"></script>
 
-{% assets filters="datauri", output="js/modernizr.min.js", "js/modernizr.custom.js" %}
+{% assets filters="rjsmin,datauri", output="js/pretty.min.js", "js/modernizr.custom.js", "js/jquery.dlmenu.js" %}
     <script src="{{ ASSET_URL }}"></script>
 {% endassets %}
 

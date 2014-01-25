@@ -10,6 +10,9 @@
 
     <section id="employees" data-speed="2" data-type="background">
         <div class="container">
+{#            <div class="maindlmenu pull-right">#}
+{#                {% include "templates/partials/main_dlmenu.jinja2" %}#}
+{#            </div>#}
             <div class="row">
                 {{ currentdayform(request, True)|safe }}
             </div>
@@ -55,4 +58,7 @@
     {% assets filters="rjsmin,datauri", output="js/form.validation.min.js", "js/oasysusa.app.js", "js/date.standalone.js", "js/form.validation.js" %}
         <script src="{{ ASSET_URL }}" type="text/javascript"></script>
     {% endassets %}
+{#    {% assets filters="rjsmin,datauri", output="js/form.validation.min.js", "js/oasysusa.app.js", "js/date.standalone.js", "js/form.validation.js", "js/main.dlmenu.js" %}#}
+{#        <script src="{{ ASSET_URL }}" type="text/javascript"></script>#}
+{#    {% endassets %}#}
 {% endblock %}
