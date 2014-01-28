@@ -357,7 +357,7 @@ def add_project(data, settings=None):
         employee.update()
 
 @zmq_service(srvc_name=Employee.REMOVE_PROJECT)
-def add_project(data, settings=None):
+def remove_project(data, settings=None):
     with transaction.manager:
         project_name = data.get('data')
         project = Project.query().filter(Project.name == project_name).first()
