@@ -20,7 +20,7 @@ from ..api.timesheet_api import (
 log = logging.getLogger('oasysusa')
 
 
-def form(request, employee, current_page, username=None):
+def form(request, employee, current_page, username=None, project_lst=None):
     session = request.session
     current_day = session.get('current_day')
     # if type(employee) is Employee:
@@ -49,6 +49,10 @@ def form(request, employee, current_page, username=None):
                                  obj=employee)
 
     project_names = get_project_names()
+    if project_lst:
+        project_lst = get_project_names(project_lst)
+    else:
+        project_lst = []
     monday, sunday = first_and_last_dow(current_day)
     
     if not username:
@@ -66,6 +70,7 @@ def form(request, employee, current_page, username=None):
                            timesheet_report_renderer=FormRenderer(timesheet_report_form),
                            employee=employee,
                            projects=project_names,
+                           project_lst=project_lst,
                            current_page=current_page,
                            existing_files=existing_files))
     return response

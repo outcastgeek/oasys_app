@@ -1,5 +1,8 @@
 __author__ = 'outcastgeek'
 
+import logging
+import transaction
+import sys
 import string
 import random
 from datetime import datetime
@@ -47,8 +50,8 @@ from .async.srvc_client import srvc_tell
 
 from .async.srvc_mappings import (
     INDEX_ONE_EMPLOYEE,
-    REINDEX_ONE_EMPLOYEE
-    )
+    REINDEX_ONE_EMPLOYEE,
+    zmq_service)
 
 class RootFactory(object):
     __acl__ = [(Allow, 'admin', ALL_PERMISSIONS),
@@ -61,14 +64,8 @@ class RootFactory(object):
     def __init__(self, request):
         pass
 
-class IndexNewEvent(object):
-    def __init__(self, target):
-        self.target = target
 
-class IndexUpdateEvent(object):
-    def __init__(self, target):
-        self.target = target
-
+log = logging.getLogger('oasysusa')
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
@@ -164,7 +161,15 @@ class MyModel(CRUDMixin, Base):
 
 ################# EMPLOYEES #############################
 
-class Employee(CRUDMixin, Base):
+class EmployeeOps(object):
+    ADD_PROJECT = 'add_project'
+    REMOVE_PROJECT = 'remove_project'
+    ADD_GROUP = 'add_group'
+    REMOVE_GROUP = 'remove_group'
+    MAKE_ACTIVE = 'make_active'
+    MAKE_INACTIVE = 'make_inactive'
+
+class Employee(CRUDMixin, EmployeeOps, Base):
     __tablename__ = 'employees'
     id = Column(Integer, primary_key=True)
     username = Column(Text, unique=True)
@@ -341,9 +346,25 @@ row2dict = lambda r: {c.name: getattr(r, c.name) for c in r.__table__.columns}
 
 # See:  http://h3manth.com/content/python-objects-json-string And: http://stackoverflow.com/questions/1958219/convert-sqlalchemy-row-object-to-python-dict
 
-def get_employees(request):
-    all_employees = DBSession.query(Employee).all()
-    return [row2dict(employee) for employee in all_employees]
+@zmq_service(srvc_name=Employee.ADD_PROJECT)
+def add_project(data, settings=None):
+    with transaction.manager:
+        project_name = data.get('data')
+        project = Project.query().filter(Project.name == project_name).first()
+        username = data.get('username')
+        employee = Employee.query().filter(Employee.username == username).first()
+        employee.projects.append(project)
+        employee.update()
+
+@zmq_service(srvc_name=Employee.REMOVE_PROJECT)
+def add_project(data, settings=None):
+    with transaction.manager:
+        project_name = data.get('data')
+        project = Project.query().filter(Project.name == project_name).first()
+        username = data.get('username')
+        employee = Employee.query().filter(Employee.username == username).first()
+        if project in employee.projects: employee.projects.remove(project)
+        employee.update()
 
 ################# END EMPLOYEES #########################
 

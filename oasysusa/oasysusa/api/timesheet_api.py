@@ -80,8 +80,8 @@ def get_all_projects():
     return projects
 
 
-def get_project_names():
-    projects = get_all_projects()
+def get_project_names(project_lst=None):
+    projects = project_lst or get_all_projects()
     project_names = map(lambda project: [project.name, "%s by %s" % (project.name, project.client)], projects)
     return project_names
 

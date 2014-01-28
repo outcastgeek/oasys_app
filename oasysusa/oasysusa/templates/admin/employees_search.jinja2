@@ -29,7 +29,9 @@
                 <ul class="list-group">
                     {% for employee in employee_res.get('hits').get('hits') %}
                         <li class="list-group-item">
-                            {{ ea_attrs_form(request, employee.get('fields'), current_page, employee.get('fields').get('username')) | safe }}
+                            {{ ea_attrs_form(request, employee.get('fields'),
+                                                      current_page, username=employee.get('fields').get('username'),
+                                                      project_lst=employee.get('fields').get('projects')) | safe }}
                         </li>
                     {% endfor %}
                 </ul>

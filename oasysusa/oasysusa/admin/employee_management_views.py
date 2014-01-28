@@ -40,16 +40,12 @@ class EmployeesManagement(object):
     @view_config(request_method='POST')
     def update_employee(self):
         current_page = int(self.request.params.get('page', 1))
-        project_name = self.request.POST.get('project')
-        active = self.request.POST.get('active')
-        project = Project.query().filter(Project.name == project_name).first()
+        data = self.request.POST.get('project') or self.request.POST.get('data')
         username = self.request.POST.get('username')
-        employee = Employee.query().filter(Employee.username == username).first()
-        employee.projects.append(project)
-        # employee.active = active
-        employee.update()
+        operation = self.request.POST.get('operation')
+        self.request.tell(dict(srvc=operation, username=username, data=data))
         self.request.session.flash(
-            'The %s project was successfully added to %s\' list of projects.' % (project_name, username))
+            'Updated %s with %s.' % (username, data))
         return HTTPFound(location=self.request.route_url('employees', _query=dict(page=current_page)))
 
 
