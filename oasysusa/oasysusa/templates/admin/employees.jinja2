@@ -36,7 +36,7 @@
                     <ul class="list-group">
                         {% for employee in employees.items %}
                             <li class="list-group-item">
-                                {{ ea_attrs_form(request, employee, current_page, project_lst=employee.projects) | safe }}
+                                {{ ea_attrs_form(request, employee, current_page) | safe }}
                             </li>
                         {% endfor %}
                     </ul>
