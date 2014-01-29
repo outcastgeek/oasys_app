@@ -3,7 +3,10 @@
  */
 
 oasysUsaApp.factory("$socketio", function($rootScope) {
-    var socket = io.connect('/streaming');
+    var socket = io.connect('/streaming', {
+        reconnect: true,
+        maxReconnectionAttempts: Infinity
+    });
     return {
         on: function (eventName, callback) {
             socket.on(eventName, function () {
