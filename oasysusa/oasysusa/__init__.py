@@ -93,6 +93,7 @@ def main(global_config, **settings):
     #     config.add_live_login_from_settings(prefix='live.')
 
     config.add_static_view('static', 'static', cache_max_age=3600)
+    config.add_route('socketio', 'socket.io/*remaining')
     config.add_route('home', '/')
     config.add_route('login', '/login')
     config.add_route('register', '/register')

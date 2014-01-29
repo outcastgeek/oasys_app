@@ -55,10 +55,10 @@
 
 {% block page_js %}
     {% include "templates/partials/form_modernizr_partial.jinja2" %}
-    {% assets filters="rjsmin,datauri", output="js/form.validation.min.js", "js/oasysusa.app.js", "js/date.standalone.js", "js/form.validation.js" %}
+    {% assets filters="rjsmin,datauri", output="js/form.validation.min.js", "js/date.standalone.js", "js/form.validation.js" %}
         <script src="{{ ASSET_URL }}" type="text/javascript"></script>
     {% endassets %}
-{#    {% assets filters="rjsmin,datauri", output="js/form.validation.min.js", "js/oasysusa.app.js", "js/date.standalone.js", "js/form.validation.js", "js/main.dlmenu.js" %}#}
+{#    {% assets filters="rjsmin,datauri", output="js/form.validation.min.js", "js/date.standalone.js", "js/form.validation.js", "js/main.dlmenu.js" %}#}
 {#        <script src="{{ ASSET_URL }}" type="text/javascript"></script>#}
 {#    {% endassets %}#}
 {% endblock %}

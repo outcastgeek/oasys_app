@@ -163,10 +163,15 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.6.0/ui-bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.6.0/ui-bootstrap-tpls.min.js"></script>
 
+<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.3.11/d3.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/snap.svg/0.1.0/snap.svg-min.js"></script>
 
-{% assets filters="rjsmin,datauri", output="js/pretty.min.js", "js/modernizr.custom.js", "js/jquery.dlmenu.js" %}
+{% assets filters="rjsmin,datauri", output="js/pretty.min.js",
+"js/modernizr.custom.js",
+"js/oasysusa.app.js",
+"js/socketio.factory.js",
+"js/jquery.dlmenu.js" %}
     <script src="{{ ASSET_URL }}"></script>
 {% endassets %}
 
