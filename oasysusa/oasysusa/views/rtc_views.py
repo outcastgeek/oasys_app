@@ -3,7 +3,6 @@ __author__ = 'outcastgeek'
 import logging
 import time
 import gevent
-import sys
 
 from pyramid.view import view_config
 
@@ -31,13 +30,8 @@ class HelloNamespace(BaseNamespace):
 
 @view_config(route_name='socketio')
 def socketio(request):
-    try:
-        retval = socketio_manage(request.environ, {
-            "/streaming": HelloNamespace
-        }, request=request)
-        return retval
-    except: # catch *all* exceptions
-        e = sys.exc_info()[0]
-        log.error("Error: %s" % e)
-        return {}
+    retval = socketio_manage(request.environ, {
+        "/streaming": HelloNamespace
+    }, request=request) or {}
+    return retval
 
