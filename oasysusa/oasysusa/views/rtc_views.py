@@ -1,3 +1,5 @@
+from pyramid.response import Response
+
 __author__ = 'outcastgeek'
 
 import logging
@@ -32,6 +34,6 @@ class HelloNamespace(BaseNamespace):
 def socketio(request):
     retval = socketio_manage(request.environ, {
         "/streaming": HelloNamespace
-    }, request=request) or {}
-    return retval
+    }, request=request)
+    return Response(retval)
 
