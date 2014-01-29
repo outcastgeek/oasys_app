@@ -6,7 +6,6 @@ import gevent
 
 from pyramid.view import view_config
 
-from socketio import socketio_manage
 from socketio.namespace import BaseNamespace
 
 log = logging.getLogger('oasysusa')
@@ -30,8 +29,8 @@ class HelloNamespace(BaseNamespace):
 
 @view_config(route_name='socketio')
 def socketio(request):
-    retval = socketio_manage(request.environ, {
+    from socketio import socketio_manage
+    socketio_manage(request.environ, {
         "/streaming": HelloNamespace
     }, request=request)
-    return retval
 
