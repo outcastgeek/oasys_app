@@ -39,5 +39,5 @@ def socketio(request):
     except: # catch *all* exceptions
         e = sys.exc_info()[0]
         log.error("Error: %s" % e)
-        return
+        return {}
 
