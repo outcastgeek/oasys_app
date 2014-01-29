@@ -1,5 +1,7 @@
 __author__ = 'outcastgeek'
 
+from gevent import monkey; monkey.patch_all()
+
 import logging
 import sys
 
