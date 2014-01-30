@@ -1,5 +1,3 @@
-from pyramid.response import Response
-
 __author__ = 'outcastgeek'
 
 import logging
@@ -7,6 +5,7 @@ import time
 import gevent
 
 from pyramid.view import view_config
+from pyramid.response import Response
 
 from socketio import socketio_manage
 from socketio.namespace import BaseNamespace
