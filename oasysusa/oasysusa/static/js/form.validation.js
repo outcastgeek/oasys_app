@@ -16,7 +16,7 @@ oasysUsaApp.directive('ngInitial', function() {
     };
 });
 
-oasysUsaApp.controller('FormValidationController', function($scope, $socketio) {
+oasysUsaApp.controller('FormValidationController', function($scope) {
     $scope.master = {};
 
     $scope.update = function(data) {
@@ -32,9 +32,5 @@ oasysUsaApp.controller('FormValidationController', function($scope, $socketio) {
     };
 
     $scope.reset();
-
-    $socketio.on('greeting', function(data) {
-        console.log(data);
-    });
 });
 
