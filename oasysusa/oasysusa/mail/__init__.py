@@ -9,7 +9,10 @@ from pyramid_mailer.mailer import Mailer
 from pyramid_mailer import get_mailer
 from pyramid_mailer.message import Message
 
-from ..async.srvc_mappings import zmq_service
+from ..models import Employee
+
+from ..async.srvc_mappings import zmq_service, SEND_EMAIL_TASK
+from ..async.srvc_client import srvc_tell
 
 log = logging.getLogger('oasysusa')
 
@@ -47,6 +50,25 @@ def send_email_now(settings=None,
 def send_email_task(data, settings=None):
     email_now = partial(send_email_now, settings)
     email_now(**data)
+
+@zmq_service(srvc_name='timesheet_reminder_task')
+def send_timesheet_reminder(data, settings=None):
+    # Get settings
+    workers_tcp_address = settings.get('workers_tcp_address')
+    # Get employee
+    username = data.get('username')
+    employee = Employee.query().filter(Employee.username == username).first()
+    # Message
+    timesheet_url = settings.get('timesheet_url')
+    message = "Remember to fill your weekly timesheet,\
+               \nand upload your client's timecard at: %s.\
+               \nThank you.\
+               \n\nAdmin" % timesheet_url
+    srvc_tell(workers_tcp_address, dict(srvc=SEND_EMAIL_TASK,
+                                        recipients=[employee.email],
+                                        body=message,
+                                        subject="Timesheet Reminder (DO NOT REPLY)",
+                                        sender="donotreply@oasys-corp.com"))
 
 def includeme(config):
     settings = config.registry.settings
