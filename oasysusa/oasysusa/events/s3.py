@@ -27,16 +27,30 @@ def ensure_s3_bucket(data, settings=None):
 
 ################### END Lifecycle Events #############################
 
-@zmq_service(srvc_name='s3srvc')
-def handle_s3srvc_request(file_data, settings=None):
+@zmq_service(srvc_name='s3srvc_upload')
+def handle_s3srvc_upload(file_data, settings=None):
     log.info("Uploading %s to s3", file_data.get('filename'))
     type, encoding = mimetypes.guess_type(file_data.get('filename'))
     type = type or 'application/octet-stream'
     headers = { 'Content-Type': type, 'X-Amz-Acl': 'public-read' }
-    conn = boto.connect_s3(aws_access_key_id = file_data.get('s3_access_key_id'),
-                           aws_secret_access_key = file_data.get('s3_secret'))
-    bucket = conn.get_bucket(file_data.get('s3_bucket_name'))
+    conn = boto.connect_s3(aws_access_key_id = settings.get('s3_access_key_id'),
+                           aws_secret_access_key = settings.get('s3_secret'))
+    bucket = conn.get_bucket(settings.get('s3_bucket_name'))
     key = Key(bucket)
     key.key = file_data.get('filename')
     key.set_contents_from_string(file_data.get('file'), headers)
     return "Done uploading..."
+
+@zmq_service(srvc_name='s3srvc_delete')
+def handle_s3srvc_delete(file_data, settings=None):
+    log.info("Deleting %s from s3", file_data.get('filename'))
+    type, encoding = mimetypes.guess_type(file_data.get('filename'))
+    type = type or 'application/octet-stream'
+    headers = { 'Content-Type': type, 'X-Amz-Acl': 'public-read' }
+    conn = boto.connect_s3(aws_access_key_id = settings.get('s3_access_key_id'),
+                           aws_secret_access_key = settings.get('s3_secret'))
+    bucket = conn.get_bucket(settings.get('s3_bucket_name'))
+    key = Key(bucket)
+    key.key = file_data.get('filename')
+    key.delete(headers)
+    return "Done deleting..."

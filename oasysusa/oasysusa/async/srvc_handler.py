@@ -21,7 +21,7 @@ def process_msg(raw_msg, **kwargs):
     return srvc_func(msg, kwargs)
 
 
-def handle_msg(context, _id, raw_msg):
+def handle_msg(context, _id, raw_msg, **kwargs):
     """
     RequestHandler
     :param context: ZeroMQ context
@@ -33,7 +33,7 @@ def handle_msg(context, _id, raw_msg):
     try:
         worker = context.socket(zmq.DEALER)
         worker.connect('inproc://backend')
-        response = process_msg(raw_msg)
+        response = process_msg(raw_msg, **kwargs)
     except:
         e = sys.exc_info()[0]
         log.error("Error: %s" % e)

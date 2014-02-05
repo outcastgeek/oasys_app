@@ -18,7 +18,10 @@ from pyramid_simpleform.renderers import FormRenderer
 from formencode import Schema
 from formencode.validators import FileUploadKeeper
 
-from ..async.srvc_mappings import S3SRVC
+from ..async.srvc_mappings import (
+    S3SRVC_UPLOAD,
+    S3SRVC_DELETE
+    )
 
 log = logging.getLogger('oasysusa')
 
@@ -29,7 +32,8 @@ def form(request, metadata):
     existing_files_handles = list(request.client_timesheets.find(metadata))
     existing_files = map(lambda f: dict(file_url=f.get('file_url'),
                                         filename=f.get('filename'),
-                                        content_type=f.get('content_type')), existing_files_handles)
+                                        content_type=f.get('content_type'),
+                                        fileid=str(f.get('_id'))), existing_files_handles)
     response_data = dict(metadata.items() + dict(renderer=FormRenderer(form), request=request,
                                                  existing_files=existing_files).items(),
                          file_metadata=json.dumps(metadata))
@@ -53,32 +57,38 @@ def file_upload(request):
                 schema=FileUploadSchema())
     if 'submit' in request.POST:
         return_to = request.POST.get('return_to')
-        raw_file_data = request.POST.get('file_info')
-        input_file = raw_file_data.file
-        file_metadata_json_str = request.POST.get('file_metadata')
-        file_metadata = json.loads(file_metadata_json_str)
-        log.info("Persisting file somewhere...")
+        operation = request.POST.get('operation')
         try:
-            filename = raw_file_data.filename.replace(' ', '_')
-            file_url = "//%s.s3.amazonaws.com/%s" % (request.s3conf.get('s3_bucket_name'), filename)
-            file_data = dict(file_metadata.items() + dict(filename=filename,
-                                                          file_url=file_url,
-                                                          content_type=raw_file_data.type).items())
-            input_file.seek(0)
-            with NamedTemporaryFile(delete=True) as tmp_file:
-                while True:
-                    data = input_file.read(2 << 16)
-                    if not data:
-                        break
-                    tmp_file.write(data)
-                tmp_file.seek(0)
-                msg = dict(file_data.items()
-                           + request.s3conf.items()
-                           + dict(srvc=S3SRVC, file=tmp_file.read()).items())
-                resp = request.ask(msg)
-                log.info(resp)
-            request.client_timesheets.insert(file_data)
-            request.session.flash("You successfully uploaded file %s" % raw_file_data.filename)
+            if operation == 'delete_file':
+                filename = request.POST.get('filename')
+                fileid = request.POST.get('fileid')
+                request.client_timesheets.remove({"_id": ObjectId(fileid)})
+                request.tell(dict(srvc=S3SRVC_DELETE, filename=filename))
+            else:
+                raw_file_data = request.POST.get('file_info')
+                input_file = raw_file_data.file
+                file_metadata_json_str = request.POST.get('file_metadata')
+                file_metadata = json.loads(file_metadata_json_str)
+                log.info("Persisting file somewhere...")
+                filename = raw_file_data.filename.replace(' ', '_')
+                file_url = "//%s.s3.amazonaws.com/%s" % (request.s3conf.get('s3_bucket_name'), filename)
+                file_data = dict(file_metadata.items() + dict(filename=filename,
+                                                              file_url=file_url,
+                                                              content_type=raw_file_data.type).items())
+                input_file.seek(0)
+                with NamedTemporaryFile(delete=True) as tmp_file:
+                    while True:
+                        data = input_file.read(2 << 16)
+                        if not data:
+                            break
+                        tmp_file.write(data)
+                    tmp_file.seek(0)
+                    msg = dict(file_data.items()
+                               + dict(srvc=S3SRVC_UPLOAD, file=tmp_file.read()).items())
+                    resp = request.ask(msg)
+                    log.info(resp)
+                    request.client_timesheets.insert(file_data)
+                request.session.flash("You successfully uploaded file %s" % raw_file_data.filename)
         except: # catch *all* exceptions
             e = sys.exc_info()[0]
             request.session.flash("Error: %s" % e)

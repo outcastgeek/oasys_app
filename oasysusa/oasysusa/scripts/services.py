@@ -107,7 +107,7 @@ class Server(object):
                     msg = frontend.recv()
                     log.debug('Server received message from: %s\n' % _id)
                     self.pool.wait_available()
-                    self.pool.spawn(handle_msg, context, _id, msg)
+                    self.pool.spawn(handle_msg, context, _id, msg, **self.settings)
 
             if backend in sockets:
                 if sockets[backend] == zmq.POLLIN:

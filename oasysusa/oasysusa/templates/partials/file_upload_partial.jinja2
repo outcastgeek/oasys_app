@@ -14,17 +14,19 @@
         {% for f in existing_files %}
 {#            <li><a target="__blank" href="{{ request.route_url('file-download', fileid=f.fileid) }}">{{ f.filename }}</a></li>#}
             <li class="list-group-item">
-                <a target="__blank" href="{{ f.file_url }}" class="btn btn-sm">{{ f.filename }}</a>
-{#                {{ renderer.begin(request.route_url('employees', _query=dict(page=current_page))) }}#}
-{#                    {{ renderer.csrf_token() }}#}
-{#                    {{ renderer.hidden_tag("username") }}#}
-{#                    {{ renderer.hidden("operation", value="remove_project") }}#}
-{#                    {{ renderer.hidden("filename", value=f.filename) }}#}
-{#                    <div class="form-inline">#}
-{#                        <a target="__blank" href="{{ f.file_url }}" class="btn btn-sm">{{ f.filename }}</a>#}
-{#                        {{ renderer.submit('submit', 'x', class="btln btn-sm glyphicon glyphicon-remove-circle") }}#}
-{#                    </div>#}
-{#                {{ renderer.end() }}#}
+{#                <a target="__blank" href="{{ f.file_url }}" class="btn btn-sm">{{ f.filename }}</a>#}
+                {{ renderer.begin(request.route_url('file-upload')) }}
+                    {{ renderer.csrf_token() }}
+                    {{ renderer.hidden("return_to", value=request.url) }}
+                    {{ renderer.hidden_tag("username") }}
+                    {{ renderer.hidden("operation", value="delete_file") }}
+                    {{ renderer.hidden("filename", value=f.filename) }}
+                    {{ renderer.hidden("fileid", value=f.fileid) }}
+                    <div class="form-inline">
+                        <a target="__blank" href="{{ f.file_url }}" class="btn btn-sm">{{ f.filename }}</a>
+                        {{ renderer.submit('submit', 'x', class="btln btn-sm glyphicon glyphicon-remove-circle") }}
+                    </div>
+                {{ renderer.end() }}
             </li>
         {% else %}
             <label>No files uploaded.</label>

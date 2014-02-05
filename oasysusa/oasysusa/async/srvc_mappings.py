@@ -4,7 +4,8 @@ import oasysusa
 import venusian
 
 ENSURE_S3 = 'ensure_s3'
-S3SRVC = 's3srvc'
+S3SRVC_UPLOAD = 's3srvc_upload'
+S3SRVC_DELETE = 's3srvc_delete'
 RECREATE_EMPLOYEE_INDEX = 'recreate_employee_index'
 INDEX_ONE_EMPLOYEE = 'index_one_employee'
 REINDEX_ONE_EMPLOYEE = 'reindex_one_employee'
