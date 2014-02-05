@@ -32,10 +32,17 @@
                 {{ renderer.begin(request.route_url('employees', _query=dict(page=current_page)), name="employee-attributes-form", class="form-inline") }}
                     {{ renderer.csrf_token() }}
                     {{ renderer.hidden_tag("username") }}
-                    {#    <div class="form-group">#}
-                    {#        {{ renderer.label("Active",  class="sr-only") }}#}
-                    {#        {{ renderer.checkbox("active", id="active", class="form-control") }}#}
-                    {#    </div>#}
+                    {% if employee.active %}
+                        {{ renderer.hidden("operation", value="make_inactive") }}
+                        {{ renderer.submit('submit', 'Deactivate', class="btn btn-inverse") }}
+                    {% else %}
+                        {{ renderer.hidden("operation", value="make_active") }}
+                        {{ renderer.submit('submit', 'Activate', class="btn btn-inverse") }}
+                    {% endif %}
+                {{ renderer.end() }}
+                {{ renderer.begin(request.route_url('employees', _query=dict(page=current_page)), name="employee-attributes-form", class="form-inline") }}
+                    {{ renderer.csrf_token() }}
+                    {{ renderer.hidden_tag("username") }}
                     <div class="form-group">
                         {{ renderer.label("Project",  class="sr-only") }}
                         {{ renderer.hidden("operation", value="add_project") }}

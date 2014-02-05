@@ -366,6 +366,22 @@ def remove_project(data, settings=None):
         if project in employee.projects: employee.projects.remove(project)
         employee.update()
 
+@zmq_service(srvc_name=Employee.MAKE_ACTIVE)
+def make_active(data, settings=None):
+    with transaction.manager:
+        username = data.get('username')
+        employee = Employee.query().filter(Employee.username == username).first()
+        employee.active = True
+        employee.update()
+
+@zmq_service(srvc_name=Employee.MAKE_INACTIVE)
+def make_inactive(data, settings=None):
+    with transaction.manager:
+        username = data.get('username')
+        employee = Employee.query().filter(Employee.username == username).first()
+        employee.active = False
+        employee.update()
+
 ################# END EMPLOYEES #########################
 
 ################# GROUPS #################################
