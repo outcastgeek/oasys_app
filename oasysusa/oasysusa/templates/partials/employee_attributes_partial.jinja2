@@ -1,6 +1,6 @@
 
 <!-- Button trigger modal -->
-<h1 class="label label-default">{{ employee.first_name }}, {{ employee.last_name }} <i>(aka: {{ employee.username }})</i></h1> <a class="badge" data-toggle="modal" href="#{{ employee.username }}Modal" class="btn btn-primary btn-lg">Manage</a>
+<h1 class="label label-default">{{ employee.first_name }}, {{ employee.last_name }} <i>(aka: {{ employee.username }})</i></h1> <a class="badge" data-toggle="modal" href="#{{ employee.username.replace(' ', '') }}Modal" class="btn btn-primary btn-lg">Manage</a>
 
 <!-- Modal -->
 <div class="modal fade" id="{{ employee.username }}Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

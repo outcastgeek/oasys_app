@@ -62,7 +62,7 @@ def send_timesheet_reminder(data, settings=None):
     timesheet_url = settings.get('timesheet_url')
     message = "Remember to fill your weekly timesheet,\
                \nand upload your client's timecard at: %s.\
-               \nThank you.\
+               \n\nThank you.\
                \n\nAdmin" % timesheet_url
     srvc_tell(workers_tcp_address, dict(srvc=SEND_EMAIL_TASK,
                                         recipients=[employee.email],
